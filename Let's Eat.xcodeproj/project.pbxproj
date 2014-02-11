@@ -112,8 +112,6 @@
 		94610F4D18A950B40094779E /* Let's Eat */ = {
 			isa = PBXGroup;
 			children = (
-				94610F5618A950B40094779E /* AppDelegate.h */,
-				94610F5718A950B40094779E /* AppDelegate.m */,
 				94610F5918A950B40094779E /* Main.storyboard */,
 				94610F5C18A950B40094779E /* ViewController.h */,
 				94610F5D18A950B40094779E /* ViewController.m */,
@@ -126,6 +124,8 @@
 		94610F4E18A950B40094779E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				94610F5618A950B40094779E /* AppDelegate.h */,
+				94610F5718A950B40094779E /* AppDelegate.m */,
 				94610F4F18A950B40094779E /* Let's Eat-Info.plist */,
 				94610F5018A950B40094779E /* InfoPlist.strings */,
 				94610F5318A950B40094779E /* main.m */,
