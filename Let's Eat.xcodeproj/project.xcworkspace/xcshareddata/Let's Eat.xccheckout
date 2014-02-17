@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>E8D2310C-1392-419A-B0AB-B0FBC4876DC8</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Let's Eat</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>43909AB6-1D5F-4477-BBC3-2DDCD3153CAE</key>
+		<string>ssh://github.com/rkass/letseat.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Let's Eat.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>43909AB6-1D5F-4477-BBC3-2DDCD3153CAE</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/rkass/letseat.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>43909AB6-1D5F-4477-BBC3-2DDCD3153CAE</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>43909AB6-1D5F-4477-BBC3-2DDCD3153CAE</string>
+			<key>IDESourceControlWCCName</key>
+			<string>letseat</string>
+		</dict>
+	</array>
+</dict>
+</plist>

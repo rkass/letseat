@@ -1,23 +1,27 @@
 //
-//  ViewController.m
+//  HomeViewController.m
 //  Let's Eat
 //
-//  Created by Ryan Kass on 2/10/14.
+//  Created by Ryan Kass on 2/13/14.
 //  Copyright (c) 2014 Ryan Kass. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "HomeViewController.h"
 
-@interface ViewController ()
+
+@interface HomeViewController ()
 
 @end
 
-@implementation ViewController
+@implementation HomeViewController
+
 
 - (void)viewDidLoad
 {
+    NSLog(@"In home controller bitches");
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+
+	// Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning
