@@ -12,9 +12,10 @@
 
 
 //Assume JSON encoding
-- (void)postRequest:(NSString *)method data:(NSDictionary *)data source:(NSObject *)source;
++ (void)postRequest:(NSString *)method data:(NSData *)data source:(NSObject *)source;
 +(NSDictionary *) JSONToDict:(NSString *)jsonString;
-
++ (NSString *) dictToJSON:(NSDictionary *)dict;
++ (NSString *) arrToJSON:(NSArray *)array;
 +(NSString *) url;
 
 @end

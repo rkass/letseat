@@ -10,9 +10,9 @@
 
 
 @interface MealViewController : LEViewController
-@property (strong, nonatomic) IBOutlet UIDatePicker * when;
+
 @property (strong, nonatomic) NSDate* dateHolder;
--(NSArray *)getContacts;
-- (void) prepareForTransition;
-//- (void) loadFromTransition;
+@property (strong, nonatomic) IBOutlet UIDatePicker * when;
+
+
 @end

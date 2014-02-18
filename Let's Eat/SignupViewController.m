@@ -148,9 +148,7 @@
         [self.passwordAlert show];
         return;
     }
-    if (!self.user)
-        self.user = [[User alloc] init];
-    [self.user createAccount:[self getRawNumber] usernameAttempt:self.username.text password:self.password.text source:self];
+    [User createAccount:[self getRawNumber] usernameAttempt:self.username.text password:self.password.text source:self];
     
 }
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data

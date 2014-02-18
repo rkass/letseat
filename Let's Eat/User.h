@@ -18,8 +18,10 @@
  */
 @property (strong, nonatomic) NSString *auth_token;
 @property (strong, nonatomic) NSString *username;
-- (void)createAccount:(NSString *)phoneNumber usernameAttempt:(NSString *)usernameAttempt password:(NSString *)password source:(NSObject*)source;
-- (void)login:(NSString *)usernameAttempt password:(NSString *)password source:(NSObject*)source;
++ (void)createAccount:(NSString *)phoneNumber usernameAttempt:(NSString *)usernameAttempt password:(NSString *)password source:(NSObject*)source;
++ (void)login:(NSString *)usernameAttempt password:(NSString *)password source:(NSObject*)source;
++(NSArray *)getContacts;
++ (void) getFriends:(NSObject *) source;
 -(User *)init;
 
 @end

@@ -218,10 +218,10 @@
             </objects>
             <point key="canvasLocation" x="618" y="416"/>
         </scene>
-        <!--Meal View Controller - Title-->
+        <!--When View Controller - Title-->
         <scene sceneID="cSE-e3-tJa">
             <objects>
-                <viewController id="221-xm-e19" customClass="MealViewController" sceneMemberID="viewController">
+                <viewController id="221-xm-e19" customClass="WhenViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="IQa-CW-G9u"/>
                         <viewControllerLayoutGuide type="bottom" id="xWA-dd-LXg"/>
@@ -301,10 +301,10 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             </objects>
             <point key="canvasLocation" x="1056" y="416"/>
         </scene>
-        <!--Meal View Controller-->
+        <!--Who View Controller-->
         <scene sceneID="bUp-qE-xyF">
             <objects>
-                <viewController id="Hoo-Uv-c3F" customClass="MealViewController" sceneMemberID="viewController">
+                <viewController id="Hoo-Uv-c3F" customClass="WhoViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wRH-fm-4fI"/>
                         <viewControllerLayoutGuide type="bottom" id="tto-r8-9TN"/>
