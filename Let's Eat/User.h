@@ -16,7 +16,10 @@
  Index 0 is a bool for if account creation was successful.
  Index 1 carries an error message.
  */
-- (NSArray *)createAccount:(NSString *)phoneNumber username:(NSString *)username password:(NSString *)password;
+@property (strong, nonatomic) NSString *auth_token;
+@property (strong, nonatomic) NSString *username;
+- (void)createAccount:(NSString *)phoneNumber usernameAttempt:(NSString *)usernameAttempt password:(NSString *)password source:(NSObject*)source;
+- (void)login:(NSString *)usernameAttempt password:(NSString *)password source:(NSObject*)source;
 -(User *)init;
 
 @end

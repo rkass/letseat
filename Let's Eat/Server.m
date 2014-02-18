@@ -12,7 +12,7 @@
 
 static NSString* url = @"http://localhost:3000/api/v1/";
 
-- (NSString *)postRequest:(NSString *)method data:(NSDictionary *)data
+- (void)postRequest:(NSString *)method data:(NSDictionary *)data source:(NSObject *)source
 {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: [Server.url stringByAppendingString:method]]];
     NSString *jsonRequest = [Server dictToJSON:data];
@@ -21,21 +21,17 @@ static NSString* url = @"http://localhost:3000/api/v1/";
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setValue:[NSString stringWithFormat:@"%d", [requestData length]] forHTTPHeaderField:@"Content-Length"];
     [request setHTTPBody: requestData];
-    [NSURLConnection connectionWithRequest:request delegate:self];//auto-release?
-    
-    return [Server dictToJSON:data];
-}
-- (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    NSMutableData *d = [NSMutableData data];
-    [d appendData:data];
-    
-    NSString *a = [[NSString alloc] initWithData:d encoding:NSASCIIStringEncoding];
-    
-    NSLog(@"Data: %@", a);
+    [NSURLConnection connectionWithRequest:request delegate:source];//auto-release?
+
 }
 
 +(NSString *) url { return url; }
++(NSDictionary *) JSONToDict:(NSString *)jsonString
+{
+    NSData * jsonData = [jsonString dataUsingEncoding:NSASCIIStringEncoding];
+    NSError * error=nil;
+    return [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
+}
 + (NSString *) dictToJSON:(NSDictionary *)dict
 {
     NSError *error;
@@ -46,7 +42,6 @@ static NSString* url = @"http://localhost:3000/api/v1/";
         return @"";//TODO:throw exception here
     } else {
         NSString *jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-        NSLog(@"%@",jsonString);
         return jsonString;
     }
 }

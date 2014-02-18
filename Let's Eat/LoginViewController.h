@@ -2,15 +2,12 @@
 //  LoginViewController.h
 //  Let's Eat
 //
-//  Created by Ryan Kass on 2/13/14.
+//  Created by Ryan Kass on 2/17/14.
 //  Copyright (c) 2014 Ryan Kass. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "LEViewController.h"
 
-@interface SignupViewController : LEViewController <UITextFieldDelegate>
-
-
+@interface LoginViewController : LEViewController <UITextFieldDelegate>
 
 @end

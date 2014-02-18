@@ -10,8 +10,10 @@
 
 @interface Server: NSObject
 
+
 //Assume JSON encoding
-- (NSDictionary *)postRequest:(NSString *)method data:(NSDictionary *)data;
+- (void)postRequest:(NSString *)method data:(NSDictionary *)data source:(NSObject *)source;
++(NSDictionary *) JSONToDict:(NSString *)jsonString;
 
 +(NSString *) url;
 

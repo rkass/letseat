@@ -17,16 +17,20 @@
 
 - (void)viewDidLoad
 {
-    NSLog(@"In view did load in view controller");
+
+    /*TODO
+     handle checking if user is logged in in app delegate
+     */
     [super viewDidLoad];
-    //[self performSelector:@selector(loadHomeViewController)withObject:nil afterDelay:0.0];
+    if ([[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"])
+        [self performSelector:@selector(loadHomeViewController) withObject:nil afterDelay:0.0];
+
 }
 
 -(void)loadHomeViewController
 {
     [self performSegueWithIdentifier:@"initialToHome" sender:self];
 }
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

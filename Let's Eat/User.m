@@ -11,6 +11,7 @@
 
 @implementation User
 
+@synthesize auth_token, username;
 -(User *) init
 {
     self = [super init];
@@ -18,15 +19,21 @@
     return self;
 }
 
-- (NSArray *) createAccount:(NSString *)phoneNumber username:(NSString *)username password:(NSString *)password
+- (void) createAccount:(NSString *)phoneNumber usernameAttempt:(NSString *)usernameAttempt password:(NSString *)password source:(NSObject *)source
 {
-    NSLog(@"Creating account with phone number: %@ and password %@", phoneNumber, password);
-    NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:phoneNumber, @"phoneNumber", username, @"username", password, @"password", nil];
+    NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:phoneNumber, @"phoneNumber", usernameAttempt, @"username", password, @"password", nil];
     Server *server = [[Server alloc] init];
-    [server postRequest:@"register" data:dict];
-    
-    NSArray * arr = [NSArray arrayWithObjects:@"X", @"y", nil];
-    return arr;
+    [server postRequest:@"register" data:dict source:source];
+
 }
+
+- (void)login:(NSString *)usernameAttempt password:(NSString *)password source:(NSObject*)source
+{
+    NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:usernameAttempt, @"username", password, @"password", nil];
+    Server *server = [[Server alloc] init];
+    [server postRequest:@"sign_in" data:dict source:source];
+    
+}
+
 
 @end

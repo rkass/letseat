@@ -11,6 +11,8 @@
 		941CE22F18AD725800E773BF /* SignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 941CE22E18AD725800E773BF /* SignupViewController.m */; };
 		941CE23318AEBE4600E773BF /* Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 941CE23218AEBE4600E773BF /* Server.m */; };
 		942B9DAB18AD5A44003F8CA6 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 942B9DAA18AD5A44003F8CA6 /* HomeViewController.m */; };
+		942CF35018B2852700BF1B70 /* LEViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 942CF34F18B2852700BF1B70 /* LEViewController.m */; };
+		942CF35318B2932F00BF1B70 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 942CF35218B2932F00BF1B70 /* LoginViewController.m */; };
 		94610F4818A950B40094779E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94610F4718A950B40094779E /* Foundation.framework */; };
 		94610F4A18A950B40094779E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94610F4918A950B40094779E /* CoreGraphics.framework */; };
 		94610F4C18A950B40094779E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94610F4B18A950B40094779E /* UIKit.framework */; };
@@ -25,6 +27,7 @@
 		94610F6918A950B40094779E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94610F4B18A950B40094779E /* UIKit.framework */; };
 		94610F7118A950B40094779E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94610F6F18A950B40094779E /* InfoPlist.strings */; };
 		94610F7318A950B40094779E /* Let_s_EatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 94610F7218A950B40094779E /* Let_s_EatTests.m */; };
+		94A8296018B39289009E0C1F /* MealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A8295F18B39289009E0C1F /* MealViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +49,10 @@
 		941CE23218AEBE4600E773BF /* Server.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Server.m; sourceTree = "<group>"; };
 		942B9DA918AD5A44003F8CA6 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
 		942B9DAA18AD5A44003F8CA6 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		942CF34E18B2852700BF1B70 /* LEViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEViewController.h; sourceTree = "<group>"; };
+		942CF34F18B2852700BF1B70 /* LEViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEViewController.m; sourceTree = "<group>"; };
+		942CF35118B2932F00BF1B70 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		942CF35218B2932F00BF1B70 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		94610F4418A950B40094779E /* Let's Eat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Let's Eat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94610F4718A950B40094779E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		94610F4918A950B40094779E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -65,6 +72,8 @@
 		94610F6E18A950B40094779E /* Let's EatTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Let's EatTests-Info.plist"; sourceTree = "<group>"; };
 		94610F7018A950B40094779E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		94610F7218A950B40094779E /* Let_s_EatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Let_s_EatTests.m; sourceTree = "<group>"; };
+		94A8295E18B39289009E0C1F /* MealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MealViewController.h; sourceTree = "<group>"; };
+		94A8295F18B39289009E0C1F /* MealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MealViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,10 +112,16 @@
 		942B9DAC18AD5A8D003F8CA6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				94A8295E18B39289009E0C1F /* MealViewController.h */,
+				94A8295F18B39289009E0C1F /* MealViewController.m */,
+				942CF35118B2932F00BF1B70 /* LoginViewController.h */,
+				942CF35218B2932F00BF1B70 /* LoginViewController.m */,
 				94610F5C18A950B40094779E /* InitialViewController.h */,
 				942B9DAA18AD5A44003F8CA6 /* HomeViewController.m */,
 				94610F5D18A950B40094779E /* InitialViewController.m */,
 				941CE22D18AD725800E773BF /* SignupViewController.h */,
+				942CF34E18B2852700BF1B70 /* LEViewController.h */,
+				942CF34F18B2852700BF1B70 /* LEViewController.m */,
 				941CE22E18AD725800E773BF /* SignupViewController.m */,
 				942B9DA918AD5A44003F8CA6 /* HomeViewController.h */,
 			);
@@ -286,10 +301,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				941CE22C18AD6BA200E773BF /* User.m in Sources */,
+				94A8296018B39289009E0C1F /* MealViewController.m in Sources */,
 				94610F5E18A950B40094779E /* InitialViewController.m in Sources */,
 				941CE22F18AD725800E773BF /* SignupViewController.m in Sources */,
 				94610F5818A950B40094779E /* AppDelegate.m in Sources */,
 				94610F5418A950B40094779E /* main.m in Sources */,
+				942CF35318B2932F00BF1B70 /* LoginViewController.m in Sources */,
+				942CF35018B2852700BF1B70 /* LEViewController.m in Sources */,
 				942B9DAB18AD5A44003F8CA6 /* HomeViewController.m in Sources */,
 				941CE23318AEBE4600E773BF /* Server.m in Sources */,
 			);

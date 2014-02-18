@@ -18,11 +18,17 @@
 
 - (void)viewDidLoad
 {
-    NSLog(@"In home controller bitches");
+    
     [super viewDidLoad];
-
-	// Do any additional setup after loading the view.
+    //[self performSelector:@selector(loadCreateMealViewController) withObject:nil afterDelay:0.0];
+    
 }
+
+-(void)loadCreateMealViewController
+{
+    //[self performSegueWithIdentifier:@"homeToCreateMeal" sender:self];
+}
+
 
 - (void)didReceiveMemoryWarning
 {

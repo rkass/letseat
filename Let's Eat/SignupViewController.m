@@ -8,20 +8,23 @@
 
 #import "SignupViewController.h"
 #import "User.h"
+#import "Server.h"
 
 @interface SignupViewController ()
 @property (strong, nonatomic) IBOutlet UITextField *phoneNumber;
 @property (strong, nonatomic) IBOutlet UITextField *username;
 @property (strong, nonatomic) IBOutlet UITextField *password;
 @property (strong, nonatomic) IBOutlet UIButton *enter;
+@property (strong, nonatomic) UIAlertView *phoneAlert;
+@property (strong, nonatomic) UIAlertView *usernameAlert;
+@property (strong, nonatomic) UIAlertView *passwordAlert;
+@property (strong, nonatomic) UIAlertView *duplicateUsernameAlert;
+@property (strong, nonatomic) User *user;
 @end
 
 @implementation SignupViewController
 
-@synthesize phoneNumber;
-@synthesize username;
-@synthesize password;
-@synthesize enter;
+@synthesize phoneNumber, username, password, enter, user;
 
 - (void)viewDidLoad
 {
@@ -30,6 +33,7 @@
      Validate phone number
      */
     [super viewDidLoad];
+
     self.phoneNumber.delegate = self;
     self.username.delegate = self;
     self.password.delegate = self;
@@ -85,11 +89,23 @@
     }
     return YES;
 }
+
+- (BOOL)validateUsername
+{
+    return [username.text length] != 0;
+}
+- (NSString*)getRawNumber
+{
+    return [[[[phoneNumber.text stringByReplacingOccurrencesOfString:@"(" withString:@""]stringByReplacingOccurrencesOfString:@")" withString:@""] stringByReplacingOccurrencesOfString:@"-" withString:@""] stringByReplacingOccurrencesOfString:@" " withString:@""];
+}
 - (BOOL)validatePhoneNumber
 {
-    NSString *rawNumber = [[[[phoneNumber.text stringByReplacingOccurrencesOfString:@"(" withString:@""]stringByReplacingOccurrencesOfString:@")" withString:@""] stringByReplacingOccurrencesOfString:@"-" withString:@""]
-        stringByReplacingOccurrencesOfString:@" " withString:@""];
-    return ([rawNumber length] == 10) || ([rawNumber length] == 11 && [rawNumber characterAtIndex:0] == 1);
+    NSString *rawNumber = [self getRawNumber];
+    return ([rawNumber length] == 10 && (![[NSString stringWithFormat:@"%C",[rawNumber characterAtIndex:0]]isEqualToString:@"1"])) || ([rawNumber length] == 11 && [[NSString stringWithFormat:@"%C",[rawNumber characterAtIndex:0]]isEqualToString:@"1"]);
+}
+-(BOOL)validatePassword
+{
+    return [password.text length] != 0;
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -104,18 +120,63 @@
     }
     return YES;
 }
-
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (alertView == self.phoneAlert)
+        [self.phoneNumber becomeFirstResponder];
+    else if (alertView == self.usernameAlert || alertView == self.duplicateUsernameAlert)
+        [self.username becomeFirstResponder];
+    else if (alertView == self.passwordAlert)
+        [self.password becomeFirstResponder];
+}
 -(void)enterPressed:(UIButton *)button
 {
-    [self validatePhoneNumber];
-    User* user = [[User alloc] init];
-    [user createAccount:self.phoneNumber.text username:self.username.text password:self.password.text];
+    if (![self validatePhoneNumber])
+    {
+        self.phoneAlert = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"Please enter a valid phone number." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [self.phoneAlert show];
+        return;
+    }
+    if (![self validateUsername])
+    {
+        self.usernameAlert = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"Please enter a username." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [self.usernameAlert show];
+        return;
+    }
+    if (![self validatePassword])
+    {
+        self.passwordAlert = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"Please enter a password." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [self.passwordAlert show];
+        return;
+    }
+    if (!self.user)
+        self.user = [[User alloc] init];
+    [self.user createAccount:[self getRawNumber] usernameAttempt:self.username.text password:self.password.text source:self];
     
 }
+- (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    NSMutableData *d = [NSMutableData data];
+    [d appendData:data];
+    NSString *a = [[NSString alloc] initWithData:d encoding:NSASCIIStringEncoding];
+    NSDictionary *responseDict = [Server JSONToDict:a];
+    if ([responseDict objectForKey:@"auth_token"] != 0)
+    {
+        self.user.auth_token = [responseDict objectForKey:@"auth_token"];
+        self.user.username = [responseDict objectForKey:@"username"];
+        [LEViewController setUserDefault:@"auth_token" data:self.user.auth_token];
+        [LEViewController setUserDefault:@"username" data:self.user.username];
+        [self performSegueWithIdentifier:@"signupToHome" sender:self];
+    }
+    else{
+        self.duplicateUsernameAlert = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"Username already taken." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [self.duplicateUsernameAlert show];
+    }
+}
+
 
 - (void)textFieldDidChange:(UITextField *)textField
 {
-    if ([self.username.text length] && [self.password.text length]){
+    if ([self.username.text length] && [self.password.text length] && [self.phoneNumber.text length]){
         self.enter.hidden = NO;
     }
     else{
