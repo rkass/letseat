@@ -53,7 +53,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-613" y="32"/>
+            <point key="canvasLocation" x="-565" y="32"/>
         </scene>
         <!--Signup View Controller-->
         <scene sceneID="ioZ-HU-uTN">
@@ -216,7 +216,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hqg-hs-JbS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="618" y="416"/>
+            <point key="canvasLocation" x="490" y="416"/>
         </scene>
         <!--When View Controller - Title-->
         <scene sceneID="cSE-e3-tJa">
@@ -299,7 +299,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="foI-A0-6Lt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1056" y="416"/>
+            <point key="canvasLocation" x="936" y="416"/>
         </scene>
         <!--Who View Controller-->
         <scene sceneID="bUp-qE-xyF">
@@ -325,14 +325,14 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" title="Home" id="7MF-2Z-r2q">
                                             <connections>
-                                                <segue destination="Ju9-57-65q" kind="modal" identifier="whoToWhen" id="WLq-8S-blu"/>
+                                                <segue destination="Ju9-57-65q" kind="modal" identifier="whoToHome" id="UYP-Gu-DlH"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="3Gw-2R-Jio">
-                                <rect key="frame" x="0.0" y="127" width="320" height="397"/>
+                                <rect key="frame" x="0.0" y="127" width="320" height="336"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
@@ -343,16 +343,23 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qBt-F0-USR">
+                                <rect key="frame" x="122" y="501" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <outlet property="contactTable" destination="3Gw-2R-Jio" id="8lw-CL-o04"/>
+                        <outlet property="friendsTable" destination="3Gw-2R-Jio" id="3Jq-wV-v1e"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LCP-i1-A4A" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1480" y="416"/>
+            <point key="canvasLocation" x="1348" y="416"/>
         </scene>
     </scenes>
     <resources>
@@ -365,7 +372,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="70D-d4-FWB"/>
-        <segue reference="Vft-7J-l2p"/>
         <segue reference="29j-qI-H5d"/>
+        <segue reference="UYP-Gu-DlH"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -31,6 +31,7 @@
 
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
+    NSLog(@"here");
     NSMutableData *d = [NSMutableData data];
     [d appendData:data];
     NSString *a = [[NSString alloc] initWithData:d encoding:NSASCIIStringEncoding];

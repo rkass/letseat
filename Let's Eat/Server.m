@@ -12,7 +12,7 @@
 
 @implementation Server
 
-static NSString* url = @"http://localhost:3000/api/v1/";
+static NSString* url = @"http://immense-fortress-7865.herokuapp.com/api/v1/";//@"http://localhost:3000/api/v1/";
 
 + (void)postRequest:(NSString *)method data:(NSData *)data source:(NSObject *)source
 {

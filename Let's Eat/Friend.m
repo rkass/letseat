@@ -12,7 +12,14 @@
 
 @synthesize displayName, phoneNumbers;
 
-- (Friend*) init:key
+- (Friend*) init:(NSString*)name numbers:(NSArray*)numbers
+{
+    
+    self = [super init];
+    self.displayName = name;
+    self.phoneNumbers = numbers;
+    return self;
+}
 
 
 

@@ -10,6 +10,5 @@
 
 @interface WhoViewController : MealViewController  <UITableViewDelegate, UITableViewDataSource>
 
-@property (strong, nonatomic) IBOutlet NSArray* friends;
 
 @end

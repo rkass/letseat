@@ -11,4 +11,5 @@
 @interface Friend : NSObject
 @property (strong, nonatomic) NSString *displayName;
 @property (strong, nonatomic) NSArray *phoneNumbers;
+- (Friend*) init:(NSString*)name numbers:(NSArray*)numbers;
 @end

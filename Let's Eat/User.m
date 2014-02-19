@@ -85,7 +85,7 @@
         ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, error);
         ABRecordRef source = ABAddressBookCopyDefaultSource(addressBook);
         CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeopleInSourceWithSortOrdering(addressBook, source, kABPersonSortByFirstName);
-        CFIndex nPeople = ABAddressBookGetPersonCount(addressBook);
+        CFIndex nPeople = CFArrayGetCount(allPeople);
         NSMutableArray* items = [NSMutableArray arrayWithCapacity:nPeople];
         
         
