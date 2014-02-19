@@ -29,12 +29,11 @@
 
 }
 
+
 + (void) getFriends:(NSObject *) source
 {
-    NSString *jsonContacts = [User jsonifyContacts];
-    NSLog(@"json contacts %@", jsonContacts);
-    return;
-    //[Server postRequest:@"get_friends" data:jsonContacts source:source];
+    
+    [Server postRequest:@"get_friends" data:[User jsonifyContacts] source:source];
 }
 
 + (void)login:(NSString *)usernameAttempt password:(NSString *)password source:(NSObject*)source
@@ -44,23 +43,15 @@
     
 }
 
-+(NSString *)jsonifyContacts
+//Returns contacts and auth_token
++(NSData *)jsonifyContacts
 {
-    return [[User getContacts] JSONString];
-    /*NSMutableDictionary* ret = [[NSMutableDictionary alloc] init];
     NSArray* contacts = [User getContacts];
-    int counter = 0;
-    for (NSMutableDictionary* personDict in contacts)
-    {
-        NSArray* contactDict = [personDict objectForKey:@"phone_numbers"];
-        NSString* jsonedPhoneNumbers = [Server arrToJSON:contactDict];
-        [personDict removeObjectForKey:@"phone_numbers"];
-        NSString* jsonedDict = [Server dictToJSON:personDict];
-        NSString* contactString = [jsonedDict stringByAppendingString:jsonedPhoneNumbers];
-        [ret setObject:contactString forKey:[NSString stringWithFormat:@"%d", counter]];
-        
-    }
-    return ret;*/
+    NSMutableDictionary* request = [[NSMutableDictionary alloc] init];
+    [request setObject:contacts forKey:@"contacts"];
+    [request setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
+    return [request JSONData];
+
 }
 
 

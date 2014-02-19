@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LEViewController.h"
+#import "ValidationViewController.h"
 
-@interface SignupViewController : LEViewController <UITextFieldDelegate>
+@interface SignupViewController : ValidationViewController <UITextFieldDelegate>
 
 
 

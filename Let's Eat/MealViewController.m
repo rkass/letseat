@@ -7,6 +7,8 @@
 //
 
 #import "MealViewController.h"
+#import "WhoViewController.h"
+#import "User.h"
 
 
 @interface MealViewController ()
@@ -47,6 +49,7 @@
 
         MealViewController *nextView = [segue destinationViewController];
         nextView.dateHolder = self.dateHolder;
+
     }
 
 }

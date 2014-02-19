@@ -9,40 +9,56 @@
 #import "WhoViewController.h"
 #import "Server.h"
 #import "User.h"
+#import "JSONKit.h"
 
 @interface WhoViewController ()
-
+@property (strong, nonatomic) IBOutlet UITableView* friendsTable;
 @end
 
 @implementation WhoViewController
-
+@synthesize friends;
 
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [User getFriends:self];
+    self.friendsTable.dataSource = self;
+    self.friendsTable.delegate = self;
     
 }
+
+
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    NSMutableData *d = [NSMutableData data];
-    [d appendData:data];
-    NSString *a = [[NSString alloc] initWithData:d encoding:NSASCIIStringEncoding];
-    NSDictionary *responseDict = [Server JSONToDict:a];
-    NSLog(@"responseDict %@", responseDict);/*
-    if ([responseDict objectForKey:@"auth_token"] != 0)
-    {
-        self.user.auth_token = [responseDict objectForKey:@"auth_token"];
-        self.user.username = [responseDict objectForKey:@"username"];
-        [LEViewController setUserDefault:@"auth_token" data:self.user.auth_token];
-        [LEViewController setUserDefault:@"username" data:self.user.username];
-        [self performSegueWithIdentifier:@"signupToHome" sender:self];
+    NSDictionary *resultsDictionary = [data objectFromJSONData];
+   if ([resultsDictionary objectForKey:@"success"])
+   {
+       
+   }
+
+
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"cell for row");
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    else{
-        self.duplicateUsernameAlert = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"Username already taken." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [self.duplicateUsernameAlert show];
-    }*/
+    cell.textLabel.text = @"Hey";
+        
+    return cell;
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    NSLog(@"rows in section");
+    return 1;
+}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    NSLog(@"num sections");
+    return 1;
 }
 - (void)didReceiveMemoryWarning
 {

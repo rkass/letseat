@@ -16,7 +16,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *enter;
 @property (strong, nonatomic) UIAlertView *usernameAlert;
 @property (strong, nonatomic) UIAlertView *passwordAlert;
-@property (strong, nonatomic) UIAlertView *invalidLoginAlert;
 @property (strong, nonatomic) User *user;
 @end
 
@@ -25,9 +24,7 @@
 
 - (void)viewDidLoad
 {
-    /*TODO
-     create credentials superclass
-     */
+
     [super viewDidLoad];
     self.username.delegate = self;
     self.password.delegate = self;
@@ -47,25 +44,7 @@
 {
     return [password.text length] != 0;
 }
-- (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    NSMutableData *d = [NSMutableData data];
-    [d appendData:data];
-    NSString *a = [[NSString alloc] initWithData:d encoding:NSASCIIStringEncoding];
-    NSDictionary *responseDict = [Server JSONToDict:a];
-    if ([responseDict objectForKey:@"auth_token"] != 0)
-    {
-        self.user.auth_token = [responseDict objectForKey:@"auth_token"];
-        self.user.username = [responseDict objectForKey:@"username"];
-        [LEViewController setUserDefault:@"auth_token" data:self.user.auth_token];
-        [LEViewController setUserDefault:@"username" data:self.user.username];
-        [self performSegueWithIdentifier:@"loginToHome" sender:self];
-    }
-    else{
-        self.invalidLoginAlert = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"Invalid login credentials." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [self.invalidLoginAlert show];
-    }
-}
+
 -(void)enterPressed:(UIButton *)button
 {
     if (![self validateUsername])

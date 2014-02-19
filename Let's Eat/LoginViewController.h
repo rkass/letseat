@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Ryan Kass. All rights reserved.
 //
 
-#import "LEViewController.h"
+#import "ValidationViewController.h"
 
-@interface LoginViewController : LEViewController <UITextFieldDelegate>
+@interface LoginViewController : ValidationViewController <UITextFieldDelegate>
 
 @end

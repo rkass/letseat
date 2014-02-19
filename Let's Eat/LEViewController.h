@@ -10,4 +10,5 @@
 
 @interface LEViewController : UIViewController
 + (void) setUserDefault:(NSString *)key data:(NSString *) data;
+- (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
 @end

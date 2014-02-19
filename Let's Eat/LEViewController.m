@@ -7,8 +7,10 @@
 //
 
 #import "LEViewController.h"
+#import "Server.h"
 
 @interface LEViewController ()
+
 @property (strong, nonatomic) UIAlertView *failedConnection;
 @end
 
@@ -19,6 +21,9 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    /*TODO
+     write bad request function
+     */
 }
 
 - (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -26,6 +31,7 @@
     self.failedConnection = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"Couldn't connect to the server.  Check your connection and try again." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
     [self.failedConnection show];
 }
+
 
 + (void) setUserDefault:(NSString *)key data:(NSString *) data
 {

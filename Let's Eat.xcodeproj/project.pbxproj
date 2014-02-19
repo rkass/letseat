@@ -30,6 +30,8 @@
 		94610F6918A950B40094779E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94610F4B18A950B40094779E /* UIKit.framework */; };
 		94610F7118A950B40094779E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94610F6F18A950B40094779E /* InfoPlist.strings */; };
 		94610F7318A950B40094779E /* Let_s_EatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 94610F7218A950B40094779E /* Let_s_EatTests.m */; };
+		947F1DEA18B4FC38009924E5 /* ValidationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 947F1DE918B4FC38009924E5 /* ValidationViewController.m */; };
+		947F1DED18B52CA9009924E5 /* Friend.m in Sources */ = {isa = PBXBuildFile; fileRef = 947F1DEC18B52CA9009924E5 /* Friend.m */; };
 		94A8296018B39289009E0C1F /* MealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A8295F18B39289009E0C1F /* MealViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -81,6 +83,10 @@
 		94610F6E18A950B40094779E /* Let's EatTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Let's EatTests-Info.plist"; sourceTree = "<group>"; };
 		94610F7018A950B40094779E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		94610F7218A950B40094779E /* Let_s_EatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Let_s_EatTests.m; sourceTree = "<group>"; };
+		947F1DE818B4FC38009924E5 /* ValidationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValidationViewController.h; sourceTree = "<group>"; };
+		947F1DE918B4FC38009924E5 /* ValidationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValidationViewController.m; sourceTree = "<group>"; };
+		947F1DEB18B52CA9009924E5 /* Friend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friend.h; sourceTree = "<group>"; };
+		947F1DEC18B52CA9009924E5 /* Friend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Friend.m; sourceTree = "<group>"; };
 		94A8295E18B39289009E0C1F /* MealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MealViewController.h; sourceTree = "<group>"; };
 		94A8295F18B39289009E0C1F /* MealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MealViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -114,6 +120,8 @@
 			children = (
 				941CE22A18AD6BA200E773BF /* User.h */,
 				941CE22B18AD6BA200E773BF /* User.m */,
+				947F1DEB18B52CA9009924E5 /* Friend.h */,
+				947F1DEC18B52CA9009924E5 /* Friend.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -136,6 +144,8 @@
 				942CF34E18B2852700BF1B70 /* LEViewController.h */,
 				942CF34F18B2852700BF1B70 /* LEViewController.m */,
 				941CE22E18AD725800E773BF /* SignupViewController.m */,
+				947F1DE818B4FC38009924E5 /* ValidationViewController.h */,
+				947F1DE918B4FC38009924E5 /* ValidationViewController.m */,
 				942B9DA918AD5A44003F8CA6 /* HomeViewController.h */,
 			);
 			name = Controllers;
@@ -318,8 +328,10 @@
 				94394FF818B3EBEC00A2FEDB /* WhenViewController.m in Sources */,
 				94394FF518B3EBE200A2FEDB /* WhoViewController.m in Sources */,
 				941CE22C18AD6BA200E773BF /* User.m in Sources */,
+				947F1DEA18B4FC38009924E5 /* ValidationViewController.m in Sources */,
 				94A8296018B39289009E0C1F /* MealViewController.m in Sources */,
 				94610F5E18A950B40094779E /* InitialViewController.m in Sources */,
+				947F1DED18B52CA9009924E5 /* Friend.m in Sources */,
 				941CE22F18AD725800E773BF /* SignupViewController.m in Sources */,
 				94394FFB18B4019B00A2FEDB /* JSONKit.m in Sources */,
 				94610F5818A950B40094779E /* AppDelegate.m in Sources */,

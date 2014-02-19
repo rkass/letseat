@@ -12,13 +12,11 @@
 
 @interface SignupViewController ()
 @property (strong, nonatomic) IBOutlet UITextField *phoneNumber;
-@property (strong, nonatomic) IBOutlet UITextField *username;
-@property (strong, nonatomic) IBOutlet UITextField *password;
 @property (strong, nonatomic) IBOutlet UIButton *enter;
 @property (strong, nonatomic) UIAlertView *phoneAlert;
 @property (strong, nonatomic) UIAlertView *usernameAlert;
 @property (strong, nonatomic) UIAlertView *passwordAlert;
-@property (strong, nonatomic) UIAlertView *duplicateUsernameAlert;
+
 @property (strong, nonatomic) User *user;
 @end
 
@@ -123,7 +121,7 @@
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (alertView == self.phoneAlert)
         [self.phoneNumber becomeFirstResponder];
-    else if (alertView == self.usernameAlert || alertView == self.duplicateUsernameAlert)
+    else if (alertView == self.usernameAlert)
         [self.username becomeFirstResponder];
     else if (alertView == self.passwordAlert)
         [self.password becomeFirstResponder];
@@ -150,7 +148,7 @@
     }
     [User createAccount:[self getRawNumber] usernameAttempt:self.username.text password:self.password.text source:self];
     
-}
+}/*
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     NSMutableData *d = [NSMutableData data];
@@ -171,7 +169,7 @@
     }
 }
 
-
+*/
 - (void)textFieldDidChange:(UITextField *)textField
 {
     if ([self.username.text length] && [self.password.text length] && [self.phoneNumber.text length]){
