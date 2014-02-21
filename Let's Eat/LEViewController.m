@@ -33,11 +33,12 @@
 }
 
 
-+ (void) setUserDefault:(NSString *)key data:(NSString *) data
++ (void) setUserDefault:(NSString *)key data:(NSObject *) data
 {
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:key];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
 
 - (void)didReceiveMemoryWarning
 {

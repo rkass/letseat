@@ -8,7 +8,7 @@
 
 #import "MealViewController.h"
 
-@interface WhoViewController : MealViewController  <UITableViewDelegate, UITableViewDataSource>
+@interface WhoViewController : MealViewController  <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
 
 
 @end

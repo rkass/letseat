@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface LEViewController : UIViewController
-+ (void) setUserDefault:(NSString *)key data:(NSString *) data;
++ (void) setUserDefault:(NSString *)key data:(NSObject*) data;
 - (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
 @end
