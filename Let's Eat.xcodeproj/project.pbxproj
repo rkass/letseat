@@ -32,6 +32,7 @@
 		94610F7318A950B40094779E /* Let_s_EatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 94610F7218A950B40094779E /* Let_s_EatTests.m */; };
 		947F1DEA18B4FC38009924E5 /* ValidationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 947F1DE918B4FC38009924E5 /* ValidationViewController.m */; };
 		94A8296018B39289009E0C1F /* MealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A8295F18B39289009E0C1F /* MealViewController.m */; };
+		94D2605518B93BA8005FF97C /* CustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D2605418B93BA8005FF97C /* CustomTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,8 @@
 		947F1DE918B4FC38009924E5 /* ValidationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValidationViewController.m; sourceTree = "<group>"; };
 		94A8295E18B39289009E0C1F /* MealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MealViewController.h; sourceTree = "<group>"; };
 		94A8295F18B39289009E0C1F /* MealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MealViewController.m; sourceTree = "<group>"; };
+		94D2605318B93BA8005FF97C /* CustomTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTableViewCell.h; sourceTree = "<group>"; };
+		94D2605418B93BA8005FF97C /* CustomTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +187,8 @@
 				94610F5918A950B40094779E /* Main.storyboard */,
 				941CE23118AEBE4600E773BF /* Server.h */,
 				941CE23218AEBE4600E773BF /* Server.m */,
+				94D2605318B93BA8005FF97C /* CustomTableViewCell.h */,
+				94D2605418B93BA8005FF97C /* CustomTableViewCell.m */,
 				941CE22918AD6AB400E773BF /* Models */,
 				942B9DAC18AD5A8D003F8CA6 /* Controllers */,
 				94610F5F18A950B40094779E /* Images.xcassets */,
@@ -331,6 +336,7 @@
 				94610F5E18A950B40094779E /* InitialViewController.m in Sources */,
 				941CE22F18AD725800E773BF /* SignupViewController.m in Sources */,
 				94394FFB18B4019B00A2FEDB /* JSONKit.m in Sources */,
+				94D2605518B93BA8005FF97C /* CustomTableViewCell.m in Sources */,
 				94610F5818A950B40094779E /* AppDelegate.m in Sources */,
 				94610F5418A950B40094779E /* main.m in Sources */,
 				942CF35318B2932F00BF1B70 /* LoginViewController.m in Sources */,

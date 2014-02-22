@@ -10,16 +10,19 @@
 #import "Server.h"
 #import "User.h"
 #import "JSONKit.h"
+#import "CustomTableViewCell.h"
 
 @interface WhoViewController ()
 @property (strong, nonatomic) IBOutlet UITableView* friendsTable;
 @property (strong, nonatomic) IBOutlet UISearchBar* search;
 @property (strong, nonatomic) NSMutableArray *friends;
 @property (strong, nonatomic) NSMutableArray *friendsCache;
+@property (strong, nonatomic) UIImage* unchecked;
+@property (strong, nonatomic) UIImage* checked;
 @end
 
 @implementation WhoViewController
-@synthesize friends;
+@synthesize friends, unchecked, checked;
 
 
 - (void)viewDidLoad
@@ -27,15 +30,18 @@
     [super viewDidLoad];
     [User getFriends:self];
     [self.search setDelegate:self];
+    
     self.friendsTable.dataSource = self;
     self.friendsTable.delegate = self;
     self.friends = [NSMutableArray array];
+    self.unchecked = [UIImage imageNamed:@"unchecked.png"];
+    self.checked = [UIImage imageNamed:@"checked.png"];
     NSArray *friendsCacheLoaded = [[NSUserDefaults standardUserDefaults] arrayForKey:@"friendsCache"];
     if (friendsCacheLoaded != nil)
         self.friendsCache = [friendsCacheLoaded mutableCopy];
     else
         self.friendsCache = [[NSMutableArray alloc] init];
-    
+    [self.friendsTable registerClass:[CustomTableViewCell class] forCellReuseIdentifier:@"CustomCell"];
     [self.friends addObjectsFromArray:self.friendsCache];
     [self.friendsTable reloadData];
     
@@ -65,36 +71,6 @@
                 [self.friends addObject:dict];
         }
     }
-
-            /*
-    [self.friends removeAllObjects];
-    if ([searchText isEqualToString:@""])
-        self.friends = [self.friendsCache mutableCopy];
-    else
-    {
-        for(NSDictionary *dict in self.friendsCache)
-        {
-            NSArray* splitName = [[dict objectForKey:@"displayName"] componentsSeparatedByString:@" "];
-            NSArray* splitSearch = [searchText componentsSeparatedByString:@" "];
-            if ([splitName count] == [splitSearch count]){
-                int counter = 0;
-                bool allSame = YES;
-                for (NSString* name in splitName){
-                    if (![name isEqualToString:[splitSearch objectAtIndex:counter]]){
-                        allSame = NO;
-                        break;
-                    }
-                    counter++;
-                }
-                if (allSame)
-                    [self.friends addObject:dict]
-                }
-            }
-            if ([[dict objectForKey:@"displayName"] rangeOfString:searchText options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch)].length > 0)
-                [self.friends addObject:dict];
-
-        }
-    }*/
     [self.friendsTable reloadData];
 }
 
@@ -138,18 +114,43 @@
 
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"CustomCell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    CustomTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        cell.accessoryType=UITableViewCellAccessoryCheckmark;
+        cell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+
+    
     }
     NSDictionary *f = [self.friends objectAtIndex:indexPath.row];
+    UIImageView* accUnchecked = [[UIImageView alloc] initWithImage:self.unchecked];
+    cell.accessoryView = accUnchecked;
+    cell.checked = NO;
+        
     cell.textLabel.text = [f objectForKey:@"displayName"];
+    
         
     return cell;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    CustomTableViewCell *cell = (CustomTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
+    if (cell.checked)
+    {
+        cell.checked = NO;
+        UIImageView* accUnchecked = [[UIImageView alloc] initWithImage:self.unchecked];
+        cell.accessoryView = accUnchecked;
+    }
+    else
+    {
+        cell.checked = YES;
+        UIImageView* accChecked = [[UIImageView alloc] initWithImage:self.checked];
+        cell.accessoryView = accChecked;
+    }
+    
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.friends count];
 }
