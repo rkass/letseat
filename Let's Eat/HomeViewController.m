@@ -7,27 +7,29 @@
 //
 
 #import "HomeViewController.h"
+#import "CreateMealNavigationController.h"
 
 
 @interface HomeViewController ()
-
+@property (strong, nonatomic) UIViewController* whenViewController;
 @end
 
 @implementation HomeViewController
-
+@synthesize whenViewController;
 
 - (void)viewDidLoad
 {
     
     [super viewDidLoad];
-    //[self performSelector:@selector(loadCreateMealViewController) withObject:nil afterDelay:0.0];
+
     
 }
 
--(void)loadCreateMealViewController
-{
-    //[self performSegueWithIdentifier:@"homeToCreateMeal" sender:self];
+- (IBAction)createNewMeal:(id)sender {
+    CreateMealNavigationController* nav = (CreateMealNavigationController*) [self navigationController];
+    [nav pushViewController:nav.whenViewController animated:YES];
 }
+
 
 
 - (void)didReceiveMemoryWarning

@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Ryan Kass. All rights reserved.
 //
 
-#import "MealViewController.h"
+#import "LEViewController.h"
 
-@interface WhenViewController : MealViewController
+@interface WhenViewController : LEViewController
 
 @end

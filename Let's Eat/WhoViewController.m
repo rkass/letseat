@@ -10,7 +10,8 @@
 #import "Server.h"
 #import "User.h"
 #import "JSONKit.h"
-#import "CustomTableViewCell.h"
+#import "CreateMealNavigationController.h"
+
 
 @interface WhoViewController ()
 @property (strong, nonatomic) IBOutlet UITableView* friendsTable;
@@ -19,10 +20,12 @@
 @property (strong, nonatomic) NSMutableArray *friendsCache;
 @property (strong, nonatomic) UIImage* unchecked;
 @property (strong, nonatomic) UIImage* checked;
+@property (strong, nonatomic) IBOutlet UIButton* transition;
+@property BOOL initializing;
 @end
 
 @implementation WhoViewController
-@synthesize friends, unchecked, checked;
+@synthesize friends, unchecked, checked, initializing, transition;
 
 
 - (void)viewDidLoad
@@ -30,7 +33,8 @@
     [super viewDidLoad];
     [User getFriends:self];
     [self.search setDelegate:self];
-    
+   
+   // self.navigationController.navigationBarHidden = NO;
     self.friendsTable.dataSource = self;
     self.friendsTable.delegate = self;
     self.friends = [NSMutableArray array];
@@ -41,12 +45,42 @@
         self.friendsCache = [friendsCacheLoaded mutableCopy];
     else
         self.friendsCache = [[NSMutableArray alloc] init];
-    [self.friendsTable registerClass:[CustomTableViewCell class] forCellReuseIdentifier:@"CustomCell"];
+   // [self.friendsTable registerClass:[CustomTableViewCell class] forCellReuseIdentifier:@"CustomCell"];
     [self.friends addObjectsFromArray:self.friendsCache];
+    for (NSMutableDictionary* dict in self.friends)
+    {
+        dict[@"checked"] = @NO;
+    }
     [self.friendsTable reloadData];
     
 }
 
+- (BOOL) atLeastOneChecked
+{
+    for (NSMutableDictionary* dict in self.friends)
+    {
+        if ([dict[@"checked"]  isEqual: @YES])
+            return YES;
+        
+    }
+    return NO;
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+    self.search.showsCancelButton = NO;
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+    self.search.showsCancelButton = NO;
+}
+- (void)searchBarTextDidBeginEditing:(UISearchBar*)searchBar
+{
+      self.search.showsCancelButton = YES;
+}
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     [self.friends removeAllObjects];
@@ -54,6 +88,7 @@
         self.friends = [self.friendsCache mutableCopy];
     else
     {
+        
         NSArray* splitSearch = [searchText componentsSeparatedByString:@" "];
         for(NSDictionary *dict in self.friendsCache)
         {
@@ -61,7 +96,7 @@
             bool allin = YES;
            
             for (NSString* name in splitSearch){
-                NSLog(@"name %@", name);
+               
                 if ((!([[dict objectForKey:@"displayName"] rangeOfString:name options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch)].length > 0)) && (![name isEqualToString: @""])){
                     allin = NO;
                     break;
@@ -74,6 +109,10 @@
     [self.friendsTable reloadData];
 }
 
+- (IBAction)nextPressed:(id)sender {
+    CreateMealNavigationController* nav = (CreateMealNavigationController*) [self navigationController];
+    [nav pushViewController:nav.whereViewController animated:YES];
+}
 
 - (BOOL) cacheContainsContact:(NSString *)name
 {
@@ -95,7 +134,7 @@
            {
                NSDictionary *dict;
                dict = [NSDictionary dictionaryWithObjectsAndKeys:
-                   key, @"displayName", [resultsDictionary objectForKey:@"friends"], @"numbers", nil];
+                   key, @"displayName", [resultsDictionary objectForKey:@"friends"], @"numbers", @NO, @"checked", nil];
                [self.friendsCache addObject:dict];
            }
         }
@@ -113,19 +152,28 @@
 
 
 }
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"CustomCell";
+    static NSString *CellIdentifier = @"Cell";
     
-    CustomTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 
     
     }
     NSDictionary *f = [self.friends objectAtIndex:indexPath.row];
-    UIImageView* accUnchecked = [[UIImageView alloc] initWithImage:self.unchecked];
-    cell.accessoryView = accUnchecked;
-    cell.checked = NO;
+    if ([f[@"checked"]  isEqual: @YES])
+    {
+        UIImageView* accChecked = [[UIImageView alloc] initWithImage:self.checked];
+        cell.accessoryView = accChecked;
+    }
+    else
+    {
+        UIImageView* accUnchecked = [[UIImageView alloc] initWithImage:self.unchecked];
+        cell.accessoryView = accUnchecked;
+    }
         
     cell.textLabel.text = [f objectForKey:@"displayName"];
     
@@ -135,18 +183,29 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    CustomTableViewCell *cell = (CustomTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
-    if (cell.checked)
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    NSMutableDictionary* friend = [self.friends objectAtIndex:indexPath.row];
+    if ([friend[@"checked"]  isEqual: @YES])
     {
-        cell.checked = NO;
+ 
         UIImageView* accUnchecked = [[UIImageView alloc] initWithImage:self.unchecked];
         cell.accessoryView = accUnchecked;
+        friend[@"checked"] = @NO;
+
     }
     else
     {
-        cell.checked = YES;
+
         UIImageView* accChecked = [[UIImageView alloc] initWithImage:self.checked];
         cell.accessoryView = accChecked;
+        friend[@"checked"] = @YES;
+    }
+    if ([self atLeastOneChecked])
+    {
+        [self.transition setTitle:@"Eat with Them^^" forState:UIControlStateNormal];
+    }
+    else{
+        [self.transition setTitle:@"Eat Solo" forState:UIControlStateNormal];
     }
     
 }

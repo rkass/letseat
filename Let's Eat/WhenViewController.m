@@ -7,9 +7,10 @@
 //
 
 #import "WhenViewController.h"
+#import "CreateMealNavigationController.h"
 
 @interface WhenViewController ()
-
+@property (strong, nonatomic) IBOutlet UIDatePicker * when;
 @end
 
 @implementation WhenViewController
@@ -18,13 +19,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if (self.dateHolder)
-    {
-        
-        self.when.date = self.dateHolder;
-    }
-    
+
+    self.title = @"When";
     self.when.minimumDate = [NSDate date];
+
+}
+- (IBAction)whoPressed:(id)sender {
+    CreateMealNavigationController* nav = (CreateMealNavigationController*) [self navigationController];
+    [nav pushViewController:nav.whoViewController animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

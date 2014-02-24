@@ -31,8 +31,8 @@
 		94610F7118A950B40094779E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94610F6F18A950B40094779E /* InfoPlist.strings */; };
 		94610F7318A950B40094779E /* Let_s_EatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 94610F7218A950B40094779E /* Let_s_EatTests.m */; };
 		947F1DEA18B4FC38009924E5 /* ValidationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 947F1DE918B4FC38009924E5 /* ValidationViewController.m */; };
-		94A8296018B39289009E0C1F /* MealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A8295F18B39289009E0C1F /* MealViewController.m */; };
-		94D2605518B93BA8005FF97C /* CustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D2605418B93BA8005FF97C /* CustomTableViewCell.m */; };
+		94D2605818BA9DAB005FF97C /* CreateMealNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D2605718BA9DAB005FF97C /* CreateMealNavigationController.m */; };
+		94D2605B18BB9BE4005FF97C /* WhereViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D2605A18BB9BE4005FF97C /* WhereViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,10 +85,10 @@
 		94610F7218A950B40094779E /* Let_s_EatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Let_s_EatTests.m; sourceTree = "<group>"; };
 		947F1DE818B4FC38009924E5 /* ValidationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValidationViewController.h; sourceTree = "<group>"; };
 		947F1DE918B4FC38009924E5 /* ValidationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValidationViewController.m; sourceTree = "<group>"; };
-		94A8295E18B39289009E0C1F /* MealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MealViewController.h; sourceTree = "<group>"; };
-		94A8295F18B39289009E0C1F /* MealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MealViewController.m; sourceTree = "<group>"; };
-		94D2605318B93BA8005FF97C /* CustomTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTableViewCell.h; sourceTree = "<group>"; };
-		94D2605418B93BA8005FF97C /* CustomTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableViewCell.m; sourceTree = "<group>"; };
+		94D2605618BA9DAB005FF97C /* CreateMealNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateMealNavigationController.h; sourceTree = "<group>"; };
+		94D2605718BA9DAB005FF97C /* CreateMealNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateMealNavigationController.m; sourceTree = "<group>"; };
+		94D2605918BB9BE4005FF97C /* WhereViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhereViewController.h; sourceTree = "<group>"; };
+		94D2605A18BB9BE4005FF97C /* WhereViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhereViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,12 +127,14 @@
 		942B9DAC18AD5A8D003F8CA6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				94D2605918BB9BE4005FF97C /* WhereViewController.h */,
+				94D2605A18BB9BE4005FF97C /* WhereViewController.m */,
+				94D2605618BA9DAB005FF97C /* CreateMealNavigationController.h */,
+				94D2605718BA9DAB005FF97C /* CreateMealNavigationController.m */,
 				94394FF318B3EBE200A2FEDB /* WhoViewController.h */,
 				94394FF418B3EBE200A2FEDB /* WhoViewController.m */,
 				94394FF618B3EBEC00A2FEDB /* WhenViewController.h */,
 				94394FF718B3EBEC00A2FEDB /* WhenViewController.m */,
-				94A8295E18B39289009E0C1F /* MealViewController.h */,
-				94A8295F18B39289009E0C1F /* MealViewController.m */,
 				942CF35118B2932F00BF1B70 /* LoginViewController.h */,
 				942CF35218B2932F00BF1B70 /* LoginViewController.m */,
 				94610F5C18A950B40094779E /* InitialViewController.h */,
@@ -187,8 +189,6 @@
 				94610F5918A950B40094779E /* Main.storyboard */,
 				941CE23118AEBE4600E773BF /* Server.h */,
 				941CE23218AEBE4600E773BF /* Server.m */,
-				94D2605318B93BA8005FF97C /* CustomTableViewCell.h */,
-				94D2605418B93BA8005FF97C /* CustomTableViewCell.m */,
 				941CE22918AD6AB400E773BF /* Models */,
 				942B9DAC18AD5A8D003F8CA6 /* Controllers */,
 				94610F5F18A950B40094779E /* Images.xcassets */,
@@ -332,13 +332,13 @@
 				94394FF518B3EBE200A2FEDB /* WhoViewController.m in Sources */,
 				941CE22C18AD6BA200E773BF /* User.m in Sources */,
 				947F1DEA18B4FC38009924E5 /* ValidationViewController.m in Sources */,
-				94A8296018B39289009E0C1F /* MealViewController.m in Sources */,
+				94D2605818BA9DAB005FF97C /* CreateMealNavigationController.m in Sources */,
 				94610F5E18A950B40094779E /* InitialViewController.m in Sources */,
 				941CE22F18AD725800E773BF /* SignupViewController.m in Sources */,
 				94394FFB18B4019B00A2FEDB /* JSONKit.m in Sources */,
-				94D2605518B93BA8005FF97C /* CustomTableViewCell.m in Sources */,
 				94610F5818A950B40094779E /* AppDelegate.m in Sources */,
 				94610F5418A950B40094779E /* main.m in Sources */,
+				94D2605B18BB9BE4005FF97C /* WhereViewController.m in Sources */,
 				942CF35318B2932F00BF1B70 /* LoginViewController.m in Sources */,
 				942CF35018B2852700BF1B70 /* LEViewController.m in Sources */,
 				942B9DAB18AD5A44003F8CA6 /* HomeViewController.m in Sources */,
