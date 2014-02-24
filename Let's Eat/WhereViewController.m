@@ -7,18 +7,23 @@
 //
 
 #import "WhereViewController.h"
+#import "JSONKit.h"
 
 @interface WhereViewController ()
 @property (strong, nonatomic) NSString* latitude;
 @property (strong, nonatomic) NSString* longitude;
 @property (strong, nonatomic) NSString* address;
 @property (strong, nonatomic) CLLocation* myLocation;
-//@property (weak, nonatomic) IBOutlet MKMapView *map;
+@property (weak, nonatomic) IBOutlet MKMapView *map;
+@property (strong, nonatomic) NSLock* lock;
+@property (weak, nonatomic) IBOutlet UISearchBar *search;
+@property (strong, nonatomic) UIAlertView* alert;
+@property (strong, nonatomic) MKPointAnnotation* annotation;
 @end
 
 @implementation WhereViewController
 
-@synthesize latitude, longitude, address, myLocation;
+@synthesize latitude, longitude, address, myLocation, map,  alert, annotation;
 +(CLLocationManager*) locationManager
 {
     static CLLocationManager *locationManager = nil;
@@ -33,59 +38,101 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    self.title = @"Where you at?";
+    [self.search setDelegate:self];
     [WhereViewController locationManager].delegate = self;
     [WhereViewController locationManager].desiredAccuracy = kCLLocationAccuracyBest;
     [WhereViewController locationManager].distanceFilter = kCLDistanceFilterNone;
     [[WhereViewController locationManager] startUpdatingLocation];
-   // CLLocationCoordinate2D coordinate = [self getLocation];
-    //NSString *latitude = [NSString stringWithFormat:@"%f", coordinate.latitude];
-    //NSString *longitude = [NSString stringWithFormat:@"%f", coordinate.longitude];
-    
-   // NSLog(@"Latitude : %@", latitude);
-   // NSLog(@"Longitude : %@",longitude);
+
 
     
-}/*
--(CLLocationCoordinate2D) getLocation{
-    static CLLocationManager *locationManager;
-    if (! locationManager)
-    	locationManager = [[CLLocationManager alloc] init];
-    locationManager.delegate = self;
-    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    locationManager.distanceFilter = kCLDistanceFilterNone;
-    [locationManager startUpdatingLocation];
-    CLLocation *location = [locationManager location];
-    CLLocationCoordinate2D coordinate = [location coordinate];
-    
-    return coordinate;
 }
-*/
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+    self.search.showsCancelButton = NO;
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [self searchCoordinatesForAddress:[searchBar text]];
+    [searchBar resignFirstResponder];
+    self.search.showsCancelButton = NO;
+}
+- (void) searchCoordinatesForAddress:(NSString *)inAddress
+{
+    //Build the string to Query Google Maps.
+    NSMutableString *urlString = [NSMutableString stringWithFormat:@"https://maps.google.com/maps/api/geocode/json?address=%@&sensor=false&key=AIzaSyBITjgfUC0tbWp9-0SRIRR-PYAultPKDbA",inAddress];
+    
+    //Replace Spaces with a '+' character.
+    [urlString setString:[urlString stringByReplacingOccurrencesOfString:@" " withString:@"+"]];
+    
+    //Create NSURL string from a formate URL string.
+    NSURL *url = [NSURL URLWithString:urlString];
+    
+    //Setup and start an async download.
+    //Note that we should test for reachability!.
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+   [NSURLConnection connectionWithRequest:request delegate:self];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+
+    JSONDecoder* decoder = [[JSONDecoder alloc]
+                            initWithParseOptions:JKParseOptionNone];
+    NSMutableDictionary* json = [decoder objectWithData:data];
+//    NSLog(@"dict%@", json);
+    if ([json[@"status"] isEqualToString:@"ZERO_RESULTS"]){
+        if (!self.alert)
+        {
+            self.alert = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"Can't find that place, try a different one or idk maybe spelling it right." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            
+        }
+        [alert show];
+    }
+    else{
+        NSLog(@"%@", json[@"results"][0][@"geometry"][@"location"]);
+        [self.map removeAnnotation:self.annotation ];
+        self.myLocation = [[CLLocation alloc] initWithLatitude:[json[@"results"][0][@"geometry"][@"location"][@"lat"] floatValue] longitude:[json[@"results"][0][@"geometry"][@"location"][@"lng"] floatValue]];
+        
+        [self.annotation setCoordinate:self.myLocation.coordinate];
+        [self.map addAnnotation:self.annotation];
+        self.map.region = MKCoordinateRegionMakeWithDistance(self.myLocation.coordinate, 500, 500);
+
+        
+    }
+
+}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    [self.search becomeFirstResponder];
+    
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar*)searchBar
+{
+    self.search.showsCancelButton = YES;
+}
+
 - (void)locationManager:(CLLocationManager *)manager
     didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation
 {
-    int degrees = newLocation.coordinate.latitude;
-    double decimal = fabs(newLocation.coordinate.latitude - degrees);
-    int minutes = decimal * 60;
-    double seconds = decimal * 3600 - minutes * 60;
-    NSString *lat = [NSString stringWithFormat:@"%d° %d' %1.4f\"",
-                     degrees, minutes, seconds];
-    NSLog(@" Current Latitude : %@",lat);
-    //latLabel.text = lat;
-    degrees = newLocation.coordinate.longitude;
-    decimal = fabs(newLocation.coordinate.longitude - degrees);
-    minutes = decimal * 60;
-    seconds = decimal * 3600 - minutes * 60;
-    NSString *longt = [NSString stringWithFormat:@"%d° %d' %1.4f\"",
-                       degrees, minutes, seconds];
-    self.longitude = longt;
-    self.latitude = lat;
     self.myLocation = newLocation;
-    NSLog(@" Current Longitude : %@",longt);
     [[WhereViewController locationManager] stopUpdatingLocation];
+    [self.lock lock];
+    if (!self.annotation){
+        self.annotation = [[MKPointAnnotation alloc] init];
+        [self.annotation setCoordinate:self.myLocation.coordinate];
+        [self.map addAnnotation:self.annotation];
+        self.map.region = MKCoordinateRegionMakeWithDistance(self.myLocation.coordinate, 500, 500);
+    }
+    else
+        [self.lock unlock];
   
-    //longLabel.text = longt;
+  
 }
 
 

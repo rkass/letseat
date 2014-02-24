@@ -25,10 +25,6 @@
     
 }
 
-- (IBAction)createNewMeal:(id)sender {
-    CreateMealNavigationController* nav = (CreateMealNavigationController*) [self navigationController];
-    [nav pushViewController:nav.whenViewController animated:YES];
-}
 
 
 

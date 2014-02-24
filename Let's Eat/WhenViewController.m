@@ -24,10 +24,6 @@
     self.when.minimumDate = [NSDate date];
 
 }
-- (IBAction)whoPressed:(id)sender {
-    CreateMealNavigationController* nav = (CreateMealNavigationController*) [self navigationController];
-    [nav pushViewController:nav.whoViewController animated:YES];
-}
 
 - (void)didReceiveMemoryWarning
 {

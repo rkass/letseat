@@ -33,26 +33,27 @@
     [super viewDidLoad];
     [User getFriends:self];
     [self.search setDelegate:self];
-   
-   // self.navigationController.navigationBarHidden = NO;
     self.friendsTable.dataSource = self;
     self.friendsTable.delegate = self;
-    self.friends = [NSMutableArray array];
     self.unchecked = [UIImage imageNamed:@"unchecked.png"];
     self.checked = [UIImage imageNamed:@"checked.png"];
-    NSArray *friendsCacheLoaded = [[NSUserDefaults standardUserDefaults] arrayForKey:@"friendsCache"];
-    if (friendsCacheLoaded != nil)
-        self.friendsCache = [friendsCacheLoaded mutableCopy];
-    else
-        self.friendsCache = [[NSMutableArray alloc] init];
-   // [self.friendsTable registerClass:[CustomTableViewCell class] forCellReuseIdentifier:@"CustomCell"];
-    [self.friends addObjectsFromArray:self.friendsCache];
-    for (NSMutableDictionary* dict in self.friends)
-    {
-        dict[@"checked"] = @NO;
-    }
+    self.friendsCache = [self loadMutable];
+    self.friends = [self.friendsCache mutableCopy];
     [self.friendsTable reloadData];
     
+}
+
+-(NSMutableArray*)loadMutable
+{
+    NSArray *friendsCacheLoaded = [[NSUserDefaults standardUserDefaults] arrayForKey:@"friendsCache"];
+    NSMutableArray* ret = [[NSMutableArray alloc] init];
+    for (NSDictionary* dict in friendsCacheLoaded)
+    {
+        NSMutableDictionary* mutDict = [dict mutableCopy];
+        mutDict[@"checked"] = @NO;
+        [ret addObject:mutDict];
+    }
+    return ret;
 }
 
 - (BOOL) atLeastOneChecked
@@ -65,10 +66,13 @@
     }
     return NO;
 }
-
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
+    self.search.text = @"";
+    [self.friends removeAllObjects];
+    self.friends = [self.friendsCache mutableCopy];
+    [self.friendsTable reloadData];
     self.search.showsCancelButton = NO;
 }
 
@@ -79,8 +83,9 @@
 }
 - (void)searchBarTextDidBeginEditing:(UISearchBar*)searchBar
 {
-      self.search.showsCancelButton = YES;
+    self.search.showsCancelButton = YES;
 }
+
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     [self.friends removeAllObjects];
@@ -90,7 +95,7 @@
     {
         
         NSArray* splitSearch = [searchText componentsSeparatedByString:@" "];
-        for(NSDictionary *dict in self.friendsCache)
+        for(NSMutableDictionary *dict in self.friendsCache)
         {
 
             bool allin = YES;
@@ -109,20 +114,22 @@
     [self.friendsTable reloadData];
 }
 
-- (IBAction)nextPressed:(id)sender {
-    CreateMealNavigationController* nav = (CreateMealNavigationController*) [self navigationController];
-    [nav pushViewController:nav.whereViewController animated:YES];
-}
 
 - (BOOL) cacheContainsContact:(NSString *)name
 {
-    for (NSDictionary* element in self.friendsCache)
+    for (NSMutableDictionary* element in self.friendsCache)
     {
         if ([[element objectForKey:@"displayName"] isEqualToString:name])
             return YES;
     }
     return NO;
 }
+- (void) storeFriends:(NSMutableArray*) array
+{
+
+    [LEViewController setUserDefault:@"friendsCache" data:array];
+}
+
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     NSDictionary *resultsDictionary = [data objectFromJSONData];
@@ -132,8 +139,8 @@
        {
            if (![self cacheContainsContact:key])
            {
-               NSDictionary *dict;
-               dict = [NSDictionary dictionaryWithObjectsAndKeys:
+               NSMutableDictionary *dict;
+               dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                    key, @"displayName", [resultsDictionary objectForKey:@"friends"], @"numbers", @NO, @"checked", nil];
                [self.friendsCache addObject:dict];
            }
@@ -142,12 +149,17 @@
        [[NSSortDescriptor alloc] initWithKey:@"displayName"
                                    ascending:YES
                                     selector:@selector(localizedCaseInsensitiveCompare:)];
+
        NSArray *descriptors = [NSArray arrayWithObjects:nameDescriptor, nil];
-       NSArray *array = [[self.friendsCache copy] sortedArrayUsingDescriptors:descriptors];
-       [LEViewController setUserDefault:@"friendsCache" data:array];
-       self.friendsCache = [array mutableCopy];
-       self.friends = [array mutableCopy];
+
+       self.friendsCache = [[[self.friendsCache copy] sortedArrayUsingDescriptors:descriptors] mutableCopy];
+
+       [LEViewController setUserDefault:@"friendsCache" data:self.friendsCache];
+       [self storeFriends:self.friendsCache];
+
+       self.friends = [self.friendsCache mutableCopy];
        [self.friendsTable reloadData];
+      
    }
 
 
@@ -163,7 +175,7 @@
 
     
     }
-    NSDictionary *f = [self.friends objectAtIndex:indexPath.row];
+    NSMutableDictionary *f = [self.friends objectAtIndex:indexPath.row];
     if ([f[@"checked"]  isEqual: @YES])
     {
         UIImageView* accChecked = [[UIImageView alloc] initWithImage:self.checked];

@@ -8,7 +8,7 @@
 
 #import "LEViewController.h"
 #import <CoreLocation/CoreLocation.h>
-//#import <MapKit/MapKit.h>
-@interface WhereViewController : LEViewController <CLLocationManagerDelegate>
+#import <MapKit/MapKit.h>
+@interface WhereViewController : LEViewController <CLLocationManagerDelegate, UISearchBarDelegate>
 
 @end

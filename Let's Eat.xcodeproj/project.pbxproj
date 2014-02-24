@@ -33,6 +33,7 @@
 		947F1DEA18B4FC38009924E5 /* ValidationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 947F1DE918B4FC38009924E5 /* ValidationViewController.m */; };
 		94D2605818BA9DAB005FF97C /* CreateMealNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D2605718BA9DAB005FF97C /* CreateMealNavigationController.m */; };
 		94D2605B18BB9BE4005FF97C /* WhereViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D2605A18BB9BE4005FF97C /* WhereViewController.m */; };
+		94D2605D18BBAA24005FF97C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94D2605C18BBAA24005FF97C /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +90,7 @@
 		94D2605718BA9DAB005FF97C /* CreateMealNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateMealNavigationController.m; sourceTree = "<group>"; };
 		94D2605918BB9BE4005FF97C /* WhereViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhereViewController.h; sourceTree = "<group>"; };
 		94D2605A18BB9BE4005FF97C /* WhereViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhereViewController.m; sourceTree = "<group>"; };
+		94D2605C18BBAA24005FF97C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94D2605D18BBAA24005FF97C /* MapKit.framework in Frameworks */,
 				94610F4A18A950B40094779E /* CoreGraphics.framework in Frameworks */,
 				94610F4C18A950B40094779E /* UIKit.framework in Frameworks */,
 				94610F4818A950B40094779E /* Foundation.framework in Frameworks */,
@@ -173,6 +176,7 @@
 		94610F4618A950B40094779E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				94D2605C18BBAA24005FF97C /* MapKit.framework */,
 				94610F4718A950B40094779E /* Foundation.framework */,
 				94610F4918A950B40094779E /* CoreGraphics.framework */,
 				94610F4B18A950B40094779E /* UIKit.framework */,

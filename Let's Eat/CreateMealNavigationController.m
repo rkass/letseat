@@ -22,7 +22,7 @@
 {
 
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+	/*// Do any additional setup after loading the view.
     self.whenViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"whenView"];
     [self.whenViewController view];
     self.whoViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"whoView"];
@@ -42,7 +42,7 @@
     
     //NSArray *stack = [NSArray arrayWithObjects:homeViewController, whenViewController, whoViewController, nil];
     //self.viewControllers = stack;
-    
+ */   
 }
 
 - (void)didReceiveMemoryWarning
