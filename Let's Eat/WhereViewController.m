@@ -51,6 +51,7 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
+    self.search.text = @"";
     self.search.showsCancelButton = NO;
 }
 
@@ -84,6 +85,11 @@
                             initWithParseOptions:JKParseOptionNone];
     NSMutableDictionary* json = [decoder objectWithData:data];
 //    NSLog(@"dict%@", json);
+    if(!json){
+        NSLog(@"researching");
+        [self searchCoordinatesForAddress:[self.search text]];
+        return;
+    }
     if ([json[@"status"] isEqualToString:@"ZERO_RESULTS"]){
         if (!self.alert)
         {

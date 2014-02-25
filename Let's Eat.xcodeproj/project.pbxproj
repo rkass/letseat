@@ -34,6 +34,7 @@
 		94D2605818BA9DAB005FF97C /* CreateMealNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D2605718BA9DAB005FF97C /* CreateMealNavigationController.m */; };
 		94D2605B18BB9BE4005FF97C /* WhereViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D2605A18BB9BE4005FF97C /* WhereViewController.m */; };
 		94D2605D18BBAA24005FF97C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94D2605C18BBAA24005FF97C /* MapKit.framework */; };
+		94D2606618BD2184005FF97C /* WhatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D2606518BD2184005FF97C /* WhatViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +92,8 @@
 		94D2605918BB9BE4005FF97C /* WhereViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhereViewController.h; sourceTree = "<group>"; };
 		94D2605A18BB9BE4005FF97C /* WhereViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhereViewController.m; sourceTree = "<group>"; };
 		94D2605C18BBAA24005FF97C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		94D2606418BD2184005FF97C /* WhatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhatViewController.h; sourceTree = "<group>"; };
+		94D2606518BD2184005FF97C /* WhatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhatViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +133,8 @@
 		942B9DAC18AD5A8D003F8CA6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				94D2606418BD2184005FF97C /* WhatViewController.h */,
+				94D2606518BD2184005FF97C /* WhatViewController.m */,
 				94D2605918BB9BE4005FF97C /* WhereViewController.h */,
 				94D2605A18BB9BE4005FF97C /* WhereViewController.m */,
 				94D2605618BA9DAB005FF97C /* CreateMealNavigationController.h */,
@@ -334,6 +339,7 @@
 			files = (
 				94394FF818B3EBEC00A2FEDB /* WhenViewController.m in Sources */,
 				94394FF518B3EBE200A2FEDB /* WhoViewController.m in Sources */,
+				94D2606618BD2184005FF97C /* WhatViewController.m in Sources */,
 				941CE22C18AD6BA200E773BF /* User.m in Sources */,
 				947F1DEA18B4FC38009924E5 /* ValidationViewController.m in Sources */,
 				94D2605818BA9DAB005FF97C /* CreateMealNavigationController.m in Sources */,
