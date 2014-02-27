@@ -35,6 +35,7 @@
 		94D2605B18BB9BE4005FF97C /* WhereViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D2605A18BB9BE4005FF97C /* WhereViewController.m */; };
 		94D2605D18BBAA24005FF97C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94D2605C18BBAA24005FF97C /* MapKit.framework */; };
 		94D2606618BD2184005FF97C /* WhatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D2606518BD2184005FF97C /* WhatViewController.m */; };
+		94D2606818BD59A6005FF97C /* KnownBugs in Resources */ = {isa = PBXBuildFile; fileRef = 94D2606718BD59A6005FF97C /* KnownBugs */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +95,7 @@
 		94D2605C18BBAA24005FF97C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		94D2606418BD2184005FF97C /* WhatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhatViewController.h; sourceTree = "<group>"; };
 		94D2606518BD2184005FF97C /* WhatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhatViewController.m; sourceTree = "<group>"; };
+		94D2606718BD59A6005FF97C /* KnownBugs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = KnownBugs; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +198,7 @@
 				94394FF918B4019B00A2FEDB /* JSONKit.h */,
 				94394FFA18B4019B00A2FEDB /* JSONKit.m */,
 				94610F5918A950B40094779E /* Main.storyboard */,
+				94D2606718BD59A6005FF97C /* KnownBugs */,
 				941CE23118AEBE4600E773BF /* Server.h */,
 				941CE23218AEBE4600E773BF /* Server.m */,
 				941CE22918AD6AB400E773BF /* Models */,
@@ -319,6 +322,7 @@
 				94610F6018A950B40094779E /* Images.xcassets in Resources */,
 				94610F5218A950B40094779E /* InfoPlist.strings in Resources */,
 				94610F5B18A950B40094779E /* Main.storyboard in Resources */,
+				94D2606818BD59A6005FF97C /* KnownBugs in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

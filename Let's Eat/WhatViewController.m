@@ -13,13 +13,18 @@
 @property (strong, nonatomic) IBOutlet UIButton* italian;
 @property (strong, nonatomic) IBOutlet UITableView* wantTable;
 @property (strong, nonatomic) NSMutableArray* wantItems;
-@property (strong, nonatomic) NSMutableDictionary* buttonIndices;
-@property int inTableAt;
+@property (strong, nonatomic) NSMutableDictionary* buttons;//Image name -> buttons
+@property (strong, nonatomic) NSString* movingCellText;
+@property (strong, nonatomic) UIImage* cellImage;
+@property int movingCellIndex;//row of cell that's being dragged in the table
+@property int movingButtonIndex;//row of button that's been dragged into the table
+@property int movingCellHeight;
+@property int movingCellWidth;
 
 @end
 
 @implementation WhatViewController
-@synthesize italian, wantTable, wantItems, inTableAt, buttonIndices;
+@synthesize italian, wantTable, wantItems, movingButtonIndex, movingCellText, movingCellIndex, cellImage, buttons;
 
 
 - (void)viewDidLoad
@@ -27,39 +32,95 @@
     [super viewDidLoad];
     self.wantTable.delegate = self;
     self.wantTable.dataSource = self;
-    self.inTableAt = -1;
     [italian addTarget:self action:@selector(buttonMoved:withEvent:) forControlEvents:UIControlEventTouchDragInside];
     [italian addTarget:self action:@selector(buttonReleased:withEvent:) forControlEvents:UIControlEventTouchUpInside];
     UILongPressGestureRecognizer *gesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(receivedLongPress:)];
+    gesture.minimumPressDuration = .001;
     [self.wantTable addGestureRecognizer:gesture];
+    [self.italian setTitle:@"Italian.png" forState:UIControlStateNormal];
+    self.italian.titleLabel.hidden = YES;
     self.wantItems = [[NSMutableArray alloc] init];
-    [self.wantItems addObject:@"Chinese"];
-    [self.wantItems addObject:@"Indian"];
-    self.buttonIndices = [[NSMutableDictionary alloc] init];
-    [self.buttonIndices setObject:[NSNumber numberWithInt:-1] forKey:self.italian.currentTitle];
-    
+    [self.wantItems addObject:@"Chinese.png"];
+    [self.wantItems addObject:@"Indian.png"];
+    self.movingButtonIndex = -1;
+    self.buttons = [[NSMutableDictionary alloc] init];
+
 }
 
 - (void)receivedLongPress:(UIGestureRecognizer *)gestureRecognizer {
-    NSLog(@"here");
     CGPoint point = [gestureRecognizer locationInView:Nil];
     NSArray* wantRects = [self getRectForTable];
-    int count = 0;
-    BOOL inAny = NO;
-    for (NSValue *rectVal in wantRects){
-        if (CGRectContainsPoint([rectVal CGRectValue], point)){
-           // [self.wantItems insertObject:button.currentTitle atIndex:count];
-            NSLog(@"xxxxcontained in want table at row %d", count);
-            inAny = YES;
+    int count;
+    if (gestureRecognizer.state == 1){
+        self.movingCellText = nil;
+        count = 0;
+        for (NSValue *rectVal in wantRects){
+            if (CGRectContainsPoint([rectVal CGRectValue], point)){
+                UITableViewCell *cell = [self.wantTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:count inSection:0]];
+                UIButton* button = [[UIButton alloc] init];
+                [button setImage:cell.imageView.image forState:UIControlStateNormal];
+                [button setFrame:CGRectMake(point.x - 2 * cell.imageView.image.size.width / 3, point.y - 2 * cell.imageView.image.size.height / 3, cell.imageView.image.size.width, cell.imageView.image.size.height )];
+                self.movingCellText = [self.wantItems objectAtIndex:count];
+                [self.buttons setObject:button forKey:self.movingCellText];
+                [self.view addSubview:button];
+                self.movingCellIndex = count;
+                cell.hidden = YES;
+                self.movingCellWidth = cell.imageView.image.size.width;
+                self.movingCellHeight = cell.imageView.image.size.height;
+            }
+            count++;
         }
-        count++;
     }
-    if (!inAny)
-    {
-        NSLog(@"xxxat the end of want table");
-    //    [self.wantItems addObject:button.currentTitle];
+    else if (gestureRecognizer.state == 2 && self.movingCellText){
+        UIButton *button = [self.buttons objectForKey:self.movingCellText];
+        if (CGRectContainsPoint([self.wantTable frame], point))
+        {
+            count = 0;
+            for (NSValue *rectVal in wantRects){
+                if (CGRectContainsPoint([rectVal CGRectValue], point) && count != self.movingCellIndex){
+                    if (self.movingCellIndex == -1)
+                        [self.wantItems insertObject:self.movingCellText atIndex:count];
+                    else
+                        [self.wantItems exchangeObjectAtIndex:count withObjectAtIndex:self.movingCellIndex];
+                    self.movingCellIndex = count;
+                    [self.wantTable reloadData];
+                    [self.wantTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:count inSection:0]].hidden = YES;
+                }
+                count ++;
+            }
+        }
+        else{
+            if (self.movingCellIndex != -1)
+            {
+                [self.wantItems removeObjectAtIndex:self.movingCellIndex];
+                self.movingCellIndex = -1;
+                [self.wantTable reloadData];
+            }
+        }
+        [button setFrame:CGRectMake(point.x - 2 * self.movingCellWidth / 3, point.y - 2 * self.movingCellHeight / 3, self.movingCellWidth, self.movingCellHeight)];
     }
-    
+    else if (gestureRecognizer.state == 3 && self.movingCellText){
+        UIButton *button = [self.buttons objectForKey:self.movingCellText];
+        if (CGRectContainsPoint([self.wantTable frame], point))
+        {
+            count = 0;
+            bool inAny = NO;
+            for (NSValue *rectVal in wantRects){
+                if (CGRectContainsPoint([rectVal CGRectValue], point)){
+                    [self.wantTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:count inSection:0]].hidden = NO;
+                    [self.wantTable reloadData];
+                    inAny = YES;
+                }
+                count++;
+            }
+            if (!inAny)
+            {
+                [self.wantItems addObject:self.movingCellText];
+                [self.wantTable reloadData];
+            }
+            [button removeFromSuperview];
+        }
+    }
     
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -70,8 +131,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         
     }
-
-    cell.textLabel.text = [self.wantItems objectAtIndex:indexPath.row];
+    cell.imageView.image = [UIImage imageNamed:[self.wantItems objectAtIndex:indexPath.row]];
     
     
     return cell;
@@ -88,11 +148,8 @@
 - (IBAction) buttonReleased:(id) sender withEvent:(UIEvent *) event
 {
     UIButton *button = (UIButton *)sender;
-    if ([self.buttonIndices[button.currentTitle] intValue] != -1){
-        [self.buttonIndices removeObjectForKey:button.currentTitle];
+    if (self.movingButtonIndex != -1)
          [button removeFromSuperview];
-    }
-    
 }
 
 - (IBAction) buttonMoved:(id) sender withEvent:(UIEvent *) event
@@ -111,34 +168,30 @@
         inAny = NO;
         for (NSValue *rectVal in wantRects){
             if (CGRectContainsPoint([rectVal CGRectValue], point)){
-                if ([self.buttonIndices[button.currentTitle] intValue] == -1){
-                    [self.wantItems insertObject:button.currentTitle atIndex:count];
-                }
-                else if (self.inTableAt != count){
-                    [self.wantItems exchangeObjectAtIndex:count withObjectAtIndex:[self.buttonIndices[button.currentTitle] intValue]];
-                }
-                [self.buttonIndices setObject:[NSNumber numberWithInt:count] forKey:self.italian.currentTitle];
                 inAny = YES;
+                if (self.movingButtonIndex == -1){
+                    [self.wantItems insertObject:button.currentTitle atIndex:count];
+                    [self.wantTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:count inSection:0]].hidden = YES;
+                    
+                }
+                else if (self.movingButtonIndex  != count){
+                    [self.wantItems exchangeObjectAtIndex:count withObjectAtIndex:self.movingButtonIndex];
+                }
+                self.movingButtonIndex = count;
             }
             count++;
         }
         if (!inAny)
         {
-            if ([self.buttonIndices[button.currentTitle] intValue] == -1){
-                [self.wantItems addObject:button.currentTitle];
-                [self.buttonIndices setObject:[NSNumber numberWithInt:([self.wantItems count] - 1)] forKey:self.italian.currentTitle];
-            }
-            
+            self.movingButtonIndex = -1;
         }
-        [self.wantTable reloadData];
     }
-    else if ([self.buttonIndices[button.currentTitle] intValue] != -1)
+    else if (self.movingButtonIndex != -1)
     {
-        [self.wantItems removeObjectAtIndex:[self.buttonIndices[button.currentTitle] intValue]];
-        [self.buttonIndices setObject:[NSNumber numberWithInt:-1] forKey:button.currentTitle];
-        [self.wantTable reloadData];
+        [self.wantItems removeObjectAtIndex:self.movingButtonIndex];
+        self.movingButtonIndex = -1;
     }
-    
+    [self.wantTable reloadData];
 }
 
 - (NSArray*)getRectForTable
