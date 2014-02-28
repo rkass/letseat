@@ -8,6 +8,6 @@
 
 #import "LEViewController.h"
 
-@interface WhatViewController : LEViewController <UITableViewDataSource, UITableViewDelegate>
+@interface WhatViewController : LEViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 
 @end

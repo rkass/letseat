@@ -16,6 +16,7 @@
 		94394FF518B3EBE200A2FEDB /* WhoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94394FF418B3EBE200A2FEDB /* WhoViewController.m */; };
 		94394FF818B3EBEC00A2FEDB /* WhenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94394FF718B3EBEC00A2FEDB /* WhenViewController.m */; };
 		94394FFB18B4019B00A2FEDB /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 94394FFA18B4019B00A2FEDB /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9448D86B18BFAAC5007D40D0 /* PriceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9448D86A18BFAAC5007D40D0 /* PriceViewController.m */; };
 		94610F4818A950B40094779E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94610F4718A950B40094779E /* Foundation.framework */; };
 		94610F4A18A950B40094779E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94610F4918A950B40094779E /* CoreGraphics.framework */; };
 		94610F4C18A950B40094779E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94610F4B18A950B40094779E /* UIKit.framework */; };
@@ -67,6 +68,8 @@
 		94394FF718B3EBEC00A2FEDB /* WhenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhenViewController.m; sourceTree = "<group>"; };
 		94394FF918B4019B00A2FEDB /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		94394FFA18B4019B00A2FEDB /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
+		9448D86918BFAAC5007D40D0 /* PriceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PriceViewController.h; sourceTree = "<group>"; };
+		9448D86A18BFAAC5007D40D0 /* PriceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PriceViewController.m; sourceTree = "<group>"; };
 		94610F4418A950B40094779E /* Let's Eat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Let's Eat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94610F4718A950B40094779E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		94610F4918A950B40094779E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -135,6 +138,8 @@
 		942B9DAC18AD5A8D003F8CA6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				9448D86918BFAAC5007D40D0 /* PriceViewController.h */,
+				9448D86A18BFAAC5007D40D0 /* PriceViewController.m */,
 				94D2606418BD2184005FF97C /* WhatViewController.h */,
 				94D2606518BD2184005FF97C /* WhatViewController.m */,
 				94D2605918BB9BE4005FF97C /* WhereViewController.h */,
@@ -342,6 +347,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				94394FF818B3EBEC00A2FEDB /* WhenViewController.m in Sources */,
+				9448D86B18BFAAC5007D40D0 /* PriceViewController.m in Sources */,
 				94394FF518B3EBE200A2FEDB /* WhoViewController.m in Sources */,
 				94D2606618BD2184005FF97C /* WhatViewController.m in Sources */,
 				941CE22C18AD6BA200E773BF /* User.m in Sources */,
