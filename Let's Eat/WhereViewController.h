@@ -10,5 +10,6 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 @interface WhereViewController : LEViewController <CLLocationManagerDelegate, UISearchBarDelegate>
+@property (strong, nonatomic) CLLocation* myLocation;
 
 @end

@@ -9,5 +9,5 @@
 
 @interface WhoViewController : LEViewController  <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
 
-
+@property (strong, nonatomic) NSMutableArray *friends;
 @end

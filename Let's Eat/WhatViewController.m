@@ -10,7 +10,6 @@
 
 @interface WhatViewController ()
 @property (strong, nonatomic) IBOutlet UITableView* wantTable;
-@property (strong, nonatomic) NSMutableArray* wantItems;
 @property (strong, nonatomic) NSMutableArray* typesItems;
 @property (strong, nonatomic) NSMutableArray* savedTypes;
 @property (strong, nonatomic) IBOutlet UISearchBar* search;

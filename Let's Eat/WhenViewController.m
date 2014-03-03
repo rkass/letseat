@@ -10,12 +10,12 @@
 #import "CreateMealNavigationController.h"
 
 @interface WhenViewController ()
-@property (strong, nonatomic) IBOutlet UIDatePicker * when;
+
 @end
 
 @implementation WhenViewController
 
-
+@synthesize when;
 - (void)viewDidLoad
 {
     [super viewDidLoad];

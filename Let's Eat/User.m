@@ -29,6 +29,7 @@
 
 }
 
++ (void) createInvitation:(NSMutableDictionary*)preferences{}
 
 + (void) getFriends:(NSObject *) source
 {

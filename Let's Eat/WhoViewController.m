@@ -16,7 +16,7 @@
 @interface WhoViewController ()
 @property (strong, nonatomic) IBOutlet UITableView* friendsTable;
 @property (strong, nonatomic) IBOutlet UISearchBar* search;
-@property (strong, nonatomic) NSMutableArray *friends;
+
 @property (strong, nonatomic) NSMutableArray *friendsCache;
 @property (strong, nonatomic) UIImage* unchecked;
 @property (strong, nonatomic) UIImage* checked;
@@ -133,6 +133,7 @@
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     NSDictionary *resultsDictionary = [data objectFromJSONData];
+    NSLog(@"%@", resultsDictionary);
    if ([resultsDictionary objectForKey:@"success"])
    {
        for (NSString* key in [resultsDictionary objectForKey:@"friends"])
@@ -141,7 +142,7 @@
            {
                NSMutableDictionary *dict;
                dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                   key, @"displayName", [resultsDictionary objectForKey:@"friends"], @"numbers", @NO, @"checked", nil];
+                   key, @"displayName", [[resultsDictionary objectForKey:@"friends"] objectForKey:key], @"numbers", @NO, @"checked", nil];
                [self.friendsCache addObject:dict];
            }
         }

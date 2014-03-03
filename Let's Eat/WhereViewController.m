@@ -10,10 +10,7 @@
 #import "JSONKit.h"
 
 @interface WhereViewController ()
-@property (strong, nonatomic) NSString* latitude;
-@property (strong, nonatomic) NSString* longitude;
 @property (strong, nonatomic) NSString* address;
-@property (strong, nonatomic) CLLocation* myLocation;
 @property (weak, nonatomic) IBOutlet MKMapView *map;
 @property (strong, nonatomic) NSLock* lock;
 @property (weak, nonatomic) IBOutlet UISearchBar *search;
@@ -23,7 +20,7 @@
 
 @implementation WhereViewController
 
-@synthesize latitude, longitude, address, myLocation, map,  alert, annotation;
+@synthesize address, myLocation, map,  alert, annotation;
 +(CLLocationManager*) locationManager
 {
     static CLLocationManager *locationManager = nil;

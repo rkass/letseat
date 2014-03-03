@@ -8,15 +8,21 @@
 
 #import "PriceViewController.h"
 #import "WhereViewController.h"
+#import "WhoViewController.h"
+#import "WhenViewController.h"
+#import "WhatViewController.h"
 
 @interface PriceViewController ()
 @property (strong, nonatomic) IBOutlet UISlider *slider;
 @property (strong, nonatomic) IBOutlet UILabel *label;
 @property (strong, nonatomic) IBOutlet UITextView *myUITextView;
+@property BOOL creator;
 
 @end
 
 @implementation PriceViewController
+
+@synthesize creator;
 
 - (void)viewDidLoad
 {
@@ -26,8 +32,12 @@
     self.myUITextView.delegate = self;
     self.myUITextView.text = @"Include an optional message with your invitation";
     self.myUITextView.textColor = [UIColor lightGrayColor];
+    self.creator = YES;
     if ([[self.navigationController.viewControllers objectAtIndex:1] isKindOfClass:[WhereViewController class]])
+    {
         [self.myUITextView removeFromSuperview];
+        self.creator = NO;
+    }
 }
 - (IBAction)valueChanged:(id)sender {
     if (self.slider.value < 1)
@@ -69,6 +79,44 @@
     [textView resignFirstResponder];
 }
 
+-(NSMutableDictionary*)getPreferences{
+    NSMutableDictionary* ret = [[NSMutableDictionary alloc] init];
+    int startingIndex = 1;
+    if (self.creator)
+        startingIndex = 3;
+    WhereViewController* wherevc = (WhereViewController*)[[self.navigationController viewControllers] objectAtIndex:startingIndex];
+    [ret setObject:[NSString stringWithFormat:@"%f,%f", wherevc.myLocation.coordinate.latitude, wherevc.myLocation.coordinate.longitude]  forKey:@"location"];
+    WhatViewController* whatvc = (WhatViewController*)[[self.navigationController viewControllers] objectAtIndex:startingIndex + 1];
+    [ret setObject:whatvc.wantItems forKey:@"foodList"];
+    [ret setObject:[NSNumber numberWithInt:floor(self.slider.value)] forKey:@"price"];
+    return ret;
+}
+
+-(NSMutableDictionary*)getCreatorPreferences{
+    NSMutableDictionary* ret = [self getPreferences];
+    WhenViewController* whenvc = (WhenViewController*) [self.navigationController.viewControllers objectAtIndex:1];
+    [ret setObject:whenvc.when.date forKey:@"date"];
+    WhoViewController* whovc = (WhoViewController*)[self.navigationController.viewControllers objectAtIndex:2];
+    NSMutableArray* numbers = [[NSMutableArray alloc] init];
+    for (NSMutableDictionary* dict in whovc.friends){
+        for (NSString* number in dict[@"numbers"])
+            [numbers addObject:number];
+    }
+    [ret setObject:numbers forKey:@"numbers"];
+    return ret;
+}
+- (IBAction)createInvitation:(id)sender {
+    if (self.creator){
+        NSMutableDictionary* creatorPreferences = [self getCreatorPreferences];
+        
+    }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    [self createInvitation:textField];
+    return YES;
+}
 
 - (void)didReceiveMemoryWarning
 {

@@ -445,6 +445,9 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                 <state key="normal" title="Send Invitation">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="createInvitation:" destination="SHg-go-mpN" eventType="touchUpInside" id="rnF-x9-JZJ"/>
+                                </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Include an optional message with your invitation" translatesAutoresizingMaskIntoConstraints="NO" id="Icp-fS-fze">
                                 <rect key="frame" x="40" y="201" width="240" height="128"/>

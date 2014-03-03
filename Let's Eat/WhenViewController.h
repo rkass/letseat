@@ -9,5 +9,5 @@
 #import "LEViewController.h"
 
 @interface WhenViewController : LEViewController
-
+@property (strong, nonatomic) IBOutlet UIDatePicker * when;
 @end

@@ -9,5 +9,5 @@
 #import "LEViewController.h"
 
 @interface WhatViewController : LEViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
-
+@property (strong, nonatomic) NSMutableArray* wantItems;
 @end
