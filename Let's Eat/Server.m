@@ -7,26 +7,27 @@
 //
 
 #import "Server.h"
-
+#import "JSONKit.h"
 
 
 @implementation Server
 
-static NSString* url = @"http://immense-fortress-7865.herokuapp.com/api/v1/";//@"http://localhost:3000/api/v1/";
+static NSString* prod = @"http://immense-fortress-7865.herokuapp.com/api/v1/";
+static NSString* testing = @"http://localhost:3000/api/v1/";
+static bool production = YES;
 
 + (void)postRequest:(NSString *)method data:(NSData *)data source:(NSObject *)source
 {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: [Server.url stringByAppendingString:method]]];
-    //NSData *requestData = [NSData dataWithBytes:[data UTF8String] length:[data length]];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setValue:[NSString stringWithFormat:@"%d", [data length]] forHTTPHeaderField:@"Content-Length"];
     [request setHTTPBody: data];
-    [NSURLConnection connectionWithRequest:request delegate:source];//auto-release?
+    [NSURLConnection connectionWithRequest:request delegate:source];
 
 }
 
-+(NSString *) url { return url; }
++(NSString *) url { if (production) return prod; else return testing;}
 +(NSDictionary *) JSONToDict:(NSString *)jsonString
 {
     NSData * jsonData = [jsonString dataUsingEncoding:NSASCIIStringEncoding];

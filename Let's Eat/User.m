@@ -29,7 +29,17 @@
 
 }
 
-+ (void) createInvitation:(NSMutableDictionary*)preferences{}
++ (void) createInvitation:(NSMutableDictionary*)preferences source:(NSObject*)source{
+    [preferences setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
+    [Server postRequest:@"create_invitation" data:[preferences JSONData] source:source];
+}
+
++ (void) getInvitations:(NSObject *) source
+{
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
+    [Server postRequest:@"get_invitations" data:[dict JSONData] source:source];
+}
 
 + (void) getFriends:(NSObject *) source
 {
@@ -42,6 +52,30 @@
     NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:usernameAttempt, @"username", password, @"password", nil];
     [Server postRequest:@"sign_in" data:[dict JSONData] source:source];
     
+}
+
+//If phone number in contacts, return the name, else return the phone
+//number
++ (NSString*)contactNameForNumber:(NSString*)phoneNumber
+{
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"phone_number"] isEqualToString:phoneNumber])
+        return @"You";
+    for (NSDictionary* dict in [User getContacts]){
+        for (NSString* number in dict[@"phone_numbers"]){
+            NSString* newnum = [[[[[number stringByReplacingOccurrencesOfString:@"(" withString:@""] stringByReplacingOccurrencesOfString:@")" withString:@""] stringByReplacingOccurrencesOfString:@"-" withString:@""] stringByReplacingOccurrencesOfString:@"+" withString:@""] stringByReplacingOccurrencesOfString:@" " withString:@""];
+            if ([[newnum substringToIndex:1] isEqualToString:@"1"])
+                newnum = [newnum substringFromIndex:1];
+            if ([newnum isEqualToString:phoneNumber]){
+               if (dict[@"last_name"] && dict[@"last_name"])
+                   return [[dict[@"first_name"] stringByAppendingString:@ " "] stringByAppendingString:dict[@"last_name"]];
+                if (dict[@"first_name"])
+                    return dict[@"first_name"];
+                if (dict[@"last_name"])
+                    return dict[@"last_name"];
+            }
+        }
+    }
+    return phoneNumber;
 }
 
 //Returns contacts and auth_token

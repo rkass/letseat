@@ -215,13 +215,13 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t1N-eW-zig">
-                                <rect key="frame" x="137" y="155" width="46" height="30"/>
+                                <rect key="frame" x="112" y="147" width="96" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Test">
+                                <state key="normal" title="My Invitations">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="fOk-gq-tzg" kind="push" id="iqs-gL-dj1"/>
+                                    <segue destination="dzF-AY-5sf" kind="push" id="dRB-0I-Xnk"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -231,7 +231,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hqg-hs-JbS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1037" y="346"/>
+            <point key="canvasLocation" x="805" y="966"/>
         </scene>
         <!--Create Meal Navigation Controller-->
         <scene sceneID="Nv1-3f-DWd">
@@ -309,7 +309,36 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="foI-A0-6Lt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2224" y="996"/>
+            <point key="canvasLocation" x="1412" y="422"/>
+        </scene>
+        <!--Invitations View Controller - invitationsView-->
+        <scene sceneID="149-9G-Tbg">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="w4t-ZG-hmL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController title="invitationsView" id="dzF-AY-5sf" customClass="InvitationsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6ey-aP-7pO"/>
+                        <viewControllerLayoutGuide type="bottom" id="hxx-Q6-dGd"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6Dv-Wd-BL3">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Dn2-HY-nhE">
+                                <rect key="frame" x="0.0" y="41" width="320" height="527"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="8NB-Qb-TBc"/>
+                    <connections>
+                        <outlet property="invitationsTable" destination="Dn2-HY-nhE" id="ZRR-Tb-hoc"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1422" y="1195"/>
         </scene>
         <!--Where View Controller - Where you at?-->
         <scene sceneID="Kd2-p9-0jO">
@@ -353,7 +382,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C7s-94-t0H" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1314" y="478"/>
+            <point key="canvasLocation" x="2258" y="416"/>
         </scene>
         <!--What View Controller - What?-->
         <scene sceneID="5m8-yv-kqh">
@@ -412,7 +441,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yKG-fZ-Lpm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2890" y="358"/>
+            <point key="canvasLocation" x="2670" y="394"/>
         </scene>
         <!--Price View Controller - Price-->
         <scene sceneID="PNm-Yl-Oib">
@@ -426,7 +455,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="5" minimumValueImage="MinPrice" maximumValueImage="MaxPrice" translatesAutoresizingMaskIntoConstraints="NO" id="vzP-sD-8H8">
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="4" minimumValueImage="MinPrice" maximumValueImage="MaxPrice" translatesAutoresizingMaskIntoConstraints="NO" id="vzP-sD-8H8">
                                 <rect key="frame" x="38" y="75" width="244" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
@@ -464,11 +493,12 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         <outlet property="label" destination="jnr-kb-0Mp" id="2IF-Hu-iJe"/>
                         <outlet property="myUITextView" destination="Icp-fS-fze" id="vjD-sm-GO9"/>
                         <outlet property="slider" destination="vzP-sD-8H8" id="ySH-H9-i9M"/>
+                        <segue destination="JmS-yv-47C" kind="modal" identifier="priceToHome" id="gNc-E7-uii"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aO7-51-29e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3410" y="358"/>
+            <point key="canvasLocation" x="3128" y="402"/>
         </scene>
         <!--Who View Controller - Who-->
         <scene sceneID="bUp-qE-xyF">
@@ -515,7 +545,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LCP-i1-A4A" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1827" y="346"/>
+            <point key="canvasLocation" x="1847" y="416"/>
         </scene>
     </scenes>
     <resources>
@@ -529,8 +559,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="iqs-gL-dj1"/>
-        <segue reference="Td5-Uc-bJX"/>
         <segue reference="It4-at-1wh"/>
+        <segue reference="gNc-E7-uii"/>
     </inferredMetricsTieBreakers>
 </document>

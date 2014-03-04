@@ -133,7 +133,6 @@
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     NSDictionary *resultsDictionary = [data objectFromJSONData];
-    NSLog(@"%@", resultsDictionary);
    if ([resultsDictionary objectForKey:@"success"])
    {
        for (NSString* key in [resultsDictionary objectForKey:@"friends"])

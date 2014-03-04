@@ -22,6 +22,9 @@
 + (void)login:(NSString *)usernameAttempt password:(NSString *)password source:(NSObject*)source;
 +(NSArray *)getContacts;
 + (void) getFriends:(NSObject *) source;
++ (void) createInvitation:(NSMutableDictionary*)preferences source:(NSObject*)source;
++ (void) getInvitations:(NSObject *) source;
++ (NSString*)contactNameForNumber:(NSString*)phoneNumber;
 -(User *)init;
 
 @end

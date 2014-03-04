@@ -32,6 +32,8 @@
 		94610F7118A950B40094779E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94610F6F18A950B40094779E /* InfoPlist.strings */; };
 		94610F7318A950B40094779E /* Let_s_EatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 94610F7218A950B40094779E /* Let_s_EatTests.m */; };
 		947F1DEA18B4FC38009924E5 /* ValidationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 947F1DE918B4FC38009924E5 /* ValidationViewController.m */; };
+		948C090418C51575002A3524 /* InvitationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948C090318C51575002A3524 /* InvitationsViewController.m */; };
+		948C090718C5258D002A3524 /* Invitation.m in Sources */ = {isa = PBXBuildFile; fileRef = 948C090618C5258D002A3524 /* Invitation.m */; };
 		94D2605818BA9DAB005FF97C /* CreateMealNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D2605718BA9DAB005FF97C /* CreateMealNavigationController.m */; };
 		94D2605B18BB9BE4005FF97C /* WhereViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D2605A18BB9BE4005FF97C /* WhereViewController.m */; };
 		94D2605D18BBAA24005FF97C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94D2605C18BBAA24005FF97C /* MapKit.framework */; };
@@ -91,6 +93,10 @@
 		94610F7218A950B40094779E /* Let_s_EatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Let_s_EatTests.m; sourceTree = "<group>"; };
 		947F1DE818B4FC38009924E5 /* ValidationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValidationViewController.h; sourceTree = "<group>"; };
 		947F1DE918B4FC38009924E5 /* ValidationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValidationViewController.m; sourceTree = "<group>"; };
+		948C090218C51575002A3524 /* InvitationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvitationsViewController.h; sourceTree = "<group>"; };
+		948C090318C51575002A3524 /* InvitationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InvitationsViewController.m; sourceTree = "<group>"; };
+		948C090518C5258D002A3524 /* Invitation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Invitation.h; sourceTree = "<group>"; };
+		948C090618C5258D002A3524 /* Invitation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Invitation.m; sourceTree = "<group>"; };
 		94D2605618BA9DAB005FF97C /* CreateMealNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateMealNavigationController.h; sourceTree = "<group>"; };
 		94D2605718BA9DAB005FF97C /* CreateMealNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateMealNavigationController.m; sourceTree = "<group>"; };
 		94D2605918BB9BE4005FF97C /* WhereViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhereViewController.h; sourceTree = "<group>"; };
@@ -131,6 +137,8 @@
 			children = (
 				941CE22A18AD6BA200E773BF /* User.h */,
 				941CE22B18AD6BA200E773BF /* User.m */,
+				948C090518C5258D002A3524 /* Invitation.h */,
+				948C090618C5258D002A3524 /* Invitation.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -138,6 +146,8 @@
 		942B9DAC18AD5A8D003F8CA6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				948C090218C51575002A3524 /* InvitationsViewController.h */,
+				948C090318C51575002A3524 /* InvitationsViewController.m */,
 				9448D86918BFAAC5007D40D0 /* PriceViewController.h */,
 				9448D86A18BFAAC5007D40D0 /* PriceViewController.m */,
 				94D2606418BD2184005FF97C /* WhatViewController.h */,
@@ -347,10 +357,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				94394FF818B3EBEC00A2FEDB /* WhenViewController.m in Sources */,
+				948C090418C51575002A3524 /* InvitationsViewController.m in Sources */,
 				9448D86B18BFAAC5007D40D0 /* PriceViewController.m in Sources */,
 				94394FF518B3EBE200A2FEDB /* WhoViewController.m in Sources */,
 				94D2606618BD2184005FF97C /* WhatViewController.m in Sources */,
 				941CE22C18AD6BA200E773BF /* User.m in Sources */,
+				948C090718C5258D002A3524 /* Invitation.m in Sources */,
 				947F1DEA18B4FC38009924E5 /* ValidationViewController.m in Sources */,
 				94D2605818BA9DAB005FF97C /* CreateMealNavigationController.m in Sources */,
 				94610F5E18A950B40094779E /* InitialViewController.m in Sources */,

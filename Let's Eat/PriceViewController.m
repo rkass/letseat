@@ -11,6 +11,8 @@
 #import "WhoViewController.h"
 #import "WhenViewController.h"
 #import "WhatViewController.h"
+#import "User.h"
+#import "JSONKit.h"
 
 @interface PriceViewController ()
 @property (strong, nonatomic) IBOutlet UISlider *slider;
@@ -48,9 +50,8 @@
         self.label.text = @"$$$";
     else if (self.slider.value < 4)
         self.label.text = @"$$$$";
-    else
+    else if (self.slider.value < 5)
         self.label.text = @"$$$$$";
-    
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -95,20 +96,36 @@
 -(NSMutableDictionary*)getCreatorPreferences{
     NSMutableDictionary* ret = [self getPreferences];
     WhenViewController* whenvc = (WhenViewController*) [self.navigationController.viewControllers objectAtIndex:1];
-    [ret setObject:whenvc.when.date forKey:@"date"];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"cccc, MMM d, hh:mm aa"];
+    [ret setObject:[dateFormat stringFromDate:whenvc.when.date] forKey:@"date"];
     WhoViewController* whovc = (WhoViewController*)[self.navigationController.viewControllers objectAtIndex:2];
     NSMutableArray* numbers = [[NSMutableArray alloc] init];
     for (NSMutableDictionary* dict in whovc.friends){
-        for (NSString* number in dict[@"numbers"])
-            [numbers addObject:number];
+        if ([dict[@"checked"]  isEqual: @YES]){
+            for (NSString* number in dict[@"numbers"])
+                [numbers addObject:number];
+        }
     }
     [ret setObject:numbers forKey:@"numbers"];
+    NSString* message = @"";
+    if (![self.myUITextView.text  isEqualToString: @"Include an optional message with your invitation"])
+        message = self.myUITextView.text;
+    [ret setObject:message forKey:@"message"];
     return ret;
 }
 - (IBAction)createInvitation:(id)sender {
     if (self.creator){
-        NSMutableDictionary* creatorPreferences = [self getCreatorPreferences];
+        [User createInvitation:[self getCreatorPreferences] source:self];
         
+    }
+}
+
+- (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    NSDictionary *resultsDictionary = [data objectFromJSONData];
+    if ([resultsDictionary[@"success"] isEqual: @YES]){
+        [self performSegueWithIdentifier:@"priceToHome" sender:self];
     }
 }
 
