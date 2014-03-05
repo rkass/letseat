@@ -14,9 +14,9 @@
 @end
 
 @implementation Invitation
-@synthesize num, message, date, people;
+@synthesize num, message, date, people, iResponded, creatorIndex, responseArray;
 
-- (id)init:(NSNumber*)numInput timeInput:(NSString*)timeInput peopleInput:(NSArray*)peopleInput messageInput:(NSString*)messageInput
+- (id)init:(NSNumber*)numInput timeInput:(NSString*)timeInput peopleInput:(NSArray*)peopleInput messageInput:(NSString*)messageInput iRespondedInput:(BOOL)iRespondedInput creatorIndexInput:(NSNumber*)creatorIndexInput responseArrayInput:(NSArray*)responseArrayInput
 {
     self = [super init];
     if (self){
@@ -29,39 +29,100 @@
         }
         self.num = [numInput integerValue];
         self.message = messageInput;
+        self.iResponded = iRespondedInput;
+        self.creatorIndex = [creatorIndexInput integerValue];
+        self.responseArray = responseArrayInput;
     }
     return self;
 }
 
+- (NSString*)creator
+{
+    return self.people[self.creatorIndex];
+}
+
 -(NSMutableDictionary*)serialize{
-    NSMutableDictionary* dict =
+    
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:[NSNumber numberWithInt:self.num] forKey:@"num"];
+    [dict setObject:self.date forKey:@"date"];
+    [dict setObject:self.people forKey:@"people"];
+    [dict setObject:self.message forKey:@"message"];
+    [dict setObject:[NSNumber numberWithBool:self.iResponded] forKey:@"iResponded"];
+    [dict setObject:[NSNumber numberWithInt:self.creatorIndex] forKey:@"creatorIndex"];
+    [dict setObject:self.responseArray forKey:@"responseArray"];
+    return dict;
+}
+
+-(id)initWithDict:(NSMutableDictionary*)dict
+{
+    self = [super init];
+    if (self){
+        self.num = [dict[@"num"] intValue];
+        self.date = dict[@"date"];
+        self.people = dict[@"people"];
+        self.message = dict[@"message"];
+        self.iResponded = [dict[@"iResponded"] boolValue];
+        self.creatorIndex = [dict[@"creatorIndex"] intValue];
+        self.responseArray = dict[@"responseArray"];
+    }
+    return self;
+}
+
+/*
+ Returns an Array of Three Arrays
+ Index 0: People Going
+ Index 1: People Undecided
+ Index 2: People Not going
+ List does not include creator
+ */
+- (NSMutableArray*) generateResponsesArrays{
+    NSMutableArray* going = [[NSMutableArray alloc] init];
+    NSMutableArray* undecided = [[NSMutableArray alloc] init];
+    NSMutableArray* notGoing = [[NSMutableArray alloc] init];
+    int count = 0;
+    for (NSString* person in self.people)
+    {
+        if (count != self.creatorIndex){
+            if ([self.responseArray[count] isEqualToString:@"yes"])
+                [going addObject:person];
+            else if ([self.responseArray[count] isEqualToString:@"undecided"])
+                [undecided addObject:person];
+            else
+                [notGoing addObject:person];
+        }
+        count += 1;
+    }
+    NSMutableArray* ret = [[NSMutableArray alloc] init];
+    [ret addObject:going];
+    [ret addObject:undecided];
+    [ret addObject:notGoing];
+    return ret;
 }
 
 -(NSString*) displayPeople
 {
-    NSString* ret = @"";
-    int count = 0;
-    for (NSString* person in self.people){
-        if (count == 0){
-            ret = [ret stringByAppendingString:person];
-            ret = [ret stringByAppendingString:@" invited"];
-            if (!([[ret substringToIndex:3] isEqualToString:@"You"])){
-                int more = [self.people count] - 2;
-                NSString* morestr = [NSString stringWithFormat:@"%d others", more];
-                NSString* completion = [@" you and " stringByAppendingString:morestr];
-                ret = [ret stringByAppendingString:completion];
-                return ret;
-            }
-            else if ([self.people count] == 1)
-                return @"You alone";
-            count += 1;
+    NSString* creator = self.people[self.creatorIndex];
+    if ([creator isEqualToString:@"You"]){
+        if ([self.people count] == 1)
+            return @"Just You";
+        NSString* otherPerson;
+        for (NSString* person in self.people){
+            if (![person isEqualToString:@"You"])
+                otherPerson = person;
         }
-        else{
-            NSString* other = [NSString stringWithFormat:@" %@ and %d others", person, [self.people count] - 2];
-            return [ret stringByAppendingString:other];
-        }
+        if ([self.people count] == 2)
+            return [NSString stringWithFormat:@"You invited %@", otherPerson];
+        if ([self.people count] == 3)
+            return [NSString stringWithFormat:@"You invited %@ and one other", otherPerson];
+        return [NSString stringWithFormat:@"You invited %@ and %d others", otherPerson, [self.people count] - 2];
     }
-    return @"";
+    if ([self.people count] == 2)
+        return [NSString stringWithFormat:@"%@ invited You", creator];
+    if ([self.people count] == 3)
+        return [NSString stringWithFormat:@"%@ invited You and one other", creator];
+    return [NSString stringWithFormat:@"%@ invited You and %d others", creator, [self.people count] - 2];
+
 }
 
 - (BOOL) passed

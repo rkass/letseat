@@ -62,7 +62,7 @@
         return @"You";
     for (NSDictionary* dict in [User getContacts]){
         for (NSString* number in dict[@"phone_numbers"]){
-            NSString* newnum = [[[[[number stringByReplacingOccurrencesOfString:@"(" withString:@""] stringByReplacingOccurrencesOfString:@")" withString:@""] stringByReplacingOccurrencesOfString:@"-" withString:@""] stringByReplacingOccurrencesOfString:@"+" withString:@""] stringByReplacingOccurrencesOfString:@" " withString:@""];
+            NSString * newnum = [number stringByReplacingOccurrencesOfString:@"[^0-9]" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, [number length])];
             if ([[newnum substringToIndex:1] isEqualToString:@"1"])
                 newnum = [newnum substringFromIndex:1];
             if ([newnum isEqualToString:phoneNumber]){

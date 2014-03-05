@@ -43,9 +43,9 @@
     self.savedTypes = [[NSMutableArray alloc] init];
     [self.search setDelegate:self];
     UILongPressGestureRecognizer *gesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(receivedLongPress:)];
-    gesture.minimumPressDuration = .25;
+    gesture.minimumPressDuration = .1;
     UILongPressGestureRecognizer *gesture2 = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(receivedLongPress:)];
-    gesture2.minimumPressDuration = .25;
+    gesture2.minimumPressDuration = .1;
     [self.typesTable addGestureRecognizer:gesture];
     [self.wantTable addGestureRecognizer:gesture2];
     self.wantTable.layer.borderWidth = 2.0;
