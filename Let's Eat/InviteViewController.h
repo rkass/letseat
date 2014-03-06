@@ -9,6 +9,6 @@
 #import "LEViewController.h"
 #import "Invitation.h"
 
-@interface InviteViewController : LEViewController <UITableViewDataSource, UITableViewDelegate>
+@interface InviteViewController : LEViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 @property (strong, nonatomic) Invitation* invitation;
 @end

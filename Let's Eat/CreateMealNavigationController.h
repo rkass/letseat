@@ -13,4 +13,5 @@
 @property (strong, nonatomic) UIViewController* whenViewController;
 @property (strong, nonatomic) UIViewController* whoViewController;
 @property (strong, nonatomic) UIViewController* whereViewController;
+@property BOOL creator;
 @end

@@ -17,7 +17,7 @@
 @end
 
 @implementation CreateMealNavigationController
-@synthesize whoViewController, whenViewController, whereViewController;
+@synthesize whoViewController, whenViewController, whereViewController, creator;
 - (void)viewDidLoad
 {
 

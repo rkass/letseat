@@ -31,7 +31,7 @@
         self.message = messageInput;
         self.iResponded = iRespondedInput;
         self.creatorIndex = [creatorIndexInput integerValue];
-        self.responseArray = responseArrayInput;
+        self.responseArray = [responseArrayInput mutableCopy];
     }
     return self;
 }
@@ -64,7 +64,7 @@
         self.message = dict[@"message"];
         self.iResponded = [dict[@"iResponded"] boolValue];
         self.creatorIndex = [dict[@"creatorIndex"] intValue];
-        self.responseArray = dict[@"responseArray"];
+        self.responseArray = [dict[@"responseArray"] mutableCopy];
     }
     return self;
 }
@@ -83,14 +83,12 @@
     int count = 0;
     for (NSString* person in self.people)
     {
-        if (count != self.creatorIndex){
-            if ([self.responseArray[count] isEqualToString:@"yes"])
-                [going addObject:person];
-            else if ([self.responseArray[count] isEqualToString:@"undecided"])
-                [undecided addObject:person];
-            else
-                [notGoing addObject:person];
-        }
+        if ([self.responseArray[count] isEqualToString:@"yes"])
+            [going addObject:person];
+        else if ([self.responseArray[count] isEqualToString:@"undecided"])
+            [undecided addObject:person];
+        else
+            [notGoing addObject:person];
         count += 1;
     }
     NSMutableArray* ret = [[NSMutableArray alloc] init];
@@ -115,15 +113,23 @@
             return [NSString stringWithFormat:@"You invited %@", otherPerson];
         if ([self.people count] == 3)
             return [NSString stringWithFormat:@"You invited %@ and one other", otherPerson];
-        return [NSString stringWithFormat:@"You invited %@ and %d others", otherPerson, [self.people count] - 2];
+        return [NSString stringWithFormat:@"You invited %@ and %u others", otherPerson, [self.people count] - 2];
     }
     if ([self.people count] == 2)
         return [NSString stringWithFormat:@"%@ invited You", creator];
     if ([self.people count] == 3)
         return [NSString stringWithFormat:@"%@ invited You and one other", creator];
-    return [NSString stringWithFormat:@"%@ invited You and %d others", creator, [self.people count] - 2];
+    return [NSString stringWithFormat:@"%@ invited You and %u others", creator, [self.people count] - 2];
 
 }
+
+
+-(BOOL) respondedNo
+{
+    return [self.responseArray[ [self.people indexOfObject:@"You"] ] isEqualToString:@"no"];
+}
+
+
 
 - (BOOL) passed
 {

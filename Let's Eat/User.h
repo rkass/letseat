@@ -25,6 +25,9 @@
 + (void) createInvitation:(NSMutableDictionary*)preferences source:(NSObject*)source;
 + (void) getInvitations:(NSObject *) source;
 + (NSString*)contactNameForNumber:(NSString*)phoneNumber;
++ (void) respondNo:(int)num message:(NSString*)message source:(NSObject*)source;
++ (void) respondYes:(int)num preferences:(NSMutableDictionary*)preferences source:(NSObject*)source;
+
 -(User *)init;
 
 @end

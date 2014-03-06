@@ -13,9 +13,7 @@
 #import "InviteViewController.h"
 
 @interface InvitationsViewController ()
-@property (strong, nonatomic) IBOutlet UITableView *invitationsTable;
-@property (strong, nonatomic) NSMutableArray* passedInvitations;
-@property (strong, nonatomic) NSMutableArray* upcomingInvitations;
+
 @property (strong, nonatomic) NSIndexPath* selectedIndexPath;
 
 @end
@@ -31,6 +29,8 @@
     self.invitationsTable.delegate = self;
     self.passedInvitations = [self loadInvitation:@"passedInvitations"];
     self.upcomingInvitations = [self loadInvitation:@"upcomingInvitations"];
+    [self syncInvitations];
+    [self.invitationsTable reloadData];
     [User getInvitations:self];
 	// Do any additional setup after loading the view.
 }
@@ -57,12 +57,22 @@
 
 - (void) syncInvitations
 {
+    NSMutableArray* removals = [[NSMutableArray alloc] init];
     for (Invitation* i in self.upcomingInvitations){
-        if ([i passed]){
-            [self.upcomingInvitations removeObject:i];
-            [self.passedInvitations addObject:i];
-        }
+        if ([i passed] || [i respondedNo])
+            [removals addObject:i];
     }
+    for (Invitation* i in removals){
+        [self.upcomingInvitations removeObject:i];
+        [self.passedInvitations addObject:i];
+    }
+    [removals removeAllObjects];
+    for (Invitation* i in self.passedInvitations){
+        if ([i respondedNo])
+           [removals addObject:i];
+    }
+    for (Invitation* i in removals)
+        [self.passedInvitations removeObject:i];
     NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES];
     NSSortDescriptor *dateDescriptor2 = [NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO];
     NSArray *sortDescriptors = [NSArray arrayWithObject:dateDescriptor];
@@ -100,7 +110,9 @@
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     NSDictionary *resultsDictionary = [data objectFromJSONData];
+    NSLog(@"%@", resultsDictionary);
     for (NSMutableDictionary* dict in resultsDictionary[@"invitations"]){
+        NSLog(@"%@", dict);
         Invitation* i = [[Invitation alloc] init:dict[@"id"] timeInput:dict[@"time"] peopleInput:dict[@"people"] messageInput:dict[@"message"] iRespondedInput:[dict[@"iResponded"] boolValue] creatorIndexInput:dict[@"creatorIndex"] responseArrayInput:dict[@"responses"]];
         [self addInvitation:i];
     }

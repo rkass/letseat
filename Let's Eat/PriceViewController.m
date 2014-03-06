@@ -11,6 +11,8 @@
 #import "WhoViewController.h"
 #import "WhenViewController.h"
 #import "WhatViewController.h"
+#import "InviteViewController.h"
+#import "CreateMealNavigationController.h"
 #import "User.h"
 #import "JSONKit.h"
 
@@ -18,13 +20,12 @@
 @property (strong, nonatomic) IBOutlet UISlider *slider;
 @property (strong, nonatomic) IBOutlet UILabel *label;
 @property (strong, nonatomic) IBOutlet UITextView *myUITextView;
-@property BOOL creator;
 
 @end
 
 @implementation PriceViewController
 
-@synthesize creator;
+
 
 - (void)viewDidLoad
 {
@@ -34,12 +35,10 @@
     self.myUITextView.delegate = self;
     self.myUITextView.text = @"Include an optional message with your invitation";
     self.myUITextView.textColor = [UIColor lightGrayColor];
-    self.creator = YES;
-    if ([[self.navigationController.viewControllers objectAtIndex:1] isKindOfClass:[WhereViewController class]])
-    {
+    CreateMealNavigationController* cmnc = (CreateMealNavigationController*) self.navigationController;
+    if (!cmnc.creator)
         [self.myUITextView removeFromSuperview];
-        self.creator = NO;
-    }
+
 }
 - (IBAction)valueChanged:(id)sender {
     if (self.slider.value < 1)
@@ -62,8 +61,15 @@
     }
 }
 
+
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
+    if([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        [self createInvitation:textView];
+        return YES;
+    }
+
     return textView.text.length + (text.length - range.length) <= 140;
 }
 - (void)textViewDidBeginEditing:(UITextView *)textView
@@ -86,9 +92,7 @@
 
 -(NSMutableDictionary*)getPreferences{
     NSMutableDictionary* ret = [[NSMutableDictionary alloc] init];
-    int startingIndex = 1;
-    if (self.creator)
-        startingIndex = 3;
+    int startingIndex = [[self.navigationController viewControllers] count] - 3;
     WhereViewController* wherevc = (WhereViewController*)[[self.navigationController viewControllers] objectAtIndex:startingIndex];
     [ret setObject:[NSString stringWithFormat:@"%f,%f", wherevc.myLocation.coordinate.latitude, wherevc.myLocation.coordinate.longitude]  forKey:@"location"];
     WhatViewController* whatvc = (WhatViewController*)[[self.navigationController viewControllers] objectAtIndex:startingIndex + 1];
@@ -119,9 +123,13 @@
     return ret;
 }
 - (IBAction)createInvitation:(id)sender {
-    if (self.creator){
+    CreateMealNavigationController* cmnc = (CreateMealNavigationController*) self.navigationController;
+    if (cmnc.creator)
         [User createInvitation:[self getCreatorPreferences] source:self];
         
+    else{
+        InviteViewController* ivc = (InviteViewController*)[self.navigationController viewControllers][[[self.navigationController viewControllers] count] -4];
+        [User respondYes:ivc.invitation.num preferences:[self getPreferences] source:self];
     }
 }
 
@@ -131,12 +139,6 @@
     if ([resultsDictionary[@"success"] isEqual: @YES]){
         [self performSegueWithIdentifier:@"priceToHome" sender:self];
     }
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [textField resignFirstResponder];
-    [self createInvitation:textField];
-    return YES;
 }
 
 - (void)didReceiveMemoryWarning

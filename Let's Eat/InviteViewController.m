@@ -7,6 +7,10 @@
 //
 
 #import "InviteViewController.h"
+#import "User.h"
+#import "InvitationsViewController.h"
+#import "JSONKit.h"
+#import "CreateMealNavigationController.h"
 
 @interface InviteViewController ()
 @property (strong, nonatomic) IBOutlet UITableView *rsvpTable;
@@ -29,16 +33,45 @@
         self.title = [NSString stringWithFormat:@"Invite from %@", [self.invitation creator]];
     self.rsvpTable.delegate = self;
     self.rsvpTable.dataSource = self;
+    CreateMealNavigationController* cmnc = (CreateMealNavigationController*) self.navigationController;
+    cmnc.creator = NO;
     NSMutableArray* arrays = [self.invitation generateResponsesArrays];
     self.going = arrays[0];
     self.undecided = arrays[1];
     self.notGoing = arrays[2];
-    if (self.invitation.iResponded){
+    if (self.invitation.iResponded || [self.invitation passed]){
         self.yes.hidden = YES;
         self.no.hidden = YES;
     }
         
 	
+}
+- (IBAction)noPressed:(id)sender {
+    UIAlertView* noResponseAlert = [[UIAlertView alloc] initWithTitle:@"Respond No?" message:@"Include an optional message:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Okay", nil];
+    noResponseAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [noResponseAlert textFieldAtIndex:0].delegate = self;
+    [noResponseAlert show];
+    
+    
+}
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1)
+        [User respondNo:self.invitation.num message:[alertView textFieldAtIndex:0].text source:self];
+}
+
+- (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    NSDictionary *resultsDictionary = [data objectFromJSONData];
+    NSLog(@"%@", resultsDictionary);
+    if ([resultsDictionary[@"success"] isEqual: @YES]){
+        InvitationsViewController* ivc = (InvitationsViewController*)[self.navigationController viewControllers][[[self.navigationController viewControllers] count] - 2 ];
+        if ([ivc.upcomingInvitations containsObject:self.invitation]){
+            [ivc.upcomingInvitations removeObject:self.invitation];
+            [ivc saveInvitations];
+            [ivc.invitationsTable reloadData];
+        }
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0)
@@ -53,7 +86,7 @@
 }
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if(section == 0)
+    if (section == 0)
         return @"Going";
     if (section == 1)
         return @"Undecided";

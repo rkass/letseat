@@ -33,6 +33,20 @@
     [preferences setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
     [Server postRequest:@"create_invitation" data:[preferences JSONData] source:source];
 }
++ (void) respondYes:(int)num preferences:(NSMutableDictionary*)preferences source:(NSObject*)source{
+    [preferences setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
+    [preferences setObject:[NSNumber numberWithInt:num] forKey:@"id"];
+    [preferences setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
+    [Server postRequest:@"respond_yes" data:[preferences JSONData] source:source];
+}
++ (void) respondNo:(int)num message:(NSString*)message source:(NSObject*)source
+{
+    NSMutableDictionary* data = [[NSMutableDictionary alloc] init];
+    [data setObject:message forKey:@"message"];
+    [data setObject:[NSNumber numberWithInt:num] forKey:@"id"];
+    [data setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
+    [Server postRequest:@"respond_no" data:[data JSONData] source:source];
+}
 
 + (void) getInvitations:(NSObject *) source
 {
