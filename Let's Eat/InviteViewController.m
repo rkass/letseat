@@ -14,11 +14,14 @@
 
 @interface InviteViewController ()
 @property (strong, nonatomic) IBOutlet UITableView *rsvpTable;
+@property (strong, nonatomic) IBOutlet UILabel *date;
 @property (strong, nonatomic) NSMutableArray* going;
 @property (strong, nonatomic) NSMutableArray* undecided;
 @property (strong, nonatomic) IBOutlet UIButton *yes;
+@property (strong, nonatomic) IBOutlet UITableView *suggestedRestaurants;
 @property (strong, nonatomic) NSMutableArray* notGoing;
 @property (strong, nonatomic) IBOutlet UIButton *no;
+@property (strong, nonatomic) IBOutlet UILabel *message;
 @end
 
 @implementation InviteViewController
@@ -43,8 +46,24 @@
         self.yes.hidden = YES;
         self.no.hidden = YES;
     }
-        
+    NSLog(@"%@", NSStringFromCGRect(self.date.frame));
+    self.date.text = [self.invitation dateToString];
+    self.message.text = self.invitation.message;
+    self.message.numberOfLines = 0;
+    self.suggestedRestaurants.hidden = YES;
+    self.rsvpTable.hidden = NO;
+    self.message.hidden = NO;
 	
+}
+- (IBAction)overviewPressed:(id)sender {
+    self.suggestedRestaurants.hidden = YES;
+    self.rsvpTable.hidden = NO;
+    self.message.hidden = NO;
+}
+- (IBAction)suggestedRestaurantsPressed:(id)sender {
+    self.suggestedRestaurants.hidden = NO;
+    self.rsvpTable.hidden = YES;
+    self.message.hidden = YES;
 }
 - (IBAction)noPressed:(id)sender {
     UIAlertView* noResponseAlert = [[UIAlertView alloc] initWithTitle:@"Respond No?" message:@"Include an optional message:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Okay", nil];

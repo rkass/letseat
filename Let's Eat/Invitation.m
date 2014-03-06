@@ -8,6 +8,7 @@
 
 #import "Invitation.h"
 #import "User.h"
+#import "NSDate-Utilities.h"
 
 @interface Invitation ()
 
@@ -130,6 +131,20 @@
 }
 
 
+- (NSString*) dateToString
+{
+    if ([self.date isToday] || [self.date isTomorrow]){
+        NSString* starter = @"Today at ";
+        if ([self.date isTomorrow])
+            starter = @"Tomorrow at ";
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"hh:mm aa"];
+        return [NSString stringWithFormat:@"%@%@", starter, [dateFormat stringFromDate:self.date]];
+    }
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"cccc, MMM d, hh:mm aa"];
+    return [dateFormat stringFromDate:self.date];
+}
 
 - (BOOL) passed
 {

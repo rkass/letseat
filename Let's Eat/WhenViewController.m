@@ -23,7 +23,7 @@
     self.title = @"When";
     self.when.minimumDate = [NSDate date];
     CreateMealNavigationController* cmnc = (CreateMealNavigationController*) self.navigationController;
-    cmnc.creator = NO;
+    cmnc.creator = YES;
 
 }
 

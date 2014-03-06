@@ -40,6 +40,7 @@
 		94D2605D18BBAA24005FF97C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94D2605C18BBAA24005FF97C /* MapKit.framework */; };
 		94D2606618BD2184005FF97C /* WhatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D2606518BD2184005FF97C /* WhatViewController.m */; };
 		94D2606818BD59A6005FF97C /* KnownBugs in Resources */ = {isa = PBXBuildFile; fileRef = 94D2606718BD59A6005FF97C /* KnownBugs */; };
+		94EF731318C8BF3800FFF973 /* NSDate-Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EF731218C8BF3800FFF973 /* NSDate-Utilities.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,8 +70,8 @@
 		94394FF418B3EBE200A2FEDB /* WhoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhoViewController.m; sourceTree = "<group>"; };
 		94394FF618B3EBEC00A2FEDB /* WhenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhenViewController.h; sourceTree = "<group>"; };
 		94394FF718B3EBEC00A2FEDB /* WhenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhenViewController.m; sourceTree = "<group>"; };
-		94394FF918B4019B00A2FEDB /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
-		94394FFA18B4019B00A2FEDB /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
+		94394FF918B4019B00A2FEDB /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = "Let's Eat/JSONKit.h"; sourceTree = "<group>"; };
+		94394FFA18B4019B00A2FEDB /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = "Let's Eat/JSONKit.m"; sourceTree = "<group>"; };
 		9448D86918BFAAC5007D40D0 /* PriceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PriceViewController.h; sourceTree = "<group>"; };
 		9448D86A18BFAAC5007D40D0 /* PriceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PriceViewController.m; sourceTree = "<group>"; };
 		94610F4418A950B40094779E /* Let's Eat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Let's Eat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,6 +109,8 @@
 		94D2606418BD2184005FF97C /* WhatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhatViewController.h; sourceTree = "<group>"; };
 		94D2606518BD2184005FF97C /* WhatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhatViewController.m; sourceTree = "<group>"; };
 		94D2606718BD59A6005FF97C /* KnownBugs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = KnownBugs; sourceTree = "<group>"; };
+		94EF731118C8BF0800FFF973 /* NSDate-Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate-Utilities.h"; sourceTree = "<group>"; };
+		94EF731218C8BF3800FFF973 /* NSDate-Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate-Utilities.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -215,12 +218,11 @@
 		94610F4D18A950B40094779E /* Let's Eat */ = {
 			isa = PBXGroup;
 			children = (
-				94394FF918B4019B00A2FEDB /* JSONKit.h */,
-				94394FFA18B4019B00A2FEDB /* JSONKit.m */,
 				94610F5918A950B40094779E /* Main.storyboard */,
 				94D2606718BD59A6005FF97C /* KnownBugs */,
 				941CE23118AEBE4600E773BF /* Server.h */,
 				941CE23218AEBE4600E773BF /* Server.m */,
+				94EF731018C8BEA500FFF973 /* Libraries */,
 				941CE22918AD6AB400E773BF /* Models */,
 				942B9DAC18AD5A8D003F8CA6 /* Controllers */,
 				94610F5F18A950B40094779E /* Images.xcassets */,
@@ -258,6 +260,18 @@
 				94610F6F18A950B40094779E /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		94EF731018C8BEA500FFF973 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				94EF731118C8BF0800FFF973 /* NSDate-Utilities.h */,
+				94EF731218C8BF3800FFF973 /* NSDate-Utilities.m */,
+				94394FF918B4019B00A2FEDB /* JSONKit.h */,
+				94394FFA18B4019B00A2FEDB /* JSONKit.m */,
+			);
+			name = Libraries;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -373,6 +387,7 @@
 				94610F5E18A950B40094779E /* InitialViewController.m in Sources */,
 				941CE22F18AD725800E773BF /* SignupViewController.m in Sources */,
 				948C091018C67F26002A3524 /* InviteViewController.m in Sources */,
+				94EF731318C8BF3800FFF973 /* NSDate-Utilities.m in Sources */,
 				94394FFB18B4019B00A2FEDB /* JSONKit.m in Sources */,
 				94610F5818A950B40094779E /* AppDelegate.m in Sources */,
 				94610F5418A950B40094779E /* main.m in Sources */,

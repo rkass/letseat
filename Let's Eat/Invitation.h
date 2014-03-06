@@ -23,5 +23,6 @@
 -(NSMutableDictionary*)serialize;
 -(NSString*)creator;
 - (NSMutableArray*) generateResponsesArrays;
+- (NSString*) dateToString;
 -(BOOL) respondedNo;
 @end
