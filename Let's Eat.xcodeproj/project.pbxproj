@@ -41,6 +41,7 @@
 		94D2606618BD2184005FF97C /* WhatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D2606518BD2184005FF97C /* WhatViewController.m */; };
 		94D2606818BD59A6005FF97C /* KnownBugs in Resources */ = {isa = PBXBuildFile; fileRef = 94D2606718BD59A6005FF97C /* KnownBugs */; };
 		94EF731318C8BF3800FFF973 /* NSDate-Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EF731218C8BF3800FFF973 /* NSDate-Utilities.m */; };
+		94EF731918CE6BA700FFF973 /* Graphics.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EF731818CE6BA700FFF973 /* Graphics.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,6 +112,8 @@
 		94D2606718BD59A6005FF97C /* KnownBugs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = KnownBugs; sourceTree = "<group>"; };
 		94EF731118C8BF0800FFF973 /* NSDate-Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate-Utilities.h"; sourceTree = "<group>"; };
 		94EF731218C8BF3800FFF973 /* NSDate-Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate-Utilities.m"; sourceTree = "<group>"; };
+		94EF731718CE6BA700FFF973 /* Graphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Graphics.h; sourceTree = "<group>"; };
+		94EF731818CE6BA700FFF973 /* Graphics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Graphics.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -265,6 +268,8 @@
 		94EF731018C8BEA500FFF973 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				94EF731718CE6BA700FFF973 /* Graphics.h */,
+				94EF731818CE6BA700FFF973 /* Graphics.m */,
 				94EF731118C8BF0800FFF973 /* NSDate-Utilities.h */,
 				94EF731218C8BF3800FFF973 /* NSDate-Utilities.m */,
 				94394FF918B4019B00A2FEDB /* JSONKit.h */,
@@ -391,6 +396,7 @@
 				94394FFB18B4019B00A2FEDB /* JSONKit.m in Sources */,
 				94610F5818A950B40094779E /* AppDelegate.m in Sources */,
 				94610F5418A950B40094779E /* main.m in Sources */,
+				94EF731918CE6BA700FFF973 /* Graphics.m in Sources */,
 				94D2605B18BB9BE4005FF97C /* WhereViewController.m in Sources */,
 				942CF35318B2932F00BF1B70 /* LoginViewController.m in Sources */,
 				942CF35018B2852700BF1B70 /* LEViewController.m in Sources */,

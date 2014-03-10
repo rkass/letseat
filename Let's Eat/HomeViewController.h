@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "LEViewController.h"
 
-@interface HomeViewController : LEViewController
+@interface HomeViewController : LEViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end

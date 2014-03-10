@@ -40,6 +40,8 @@
     self.friendsCache = [self loadMutable];
     self.friends = [self.friendsCache mutableCopy];
     [self.friendsTable reloadData];
+    CreateMealNavigationController* cmnc = (CreateMealNavigationController*) self.navigationController;
+    cmnc.creator = YES;
     
 }
 
