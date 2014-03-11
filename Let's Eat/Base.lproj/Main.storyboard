@@ -588,6 +588,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         </searchBar>
                     </tableView>
                     <navigationItem key="navigationItem" id="YFH-Nh-9cb"/>
+                    <size key="freeformSize" width="320" height="568"/>
                     <connections>
                         <outlet property="friendsTable" destination="3Gw-2R-Jio" id="3Jq-wV-v1e"/>
                         <outlet property="search" destination="UIS-3k-3dX" id="xQC-UB-VcO"/>
