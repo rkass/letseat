@@ -7,6 +7,7 @@
 //
 
 #import "WhatViewController.h"
+#import "Graphics.h"
 
 @interface WhatViewController ()
 @property (strong, nonatomic) IBOutlet UITableView* wantTable;
@@ -20,20 +21,24 @@
 @property (strong, nonatomic) UIImageView* movingCellImage;
 @property (strong, nonatomic) NSMutableArray* source;
 @property (strong, nonatomic) NSMutableArray* otherSource;
+@property (strong, nonatomic) UIImage* draggable;
 @property int movingCellIndex;//row of cell that's being dragged in the table
 @property int movingCellOtherIndex;
 @property int movingCellHeight;
 @property int movingCellWidth;
-
+@property float movingDiffx;
+@property float movingDiffy;
 @end
 
 @implementation WhatViewController
-@synthesize wantTable, wantItems, typesItems, typesTable, movingCellOtherIndex, movingCellText, movingCellIndex, movingCellImage, currTbl, currOtherTbl, source, otherSource;
+@synthesize wantTable, wantItems, typesItems, typesTable, movingCellOtherIndex, movingCellText, movingCellIndex, movingCellImage, currTbl, currOtherTbl, source, otherSource, draggable, movingDiffx, movingDiffy;
 
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    UIImage* bigDraggable = [UIImage imageNamed:@"Draggable"];
+    self.draggable = [Graphics makeThumbnailOfSize:bigDraggable size:CGSizeMake(15, 15)];
     self.title = @"What";
     self.wantTable.delegate = self;
     self.wantTable.dataSource = self;
@@ -54,13 +59,40 @@
     self.typesItems = [@[@"American", @"Chinese", @"Diner", @"Indian", @"Italian", @"Japanese", @"Korean", @"Mediterranean", @"Mexican", @"Seafood", @"Spanish", @"Steakhouse", @"Thai", @"Vietnamese", @"Vegetarian"] mutableCopy];
     self.movingCellIndex = -1;
     self.movingCellOtherIndex = -1;
+    UIImage *backImg = [UIImage imageNamed:@"BackBrownCarrot"];
+    //UIImage* homeImg = [Graphics makeThumbnailOfSize:bigImage size:CGSizeMake(37,22)];
+    UIButton *back = [UIButton buttonWithType:UIButtonTypeCustom];
+    back.bounds = CGRectMake( 0, 0, backImg.size.width, backImg.size.height );
+    [back setImage:backImg forState:UIControlStateNormal];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:back];
+    [back addTarget:self action:@selector(backPressed:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = backItem;
+    UIImage *bigImage = [UIImage imageNamed:@"Home"];
+    UIImage* homeImg = [Graphics makeThumbnailOfSize:bigImage size:CGSizeMake(30,30)];
+    UIButton *home = [UIButton buttonWithType:UIButtonTypeCustom];
+    home.bounds = CGRectMake( 0, 0, homeImg.size.width, homeImg.size.height );
+    [home setImage:homeImg forState:UIControlStateNormal];
+    UIBarButtonItem *homeItem = [[UIBarButtonItem alloc] initWithCustomView:home];
+    [home addTarget:self action:@selector(homePressed:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = homeItem;
+    self.title = @"Invitation";
+    self.view.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
+    
 
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 53;
+    return 55;
 }
+-(void)homePressed:(UIBarButtonItem*)sender{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+    self.navigationController.navigationBarHidden = YES;
+}
+-(void)backPressed:(UIBarButtonItem*)sender{
+    [self.navigationController popViewControllerAnimated:YES];
+    
 
+}
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
@@ -147,7 +179,10 @@
                 UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
                 UIGraphicsEndImageContext();
                 UIImageView* imgView = [[UIImageView alloc] initWithImage:viewImage];
-                [imgView setFrame:CGRectMake(point.x - viewImage.size.width / 2, point.y - viewImage.size.height / 2, viewImage.size.width, viewImage.size.height)];
+                [imgView setFrame:CGRectMake([rectVal CGRectValue].origin.x, [rectVal CGRectValue].origin.y, viewImage.size.width, viewImage.size.height)];
+                self.movingDiffx = point.x -[rectVal CGRectValue].origin.x;
+                self.movingDiffy = point.y - [rectVal CGRectValue].origin.y;
+                //[imgView setFrame:CGRectMake(point.x - viewImage.size.width / 2, point.y - viewImage.size.height / 2, viewImage.size.width, viewImage.size.height)];
                 self.movingCellText = [self.source objectAtIndex:count];
                 self.movingCellImage = imgView;
                 [self.view addSubview:imgView];
@@ -219,7 +254,7 @@
                 self.movingCellIndex = -1;
             }
         }
-        [self.movingCellImage setFrame:CGRectMake(point.x - self.movingCellWidth / 2, point.y - self.movingCellHeight / 2, self.movingCellWidth, self.movingCellHeight)];
+        [self.movingCellImage setFrame:CGRectMake(point.x - self.movingDiffx, point.y - self.movingDiffy, self.movingCellWidth, self.movingCellHeight)];
     }
     else if (gestureRecognizer.state == 3 && self.movingCellText){
         if (CGRectContainsPoint([self.currTbl frame], point))
@@ -275,6 +310,10 @@
         cell.textLabel.text = [self.wantItems objectAtIndex:indexPath.row];
     else
         cell.textLabel.text = [self.typesItems objectAtIndex:indexPath.row];
+    cell.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
+    UIImageView* accDraggable = [[UIImageView alloc] initWithImage:self.draggable];
+    cell.accessoryView = accDraggable;
+    cell.textLabel.font = [UIFont systemFontOfSize:15.0];
     return cell;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

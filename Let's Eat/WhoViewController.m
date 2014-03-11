@@ -20,13 +20,14 @@
 
 @property (strong, nonatomic) NSMutableArray *friendsCache;
 @property (strong, nonatomic) UIImage* unchecked;
+@property (strong, nonatomic) IBOutlet UIImageView *background;
 @property (strong, nonatomic) UIImage* checked;
 @property (strong, nonatomic) IBOutlet UIButton* transition;
 @property BOOL initializing;
 @end
 
 @implementation WhoViewController
-@synthesize friends, unchecked, checked, initializing, transition;
+@synthesize friends, unchecked, checked, initializing, transition, background;
 
 
 - (void)viewDidLoad
@@ -34,10 +35,13 @@
     [super viewDidLoad];
     [User getFriends:self];
     [self.search setDelegate:self];
+    [self.view sendSubviewToBack:self.background];
     self.friendsTable.dataSource = self;
     self.friendsTable.delegate = self;
-    self.unchecked = [UIImage imageNamed:@"unchecked.png"];
-    self.checked = [UIImage imageNamed:@"checked.png"];
+    UIImage* bigunchecked = [UIImage imageNamed:@"unchecked"];
+    UIImage* bigchecked = [UIImage imageNamed:@"checked"];
+    self.unchecked = [Graphics makeThumbnailOfSize:bigunchecked size:CGSizeMake(20, 20)];
+    self.checked = [Graphics makeThumbnailOfSize:bigchecked size:CGSizeMake(20, 20)];
     self.friendsCache = [self loadMutable];
     self.friends = [self.friendsCache mutableCopy];
     [self.friendsTable reloadData];
@@ -53,13 +57,35 @@
     UIBarButtonItem *homeItem = [[UIBarButtonItem alloc] initWithCustomView:home];
     [home addTarget:self action:@selector(backPressed:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = homeItem;
-   
+    UIImage *bigImage2 = [UIImage imageNamed:@"AddFriend"];
+    UIImage* addFriendImg = [Graphics makeThumbnailOfSize:bigImage2 size:CGSizeMake(22,22)];
+    UIButton *addFriends = [UIButton buttonWithType:UIButtonTypeCustom];
+    addFriends.bounds = CGRectMake( 0, 0, addFriendImg.size.width, addFriendImg.size.height );
+    [addFriends setImage:addFriendImg forState:UIControlStateNormal];
+    UIBarButtonItem *addFriendsItem = [[UIBarButtonItem alloc] initWithCustomView:addFriends];
+    [addFriends addTarget:self action:@selector(addFriends:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = addFriendsItem;
+    self.view.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
+    NSMutableDictionary* meDict = [[NSMutableDictionary alloc] init];
+    [meDict setObject:@"Me" forKey:@"displayName"];
+    [meDict setObject:@YES forKey:@"checked"];
+    [meDict setObject:@YES forKey:@"Me"];
+    BOOL addMe = YES;
+    for (NSMutableDictionary* dict in self.friendsCache){
+        if ([dict objectForKey:@"Me"])
+            addMe = NO;
+    }
+    if (addMe)
+        [self.friendsCache insertObject:meDict atIndex:0];
     
 }
 
 - (void) backPressed:(UIBarButtonItem *)sender {
     [self.navigationController popViewControllerAnimated:YES];
     self.navigationController.navigationBarHidden = YES;
+}
+-(void)addFriends:(UIBarButtonItem*) sender{
+    NSLog(@"implement me!");
 }
 
 -(NSMutableArray*)loadMutable
@@ -70,6 +96,8 @@
     {
         NSMutableDictionary* mutDict = [dict mutableCopy];
         mutDict[@"checked"] = @NO;
+        if ([mutDict objectForKey:@"Me"])
+            mutDict[@"checked"] = @YES;
         [ret addObject:mutDict];
     }
     return ret;
@@ -120,16 +148,21 @@
             bool allin = YES;
            
             for (NSString* name in splitSearch){
-               
+                NSLog(@"split search: %@", name);
+                NSLog(@"display name: %@", [dict objectForKey:@"displayName"]);
                 if ((!([[dict objectForKey:@"displayName"] rangeOfString:name options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch)].length > 0)) && (![name isEqualToString: @""])){
                     allin = NO;
+                    NSLog(@"not in");
                     break;
                 }
             }
-            if (allin)
+            if (allin){
+                NSLog(@"adding object %@", [dict objectForKey:@"displayName"]);
                 [self.friends addObject:dict];
+            }
         }
     }
+    NSLog(@"friends %@", self.friends);
     [self.friendsTable reloadData];
 }
 
@@ -143,6 +176,8 @@
     }
     return NO;
 }
+        
+        
 - (void) storeFriends:(NSMutableArray*) array
 {
 
@@ -207,7 +242,8 @@
     }
         
     cell.textLabel.text = [f objectForKey:@"displayName"];
-    
+    cell.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
     return cell;
 }
@@ -216,6 +252,8 @@
     
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     NSMutableDictionary* friend = [self.friends objectAtIndex:indexPath.row];
+    if ([friend objectForKey:@"Me" ])
+        return;
     if ([friend[@"checked"]  isEqual: @YES])
     {
  
@@ -231,13 +269,7 @@
         cell.accessoryView = accChecked;
         friend[@"checked"] = @YES;
     }
-    if ([self atLeastOneChecked])
-    {
-        [self.transition setTitle:@"Eat with Them^^" forState:UIControlStateNormal];
-    }
-    else{
-        [self.transition setTitle:@"Eat Solo" forState:UIControlStateNormal];
-    }
+
     
 }
 

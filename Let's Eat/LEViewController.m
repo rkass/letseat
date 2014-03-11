@@ -32,7 +32,12 @@
     [self.failedConnection show];
 }
 
-
+- (NSUInteger) supportedInterfaceOrientations {
+    // Return a bitmask of supported orientations. If you need more,
+    // use bitwise or (see the commented return).
+    return UIInterfaceOrientationMaskPortrait;
+    // return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
+}
 + (void) setUserDefault:(NSString *)key data:(NSObject *) data
 {
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:key];
