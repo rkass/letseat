@@ -11,6 +11,7 @@
 #import "User.h"
 #import "JSONKit.h"
 #import "CreateMealNavigationController.h"
+#import "Graphics.h"
 
 
 @interface WhoViewController ()
@@ -42,7 +43,23 @@
     [self.friendsTable reloadData];
     CreateMealNavigationController* cmnc = (CreateMealNavigationController*) self.navigationController;
     cmnc.creator = YES;
+    self.navigationController.navigationBarHidden = NO;
+    self.title = @"Invitation";
+    UIImage *bigImage = [UIImage imageNamed:@"HomeBack"];
+    UIImage* homeImg = [Graphics makeThumbnailOfSize:bigImage size:CGSizeMake(37,22)];
+    UIButton *home = [UIButton buttonWithType:UIButtonTypeCustom];
+    home.bounds = CGRectMake( 0, 0, homeImg.size.width, homeImg.size.height );
+    [home setImage:homeImg forState:UIControlStateNormal];
+    UIBarButtonItem *homeItem = [[UIBarButtonItem alloc] initWithCustomView:home];
+    [home addTarget:self action:@selector(backPressed:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = homeItem;
+   
     
+}
+
+- (void) backPressed:(UIBarButtonItem *)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+    self.navigationController.navigationBarHidden = YES;
 }
 
 -(NSMutableArray*)loadMutable

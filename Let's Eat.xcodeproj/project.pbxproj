@@ -14,7 +14,6 @@
 		942CF35018B2852700BF1B70 /* LEViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 942CF34F18B2852700BF1B70 /* LEViewController.m */; };
 		942CF35318B2932F00BF1B70 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 942CF35218B2932F00BF1B70 /* LoginViewController.m */; };
 		94394FF518B3EBE200A2FEDB /* WhoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94394FF418B3EBE200A2FEDB /* WhoViewController.m */; };
-		94394FF818B3EBEC00A2FEDB /* WhenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94394FF718B3EBEC00A2FEDB /* WhenViewController.m */; };
 		94394FFB18B4019B00A2FEDB /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 94394FFA18B4019B00A2FEDB /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9448D86B18BFAAC5007D40D0 /* PriceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9448D86A18BFAAC5007D40D0 /* PriceViewController.m */; };
 		94610F4818A950B40094779E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94610F4718A950B40094779E /* Foundation.framework */; };
@@ -69,8 +68,6 @@
 		942CF35218B2932F00BF1B70 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		94394FF318B3EBE200A2FEDB /* WhoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhoViewController.h; sourceTree = "<group>"; };
 		94394FF418B3EBE200A2FEDB /* WhoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhoViewController.m; sourceTree = "<group>"; };
-		94394FF618B3EBEC00A2FEDB /* WhenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhenViewController.h; sourceTree = "<group>"; };
-		94394FF718B3EBEC00A2FEDB /* WhenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhenViewController.m; sourceTree = "<group>"; };
 		94394FF918B4019B00A2FEDB /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = "Let's Eat/JSONKit.h"; sourceTree = "<group>"; };
 		94394FFA18B4019B00A2FEDB /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = "Let's Eat/JSONKit.m"; sourceTree = "<group>"; };
 		9448D86918BFAAC5007D40D0 /* PriceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PriceViewController.h; sourceTree = "<group>"; };
@@ -169,8 +166,6 @@
 				94D2605718BA9DAB005FF97C /* CreateMealNavigationController.m */,
 				94394FF318B3EBE200A2FEDB /* WhoViewController.h */,
 				94394FF418B3EBE200A2FEDB /* WhoViewController.m */,
-				94394FF618B3EBEC00A2FEDB /* WhenViewController.h */,
-				94394FF718B3EBEC00A2FEDB /* WhenViewController.m */,
 				942CF35118B2932F00BF1B70 /* LoginViewController.h */,
 				942CF35218B2932F00BF1B70 /* LoginViewController.m */,
 				94610F5C18A950B40094779E /* InitialViewController.h */,
@@ -380,7 +375,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94394FF818B3EBEC00A2FEDB /* WhenViewController.m in Sources */,
 				948C090418C51575002A3524 /* InvitationsViewController.m in Sources */,
 				9448D86B18BFAAC5007D40D0 /* PriceViewController.m in Sources */,
 				94394FF518B3EBE200A2FEDB /* WhoViewController.m in Sources */,

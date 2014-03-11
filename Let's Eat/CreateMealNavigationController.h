@@ -9,9 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CreateMealNavigationController : UINavigationController
-@property (strong, nonatomic) UIViewController* homeViewController;
-@property (strong, nonatomic) UIViewController* whenViewController;
-@property (strong, nonatomic) UIViewController* whoViewController;
-@property (strong, nonatomic) UIViewController* whereViewController;
+
 @property BOOL creator;
 @end

@@ -9,7 +9,6 @@
 #import "PriceViewController.h"
 #import "WhereViewController.h"
 #import "WhoViewController.h"
-#import "WhenViewController.h"
 #import "WhatViewController.h"
 #import "InviteViewController.h"
 #import "CreateMealNavigationController.h"
@@ -103,10 +102,10 @@
 
 -(NSMutableDictionary*)getCreatorPreferences{
     NSMutableDictionary* ret = [self getPreferences];
-    WhenViewController* whenvc = (WhenViewController*) [self.navigationController.viewControllers objectAtIndex:1];
+   // WhenViewController* whenvc = (WhenViewController*) [self.navigationController.viewControllers objectAtIndex:1];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"cccc, MMM d, hh:mm aa"];
-    [ret setObject:[dateFormat stringFromDate:whenvc.when.date] forKey:@"date"];
+  //  [ret setObject:[dateFormat stringFromDate:whenvc.when.date] forKey:@"date"];
     WhoViewController* whovc = (WhoViewController*)[self.navigationController.viewControllers objectAtIndex:2];
     NSMutableArray* numbers = [[NSMutableArray alloc] init];
     for (NSMutableDictionary* dict in whovc.friends){
