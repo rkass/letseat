@@ -8,6 +8,6 @@
 
 #import "LEViewController.h"
 
-@interface PriceViewController : LEViewController <UITextViewDelegate>
+@interface PriceViewController : LEViewController <UITextFieldDelegate>
 
 @end

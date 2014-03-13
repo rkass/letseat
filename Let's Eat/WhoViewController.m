@@ -186,7 +186,12 @@
 
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
+    NSLog(@"here");
+
     NSDictionary *resultsDictionary = [data objectFromJSONData];
+        NSLog(@"%@", resultsDictionary);
+    NSLog(@"friends cache %@", self.friendsCache);
+    NSLog(@"friends%@", self.friends);
    if ([resultsDictionary objectForKey:@"success"])
    {
        for (NSString* key in [resultsDictionary objectForKey:@"friends"])
@@ -197,6 +202,7 @@
                dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                    key, @"displayName", [[resultsDictionary objectForKey:@"friends"] objectForKey:key], @"numbers", @NO, @"checked", nil];
                [self.friendsCache addObject:dict];
+               NSLog(@"inside");
            }
         }
        NSSortDescriptor *nameDescriptor =

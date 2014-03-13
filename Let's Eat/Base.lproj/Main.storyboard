@@ -250,7 +250,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="X0J-P3-kVm" kind="push" id="Epb-ig-FdA"/>
+                                    <segue destination="oBt-O4-9y6" kind="push" id="Jyj-y6-76K"/>
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="jLN-Pe-6zF">
@@ -412,47 +412,6 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             </objects>
             <point key="canvasLocation" x="2039" y="1195"/>
         </scene>
-        <!--Where View Controller - Where you at?-->
-        <scene sceneID="Kd2-p9-0jO">
-            <objects>
-                <viewController storyboardIdentifier="whereView" title="Where you at?" id="fOk-gq-tzg" customClass="WhereViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="JM1-uf-JpO"/>
-                        <viewControllerLayoutGuide type="bottom" id="Nzg-VK-vGb"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Jh8-jV-UMq">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="tS5-eb-aYy">
-                                <rect key="frame" x="0.0" y="107" width="320" height="423"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            </mapView>
-                            <searchBar contentMode="redraw" fixedFrame="YES" placeholder="Somewhere Else" translatesAutoresizingMaskIntoConstraints="NO" id="7ul-Hq-6p2">
-                                <rect key="frame" x="0.0" y="64" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SxJ-ua-CH6">
-                                <rect key="frame" x="137" y="533" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Here">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="1kG-K9-vQh"/>
-                    <connections>
-                        <outlet property="map" destination="tS5-eb-aYy" id="8Hr-dA-oYK"/>
-                        <outlet property="search" destination="7ul-Hq-6p2" id="eqN-46-xwK"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="C7s-94-t0H" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2258" y="416"/>
-        </scene>
         <!--What View Controller - What?-->
         <scene sceneID="5m8-yv-kqh">
             <objects>
@@ -471,16 +430,23 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                 <state key="normal" image="SetPriceRange">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <segue destination="0Zy-aF-pDk" kind="push" id="7Jp-pz-mgl"/>
+                                </connections>
                             </button>
-                            <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0pj-ap-j93">
+                            <searchBar contentMode="redraw" fixedFrame="YES" placeholder="Search Food Types" translatesAutoresizingMaskIntoConstraints="NO" id="0pj-ap-j93">
                                 <rect key="frame" x="0.0" y="63" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="OgF-gq-J2Z">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="OgF-gq-J2Z">
                                 <rect key="frame" x="160" y="107" width="160" height="383"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" red="0.87633131340000003" green="0.91984185959999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <imageView key="tableFooterView" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="YellowOne" id="Ti0-bC-78o">
+                                    <rect key="frame" x="0.0" y="0.0" width="160" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
                             </tableView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="mQg-Gj-EJo">
                                 <rect key="frame" x="0.0" y="107" width="160" height="383"/>
@@ -492,6 +458,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     </view>
                     <navigationItem key="navigationItem" id="p9H-O8-WJA"/>
                     <connections>
+                        <outlet property="one" destination="Ti0-bC-78o" id="gaO-ma-ChV"/>
                         <outlet property="search" destination="0pj-ap-j93" id="1hc-1S-khT"/>
                         <outlet property="typesTable" destination="mQg-Gj-EJo" id="M5u-Wv-Arz"/>
                         <outlet property="wantTable" destination="OgF-gq-J2Z" id="5aF-G5-WYY"/>
@@ -501,107 +468,128 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             </objects>
             <point key="canvasLocation" x="1658" y="488"/>
         </scene>
-        <!--Price View Controller - Price-->
-        <scene sceneID="PNm-Yl-Oib">
+        <!--Price View Controller - priceView-->
+        <scene sceneID="XU2-xo-FNq">
             <objects>
-                <viewController storyboardIdentifier="priceView" title="Price" id="SHg-go-mpN" customClass="PriceViewController" sceneMemberID="viewController">
+                <viewController title="priceView" id="0Zy-aF-pDk" customClass="PriceViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="g1l-bY-sNn"/>
-                        <viewControllerLayoutGuide type="bottom" id="dhA-BZ-fyW"/>
+                        <viewControllerLayoutGuide type="top" id="PI6-3u-d9g"/>
+                        <viewControllerLayoutGuide type="bottom" id="4Fn-Ad-UwA"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="4kk-l3-0FM">
+                    <view key="view" contentMode="scaleToFill" id="FZL-cu-Qv8">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="4" translatesAutoresizingMaskIntoConstraints="NO" id="vzP-sD-8H8">
-                                <rect key="frame" x="38" y="75" width="244" height="31"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Price Per Person:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DXK-jV-Yg3">
+                                <rect key="frame" x="15" y="79" width="134" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="valueChanged:" destination="SHg-go-mpN" eventType="valueChanged" id="fGe-wv-c68"/>
-                                </connections>
-                            </slider>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jnr-kb-0Mp">
-                                <rect key="frame" x="0.0" y="123" width="320" height="48"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fPg-rD-w3M">
-                                <rect key="frame" x="109" y="443" width="103" height="30"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="White" translatesAutoresizingMaskIntoConstraints="NO" id="RiE-ad-scl">
+                                <rect key="frame" x="0.0" y="113" width="320" height="51"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Send Invitation">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Where are you gonna be?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8je-Yp-v5Z">
+                                <rect key="frame" x="15" y="201" width="197" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="White" translatesAutoresizingMaskIntoConstraints="NO" id="4xt-vL-ATo">
+                                <rect key="frame" x="0.0" y="235" width="320" height="51"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="SliderBackdrop" translatesAutoresizingMaskIntoConstraints="NO" id="QVb-dg-USV">
+                                <rect key="frame" x="26" y="132" width="268" height="15"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FNf-sH-SQM">
+                                <rect key="frame" x="214" y="79" width="86" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xad-zu-QIJ">
+                                <rect key="frame" x="245" y="248" width="51" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
-                                    <action selector="createInvitation:" destination="SHg-go-mpN" eventType="touchUpInside" id="rnF-x9-JZJ"/>
+                                    <action selector="switchToggled:" destination="0Zy-aF-pDk" eventType="valueChanged" id="EQT-uY-ItB"/>
                                 </connections>
-                            </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Include an optional message with your invitation." translatesAutoresizingMaskIntoConstraints="NO" id="Icp-fS-fze">
-                                <rect key="frame" x="40" y="238" width="240" height="113"/>
+                            </switch>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Current Location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vdk-NM-q90">
+                                <rect key="frame" x="20" y="248" width="132" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" red="0.87633131340000003" green="0.91984185959999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" red="0.72156862749999995" green="0.63921568630000003" blue="0.4941176471" alpha="1" colorSpace="deviceRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter ZIP Code or City, State" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mcT-DQ-pRS">
+                                <rect key="frame" x="0.0" y="277" width="320" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="send"/>
-                            </textView>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="ubO-0l-mNx"/>
+                    <navigationItem key="navigationItem" id="gqX-Au-2vm"/>
                     <connections>
-                        <outlet property="label" destination="jnr-kb-0Mp" id="2IF-Hu-iJe"/>
-                        <outlet property="myUITextView" destination="Icp-fS-fze" id="vjD-sm-GO9"/>
-                        <outlet property="slider" destination="vzP-sD-8H8" id="ySH-H9-i9M"/>
-                        <segue destination="JmS-yv-47C" kind="modal" identifier="priceToHome" id="gNc-E7-uii"/>
+                        <outlet property="locSwitch" destination="xad-zu-QIJ" id="335-oX-l3s"/>
+                        <outlet property="locationField" destination="mcT-DQ-pRS" id="Qo4-VM-rj9"/>
+                        <outlet property="ppp" destination="FNf-sH-SQM" id="zcz-hV-cVM"/>
+                        <outlet property="sliderBackdrop" destination="QVb-dg-USV" id="ZR4-M6-HWl"/>
+                        <outlet property="white" destination="RiE-ad-scl" id="h1W-jw-GnW"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="aO7-51-29e" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lws-X8-58I" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3128" y="402"/>
+            <point key="canvasLocation" x="2112" y="497"/>
         </scene>
-        <!--Who View Controller - whoView-->
-        <scene sceneID="QiW-v6-62M">
+        <!--Who View Controller-->
+        <scene sceneID="Kkq-6U-LFo">
             <objects>
-                <viewController title="whoView" id="X0J-P3-kVm" customClass="WhoViewController" sceneMemberID="viewController">
+                <viewController id="oBt-O4-9y6" customClass="WhoViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="bz7-r1-2GM"/>
-                        <viewControllerLayoutGuide type="bottom" id="w9f-eh-fpq"/>
+                        <viewControllerLayoutGuide type="top" id="yp7-dn-apr"/>
+                        <viewControllerLayoutGuide type="bottom" id="6p8-5U-umz"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="EG3-mN-qO8">
+                    <view key="view" contentMode="scaleToFill" id="zgX-Mm-yeF">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Q32-gr-vt7">
-                                <rect key="frame" x="0.0" y="63" width="320" height="433"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" red="0.96078431369999995" green="0.94117647059999998" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                            </tableView>
-                            <searchBar contentMode="redraw" fixedFrame="YES" placeholder="Who do you want to eat with?" translatesAutoresizingMaskIntoConstraints="NO" id="itX-Tx-2R4">
-                                <rect key="frame" x="0.0" y="63" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o0L-2L-I3a">
-                                <rect key="frame" x="50" y="519" width="220" height="29"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fNG-2t-vzS">
+                                <rect key="frame" x="50" y="498" width="220" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="RankFoodTypes">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="6Do-1e-d33" kind="push" id="P2T-2K-E2J"/>
+                                    <segue destination="6Do-1e-d33" kind="push" id="A4d-5R-xNP"/>
                                 </connections>
                             </button>
+                            <searchBar contentMode="redraw" fixedFrame="YES" placeholder="Who do you want to eat with?" translatesAutoresizingMaskIntoConstraints="NO" id="itX-Tx-2R4">
+                                <rect key="frame" x="0.0" y="65" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="jiB-mH-iot">
+                                <rect key="frame" x="0.0" y="109" width="320" height="354"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="0.96078431369999995" green="0.94117647059999998" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="5W8-A8-eTs"/>
+                    <navigationItem key="navigationItem" id="5yz-JT-6Db"/>
                     <connections>
-                        <outlet property="friendsTable" destination="Q32-gr-vt7" id="b7d-nl-9PN"/>
-                        <outlet property="search" destination="itX-Tx-2R4" id="srQ-dG-Fjd"/>
+                        <outlet property="friendsTable" destination="jiB-mH-iot" id="YiD-bL-0jV"/>
+                        <outlet property="search" destination="itX-Tx-2R4" id="M6u-bs-dO4"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="uFq-bz-oQb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="08K-Vw-UcZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1208" y="549"/>
+            <point key="canvasLocation" x="1154" y="505"/>
         </scene>
     </scenes>
     <resources>
@@ -609,7 +597,10 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <image name="RankFoodTypes" width="220" height="29"/>
         <image name="SelectPeople" width="180" height="37"/>
         <image name="SetPriceRange" width="228" height="32"/>
+        <image name="SliderBackdrop" width="268" height="20"/>
         <image name="SolidBeige" width="298" height="310"/>
+        <image name="White" width="500" height="500"/>
+        <image name="YellowOne" width="160" height="54"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
@@ -617,7 +608,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="gNc-E7-uii"/>
         <segue reference="It4-at-1wh"/>
+        <segue reference="Td5-Uc-bJX"/>
     </inferredMetricsTieBreakers>
 </document>

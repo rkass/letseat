@@ -13,6 +13,13 @@
 @property (strong, nonatomic) IBOutlet UITableView* wantTable;
 @property (strong, nonatomic) NSMutableArray* typesItems;
 @property (strong, nonatomic) NSMutableArray* savedTypes;
+@property (strong, nonatomic) IBOutlet UIImageView *one;
+@property (strong, nonatomic) UIImageView *two;
+@property (strong, nonatomic) UIImageView *three;
+@property (strong, nonatomic) UIImageView *four;
+@property (strong, nonatomic) UIImageView *five;
+@property (strong, nonatomic) UIImageView *six;
+@property (strong, nonatomic) UIImageView *seven;
 @property (strong, nonatomic) IBOutlet UISearchBar* search;
 @property (strong, nonatomic) IBOutlet UITableView *typesTable;
 @property (strong, nonatomic) UITableView *currTbl;
@@ -28,15 +35,18 @@
 @property int movingCellWidth;
 @property float movingDiffx;
 @property float movingDiffy;
+@property CGRect inishPosish;
+@property bool moved;
 @end
 
 @implementation WhatViewController
-@synthesize wantTable, wantItems, typesItems, typesTable, movingCellOtherIndex, movingCellText, movingCellIndex, movingCellImage, currTbl, currOtherTbl, source, otherSource, draggable, movingDiffx, movingDiffy;
+@synthesize wantTable, wantItems, typesItems, typesTable, movingCellOtherIndex, movingCellText, movingCellIndex, movingCellImage, currTbl, currOtherTbl, source, otherSource, draggable, movingDiffx, movingDiffy, moved, inishPosish, two, three;
 
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
     UIImage* bigDraggable = [UIImage imageNamed:@"Draggable"];
     self.draggable = [Graphics makeThumbnailOfSize:bigDraggable size:CGSizeMake(15, 15)];
     self.title = @"What";
@@ -47,14 +57,46 @@
     self.typesTable.dataSource = self;
     self.savedTypes = [[NSMutableArray alloc] init];
     [self.search setDelegate:self];
+    self.inishPosish = self.one.frame;
+    UIImage* twoImg = [UIImage imageNamed:@"YellowTwo"];
+    //UIImage* threeImg = [UIImage imageNamed:@"Three)"];
+    self.two = [[UIImageView alloc ] initWithImage:twoImg];
+
+    CGRect converted = [self.one convertRect:self.one.frame toView:self.view];
+    
+    [self.two setFrame:CGRectMake(converted.origin.x, converted.origin.y + 55, self.inishPosish.size.width, self.inishPosish.size.height)];
+    [self.view addSubview:self.two];
+    UIImage* threeImg = [UIImage imageNamed:@"YellowThree"];
+    self.three = [[UIImageView alloc ] initWithImage:threeImg];
+    [self.three setFrame:CGRectMake(converted.origin.x, converted.origin.y + 110, self.inishPosish.size.width, self.inishPosish.size.height)];
+    [self.view addSubview:self.three];
+    
+    UIImage* fourImg = [UIImage imageNamed:@"YellowFour"];
+    self.four = [[UIImageView alloc ] initWithImage:fourImg];
+    [self.four setFrame:CGRectMake(converted.origin.x, converted.origin.y + 165, self.inishPosish.size.width, self.inishPosish.size.height)];
+
+    
+    UIImage* fiveImg = [UIImage imageNamed:@"YellowFive"];
+    self.five = [[UIImageView alloc ] initWithImage:fiveImg];
+    [self.five setFrame:CGRectMake(converted.origin.x, converted.origin.y + 220, self.inishPosish.size.width, self.inishPosish.size.height)];
+
+    
+    UIImage* sixImg = [UIImage imageNamed:@"YellowSix"];
+    self.six = [[UIImageView alloc ] initWithImage:sixImg];
+    [self.six setFrame:CGRectMake(converted.origin.x, converted.origin.y + 275, self.inishPosish.size.width, self.inishPosish.size.height)];
+
+    
+    UIImage* sevenImg = [UIImage imageNamed:@"YellowSeven"];
+    self.seven = [[UIImageView alloc ] initWithImage:sevenImg];
+    [self.seven setFrame:CGRectMake(converted.origin.x, converted.origin.y + 330, self.inishPosish.size.width, self.inishPosish.size.height)];
+
+    
     UILongPressGestureRecognizer *gesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(receivedLongPress:)];
     gesture.minimumPressDuration = .1;
     UILongPressGestureRecognizer *gesture2 = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(receivedLongPress:)];
     gesture2.minimumPressDuration = .1;
     [self.typesTable addGestureRecognizer:gesture];
     [self.wantTable addGestureRecognizer:gesture2];
-    self.wantTable.layer.borderWidth = 2.0;
-    self.wantTable.layer.borderColor = [UIColor redColor].CGColor;
     self.wantItems = [[NSMutableArray alloc] init];
     self.typesItems = [@[@"American", @"Chinese", @"Diner", @"Indian", @"Italian", @"Japanese", @"Korean", @"Mediterranean", @"Mexican", @"Seafood", @"Spanish", @"Steakhouse", @"Thai", @"Vietnamese", @"Vegetarian"] mutableCopy];
     self.movingCellIndex = -1;
@@ -75,9 +117,13 @@
     UIBarButtonItem *homeItem = [[UIBarButtonItem alloc] initWithCustomView:home];
     [home addTarget:self action:@selector(homePressed:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = homeItem;
-    self.title = @"Invitation";
+    self.title = @"Rank Preferences";
     self.view.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
-    
+    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Chalkboard"]];
+    [tempImageView setFrame:self.wantTable.frame];
+    self.wantTable.backgroundView = tempImageView;
+   // [self.view bringSubviewToFront:self.one];
+   // [self.view sendSubviewToBack:self.chalkboard];
 
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -103,7 +149,7 @@
         if (![self.wantItems containsObject:type])
             [self.typesItems addObject:type];
     }
-    [self.typesTable reloadData];
+    [self reloadTable:self.typesTable];//[self.typesTable reloadData];
     self.search.showsCancelButton = NO;
 }
 
@@ -144,7 +190,25 @@
                 [self.typesItems addObject:type];
         }
     }
-    [self.typesTable reloadData];
+    [self reloadTable:self.typesTable];//[self.typesTable reloadData];
+}
+
+-(void)swapTables:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath
+{
+    NSMutableArray* lsource = self.wantItems;
+    NSMutableArray* lotherSource = self.typesItems;
+    if (tableView == self.typesTable){
+        lsource = self.typesItems;
+        lotherSource = self.wantItems;
+    }
+    UITableViewCell* cell =[tableView cellForRowAtIndexPath:indexPath];
+    NSString* txt = [[[[cell.textLabel.text componentsSeparatedByCharactersInSet:
+                       [[NSCharacterSet letterCharacterSet] invertedSet]] componentsJoinedByString:@""] stringByReplacingOccurrencesOfString:@")" withString:@""] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    [lotherSource insertObject:txt atIndex:0];
+    [lsource removeObjectAtIndex:indexPath.row];
+    [self reloadTable:self.wantTable];//[self.wantTable reloadData];
+    [self reloadTable:self.typesTable];//[self.typesTable reloadData];
 }
 
 - (void)receivedLongPress:(UIGestureRecognizer *)gestureRecognizer {
@@ -180,6 +244,8 @@
                 UIGraphicsEndImageContext();
                 UIImageView* imgView = [[UIImageView alloc] initWithImage:viewImage];
                 [imgView setFrame:CGRectMake([rectVal CGRectValue].origin.x, [rectVal CGRectValue].origin.y, viewImage.size.width, viewImage.size.height)];
+                imgView.alpha = .5;
+                self.moved = NO;
                 self.movingDiffx = point.x -[rectVal CGRectValue].origin.x;
                 self.movingDiffy = point.y - [rectVal CGRectValue].origin.y;
                 //[imgView setFrame:CGRectMake(point.x - viewImage.size.width / 2, point.y - viewImage.size.height / 2, viewImage.size.width, viewImage.size.height)];
@@ -204,27 +270,30 @@
                         [self.source insertObject:self.movingCellText atIndex:count];
                     }
                     else if (self.movingCellIndex != count){
+                        self.moved = YES;
                         [self.source exchangeObjectAtIndex:count withObjectAtIndex:self.movingCellIndex];
                     }
                     self.movingCellIndex = count;
-                    [self.currTbl reloadData];
+                    [self reloadTable:self.currTbl];//[self.currTbl reloadData];
                     [self.currTbl cellForRowAtIndexPath:[NSIndexPath indexPathForRow:count inSection:0]].hidden = YES;
                     inAny = YES;
                 }
                 count ++;
             }
             if (!inAny && self.movingCellIndex != -1){
+                self.moved = YES;
                 [self.source removeObjectAtIndex:self.movingCellIndex];
-                [self.currTbl reloadData];
+                [self reloadTable:self.currTbl];//[self.currTbl reloadData];
                 self.movingCellIndex = -1;
             }
             if (self.movingCellOtherIndex != -1){
                 [self.otherSource removeObjectAtIndex:self.movingCellOtherIndex];
-                [self.currOtherTbl reloadData];
+                [self reloadTable:self.currOtherTbl];//[self.currOtherTbl reloadData];
                 self.movingCellOtherIndex = -1;
             }
         }
         else{
+            self.moved = YES;
             inAny = NO;
             count = 0;
             for (NSValue *rectVal in [self getRectForTable:self.currOtherTbl]){
@@ -233,10 +302,11 @@
                         [self.otherSource insertObject:self.movingCellText atIndex:count];
                     }
                     else if (self.movingCellOtherIndex != count){
+                        self.moved = YES;
                         [self.otherSource exchangeObjectAtIndex:count withObjectAtIndex:self.movingCellOtherIndex];
                     }
                     self.movingCellOtherIndex = count;
-                    [self.currOtherTbl reloadData];
+                    [self reloadTable:self.currOtherTbl];//[self.currOtherTbl reloadData];
                     [self.currOtherTbl cellForRowAtIndexPath:[NSIndexPath indexPathForRow:count inSection:0]].hidden = YES;
                     inAny = YES;
                 }
@@ -244,19 +314,25 @@
             }
             if (!inAny && movingCellOtherIndex != -1)
             {
+                self.moved = YES;
                 [self.otherSource removeObjectAtIndex:self.movingCellOtherIndex];
-                [self.currOtherTbl reloadData];
+                [self reloadTable:self.currOtherTbl];//[self.currOtherTbl reloadData];
                 self.movingCellOtherIndex = -1;
             }
             if (self.movingCellIndex != -1){
                 [self.source removeObjectAtIndex:self.movingCellIndex];
-                [self.currTbl reloadData];
+                [self reloadTable:self.currTbl];//[self.currTbl reloadData];
                 self.movingCellIndex = -1;
             }
         }
         [self.movingCellImage setFrame:CGRectMake(point.x - self.movingDiffx, point.y - self.movingDiffy, self.movingCellWidth, self.movingCellHeight)];
     }
     else if (gestureRecognizer.state == 3 && self.movingCellText){
+        if (!self.moved){
+            [self swapTables:self.currTbl indexPath:[NSIndexPath indexPathForRow:self.movingCellIndex inSection:0]];
+            [self.movingCellImage removeFromSuperview];
+            return;
+        }
         if (CGRectContainsPoint([self.currTbl frame], point))
         {
             count = 0;
@@ -264,7 +340,7 @@
             for (NSValue *rectVal in [self getRectForTable:self.currTbl]){
                 if (CGRectContainsPoint([rectVal CGRectValue], point)){
                     [self.currTbl cellForRowAtIndexPath:[NSIndexPath indexPathForRow:count inSection:0]].hidden = NO;
-                    [self.currTbl reloadData];
+                    [self reloadTable:self.currTbl];//[self.currTbl reloadData];
                     inAny = YES;
                 }
                 count++;
@@ -272,7 +348,7 @@
             if (!inAny)
             {
                 [self.source addObject:self.movingCellText];
-                [self.currTbl reloadData];
+                [self reloadTable:self.currTbl];//[self.currTbl reloadData];
             }
         }
         else
@@ -282,7 +358,7 @@
             for (NSValue *rectVal in [self getRectForTable:self.currOtherTbl]){
                 if (CGRectContainsPoint([rectVal CGRectValue], point)){
                     [self.currOtherTbl cellForRowAtIndexPath:[NSIndexPath indexPathForRow:count inSection:0]].hidden = NO;
-                    [self.currOtherTbl reloadData];
+                    [self reloadTable:self.currOtherTbl];//[self.currOtherTbl reloadData];
                     inAny = YES;
                 }
                 count++;
@@ -290,7 +366,7 @@
             if (!inAny)
             {
                 [self.otherSource addObject:self.movingCellText];
-                [self.currOtherTbl reloadData];
+                [self reloadTable:self.currOtherTbl];//[self.currOtherTbl reloadData];
             }
         }
         [self.movingCellImage removeFromSuperview];
@@ -299,6 +375,9 @@
         self.movingCellIndex = -1;
     }
 }
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [self swapTables:tableView indexPath:indexPath];
+}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -306,24 +385,61 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         
     }
-    if (tableView == self.wantTable)
-        cell.textLabel.text = [self.wantItems objectAtIndex:indexPath.row];
-    else
+    if (tableView == self.wantTable){
+        cell.textLabel.text = [NSString stringWithFormat:@"  %@",[self.wantItems objectAtIndex:indexPath.row]];
+        cell.textLabel.font = [UIFont fontWithName:@"Chalkduster" size:11.5 ];
+        cell.textLabel.textColor = [Graphics colorWithHexString:@"ddd10a"];
+    }
+    else{
         cell.textLabel.text = [self.typesItems objectAtIndex:indexPath.row];
+         cell.textLabel.font = [UIFont systemFontOfSize:14.0];
+    }
     cell.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
+    if (tableView == self.wantTable)
+        cell.backgroundColor = [UIColor clearColor];
     UIImageView* accDraggable = [[UIImageView alloc] initWithImage:self.draggable];
-    cell.accessoryView = accDraggable;
-    cell.textLabel.font = [UIFont systemFontOfSize:15.0];
+    if ((!(indexPath.row >= [self.wantItems count])) || (tableView == self.typesTable)){
+        cell.accessoryView = accDraggable;
+    }
+    else
+        cell.accessoryView = nil;
+   
+    [self.view bringSubviewToFront:cell];
     return cell;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
     if (tableView == self.wantTable)
-        return [self.wantItems count];
+       return [self.wantItems count];
     return [self.typesItems count];
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
+}
+-(void)reloadTable:(UITableView* )tableView{
+    [tableView reloadData];
+    if ([self.wantItems count] == 8){
+        [self.typesItems addObject:self.wantItems[7]] ;
+        [self.wantItems removeLastObject];
+    }
+    self.one.frame = self.inishPosish;
+    if ([self.wantItems count] > 3)
+        [self.view addSubview:self.four];
+    else if ([self.view.subviews containsObject:self.four])
+        [self.four removeFromSuperview];
+    if ([self.wantItems count] > 4)
+        [self.view addSubview:self.five];
+    else if ([self.view.subviews containsObject:self.five])
+        [self.five removeFromSuperview];
+    if ([self.wantItems count] > 5)
+        [self.view addSubview:self.six];
+    else if ([self.view.subviews containsObject:self.six])
+        [self.six removeFromSuperview];
+    if ([self.wantItems count] > 6)
+        [self.view addSubview:self.seven];
+    else if ([self.view.subviews containsObject:self.seven])
+        [self.seven removeFromSuperview];
 }
 
 - (NSArray*)getRectForTable:(UITableView*)tbl
