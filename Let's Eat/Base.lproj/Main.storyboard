@@ -9,8 +9,8 @@
             <objects>
                 <viewController storyboardIdentifier="Initial" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vXZ-lx-hvc" customClass="InitialViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="R9L-Gv-fsm"/>
-                        <viewControllerLayoutGuide type="bottom" id="HL0-Vx-eye"/>
+                        <viewControllerLayoutGuide type="top" id="LKg-ju-8eZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="QSh-bj-tsh"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -60,8 +60,8 @@
             <objects>
                 <viewController storyboardIdentifier="Signup" useStoryboardIdentifierAsRestorationIdentifier="YES" id="bY3-nl-58M" customClass="SignupViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="WOQ-Xk-C3L"/>
-                        <viewControllerLayoutGuide type="bottom" id="EOI-uJ-1uO"/>
+                        <viewControllerLayoutGuide type="top" id="Vmh-X1-ZSy"/>
+                        <viewControllerLayoutGuide type="bottom" id="8VL-GF-sOJ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="85f-0P-EdW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -132,8 +132,8 @@
             <objects>
                 <viewController id="aQL-5z-GAP" customClass="LoginViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Lbx-1f-LGG"/>
-                        <viewControllerLayoutGuide type="bottom" id="8oA-LZ-7Ya"/>
+                        <viewControllerLayoutGuide type="top" id="oZo-hP-lh5"/>
+                        <viewControllerLayoutGuide type="bottom" id="3cm-ev-BoK"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="2Fl-90-ESb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -197,8 +197,8 @@
             <objects>
                 <viewController storyboardIdentifier="Home" id="Ju9-57-65q" customClass="HomeViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="O8E-HD-6Wo"/>
-                        <viewControllerLayoutGuide type="bottom" id="IbC-zK-XXv"/>
+                        <viewControllerLayoutGuide type="top" id="R4u-4q-92K"/>
+                        <viewControllerLayoutGuide type="bottom" id="yrA-Sn-vv8"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="9pp-i0-Lf1">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -292,8 +292,8 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             <objects>
                 <viewController title="invitationsView" id="dzF-AY-5sf" customClass="InvitationsViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="6ey-aP-7pO"/>
-                        <viewControllerLayoutGuide type="bottom" id="hxx-Q6-dGd"/>
+                        <viewControllerLayoutGuide type="top" id="eYN-md-QMB"/>
+                        <viewControllerLayoutGuide type="bottom" id="gjl-KV-aj9"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="6Dv-Wd-BL3">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -322,8 +322,8 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             <objects>
                 <viewController title="inviteView" id="RPr-gX-qgL" customClass="InviteViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="YrL-PJ-4zW"/>
-                        <viewControllerLayoutGuide type="bottom" id="ONi-6P-8br"/>
+                        <viewControllerLayoutGuide type="top" id="Bvd-00-1KM"/>
+                        <viewControllerLayoutGuide type="bottom" id="lI3-Gb-B8m"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="9u0-u2-wLd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -410,15 +410,15 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zsa-nn-ufe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2039" y="1195"/>
+            <point key="canvasLocation" x="1850" y="1237"/>
         </scene>
         <!--What View Controller - What?-->
         <scene sceneID="5m8-yv-kqh">
             <objects>
                 <viewController storyboardIdentifier="whatView" title="What?" id="6Do-1e-d33" customClass="WhatViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Xuw-Tl-d5Y"/>
-                        <viewControllerLayoutGuide type="bottom" id="p61-rn-CmW"/>
+                        <viewControllerLayoutGuide type="top" id="Rec-xt-9Zc"/>
+                        <viewControllerLayoutGuide type="bottom" id="ble-qj-ngt"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="PK8-rs-z63">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -473,8 +473,8 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             <objects>
                 <viewController title="priceView" id="0Zy-aF-pDk" customClass="PriceViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="PI6-3u-d9g"/>
-                        <viewControllerLayoutGuide type="bottom" id="4Fn-Ad-UwA"/>
+                        <viewControllerLayoutGuide type="top" id="NSq-Id-74f"/>
+                        <viewControllerLayoutGuide type="bottom" id="SMs-x8-v9E"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="FZL-cu-Qv8">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -500,6 +500,16 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                 <rect key="frame" x="0.0" y="235" width="320" height="51"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="White" translatesAutoresizingMaskIntoConstraints="NO" id="IJE-PA-6pm">
+                                <rect key="frame" x="0.0" y="508" width="320" height="51"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Recommend Restaurants Located" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5v3-tL-U55">
+                                <rect key="frame" x="15" y="336" width="263" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="SliderBackdrop" translatesAutoresizingMaskIntoConstraints="NO" id="QVb-dg-USV">
                                 <rect key="frame" x="26" y="132" width="268" height="15"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -525,21 +535,85 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter ZIP Code or City, State" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mcT-DQ-pRS">
-                                <rect key="frame" x="0.0" y="277" width="320" height="30"/>
+                                <rect key="frame" x="0.0" y="281" width="320" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                <connections>
+                                    <action selector="beganEditing:" destination="0Zy-aF-pDk" eventType="editingDidBegin" id="ghE-cI-NZb"/>
+                                </connections>
                             </textField>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hcY-oL-hzV">
+                                <rect key="frame" x="273" y="281" width="47" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0mL-2R-Ln9">
+                                <rect key="frame" x="160" y="365" width="155" height="55"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <state key="normal" title="By Me">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="bymePressed:" destination="0Zy-aF-pDk" eventType="touchUpInside" id="cam-Pz-bMP"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="WhiteBorder" translatesAutoresizingMaskIntoConstraints="NO" id="FlZ-Bx-sd4">
+                                <rect key="frame" x="5" y="365" width="310" height="55"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="u2a-HT-yjN">
+                                <rect key="frame" x="5" y="365" width="155" height="55"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.72156862749999995" green="0.63921568630000003" blue="0.4941176471" alpha="1" colorSpace="deviceRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <state key="normal">
+                                    <string key="title">Central to
+All Attendees</string>
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="centralPressed:" destination="0Zy-aF-pDk" eventType="touchUpInside" id="1Rd-yY-ETq"/>
+                                </connections>
+                            </button>
+                            <stepper opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="AHZ-ri-UTz">
+                                <rect key="frame" x="173" y="519" width="94" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <action selector="stepperStepped:" destination="0Zy-aF-pDk" eventType="valueChanged" id="mSK-cs-kch"/>
+                                </connections>
+                            </stepper>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Automatically schedule meal after:" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="oLs-KQ-jXL">
+                                <rect key="frame" x="15" y="450" width="280" height="61"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H4u-14-nch">
+                                <rect key="frame" x="52" y="522" width="123" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="gqX-Au-2vm"/>
+                    <size key="freeformSize" width="320" height="677"/>
                     <connections>
+                        <outlet property="byMe" destination="0mL-2R-Ln9" id="dJ2-UT-Zyb"/>
+                        <outlet property="central" destination="u2a-HT-yjN" id="GBs-ma-jo0"/>
                         <outlet property="locSwitch" destination="xad-zu-QIJ" id="335-oX-l3s"/>
+                        <outlet property="locValidator" destination="hcY-oL-hzV" id="rtE-cL-LeT"/>
                         <outlet property="locationField" destination="mcT-DQ-pRS" id="Qo4-VM-rj9"/>
                         <outlet property="ppp" destination="FNf-sH-SQM" id="zcz-hV-cVM"/>
+                        <outlet property="scheduleWhen" destination="H4u-14-nch" id="2TW-wY-s7g"/>
                         <outlet property="sliderBackdrop" destination="QVb-dg-USV" id="ZR4-M6-HWl"/>
+                        <outlet property="stepper" destination="AHZ-ri-UTz" id="jNm-zz-vSs"/>
                         <outlet property="white" destination="RiE-ad-scl" id="h1W-jw-GnW"/>
+                        <outlet property="whiteBorder" destination="FlZ-Bx-sd4" id="Laj-8S-ym0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lws-X8-58I" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -551,8 +625,8 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             <objects>
                 <viewController id="oBt-O4-9y6" customClass="WhoViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="yp7-dn-apr"/>
-                        <viewControllerLayoutGuide type="bottom" id="6p8-5U-umz"/>
+                        <viewControllerLayoutGuide type="top" id="aOj-pa-DAm"/>
+                        <viewControllerLayoutGuide type="bottom" id="XE7-Sn-ad3"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="zgX-Mm-yeF">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -600,6 +674,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <image name="SliderBackdrop" width="268" height="20"/>
         <image name="SolidBeige" width="298" height="310"/>
         <image name="White" width="500" height="500"/>
+        <image name="WhiteBorder" width="310" height="44"/>
         <image name="YellowOne" width="160" height="54"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

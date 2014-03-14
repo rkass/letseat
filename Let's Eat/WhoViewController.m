@@ -148,21 +148,21 @@
             bool allin = YES;
            
             for (NSString* name in splitSearch){
-                NSLog(@"split search: %@", name);
-                NSLog(@"display name: %@", [dict objectForKey:@"displayName"]);
+             //   NSLog(@"split search: %@", name);
+               // NSLog(@"display name: %@", [dict objectForKey:@"displayName"]);
                 if ((!([[dict objectForKey:@"displayName"] rangeOfString:name options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch)].length > 0)) && (![name isEqualToString: @""])){
                     allin = NO;
-                    NSLog(@"not in");
+                   // NSLog(@"not in");
                     break;
                 }
             }
             if (allin){
-                NSLog(@"adding object %@", [dict objectForKey:@"displayName"]);
+              //  NSLog(@"adding object %@", [dict objectForKey:@"displayName"]);
                 [self.friends addObject:dict];
             }
         }
     }
-    NSLog(@"friends %@", self.friends);
+  //  NSLog(@"friends %@", self.friends);
     [self.friendsTable reloadData];
 }
 
@@ -186,12 +186,12 @@
 
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    NSLog(@"here");
+  //  NSLog(@"here");
 
     NSDictionary *resultsDictionary = [data objectFromJSONData];
-        NSLog(@"%@", resultsDictionary);
-    NSLog(@"friends cache %@", self.friendsCache);
-    NSLog(@"friends%@", self.friends);
+     //   NSLog(@"%@", resultsDictionary);
+   // NSLog(@"friends cache %@", self.friendsCache);
+  //  NSLog(@"friends%@", self.friends);
    if ([resultsDictionary objectForKey:@"success"])
    {
        for (NSString* key in [resultsDictionary objectForKey:@"friends"])
@@ -202,7 +202,7 @@
                dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                    key, @"displayName", [[resultsDictionary objectForKey:@"friends"] objectForKey:key], @"numbers", @NO, @"checked", nil];
                [self.friendsCache addObject:dict];
-               NSLog(@"inside");
+              // NSLog(@"inside");
            }
         }
        NSSortDescriptor *nameDescriptor =
