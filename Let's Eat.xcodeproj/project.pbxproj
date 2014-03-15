@@ -13,6 +13,7 @@
 		942B9DAB18AD5A44003F8CA6 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 942B9DAA18AD5A44003F8CA6 /* HomeViewController.m */; };
 		942CF35018B2852700BF1B70 /* LEViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 942CF34F18B2852700BF1B70 /* LEViewController.m */; };
 		942CF35318B2932F00BF1B70 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 942CF35218B2932F00BF1B70 /* LoginViewController.m */; };
+		9438EC1F18D405C2007A1643 /* TODO in Resources */ = {isa = PBXBuildFile; fileRef = 9438EC1E18D405C2007A1643 /* TODO */; };
 		94394FF518B3EBE200A2FEDB /* WhoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94394FF418B3EBE200A2FEDB /* WhoViewController.m */; };
 		94394FFB18B4019B00A2FEDB /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 94394FFA18B4019B00A2FEDB /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9448D86B18BFAAC5007D40D0 /* PriceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9448D86A18BFAAC5007D40D0 /* PriceViewController.m */; };
@@ -66,6 +67,7 @@
 		942CF34F18B2852700BF1B70 /* LEViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEViewController.m; sourceTree = "<group>"; };
 		942CF35118B2932F00BF1B70 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		942CF35218B2932F00BF1B70 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		9438EC1E18D405C2007A1643 /* TODO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
 		94394FF318B3EBE200A2FEDB /* WhoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhoViewController.h; sourceTree = "<group>"; };
 		94394FF418B3EBE200A2FEDB /* WhoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhoViewController.m; sourceTree = "<group>"; };
 		94394FF918B4019B00A2FEDB /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = "Let's Eat/JSONKit.h"; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 			isa = PBXGroup;
 			children = (
 				94610F5918A950B40094779E /* Main.storyboard */,
+				9438EC1E18D405C2007A1643 /* TODO */,
 				94D2606718BD59A6005FF97C /* KnownBugs */,
 				941CE23118AEBE4600E773BF /* Server.h */,
 				941CE23218AEBE4600E773BF /* Server.m */,
@@ -354,6 +357,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				94610F6018A950B40094779E /* Images.xcassets in Resources */,
+				9438EC1F18D405C2007A1643 /* TODO in Resources */,
 				94610F5218A950B40094779E /* InfoPlist.strings in Resources */,
 				94610F5B18A950B40094779E /* Main.storyboard in Resources */,
 				94D2606818BD59A6005FF97C /* KnownBugs in Resources */,

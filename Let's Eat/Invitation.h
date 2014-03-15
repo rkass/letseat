@@ -25,4 +25,5 @@
 - (NSMutableArray*) generateResponsesArrays;
 - (NSString*) dateToString;
 -(BOOL) respondedNo;
+-(BOOL) needToRespondToDate;
 @end

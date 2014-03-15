@@ -10,5 +10,5 @@
 #import "LEViewController.h"
 
 @interface HomeViewController : LEViewController <UITableViewDataSource, UITableViewDelegate>
-
+@property (strong, nonatomic) IBOutlet UIDatePicker *date;
 @end

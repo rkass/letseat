@@ -11,6 +11,7 @@
 #import "WhoViewController.h"
 
 
+
 @interface CreateMealNavigationController ()
 
 @end
@@ -24,6 +25,11 @@
 
 }
 
+
+-(Invitation*) getInvitation{
+    NSLog(@"implement me!");
+    return [[Invitation alloc] init];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

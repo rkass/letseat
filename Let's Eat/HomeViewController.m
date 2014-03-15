@@ -13,7 +13,7 @@
 @interface HomeViewController ()
 @property (strong, nonatomic) UIViewController* whenViewController;
 @property (strong, nonatomic) IBOutlet UITableView *optionsTable;
-@property (strong, nonatomic) IBOutlet UIDatePicker *date;
+
 @property (strong, nonatomic) IBOutlet UITableView *options;
 @end
 

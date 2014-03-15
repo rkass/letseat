@@ -8,6 +8,6 @@
 
 #import "LEViewController.h"
 #import <CoreLocation/CoreLocation.h>
-@interface PriceViewController : LEViewController <UITextFieldDelegate, CLLocationManagerDelegate, UIScrollViewDelegate>
+@interface PriceViewController : LEViewController <UITextFieldDelegate, CLLocationManagerDelegate, UIScrollViewDelegate, UITextViewDelegate>
 
 @end

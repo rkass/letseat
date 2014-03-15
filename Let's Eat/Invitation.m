@@ -129,7 +129,11 @@
 {
     return [self.responseArray[ [self.people indexOfObject:@"You"] ] isEqualToString:@"no"];
 }
-
+-(BOOL) needToRespondToDate
+{
+    NSLog(@"implement me");
+    return YES;
+}
 
 - (NSString*) dateToString
 {

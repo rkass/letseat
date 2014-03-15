@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Invitation.h"
 
 @interface CreateMealNavigationController : UINavigationController
 
 @property BOOL creator;
+-(Invitation*)getInvitation;
+
 @end
