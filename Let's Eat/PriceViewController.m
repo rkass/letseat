@@ -39,7 +39,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *central;
 @property (strong, nonatomic) IBOutlet UIButton *byMe;
 @property (strong, nonatomic) IBOutlet UIStepper *stepper;
-
+@property bool switchTicked;
 @property (strong, nonatomic) CLLocation* myLocation;
 @property (strong, nonatomic) IBOutlet UISwitch *locSwitch;
 @property (strong, nonatomic) UIImageView* sliderFill;
@@ -69,7 +69,7 @@
 
 @implementation PriceViewController
 
-@synthesize white, thumb1, thumb2, sliderBackdrop, sliderPosition, sliderMaxX, sliderMinX, sliderMax, sliderMin, sliderFill, ppp, locSwitch, locationField, myLocation, locValidator, greencheck, redexc, central, byMe, stepper, timeOptions, scheduleWhen, subscroll, indicator, myUITextField, scroller, submit, indicator2, recRests, whenScheduleLabel, whiteBorder, respondToInvite, responder, whereLabel, white2, currLocLabel, nav, minPrice, maxPrice;
+@synthesize white, thumb1, thumb2, sliderBackdrop, sliderPosition, sliderMaxX, sliderMinX, sliderMax, sliderMin, sliderFill, ppp, locSwitch, locationField, myLocation, locValidator, greencheck, redexc, central, byMe, stepper, timeOptions, scheduleWhen, subscroll, indicator, myUITextField, scroller, submit, indicator2, recRests, whenScheduleLabel, whiteBorder, respondToInvite, responder, whereLabel, white2, currLocLabel, nav, minPrice, maxPrice, switchTicked;
 +(CLLocationManager*) locationManager
 {
     static CLLocationManager *locationManager = nil;
@@ -85,6 +85,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.switchTicked = NO;
     self.stepper.tintColor = [Graphics colorWithHexString:@"b8a37e"];
     [PriceViewController locationManager].delegate = self;
     [PriceViewController locationManager].desiredAccuracy = kCLLocationAccuracyBest;
@@ -336,6 +337,7 @@
 
 }
 - (IBAction)switchToggled:(id)sender {
+    self.switchTicked = YES;
     self.myLocation = nil;
     if (self.locSwitch.on){
         self.locationField.hidden = YES;
@@ -436,7 +438,16 @@
 
 - (BOOL) validate{
     if(!self.myLocation){
-        UIAlertView* av = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"Enter a valid location or use your current  location" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView* av;
+        if (!self.switchTicked){
+            av = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"We can't get a read on your current location, please enter it manually" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            self.locSwitch.on = NO;
+            self.locationField.hidden = NO;
+            [self.locationField becomeFirstResponder];
+        }
+        else{
+            av = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"Enter a valid location or use your current  location" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        }
         CGPoint offset = CGPointMake(0, 0);
         self.responder.hidden = NO;
         self.indicator2.hidden = YES;
@@ -446,6 +457,9 @@
         return NO;
     }
     return YES;
+}
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    return !([textField.text length]>80 && [string length] > range.length);
 }
 - (IBAction)respondSubmit:(id)sender {
     self.respondToInvite.hidden = YES;

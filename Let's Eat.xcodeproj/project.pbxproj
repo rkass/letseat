@@ -14,6 +14,8 @@
 		942CF35018B2852700BF1B70 /* LEViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 942CF34F18B2852700BF1B70 /* LEViewController.m */; };
 		942CF35318B2932F00BF1B70 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 942CF35218B2932F00BF1B70 /* LoginViewController.m */; };
 		9438EC1F18D405C2007A1643 /* TODO in Resources */ = {isa = PBXBuildFile; fileRef = 9438EC1E18D405C2007A1643 /* TODO */; };
+		9438EC2318D65EA0007A1643 /* TellFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9438EC2218D65EA0007A1643 /* TellFriendsViewController.m */; };
+		9438EC2518D6AAC8007A1643 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9438EC2418D6AAC8007A1643 /* MessageUI.framework */; };
 		94394FF518B3EBE200A2FEDB /* WhoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94394FF418B3EBE200A2FEDB /* WhoViewController.m */; };
 		94394FFB18B4019B00A2FEDB /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 94394FFA18B4019B00A2FEDB /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9448D86B18BFAAC5007D40D0 /* PriceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9448D86A18BFAAC5007D40D0 /* PriceViewController.m */; };
@@ -68,6 +70,9 @@
 		942CF35118B2932F00BF1B70 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		942CF35218B2932F00BF1B70 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		9438EC1E18D405C2007A1643 /* TODO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
+		9438EC2118D65EA0007A1643 /* TellFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TellFriendsViewController.h; sourceTree = "<group>"; };
+		9438EC2218D65EA0007A1643 /* TellFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TellFriendsViewController.m; sourceTree = "<group>"; };
+		9438EC2418D6AAC8007A1643 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		94394FF318B3EBE200A2FEDB /* WhoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhoViewController.h; sourceTree = "<group>"; };
 		94394FF418B3EBE200A2FEDB /* WhoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhoViewController.m; sourceTree = "<group>"; };
 		94394FF918B4019B00A2FEDB /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = "Let's Eat/JSONKit.h"; sourceTree = "<group>"; };
@@ -120,6 +125,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9438EC2518D6AAC8007A1643 /* MessageUI.framework in Frameworks */,
 				94D2605D18BBAA24005FF97C /* MapKit.framework in Frameworks */,
 				94610F4A18A950B40094779E /* CoreGraphics.framework in Frameworks */,
 				94610F4C18A950B40094779E /* UIKit.framework in Frameworks */,
@@ -162,8 +168,8 @@
 				9448D86A18BFAAC5007D40D0 /* PriceViewController.m */,
 				94D2606418BD2184005FF97C /* WhatViewController.h */,
 				94D2606518BD2184005FF97C /* WhatViewController.m */,
-				94D2605918BB9BE4005FF97C /* WhereViewController.h */,
-				94D2605A18BB9BE4005FF97C /* WhereViewController.m */,
+				9438EC2118D65EA0007A1643 /* TellFriendsViewController.h */,
+				9438EC2218D65EA0007A1643 /* TellFriendsViewController.m */,
 				94D2605618BA9DAB005FF97C /* CreateMealNavigationController.h */,
 				94D2605718BA9DAB005FF97C /* CreateMealNavigationController.m */,
 				94394FF318B3EBE200A2FEDB /* WhoViewController.h */,
@@ -182,6 +188,15 @@
 				942B9DA918AD5A44003F8CA6 /* HomeViewController.h */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		9438EC2018D61332007A1643 /* Deprecated */ = {
+			isa = PBXGroup;
+			children = (
+				94D2605918BB9BE4005FF97C /* WhereViewController.h */,
+				94D2605A18BB9BE4005FF97C /* WhereViewController.m */,
+			);
+			name = Deprecated;
 			sourceTree = "<group>";
 		};
 		94610F3B18A950B40094779E = {
@@ -206,6 +221,7 @@
 		94610F4618A950B40094779E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9438EC2418D6AAC8007A1643 /* MessageUI.framework */,
 				94D2605C18BBAA24005FF97C /* MapKit.framework */,
 				94610F4718A950B40094779E /* Foundation.framework */,
 				94610F4918A950B40094779E /* CoreGraphics.framework */,
@@ -220,9 +236,10 @@
 			children = (
 				94610F5918A950B40094779E /* Main.storyboard */,
 				9438EC1E18D405C2007A1643 /* TODO */,
-				94D2606718BD59A6005FF97C /* KnownBugs */,
 				941CE23118AEBE4600E773BF /* Server.h */,
+				94D2606718BD59A6005FF97C /* KnownBugs */,
 				941CE23218AEBE4600E773BF /* Server.m */,
+				9438EC2018D61332007A1643 /* Deprecated */,
 				94EF731018C8BEA500FFF973 /* Libraries */,
 				941CE22918AD6AB400E773BF /* Models */,
 				942B9DAC18AD5A8D003F8CA6 /* Controllers */,
@@ -380,6 +397,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				948C090418C51575002A3524 /* InvitationsViewController.m in Sources */,
+				9438EC2318D65EA0007A1643 /* TellFriendsViewController.m in Sources */,
 				9448D86B18BFAAC5007D40D0 /* PriceViewController.m in Sources */,
 				94394FF518B3EBE200A2FEDB /* WhoViewController.m in Sources */,
 				94D2606618BD2184005FF97C /* WhatViewController.m in Sources */,

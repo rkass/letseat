@@ -79,13 +79,25 @@
         [self.friendsCache insertObject:meDict atIndex:0];
     
 }
+-(int) findMe:(NSMutableArray*)arr{
+    int count = 0;
+    for (NSMutableDictionary* dict in arr){
+        if ([dict objectForKey:@"Me"]){
+            NSLog(@"count: %d", count);
+            return count;
+        }
 
+        count += 1;
+    }
+    NSLog(@"neg one");
+    return -1;
+}
 - (void) backPressed:(UIBarButtonItem *)sender {
     [self.navigationController popViewControllerAnimated:YES];
     self.navigationController.navigationBarHidden = YES;
 }
 -(void)addFriends:(UIBarButtonItem*) sender{
-    NSLog(@"implement me!");
+    [self performSegueWithIdentifier: @"whoToTellFriends" sender: self];   
 }
 
 -(NSMutableArray*)loadMutable
@@ -189,21 +201,22 @@
   //  NSLog(@"here");
 
     NSDictionary *resultsDictionary = [data objectFromJSONData];
+    NSLog(@"Friends: %@", resultsDictionary);
      //   NSLog(@"%@", resultsDictionary);
    // NSLog(@"friends cache %@", self.friendsCache);
   //  NSLog(@"friends%@", self.friends);
    if ([resultsDictionary objectForKey:@"success"])
    {
+       [self.friendsCache removeAllObjects];
        for (NSString* key in [resultsDictionary objectForKey:@"friends"])
        {
-           if (![self cacheContainsContact:key])
-           {
+
                NSMutableDictionary *dict;
                dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                    key, @"displayName", [[resultsDictionary objectForKey:@"friends"] objectForKey:key], @"numbers", @NO, @"checked", nil];
                [self.friendsCache addObject:dict];
               // NSLog(@"inside");
-           }
+
         }
        NSSortDescriptor *nameDescriptor =
        [[NSSortDescriptor alloc] initWithKey:@"displayName"
@@ -211,9 +224,17 @@
                                     selector:@selector(localizedCaseInsensitiveCompare:)];
 
        NSArray *descriptors = [NSArray arrayWithObjects:nameDescriptor, nil];
-
-       self.friendsCache = [[[self.friendsCache copy] sortedArrayUsingDescriptors:descriptors] mutableCopy];
-
+       NSMutableArray* copi = [self.friendsCache mutableCopy];
+       int removalIndex = [self findMe:self.friendsCache];
+       NSLog(@"removal index: %d", removalIndex);
+       if(removalIndex != -1)
+           [copi removeObjectAtIndex:removalIndex];
+       self.friendsCache = [[copi sortedArrayUsingDescriptors:descriptors] mutableCopy];
+       NSMutableDictionary* meDict = [[NSMutableDictionary alloc] init];
+       [meDict setObject:@"Me" forKey:@"displayName"];
+       [meDict setObject:@YES forKey:@"checked"];
+       [meDict setObject:@YES forKey:@"Me"];
+       [self.friendsCache insertObject:meDict atIndex:0];
        [LEViewController setUserDefault:@"friendsCache" data:self.friendsCache];
        [self storeFriends:self.friendsCache];
 

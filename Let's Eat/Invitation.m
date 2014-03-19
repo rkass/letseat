@@ -17,7 +17,7 @@
 @implementation Invitation
 @synthesize num, message, date, people, iResponded, creatorIndex, responseArray;
 
-- (id)init:(NSNumber*)numInput timeInput:(NSString*)timeInput peopleInput:(NSArray*)peopleInput messageInput:(NSString*)messageInput iRespondedInput:(BOOL)iRespondedInput creatorIndexInput:(NSNumber*)creatorIndexInput responseArrayInput:(NSArray*)responseArrayInput
+- (id)init:(NSNumber*)numInput timeInput:(NSString*)timeInput peopleInput:(NSArray*)peopleInput messageInput:(NSString*)messageInput iRespondedInput:(BOOL)iRespondedInput creatorIndexInput:(NSNumber*)creatorIndexInput responseArrayInput:(NSArray*)responseArrayInput centralInput:(BOOL)centralInput
 {
     self = [super init];
     if (self){
@@ -31,6 +31,7 @@
         self.num = [numInput integerValue];
         self.message = messageInput;
         self.iResponded = iRespondedInput;
+        self.central = centralInput;
         self.creatorIndex = [creatorIndexInput integerValue];
         self.responseArray = [responseArrayInput mutableCopy];
     }
@@ -50,6 +51,7 @@
     [dict setObject:self.people forKey:@"people"];
     [dict setObject:self.message forKey:@"message"];
     [dict setObject:[NSNumber numberWithBool:self.iResponded] forKey:@"iResponded"];
+    [dict setObject:[NSNumber numberWithBool:self.central] forKey:@"central"];
     [dict setObject:[NSNumber numberWithInt:self.creatorIndex] forKey:@"creatorIndex"];
     [dict setObject:self.responseArray forKey:@"responseArray"];
     return dict;
@@ -64,6 +66,7 @@
         self.people = dict[@"people"];
         self.message = dict[@"message"];
         self.iResponded = [dict[@"iResponded"] boolValue];
+        self.central = [dict[@"central"] boolValue];
         self.creatorIndex = [dict[@"creatorIndex"] intValue];
         self.responseArray = [dict[@"responseArray"] mutableCopy];
     }
@@ -101,19 +104,19 @@
 
 -(NSString*) displayPeople
 {
-    NSString* creator = self.people[self.creatorIndex];
+    NSString* creator = [self.people[self.creatorIndex] componentsSeparatedByString:@" "][0];
     if ([creator isEqualToString:@"You"]){
         if ([self.people count] == 1)
             return @"Just You";
         NSString* otherPerson;
         for (NSString* person in self.people){
             if (![person isEqualToString:@"You"])
-                otherPerson = person;
+                otherPerson = [person componentsSeparatedByString:@" "][0];
         }
         if ([self.people count] == 2)
             return [NSString stringWithFormat:@"You invited %@", otherPerson];
         if ([self.people count] == 3)
-            return [NSString stringWithFormat:@"You invited %@ and one other", otherPerson];
+            return [NSString stringWithFormat:@"You invited %@ and 1 other", otherPerson];
         return [NSString stringWithFormat:@"You invited %@ and %u others", otherPerson, [self.people count] - 2];
     }
     if ([self.people count] == 2)
@@ -131,8 +134,7 @@
 }
 -(BOOL) needToRespondToDate
 {
-    NSLog(@"implement me");
-    return YES;
+    return ([self.creator isEqualToString:@"You"] || self.central);
 }
 
 - (NSString*) dateToString
@@ -142,11 +144,11 @@
         if ([self.date isTomorrow])
             starter = @"Tomorrow at ";
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-        [dateFormat setDateFormat:@"hh:mm aa"];
+        [dateFormat setDateFormat:@"h:mm aa"];
         return [NSString stringWithFormat:@"%@%@", starter, [dateFormat stringFromDate:self.date]];
     }
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"cccc, MMM d, hh:mm aa"];
+    [dateFormat setDateFormat:@"cccc, MMM d, h:mm aa"];
     return [dateFormat stringFromDate:self.date];
 }
 

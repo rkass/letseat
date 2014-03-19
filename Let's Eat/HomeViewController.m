@@ -59,6 +59,7 @@
         UIImage *bigImage = [UIImage imageNamed:@"Logout"];
         cell.imageView.image = [Graphics makeThumbnailOfSize:bigImage size:CGSizeMake(20,20)];
     }
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     cell.imageView.frame = CGRectMake(0,0,10,10);
     cell.imageView.bounds = CGRectMake(0,0, 10, 10);
     cell.textLabel.textColor = [Graphics colorWithHexString:@"b8a37e"];
@@ -67,7 +68,13 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+    if (indexPath.row == 0)
+        [self performSegueWithIdentifier:@"homeToInvitations" sender:self];
+    else if (indexPath.row == 1)
+        [self performSegueWithIdentifier:@"homeToTellFriends" sender:self];
+    else{
+        
+    }
 
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

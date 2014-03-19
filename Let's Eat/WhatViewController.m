@@ -63,7 +63,6 @@
     self.two = [[UIImageView alloc ] initWithImage:twoImg];
 
     CGRect converted = [self.one convertRect:self.one.frame toView:self.view];
-    
     [self.two setFrame:CGRectMake(converted.origin.x, converted.origin.y + 55, self.inishPosish.size.width, self.inishPosish.size.height)];
     [self.view addSubview:self.two];
     UIImage* threeImg = [UIImage imageNamed:@"YellowThree"];
@@ -98,7 +97,7 @@
     [self.typesTable addGestureRecognizer:gesture];
     [self.wantTable addGestureRecognizer:gesture2];
     self.wantItems = [[NSMutableArray alloc] init];
-    self.typesItems = [@[@"American", @"Chinese", @"Diner", @"Indian", @"Italian", @"Japanese", @"Korean", @"Mediterranean", @"Mexican", @"Seafood", @"Spanish", @"Steakhouse", @"Thai", @"Vietnamese", @"Vegetarian"] mutableCopy];
+    self.typesItems = [@[@"American", @"Chinese", @"Diner", @"Indian", @"Italian", @"Japanese", @"Korean", @"Mediterranean", @"Mexican", @"Seafood", @"Spanish", @"Steakhouse", @"Thai", @"Vegetarian", @"Vietnamese"] mutableCopy];
     self.movingCellIndex = -1;
     self.movingCellOtherIndex = -1;
     UIImage *backImg = [UIImage imageNamed:@"BackBrownCarrot"];
@@ -197,6 +196,9 @@
 {
     NSMutableArray* lsource = self.wantItems;
     NSMutableArray* lotherSource = self.typesItems;
+    UITableView* otherTableView = self.wantTable;
+    if (tableView == otherTableView)
+        otherTableView = self.typesTable;
     if (tableView == self.typesTable){
         lsource = self.typesItems;
         lotherSource = self.wantItems;
@@ -204,9 +206,40 @@
     UITableViewCell* cell =[tableView cellForRowAtIndexPath:indexPath];
     NSString* txt = [[[[cell.textLabel.text componentsSeparatedByCharactersInSet:
                        [[NSCharacterSet letterCharacterSet] invertedSet]] componentsJoinedByString:@""] stringByReplacingOccurrencesOfString:@")" withString:@""] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    
-    [lotherSource insertObject:txt atIndex:0];
     [lsource removeObjectAtIndex:indexPath.row];
+    if (lotherSource == self.wantItems){
+        [lotherSource addObject:txt];
+        if ([lotherSource count] == 8){
+            NSString* removeit = lotherSource[6];
+            int count = 0;
+            for (NSString* food in lsource)
+            {
+                if ([removeit compare:food] ==  NSOrderedAscending){
+                    [lsource insertObject:removeit atIndex:count];
+                    break;
+                }
+                count += 1;
+            }
+            if (! [lsource containsObject:removeit])
+                [lsource addObject:removeit];
+            [lotherSource removeObjectAtIndex:6];
+
+        }
+    }
+    else{
+        int count = 0;
+        for (NSString* food in lotherSource)
+        {
+            if ([txt compare:food] ==  NSOrderedAscending){
+                [lotherSource insertObject:txt atIndex:count];
+                break;
+            }
+            count += 1;
+        }
+        if (! [lotherSource containsObject:txt])
+            [lotherSource addObject:txt];
+    }
+
     [self reloadTable:self.wantTable];//[self.wantTable reloadData];
     [self reloadTable:self.typesTable];//[self.typesTable reloadData];
 }
@@ -378,6 +411,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [self swapTables:tableView indexPath:indexPath];
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -403,7 +437,7 @@
     }
     else
         cell.accessoryView = nil;
-   
+    //[cell.textLabel sizeToFit];
     [self.view bringSubviewToFront:cell];
     return cell;
 }

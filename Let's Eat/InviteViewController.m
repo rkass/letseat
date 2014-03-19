@@ -11,6 +11,7 @@
 #import "InvitationsViewController.h"
 #import "JSONKit.h"
 #import "CreateMealNavigationController.h"
+#import "Graphics.h"
 
 @interface InviteViewController ()
 @property (strong, nonatomic) IBOutlet UITableView *rsvpTable;
@@ -30,12 +31,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if ([[self.invitation creator] isEqualToString:@"You"])
-        self.title = @"Your Invitation";
-    else
-        self.title = [NSString stringWithFormat:@"Invite from %@", [self.invitation creator]];
+    self.title = @"Invitation";
     self.rsvpTable.delegate = self;
     self.rsvpTable.dataSource = self;
+    [self.yes setTitleColor:[Graphics colorWithHexString:@"ffa500"] forState:UIControlStateNormal];
+    [self.no setTitleColor:[Graphics colorWithHexString:@"ffa500"] forState:UIControlStateNormal];
     CreateMealNavigationController* cmnc = (CreateMealNavigationController*) self.navigationController;
     cmnc.creator = NO;
     NSMutableArray* arrays = [self.invitation generateResponsesArrays];
@@ -49,11 +49,60 @@
     NSLog(@"%@", NSStringFromCGRect(self.date.frame));
     self.date.text = [self.invitation dateToString];
     self.message.text = self.invitation.message;
+    if ([self.message.text isEqualToString:@""]){
+        if (![self.invitation.creator isEqualToString:@"You"])
+            self.message.text = [self.invitation.creator stringByAppendingString:@" invited you to eat!"];
+        else
+            self.message.text = @"Your invitation";
+    }
+    
+    else{
+        if (![self.invitation.creator isEqualToString:@"You"])
+            self.message.text = [[self.invitation.creator stringByAppendingString:@" invited you to eat and says:\n"] stringByAppendingString:self.message.text];
+        else
+            self.message.text = [@"Your invitation with message:\n" stringByAppendingString:self.message.text];
+    }
     self.message.numberOfLines = 0;
     self.suggestedRestaurants.hidden = YES;
     self.rsvpTable.hidden = NO;
     self.message.hidden = NO;
+    self.rsvpTable.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
+    self.view.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
+    UIImage *backImg = [UIImage imageNamed:@"BackBrownCarrot"];
+    //UIImage* homeImg = [Graphics makeThumbnailOfSize:bigImage size:CGSizeMake(37,22)];
+    UIButton *back = [UIButton buttonWithType:UIButtonTypeCustom];
+    back.bounds = CGRectMake( 0, 0, backImg.size.width, backImg.size.height );
+    [back setImage:backImg forState:UIControlStateNormal];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:back];
+    [back addTarget:self action:@selector(backPressed:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = backItem;
+    UIImage *bigImage = [UIImage imageNamed:@"Home"];
+    UIImage* homeImg = [Graphics makeThumbnailOfSize:bigImage size:CGSizeMake(30,30)];
+    UIButton *home = [UIButton buttonWithType:UIButtonTypeCustom];
+    home.bounds = CGRectMake( 0, 0, homeImg.size.width, homeImg.size.height );
+    [home setImage:homeImg forState:UIControlStateNormal];
+    UIBarButtonItem *homeItem = [[UIBarButtonItem alloc] initWithCustomView:home];
+    [home addTarget:self action:@selector(homePressed:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = homeItem;
+    NSLog(@"number of lines: %d",[self.message numberOfLines]);
+   // CGRect rect = [self.message.text boundingRectWithSize:CGSizeMake(self.message.frame.size.width, CGFLOAT_MAX) options: NSStringDrawingUsesLineFragmentOrigin context:nil];
+
+    [self.message sizeToFit];
 	
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 20;
+}
+
+-(void)homePressed:(UIBarButtonItem*)sender{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+    self.navigationController.navigationBarHidden = YES;
+}
+-(void)backPressed:(UIBarButtonItem*)sender{
+    [self.navigationController popViewControllerAnimated:YES];
+    
+    
 }
 - (IBAction)overviewPressed:(id)sender {
     self.suggestedRestaurants.hidden = YES;

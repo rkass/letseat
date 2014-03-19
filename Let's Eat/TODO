@@ -1,16 +1,3 @@
-In Rank Preferences change the way objects get 
-tossed back and forth between tables.  if we're 
-tossing something back to the types list, through it in
-alphabetical order.  If we're tossing it into the 
-want list add it at the end, unless there's seven then
-put it as the seventh (index 6).
-
-In WhoView make me the first entry.
-
-In Price View Controller, transition to the correct
-invitation view after successfully creating or
-responding to an invitation.
-
 Add the tell friends page.
 
 Add the logout feature.
@@ -19,8 +6,15 @@ Rennovate invitations view
 
 Rennovate Invite View
 
+
+In Price View Controller, transition to the correct
+invitation view after successfully creating or
+responding to an invitation.
+
 Add Suggested Restaurants
 
 Create Restaurant View
 
 Scheduled View, Rate this app, 
+
+Depixelate photos

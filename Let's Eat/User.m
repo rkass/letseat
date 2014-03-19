@@ -61,6 +61,12 @@
     [Server postRequest:@"get_friends" data:[User jsonifyContacts] source:source];
 }
 
++ (void) getNonFriends:(NSObject *) source
+{
+    
+    [Server postRequest:@"get_non_friends" data:[User jsonifyContacts] source:source];
+}
+
 + (void)login:(NSString *)usernameAttempt password:(NSString *)password source:(NSObject*)source
 {
     NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:usernameAttempt, @"username", password, @"password", nil];

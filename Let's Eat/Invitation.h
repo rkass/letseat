@@ -16,8 +16,9 @@
 @property (strong, nonatomic) NSString* message;
 @property (strong, nonatomic) NSMutableArray* responseArray;
 @property BOOL iResponded;
+@property BOOL central;
 -(BOOL)passed;
-- (id)init:(NSNumber*)numInput timeInput:(NSString*)timeInput peopleInput:(NSArray*)peopleInput messageInput:(NSString*)messageInput iRespondedInput:(BOOL)iRespondedInput creatorIndexInput:(NSNumber*)creatorIndexInput responseArrayInput:(NSArray*)responseArrayInput;
+- (id)init:(NSNumber*)numInput timeInput:(NSString*)timeInput peopleInput:(NSArray*)peopleInput messageInput:(NSString*)messageInput iRespondedInput:(BOOL)iRespondedInput creatorIndexInput:(NSNumber*)creatorIndexInput responseArrayInput:(NSArray*)responseArrayInput centralInput:(BOOL)centralInput;
 -(NSString*) displayPeople;
 -(id)initWithDict:(NSMutableDictionary*)dict;
 -(NSMutableDictionary*)serialize;

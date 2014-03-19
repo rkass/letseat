@@ -11,28 +11,55 @@
 #import "JSONKit.h"
 #import "Invitation.h"
 #import "InviteViewController.h"
+#import "Graphics.h"
 
 @interface InvitationsViewController ()
 
 @property (strong, nonatomic) NSIndexPath* selectedIndexPath;
+@property (strong, nonatomic) UIImage* carrot;
+@property (strong, nonatomic) UIImage* reply;
 
 @end
 
 @implementation InvitationsViewController
-@synthesize passedInvitations, selectedIndexPath, upcomingInvitations;
+@synthesize passedInvitations, selectedIndexPath, upcomingInvitations, carrot, reply;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    UIImage* bigCarrot = [UIImage imageNamed:@"OrangeCarrot"];
+    self.carrot = [Graphics makeThumbnailOfSize:bigCarrot size:CGSizeMake(10, 10)];
+    UIImage* bigReply = [UIImage imageNamed:@"Reply"];
+    self.reply = [Graphics makeThumbnailOfSize:bigReply size:CGSizeMake(14, 18)];
     self.title = @"Invitations";
     self.invitationsTable.dataSource = self;
     self.invitationsTable.delegate = self;
+    self.invitationsTable.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
     self.passedInvitations = [self loadInvitation:@"passedInvitations"];
     self.upcomingInvitations = [self loadInvitation:@"upcomingInvitations"];
     [self syncInvitations];
     [self.invitationsTable reloadData];
     [User getInvitations:self];
+    [self.navigationController setNavigationBarHidden:NO];
+    UIImage *bigImg = [UIImage imageNamed:@"HomeBack"];
+    UIImage* backImg = [Graphics makeThumbnailOfSize:bigImg size:CGSizeMake(37,22)];
+    UIButton *back = [UIButton buttonWithType:UIButtonTypeCustom];
+    back.bounds = CGRectMake( 0, 0, backImg.size.width, backImg.size.height );
+    [back setImage:backImg forState:UIControlStateNormal];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:back];
+    [back addTarget:self action:@selector(homePressed:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = backItem;
 	// Do any additional setup after loading the view.
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 20;
+}
+
+-(void)homePressed:(UIBarButtonItem*)sender{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+    self.navigationController.navigationBarHidden = YES;
 }
 
 - (NSMutableArray*) loadInvitation:(NSString*)invitations
@@ -113,7 +140,7 @@
     NSLog(@"%@", resultsDictionary);
     for (NSMutableDictionary* dict in resultsDictionary[@"invitations"]){
         NSLog(@"%@", dict);
-        Invitation* i = [[Invitation alloc] init:dict[@"id"] timeInput:dict[@"time"] peopleInput:dict[@"people"] messageInput:dict[@"message"] iRespondedInput:[dict[@"iResponded"] boolValue] creatorIndexInput:dict[@"creatorIndex"] responseArrayInput:dict[@"responses"]];
+        Invitation* i = [[Invitation alloc] init:dict[@"id"] timeInput:dict[@"time"] peopleInput:dict[@"people"] messageInput:dict[@"message"] iRespondedInput:[dict[@"iResponded"] boolValue] creatorIndexInput:dict[@"creatorIndex"] responseArrayInput:dict[@"responses"] centralInput:[dict[@"central"] boolValue]];
         [self addInvitation:i];
     }
     [self.invitationsTable reloadData];
@@ -151,12 +178,13 @@
         i = [self.passedInvitations objectAtIndex:indexPath.row];
     cell.textLabel.text = [i displayPeople];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"cccc, MMM d, hh:mm aa"];
+    [dateFormat setDateFormat:@"cccc, MMM d, h:mm aa"];
     if (!i.iResponded && indexPath.section == 0)
-        cell.backgroundColor = [UIColor redColor];
+        cell.accessoryView = [[UIImageView alloc] initWithImage:self.reply];
     else
-        cell.backgroundColor = [UIColor clearColor];
+        cell.accessoryView = [[UIImageView alloc] initWithImage:self.carrot];
     cell.detailTextLabel.text = [dateFormat stringFromDate:i.date];
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;
 }
 
