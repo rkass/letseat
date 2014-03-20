@@ -15,9 +15,9 @@
 @end
 
 @implementation Invitation
-@synthesize num, message, date, people, iResponded, creatorIndex, responseArray;
+@synthesize num, message, date, people, iResponded, creatorIndex, responseArray, central, preferences;
 
-- (id)init:(NSNumber*)numInput timeInput:(NSString*)timeInput peopleInput:(NSArray*)peopleInput messageInput:(NSString*)messageInput iRespondedInput:(BOOL)iRespondedInput creatorIndexInput:(NSNumber*)creatorIndexInput responseArrayInput:(NSArray*)responseArrayInput centralInput:(BOOL)centralInput
+- (id)init:(NSNumber*)numInput timeInput:(NSString*)timeInput peopleInput:(NSArray*)peopleInput messageInput:(NSString*)messageInput iRespondedInput:(BOOL)iRespondedInput creatorIndexInput:(NSNumber*)creatorIndexInput responseArrayInput:(NSArray*)responseArrayInput centralInput:(BOOL)centralInput preferencesInput:(NSArray*)preferencesInput
 {
     self = [super init];
     if (self){
@@ -34,6 +34,7 @@
         self.central = centralInput;
         self.creatorIndex = [creatorIndexInput integerValue];
         self.responseArray = [responseArrayInput mutableCopy];
+        self.preferences = [preferencesInput mutableCopy];
     }
     return self;
 }
@@ -54,7 +55,31 @@
     [dict setObject:[NSNumber numberWithBool:self.central] forKey:@"central"];
     [dict setObject:[NSNumber numberWithInt:self.creatorIndex] forKey:@"creatorIndex"];
     [dict setObject:self.responseArray forKey:@"responseArray"];
+    [dict setObject:self.preferences forKey:@"preferences"];
     return dict;
+}
+
+-(NSData*)serializeToData{
+    
+    return [NSKeyedArchiver archivedDataWithRootObject:[self serialize]];
+}
+
+-(NSString*) preferencesForPerson:(NSString*)person
+{
+    NSString* ret = @"";
+    NSLog(@"preferences: %@", self.preferences);
+    NSLog(@"index: %d", [self.people indexOfObject:person]);
+    int count = 1;
+    for (NSString* foodType in self.preferences[[self.people indexOfObject:person]]){
+        if (count == [self.preferences[[self.people indexOfObject:person]] count])
+            ret = [ret stringByAppendingString:[NSString stringWithFormat:@"%@",  foodType]];
+        else
+            ret = [ret stringByAppendingString:[NSString stringWithFormat:@"%@, ", foodType]];
+        count += 1;
+        NSLog(@"%@",ret);
+    }
+    NSLog(@"final:%@", ret);
+    return ret;
 }
 
 -(id)initWithDict:(NSMutableDictionary*)dict
@@ -69,8 +94,14 @@
         self.central = [dict[@"central"] boolValue];
         self.creatorIndex = [dict[@"creatorIndex"] intValue];
         self.responseArray = [dict[@"responseArray"] mutableCopy];
+        self.preferences = [dict[@"preferences"] mutableCopy];
     }
     return self;
+}
+
+-(id)initWithData:(NSData*)data
+{
+    return [self initWithDict:[NSKeyedUnarchiver unarchiveObjectWithData:data]];
 }
 
 /*

@@ -18,15 +18,16 @@
 @property (strong, nonatomic) NSIndexPath* selectedIndexPath;
 @property (strong, nonatomic) UIImage* carrot;
 @property (strong, nonatomic) UIImage* reply;
-
+@property (strong, nonatomic) NSNumber* acquired;
 @end
 
 @implementation InvitationsViewController
-@synthesize passedInvitations, selectedIndexPath, upcomingInvitations, carrot, reply;
+@synthesize passedInvitations, selectedIndexPath, upcomingInvitations, carrot, reply, acquired;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.acquired = [NSNumber numberWithInt:0];
     UIImage* bigCarrot = [UIImage imageNamed:@"OrangeCarrot"];
     self.carrot = [Graphics makeThumbnailOfSize:bigCarrot size:CGSizeMake(10, 10)];
     UIImage* bigReply = [UIImage imageNamed:@"Reply"];
@@ -65,8 +66,8 @@
 - (NSMutableArray*) loadInvitation:(NSString*)invitations
 {
     NSMutableArray* ret = [[NSMutableArray alloc] init];
-    for (NSMutableDictionary* dict in [[NSUserDefaults standardUserDefaults] arrayForKey:invitations])
-        [ret addObject:[[Invitation alloc] initWithDict:dict]];
+    for (NSData* data in [[NSUserDefaults standardUserDefaults] arrayForKey:invitations])
+        [ret addObject:[[Invitation alloc] initWithData:data]];
     return ret;
 }
 
@@ -75,9 +76,9 @@
     NSMutableArray* pi = [[NSMutableArray alloc] init];
     NSMutableArray* ui = [[NSMutableArray alloc] init];
     for(Invitation* i in self.passedInvitations)
-        [pi addObject:[i serialize]];
+        [pi addObject:[i serializeToData]];
     for (Invitation* i in self.upcomingInvitations)
-        [ui addObject:[i serialize]];
+        [ui addObject:[i serializeToData]];
     [LEViewController setUserDefault:@"passedInvitations" data:pi];
     [LEViewController setUserDefault:@"upcomingInvitations" data:ui];
 }
@@ -112,35 +113,40 @@
 
 - (void) addInvitation:(Invitation*)invitation
 {
-    Invitation* remove;
-    for (Invitation* i in self.upcomingInvitations){
-        if (i.num == invitation.num){
-            remove = i;
-            break;
-        }
-    }
-    if (remove)
-        [self.upcomingInvitations removeObject:remove];
-    remove = nil;
-    for (Invitation* i in self.passedInvitations){
-        if (i.num == invitation.num){
-            remove = i;
-            break;
-        }
-    }
-    if (remove)
-        [self.passedInvitations removeObject:remove];
     [self.upcomingInvitations addObject:invitation];
     [self syncInvitations];
 }
 
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
+    @synchronized(self.acquired){
+        if(self.acquired.integerValue == 1)
+            return;
+    }
     NSDictionary *resultsDictionary = [data objectFromJSONData];
     NSLog(@"%@", resultsDictionary);
+    if(!resultsDictionary){
+        @synchronized(self.acquired){
+            NSLog(@"in here");
+            if (self.acquired.integerValue == 0){
+                NSLog(@"recalling");
+                [User getInvitations:self];
+                
+            }
+        }
+        return;
+    }
+    else{
+        @synchronized(self.acquired){
+            self.acquired = [NSNumber numberWithInt:1];
+        }
+    }
+    [self.passedInvitations removeAllObjects];
+    [self.upcomingInvitations removeAllObjects];
+
     for (NSMutableDictionary* dict in resultsDictionary[@"invitations"]){
-        NSLog(@"%@", dict);
-        Invitation* i = [[Invitation alloc] init:dict[@"id"] timeInput:dict[@"time"] peopleInput:dict[@"people"] messageInput:dict[@"message"] iRespondedInput:[dict[@"iResponded"] boolValue] creatorIndexInput:dict[@"creatorIndex"] responseArrayInput:dict[@"responses"] centralInput:[dict[@"central"] boolValue]];
+      //  NSLog(@"%@", dict);
+        Invitation* i = [[Invitation alloc] init:dict[@"id"] timeInput:dict[@"time"] peopleInput:dict[@"people"] messageInput:dict[@"message"] iRespondedInput:[dict[@"iResponded"] boolValue] creatorIndexInput:dict[@"creatorIndex"] responseArrayInput:dict[@"responses"] centralInput:[dict[@"central"] boolValue] preferencesInput:dict[@"preferences"]];
         [self addInvitation:i];
     }
     [self.invitationsTable reloadData];

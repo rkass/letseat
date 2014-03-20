@@ -167,7 +167,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+       cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         
         
     }
@@ -179,6 +179,11 @@
     else
         p = [self.notGoing objectAtIndex:indexPath.row];
     cell.textLabel.text = p;
+    if (indexPath.section == 0){
+        cell.detailTextLabel.text = [self.invitation preferencesForPerson:p];
+        NSLog(@"prefs: %@",[self.invitation preferencesForPerson:p]);
+    }
+    
     return cell;
 }
 - (void)didReceiveMemoryWarning
