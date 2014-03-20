@@ -1,0 +1,17 @@
+revise invitation view so that
+
+1) it shows the time, date, and message
+2) it shows suggested restaurants to those who have responded (today)
+--------------------------------------------------------------
+
+3) add in the ability to schedule a meal which means
+
+  - adding an option for the creator on priceviewcontroller which says "schdule after everyone responds or x minutes"
+  - adding a property to invitations that says scheduled/not scheduled
+  - change the suggested restaurants view to scheduled restaurants view (saturday)
+
+4) push notifications (sunday, monday, tuesday)
+
+5) write restaurant finder (wednesday, thursday, friday)
+
+6) fix bugs (saturday, sunday, monday)
