@@ -50,6 +50,7 @@
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:back];
     [back addTarget:self action:@selector(homePressed:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = backItem;
+
 	// Do any additional setup after loading the view.
 }
 
@@ -114,22 +115,22 @@
 - (void) addInvitation:(Invitation*)invitation
 {
     [self.upcomingInvitations addObject:invitation];
-    [self syncInvitations];
+    //[self syncInvitations];
 }
 
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     @synchronized(self.acquired){
-        if(self.acquired.integerValue == 1)
+        if(self.acquired.integerValue == 1 || [self.navigationController viewControllers][[[self.navigationController viewControllers] count] -1 ] != self)
             return;
     }
     NSDictionary *resultsDictionary = [data objectFromJSONData];
-    NSLog(@"%@", resultsDictionary);
+    //NSLog(@"%@", resultsDictionary);
     if(!resultsDictionary){
         @synchronized(self.acquired){
-            NSLog(@"in here");
+            NSLog(@"recalling");
             if (self.acquired.integerValue == 0){
-                NSLog(@"recalling");
+                sleep(.1);
                 [User getInvitations:self];
                 
             }
@@ -141,14 +142,19 @@
             self.acquired = [NSNumber numberWithInt:1];
         }
     }
+    NSLog(@"building table");
     [self.passedInvitations removeAllObjects];
     [self.upcomingInvitations removeAllObjects];
 
     for (NSMutableDictionary* dict in resultsDictionary[@"invitations"]){
+       // NSLog(@"one");
       //  NSLog(@"%@", dict);
+        [self.upcomingInvitations addObject:[[Invitation alloc] init:dict[@"id"] timeInput:dict[@"time"] peopleInput:dict[@"people"] messageInput:dict[@"message"] iRespondedInput:[dict[@"iResponded"] boolValue] creatorIndexInput:dict[@"creatorIndex"] responseArrayInput:dict[@"responses"] centralInput:[dict[@"central"] boolValue] preferencesInput:dict[@"preferences"]]];/*
         Invitation* i = [[Invitation alloc] init:dict[@"id"] timeInput:dict[@"time"] peopleInput:dict[@"people"] messageInput:dict[@"message"] iRespondedInput:[dict[@"iResponded"] boolValue] creatorIndexInput:dict[@"creatorIndex"] responseArrayInput:dict[@"responses"] centralInput:[dict[@"central"] boolValue] preferencesInput:dict[@"preferences"]];
-        [self addInvitation:i];
-    }
+        [self addInvitation:i];*/
+        
+    }NSLog(@"reloading data");
+    [self syncInvitations];
     [self.invitationsTable reloadData];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -208,6 +214,7 @@
     self.selectedIndexPath = indexPath;
     [self performSegueWithIdentifier:@"invitationsToInvite" sender:self];
 }
+       
 
 
 - (void)didReceiveMemoryWarning

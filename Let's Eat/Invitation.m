@@ -70,6 +70,7 @@
     NSLog(@"preferences: %@", self.preferences);
     NSLog(@"index: %d", [self.people indexOfObject:person]);
     int count = 1;
+    person = [person stringByReplacingOccurrencesOfString:@" (creator)" withString:@""];
     for (NSString* foodType in self.preferences[[self.people indexOfObject:person]]){
         if (count == [self.preferences[[self.people indexOfObject:person]] count])
             ret = [ret stringByAppendingString:[NSString stringWithFormat:@"%@",  foodType]];
@@ -118,14 +119,23 @@
     int count = 0;
     for (NSString* person in self.people)
     {
-        if ([self.responseArray[count] isEqualToString:@"yes"])
-            [going addObject:person];
+        if ([self.responseArray[count] isEqualToString:@"yes"]){
+            if (count == self.creatorIndex)
+                [going addObject:[person stringByAppendingString:@" (creator)"]];
+            else
+                [going addObject:person];
+        }
+
         else if ([self.responseArray[count] isEqualToString:@"undecided"])
             [undecided addObject:person];
         else
             [notGoing addObject:person];
         count += 1;
     }
+    if ([undecided count] == 0)
+        [undecided addObject:@"(None)"];
+    if ([notGoing count] == 0)
+        [notGoing addObject:@"(None)"];
     NSMutableArray* ret = [[NSMutableArray alloc] init];
     [ret addObject:going];
     [ret addObject:undecided];

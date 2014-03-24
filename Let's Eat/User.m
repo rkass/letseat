@@ -11,6 +11,7 @@
 #import <AddressBook/AddressBook.h>
 #import <AddressBookUI/AddressBookUI.h>
 #import "JSONKit.h"
+#import "LEViewController.h"
 
 @implementation User
 
@@ -78,24 +79,35 @@
 //number
 + (NSString*)contactNameForNumber:(NSString*)phoneNumber
 {
+    NSString* ret;
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"phone_number"] isEqualToString:phoneNumber])
         return @"You";
+    if ([[NSUserDefaults standardUserDefaults] stringForKey:[@"pn" stringByAppendingString:phoneNumber]])
+        return [[NSUserDefaults standardUserDefaults] stringForKey:[@"pn" stringByAppendingString:phoneNumber]];
     for (NSDictionary* dict in [User getContacts]){
         for (NSString* number in dict[@"phone_numbers"]){
             NSString * newnum = [number stringByReplacingOccurrencesOfString:@"[^0-9]" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, [number length])];
             if ([[newnum substringToIndex:1] isEqualToString:@"1"])
                 newnum = [newnum substringFromIndex:1];
             if ([newnum isEqualToString:phoneNumber]){
-               if (dict[@"last_name"] && dict[@"last_name"])
-                   return [[dict[@"first_name"] stringByAppendingString:@ " "] stringByAppendingString:dict[@"last_name"]];
-                if (dict[@"first_name"])
-                    return dict[@"first_name"];
-                if (dict[@"last_name"])
-                    return dict[@"last_name"];
+                if (dict[@"last_name"] && dict[@"last_name"]){
+                   ret =  [[dict[@"first_name"] stringByAppendingString:@ " "] stringByAppendingString:dict[@"last_name"]];
+                    break;}
+                if (dict[@"first_name"]){
+                    ret = dict[@"first_name"];
+                    break;
+                }
+                if (dict[@"last_name"]){
+                    ret = dict[@"last_name"];
+                    break;
+                }
             }
         }
     }
-    return phoneNumber;
+    if (!ret)
+        ret = phoneNumber;
+    [LEViewController setUserDefault:[@"pn" stringByAppendingString:phoneNumber] data:ret];
+    return ret;
 }
 
 //Returns contacts and auth_token
