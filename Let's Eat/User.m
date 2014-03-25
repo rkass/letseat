@@ -56,6 +56,13 @@
     [Server postRequest:@"get_invitations" data:[dict JSONData] source:source];
 }
 
++ (void) getRestaurants:(int)num source:(NSObject*)source{
+    NSMutableDictionary* data = [[NSMutableDictionary alloc] init];
+    [data setObject:[NSNumber numberWithInt:num] forKey:@"id"];
+    [data setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
+    [Server postRequest:@"get_restaurants" data:[data JSONData] source:source];
+}
+
 + (void) getFriends:(NSObject *) source
 {
     

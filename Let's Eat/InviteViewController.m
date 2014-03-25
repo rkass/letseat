@@ -12,6 +12,8 @@
 #import "JSONKit.h"
 #import "CreateMealNavigationController.h"
 #import "Graphics.h"
+#import "Restaurant.h"
+#import "RestaurantTableViewCell.h"
 
 @interface InviteViewController ()
 
@@ -26,22 +28,32 @@
 @property (strong, nonatomic) IBOutlet UIButton *overview;
 @property (strong, nonatomic) NSMutableArray* notGoing;
 @property (strong, nonatomic) IBOutlet UILabel *message;
+@property (strong, nonatomic) NSNumber* acquired;
+@property (strong, nonatomic) NSMutableArray* restaurantsArr;
+@property (strong, nonatomic) NSMutableData* responseData;
+@property int tries;
 @end
 
 @implementation InviteViewController
-@synthesize invitation, rsvpTable, going, undecided, notGoing, overview, restaurants,  restaurantsTable, white;
+@synthesize invitation, rsvpTable, going, undecided, notGoing, overview, restaurants,  restaurantsTable, white, acquired, tries, restaurantsArr, responseData;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.restaurantsTable.hidden = YES;
     self.title = @"Invitation";
+    self.responseData = [[NSMutableData alloc] initWithLength:0];
+    self.tries = 0;
+    self.restaurantsTable.dataSource = self;
+    self.restaurantsTable.delegate = self;
+    self.acquired = [NSNumber numberWithInt:0];
     self.overview.backgroundColor = [Graphics colorWithHexString:@"b8a37e"];
     self.restaurants.backgroundColor = [UIColor clearColor];
     self.overview.titleLabel.textColor = [UIColor blackColor];
     self.restaurants.titleLabel.textColor = [UIColor grayColor];
     self.rsvpTable.delegate = self;
     self.rsvpTable.dataSource = self;
+    self.restaurantsArr = [self loadRestaurants];
   //  [self.yes setTitleColor:[Graphics colorWithHexString:@"ffa500"] forState:UIControlStateNormal];
     //[self.no setTitleColor:[Graphics colorWithHexString:@"ffa500"] forState:UIControlStateNormal];
     CreateMealNavigationController* cmnc = (CreateMealNavigationController*) self.navigationController;
@@ -54,6 +66,8 @@
     if (self.invitation.iResponded || [self.invitation passed]){
         self.overview.titleLabel.text = @"Overview";
         self.restaurants.titleLabel.text = @"Restaurants";
+        NSLog(@"calling");
+        [User getRestaurants:self.invitation.num source:self];
       //  self.yes.hidden = YES;
        // self.no.hidden = YES;
 
@@ -68,7 +82,8 @@
        // self.restaurants.titleLabel.textAlignment = NSTextAlignmentCenter;
     }
     [self.white setBackgroundColor:[UIColor colorWithRed:184 green:163 blue:126 alpha:1]];
-    NSLog(@"%@", NSStringFromCGRect(self.date.frame));
+   
+    
     self.date.text = [self.invitation dateToString];
     if (self.invitation.message.length >80)
         self.message.text = [self.invitation.message substringToIndex:80];
@@ -114,7 +129,6 @@
     [self.view sendSubviewToBack:self.restaurants];
     [self.view sendSubviewToBack:self.overview];
     [self.view sendSubviewToBack:self.white];
-
     
 
 	
@@ -122,7 +136,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 20;
+    if (tableView == self.rsvpTable)
+        return 20;
+    return 2;
 }
 
 -(void)homePressed:(UIBarButtonItem*)sender{
@@ -133,6 +149,14 @@
     [self.navigationController popViewControllerAnimated:YES];
     
     
+}
+- (NSMutableArray*) loadRestaurants
+{
+    NSMutableArray* ret = [[NSMutableArray alloc] init];
+    for (NSData* data in [[NSUserDefaults standardUserDefaults] arrayForKey:
+                          [@"restaurants" stringByAppendingString:[NSString stringWithFormat:@"%d", self.invitation.num]]])
+        [ret addObject:[[Restaurant alloc] initWithData:data]];
+    return ret;
 }
 - (IBAction)overviewPressed:(id)sender {
     if (self.invitation.iResponded || [self.invitation passed]){
@@ -174,6 +198,7 @@
     }
     
 }
+
 /*
 - (IBAction)overviewPressed:(id)sender {
     self.suggestedRestaurants.hidden = YES;
@@ -200,64 +225,95 @@
         [User respondNo:self.invitation.num message:[alertView textFieldAtIndex:0].text source:self];
 }
 
+- (void)connectionDidFinishLoading:(NSURLConnection*)connection{
+    NSMutableDictionary* resultsDictionary = [self.responseData objectFromJSONData];
+    NSLog(@"data: %@", self.responseData);
+    NSLog(@"%@", resultsDictionary);
+    [self.responseData setLength:0];
+    if ([resultsDictionary[@"request"] isEqualToString:@"restaurants" ]){
+        [self.restaurantsArr removeAllObjects];
+        for (NSMutableDictionary* dict in resultsDictionary[@"restaurants"]){
+            [self.restaurantsArr addObject:[[Restaurant alloc] init:dict[@"address"] distanceInput:dict[@"distance"] nameInput:dict[@"name"] percentMatchInput:dict[@"percentMatch"] priceInput:dict[@"price"] ratingImgInput:dict[@"rating_img"] snippetImgInput:dict[@"snippet_img"] votesInput:dict[@"votes"] typesInput:dict[@"types_list"] iVotedInput:[dict[@"user_voted"] boolValue]]];
+        }
+        NSMutableArray* serialzedRests = [[NSMutableArray alloc] init];
+        for (Restaurant* r in self.restaurantsArr)
+            [serialzedRests addObject:[r serializeToData]];
+        [LEViewController setUserDefault:[@"restaurants" stringByAppendingString:[NSString stringWithFormat:@"%d", self.invitation.num]] data:serialzedRests];
+        [self.restaurantsTable reloadData];
+    }
+    else{
+        if ([resultsDictionary[@"success"] isEqual: @YES]){
+            InvitationsViewController* ivc = (InvitationsViewController*)[self.navigationController viewControllers][[[self.navigationController viewControllers] count] - 2 ];
+            if ([ivc.upcomingInvitations containsObject:self.invitation]){
+                [ivc.upcomingInvitations removeObject:self.invitation];
+                [ivc saveInvitations];
+                [ivc.invitationsTable reloadData];
+            }
+            [self.navigationController popViewControllerAnimated:YES];
+        }}
+    
+}
+
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    NSDictionary *resultsDictionary = [data objectFromJSONData];
-    NSLog(@"%@", resultsDictionary);
-    if ([resultsDictionary[@"success"] isEqual: @YES]){
-        InvitationsViewController* ivc = (InvitationsViewController*)[self.navigationController viewControllers][[[self.navigationController viewControllers] count] - 2 ];
-        if ([ivc.upcomingInvitations containsObject:self.invitation]){
-            [ivc.upcomingInvitations removeObject:self.invitation];
-            [ivc saveInvitations];
-            [ivc.invitationsTable reloadData];
-        }
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+    NSLog(@"receiving");
+    [self.responseData appendData:data];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0)
-        return [self.going count];
-    if (section == 1)
-        return [self.undecided count];
-    return [self.notGoing count];
+    if (tableView == self.rsvpTable){
+        if (section == 0)
+            return [self.going count];
+        if (section == 1)
+            return [self.undecided count];
+        return [self.notGoing count];}
+    else
+        return [self.restaurantsArr count];
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    if (tableView == self.rsvpTable)
+        return 3;
+    return 1;
 }
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if (section == 0)
-        return @"Going";
-    if (section == 1)
-        return @"Undecided";
-    return @"Declined";
+    if (tableView == self.rsvpTable){
+        if (section == 0)
+            return @"Going";
+        if (section == 1)
+            return @"Undecided";
+        return @"Declined";
+    }
+    return @"";
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-       cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-        
-        
+    if (tableView == self.rsvpTable){
+        static NSString *CellIdentifier = @"Cell";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        }
+        NSString* p;
+        if (indexPath.section == 0)
+            p = [self.going objectAtIndex:indexPath.row];
+        else if (indexPath.section == 1)
+            p = [self.undecided objectAtIndex:indexPath.row];
+        else
+            p = [self.notGoing objectAtIndex:indexPath.row];
+        cell.textLabel.text = p;
+        if (indexPath.section == 0){
+            cell.detailTextLabel.text = [self.invitation preferencesForPerson:p];
+        }
+        else
+            cell.detailTextLabel.text = nil;
+        return cell;
     }
-    NSString* p;
-    if (indexPath.section == 0)
-        p = [self.going objectAtIndex:indexPath.row];
-    else if (indexPath.section == 1)
-        p = [self.undecided objectAtIndex:indexPath.row];
-    else
-        p = [self.notGoing objectAtIndex:indexPath.row];
-    cell.textLabel.text = p;
-    if (indexPath.section == 0){
-        cell.detailTextLabel.text = [self.invitation preferencesForPerson:p];
-        NSLog(@"prefs: %@",[self.invitation preferencesForPerson:p]);
-    }
-    else
-        cell.detailTextLabel.text = nil;
+    static NSString *CellIdentifier = @"restCell";
+    RestaurantTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    [cell setWithRestaurant:self.restaurantsArr[indexPath.row] row:indexPath.row];
+
     return cell;
 }
 - (void)didReceiveMemoryWarning

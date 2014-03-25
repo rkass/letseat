@@ -20,14 +20,14 @@
 
 @property (strong, nonatomic) NSMutableArray *friendsCache;
 @property (strong, nonatomic) UIImage* unchecked;
-@property (strong, nonatomic) IBOutlet UIImageView *background;
+@property (strong, nonatomic) NSMutableData* responseData;
 @property (strong, nonatomic) UIImage* checked;
-@property (strong, nonatomic) IBOutlet UIButton* transition;
+
 @property BOOL initializing;
 @end
 
 @implementation WhoViewController
-@synthesize friends, unchecked, checked, initializing, transition, background;
+@synthesize friends, unchecked, checked, initializing, responseData;
 
 
 - (void)viewDidLoad
@@ -35,9 +35,9 @@
     [super viewDidLoad];
     [User getFriends:self];
     [self.search setDelegate:self];
-    [self.view sendSubviewToBack:self.background];
     self.friendsTable.dataSource = self;
     self.friendsTable.delegate = self;
+    self.responseData = [[NSMutableData alloc] initWithLength:0];
     UIImage* bigunchecked = [UIImage imageNamed:@"unchecked"];
     UIImage* bigchecked = [UIImage imageNamed:@"checked"];
     self.unchecked = [Graphics makeThumbnailOfSize:bigunchecked size:CGSizeMake(20, 20)];
@@ -196,53 +196,56 @@
     [LEViewController setUserDefault:@"friendsCache" data:array];
 }
 
+- (void)connectionDidFinishLoading:(NSURLConnection*)connection{
+    //  NSLog(@"here");
+    
+    NSDictionary *resultsDictionary = [self.responseData objectFromJSONData];
+    NSLog(@"Friends: %@", resultsDictionary);
+    //   NSLog(@"%@", resultsDictionary);
+    // NSLog(@"friends cache %@", self.friendsCache);
+    //  NSLog(@"friends%@", self.friends);
+    if ([resultsDictionary objectForKey:@"success"])
+    {
+        [self.friendsCache removeAllObjects];
+        for (NSString* key in [resultsDictionary objectForKey:@"friends"])
+        {
+            
+            NSMutableDictionary *dict;
+            dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                    key, @"displayName", [[resultsDictionary objectForKey:@"friends"] objectForKey:key], @"numbers", @NO, @"checked", nil];
+            [self.friendsCache addObject:dict];
+            // NSLog(@"inside");
+            
+        }
+        NSSortDescriptor *nameDescriptor =
+        [[NSSortDescriptor alloc] initWithKey:@"displayName"
+                                    ascending:YES
+                                     selector:@selector(localizedCaseInsensitiveCompare:)];
+        
+        NSArray *descriptors = [NSArray arrayWithObjects:nameDescriptor, nil];
+        NSMutableArray* copi = [self.friendsCache mutableCopy];
+        int removalIndex = [self findMe:self.friendsCache];
+        NSLog(@"removal index: %d", removalIndex);
+        if(removalIndex != -1)
+            [copi removeObjectAtIndex:removalIndex];
+        self.friendsCache = [[copi sortedArrayUsingDescriptors:descriptors] mutableCopy];
+        NSMutableDictionary* meDict = [[NSMutableDictionary alloc] init];
+        [meDict setObject:@"Me" forKey:@"displayName"];
+        [meDict setObject:@YES forKey:@"checked"];
+        [meDict setObject:@YES forKey:@"Me"];
+        [self.friendsCache insertObject:meDict atIndex:0];
+        [LEViewController setUserDefault:@"friendsCache" data:self.friendsCache];
+        [self storeFriends:self.friendsCache];
+        
+        self.friends = [self.friendsCache mutableCopy];
+        [self.friendsTable reloadData];
+        
+    }
+
+}
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-  //  NSLog(@"here");
-
-    NSDictionary *resultsDictionary = [data objectFromJSONData];
-    NSLog(@"Friends: %@", resultsDictionary);
-     //   NSLog(@"%@", resultsDictionary);
-   // NSLog(@"friends cache %@", self.friendsCache);
-  //  NSLog(@"friends%@", self.friends);
-   if ([resultsDictionary objectForKey:@"success"])
-   {
-       [self.friendsCache removeAllObjects];
-       for (NSString* key in [resultsDictionary objectForKey:@"friends"])
-       {
-
-               NSMutableDictionary *dict;
-               dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                   key, @"displayName", [[resultsDictionary objectForKey:@"friends"] objectForKey:key], @"numbers", @NO, @"checked", nil];
-               [self.friendsCache addObject:dict];
-              // NSLog(@"inside");
-
-        }
-       NSSortDescriptor *nameDescriptor =
-       [[NSSortDescriptor alloc] initWithKey:@"displayName"
-                                   ascending:YES
-                                    selector:@selector(localizedCaseInsensitiveCompare:)];
-
-       NSArray *descriptors = [NSArray arrayWithObjects:nameDescriptor, nil];
-       NSMutableArray* copi = [self.friendsCache mutableCopy];
-       int removalIndex = [self findMe:self.friendsCache];
-       NSLog(@"removal index: %d", removalIndex);
-       if(removalIndex != -1)
-           [copi removeObjectAtIndex:removalIndex];
-       self.friendsCache = [[copi sortedArrayUsingDescriptors:descriptors] mutableCopy];
-       NSMutableDictionary* meDict = [[NSMutableDictionary alloc] init];
-       [meDict setObject:@"Me" forKey:@"displayName"];
-       [meDict setObject:@YES forKey:@"checked"];
-       [meDict setObject:@YES forKey:@"Me"];
-       [self.friendsCache insertObject:meDict atIndex:0];
-       [LEViewController setUserDefault:@"friendsCache" data:self.friendsCache];
-       [self storeFriends:self.friendsCache];
-
-       self.friends = [self.friendsCache mutableCopy];
-       [self.friendsTable reloadData];
-      
-   }
-
+    [self.responseData appendData:data];
 
 }
 

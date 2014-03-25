@@ -23,18 +23,20 @@
 @property (strong, nonatomic) UIImage* checked;
 @property (strong, nonatomic) UIAlertView* warningAlert;
 @property (strong, nonatomic) UIAlertView* sentAlert;
+@property (strong, nonatomic) NSMutableData* responseData;
 
 @end
 
 @implementation TellFriendsViewController
 
-@synthesize nav, invitees, checked, unchecked, search, inviteesCache, table, warningAlert, sentAlert;
+@synthesize nav, invitees, checked, unchecked, search, inviteesCache, table, warningAlert, sentAlert, responseData;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.inviteesCache = [self loadMutable];
     self.invitees = [self.inviteesCache mutableCopy];
+    self.responseData = [[NSMutableData alloc] initWithLength:0];
     [User getNonFriends:self];
     self.nav = (CreateMealNavigationController*)self.navigationController;
     
@@ -173,9 +175,15 @@
 
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
+    [self.responseData appendData:data];
     
-    NSDictionary *resultsDictionary = [data objectFromJSONData];
-    NSLog(@"Invitees: %@", resultsDictionary);
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection*)connection
+{
+    
+    NSDictionary *resultsDictionary = [self.responseData objectFromJSONData];
+    NSLog(@"Non-Friends: %@", resultsDictionary);
     if ([resultsDictionary objectForKey:@"success"])
     {
         [self.inviteesCache removeAllObjects];

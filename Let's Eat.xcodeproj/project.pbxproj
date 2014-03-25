@@ -16,6 +16,8 @@
 		9438EC1F18D405C2007A1643 /* TODO in Resources */ = {isa = PBXBuildFile; fileRef = 9438EC1E18D405C2007A1643 /* TODO */; };
 		9438EC2318D65EA0007A1643 /* TellFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9438EC2218D65EA0007A1643 /* TellFriendsViewController.m */; };
 		9438EC2518D6AAC8007A1643 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9438EC2418D6AAC8007A1643 /* MessageUI.framework */; };
+		9438EC2818E1C816007A1643 /* Restaurant.m in Sources */ = {isa = PBXBuildFile; fileRef = 9438EC2718E1C816007A1643 /* Restaurant.m */; };
+		9438EC2E18E1DAE0007A1643 /* RestaurantTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9438EC2D18E1DAE0007A1643 /* RestaurantTableViewCell.m */; };
 		94394FF518B3EBE200A2FEDB /* WhoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94394FF418B3EBE200A2FEDB /* WhoViewController.m */; };
 		94394FFB18B4019B00A2FEDB /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 94394FFA18B4019B00A2FEDB /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9448D86B18BFAAC5007D40D0 /* PriceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9448D86A18BFAAC5007D40D0 /* PriceViewController.m */; };
@@ -73,6 +75,10 @@
 		9438EC2118D65EA0007A1643 /* TellFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TellFriendsViewController.h; sourceTree = "<group>"; };
 		9438EC2218D65EA0007A1643 /* TellFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TellFriendsViewController.m; sourceTree = "<group>"; };
 		9438EC2418D6AAC8007A1643 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		9438EC2618E1C816007A1643 /* Restaurant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Restaurant.h; sourceTree = "<group>"; };
+		9438EC2718E1C816007A1643 /* Restaurant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Restaurant.m; sourceTree = "<group>"; };
+		9438EC2C18E1DAE0007A1643 /* RestaurantTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantTableViewCell.h; sourceTree = "<group>"; };
+		9438EC2D18E1DAE0007A1643 /* RestaurantTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantTableViewCell.m; sourceTree = "<group>"; };
 		94394FF318B3EBE200A2FEDB /* WhoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhoViewController.h; sourceTree = "<group>"; };
 		94394FF418B3EBE200A2FEDB /* WhoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhoViewController.m; sourceTree = "<group>"; };
 		94394FF918B4019B00A2FEDB /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = "Let's Eat/JSONKit.h"; sourceTree = "<group>"; };
@@ -152,6 +158,8 @@
 				941CE22A18AD6BA200E773BF /* User.h */,
 				941CE22B18AD6BA200E773BF /* User.m */,
 				948C090518C5258D002A3524 /* Invitation.h */,
+				9438EC2618E1C816007A1643 /* Restaurant.h */,
+				9438EC2718E1C816007A1643 /* Restaurant.m */,
 				948C090618C5258D002A3524 /* Invitation.m */,
 			);
 			name = Models;
@@ -160,6 +168,8 @@
 		942B9DAC18AD5A8D003F8CA6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				9438EC2C18E1DAE0007A1643 /* RestaurantTableViewCell.h */,
+				9438EC2D18E1DAE0007A1643 /* RestaurantTableViewCell.m */,
 				948C090E18C67F26002A3524 /* InviteViewController.h */,
 				948C090F18C67F26002A3524 /* InviteViewController.m */,
 				948C090218C51575002A3524 /* InvitationsViewController.h */,
@@ -401,8 +411,10 @@
 				9448D86B18BFAAC5007D40D0 /* PriceViewController.m in Sources */,
 				94394FF518B3EBE200A2FEDB /* WhoViewController.m in Sources */,
 				94D2606618BD2184005FF97C /* WhatViewController.m in Sources */,
+				9438EC2818E1C816007A1643 /* Restaurant.m in Sources */,
 				941CE22C18AD6BA200E773BF /* User.m in Sources */,
 				948C090718C5258D002A3524 /* Invitation.m in Sources */,
+				9438EC2E18E1DAE0007A1643 /* RestaurantTableViewCell.m in Sources */,
 				947F1DEA18B4FC38009924E5 /* ValidationViewController.m in Sources */,
 				94D2605818BA9DAB005FF97C /* CreateMealNavigationController.m in Sources */,
 				94610F5E18A950B40094779E /* InitialViewController.m in Sources */,

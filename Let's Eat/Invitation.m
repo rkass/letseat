@@ -67,8 +67,6 @@
 -(NSString*) preferencesForPerson:(NSString*)person
 {
     NSString* ret = @"";
-    NSLog(@"preferences: %@", self.preferences);
-    NSLog(@"index: %d", [self.people indexOfObject:person]);
     int count = 1;
     person = [person stringByReplacingOccurrencesOfString:@" (creator)" withString:@""];
     for (NSString* foodType in self.preferences[[self.people indexOfObject:person]]){
@@ -77,9 +75,7 @@
         else
             ret = [ret stringByAppendingString:[NSString stringWithFormat:@"%@, ", foodType]];
         count += 1;
-        NSLog(@"%@",ret);
     }
-    NSLog(@"final:%@", ret);
     return ret;
 }
 

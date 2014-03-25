@@ -19,14 +19,20 @@
 @property (strong, nonatomic) UIImage* carrot;
 @property (strong, nonatomic) UIImage* reply;
 @property (strong, nonatomic) NSNumber* acquired;
+@property (strong, nonatomic) NSMutableArray* connections;
+@property (strong, nonatomic) NSMutableData* responseData;
+@property int tries;
 @end
 
 @implementation InvitationsViewController
-@synthesize passedInvitations, selectedIndexPath, upcomingInvitations, carrot, reply, acquired;
+@synthesize passedInvitations, selectedIndexPath, upcomingInvitations, carrot, reply, acquired, tries, connections, responseData;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [User getInvitations:self];
+    self.tries = 0;
+    self.responseData = [[NSMutableData alloc] initWithLength:0];
     self.acquired = [NSNumber numberWithInt:0];
     UIImage* bigCarrot = [UIImage imageNamed:@"OrangeCarrot"];
     self.carrot = [Graphics makeThumbnailOfSize:bigCarrot size:CGSizeMake(10, 10)];
@@ -40,7 +46,7 @@
     self.upcomingInvitations = [self loadInvitation:@"upcomingInvitations"];
     [self syncInvitations];
     [self.invitationsTable reloadData];
-    [User getInvitations:self];
+    
     [self.navigationController setNavigationBarHidden:NO];
     UIImage *bigImg = [UIImage imageNamed:@"HomeBack"];
     UIImage* backImg = [Graphics makeThumbnailOfSize:bigImg size:CGSizeMake(37,22)];
@@ -50,6 +56,7 @@
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:back];
     [back addTarget:self action:@selector(homePressed:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = backItem;
+    self.connections = [[NSMutableArray alloc] init];
 
 	// Do any additional setup after loading the view.
 }
@@ -118,31 +125,51 @@
     //[self syncInvitations];
 }
 
+-(void)recall{
+   [User getInvitations:self];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection*)connection
+{
+    NSDictionary *resultsDictionary = [self.responseData objectFromJSONData];
+    NSLog(@"%@", resultsDictionary);
+    [self.passedInvitations removeAllObjects];
+    [self.upcomingInvitations removeAllObjects];
+    for (NSMutableDictionary* dict in resultsDictionary[@"invitations"])
+        [self.upcomingInvitations addObject:[[Invitation alloc] init:dict[@"id"] timeInput:dict[@"time"] peopleInput:dict[@"people"] messageInput:dict[@"message"] iRespondedInput:[dict[@"iResponded"] boolValue] creatorIndexInput:dict[@"creatorIndex"] responseArrayInput:dict[@"responses"] centralInput:[dict[@"central"] boolValue] preferencesInput:dict[@"preferences"]]];
+    [self syncInvitations];
+    [self.invitationsTable reloadData];
+}
+
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    @synchronized(self.acquired){
-        if(self.acquired.integerValue == 1 || [self.navigationController viewControllers][[[self.navigationController viewControllers] count] -1 ] != self)
+    [self.responseData appendData:data];
+    /*@synchronized(self.acquired){
+        if(self.acquired.integerValue == 1 || [self.navigationController viewControllers][[[self.navigationController viewControllers] count] -1 ] != self || self.tries > 10 || [self.connections containsObject:connection]){
             return;
+        }
     }
     NSDictionary *resultsDictionary = [data objectFromJSONData];
-    //NSLog(@"%@", resultsDictionary);
     if(!resultsDictionary){
+        NSLog(@"failed");
+        NSLog(@"data: %@", data);
         @synchronized(self.acquired){
-            NSLog(@"recalling");
-            if (self.acquired.integerValue == 0){
-                sleep(.1);
-                [User getInvitations:self];
-                
+            if (self.acquired.integerValue == 0 && (!(self.tries > 10)) && (!([self.connections containsObject:connection]))){
+                self.tries += 1;
+                [self.connections addObject:connection];
+                [self performSelector:@selector(recall) withObject:nil afterDelay:.5];
             }
         }
+        //NSLog(@"returning");
         return;
     }
     else{
+        NSLog(@"succeeded");
         @synchronized(self.acquired){
             self.acquired = [NSNumber numberWithInt:1];
         }
     }
-    NSLog(@"building table");
+    NSLog(@"%@", resultsDictionary);
     [self.passedInvitations removeAllObjects];
     [self.upcomingInvitations removeAllObjects];
 
@@ -151,11 +178,11 @@
       //  NSLog(@"%@", dict);
         [self.upcomingInvitations addObject:[[Invitation alloc] init:dict[@"id"] timeInput:dict[@"time"] peopleInput:dict[@"people"] messageInput:dict[@"message"] iRespondedInput:[dict[@"iResponded"] boolValue] creatorIndexInput:dict[@"creatorIndex"] responseArrayInput:dict[@"responses"] centralInput:[dict[@"central"] boolValue] preferencesInput:dict[@"preferences"]]];/*
         Invitation* i = [[Invitation alloc] init:dict[@"id"] timeInput:dict[@"time"] peopleInput:dict[@"people"] messageInput:dict[@"message"] iRespondedInput:[dict[@"iResponded"] boolValue] creatorIndexInput:dict[@"creatorIndex"] responseArrayInput:dict[@"responses"] centralInput:[dict[@"central"] boolValue] preferencesInput:dict[@"preferences"]];
-        [self addInvitation:i];*/
+        [self addInvitation:i];
         
     }NSLog(@"reloading data");
     [self syncInvitations];
-    [self.invitationsTable reloadData];
+    [self.invitationsTable reloadData];*/
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0)

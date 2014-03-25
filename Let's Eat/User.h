@@ -28,6 +28,7 @@
 + (void) respondNo:(int)num message:(NSString*)message source:(NSObject*)source;
 + (void) respondYes:(int)num preferences:(NSMutableDictionary*)preferences source:(NSObject*)source;
 + (void) getNonFriends:(NSObject *) source;
++ (void) getRestaurants:(int)num source:(NSObject*)source;
 
 -(User *)init;
 
