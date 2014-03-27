@@ -35,10 +35,12 @@
 		94610F6918A950B40094779E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94610F4B18A950B40094779E /* UIKit.framework */; };
 		94610F7118A950B40094779E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94610F6F18A950B40094779E /* InfoPlist.strings */; };
 		94610F7318A950B40094779E /* Let_s_EatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 94610F7218A950B40094779E /* Let_s_EatTests.m */; };
+		9466154518E3047A0066E84D /* RestaurantViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9466154418E3047A0066E84D /* RestaurantViewController.m */; };
 		947F1DEA18B4FC38009924E5 /* ValidationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 947F1DE918B4FC38009924E5 /* ValidationViewController.m */; };
 		948C090418C51575002A3524 /* InvitationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948C090318C51575002A3524 /* InvitationsViewController.m */; };
 		948C090718C5258D002A3524 /* Invitation.m in Sources */ = {isa = PBXBuildFile; fileRef = 948C090618C5258D002A3524 /* Invitation.m */; };
 		948C091018C67F26002A3524 /* InviteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948C090F18C67F26002A3524 /* InviteViewController.m */; };
+		94C3928318E35B7900F194F3 /* ScheduledMealController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C3928218E35B7900F194F3 /* ScheduledMealController.m */; };
 		94D2605818BA9DAB005FF97C /* CreateMealNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D2605718BA9DAB005FF97C /* CreateMealNavigationController.m */; };
 		94D2605B18BB9BE4005FF97C /* WhereViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D2605A18BB9BE4005FF97C /* WhereViewController.m */; };
 		94D2605D18BBAA24005FF97C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94D2605C18BBAA24005FF97C /* MapKit.framework */; };
@@ -104,6 +106,8 @@
 		94610F6E18A950B40094779E /* Let's EatTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Let's EatTests-Info.plist"; sourceTree = "<group>"; };
 		94610F7018A950B40094779E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		94610F7218A950B40094779E /* Let_s_EatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Let_s_EatTests.m; sourceTree = "<group>"; };
+		9466154318E3047A0066E84D /* RestaurantViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantViewController.h; sourceTree = "<group>"; };
+		9466154418E3047A0066E84D /* RestaurantViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantViewController.m; sourceTree = "<group>"; };
 		947F1DE818B4FC38009924E5 /* ValidationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValidationViewController.h; sourceTree = "<group>"; };
 		947F1DE918B4FC38009924E5 /* ValidationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValidationViewController.m; sourceTree = "<group>"; };
 		948C090218C51575002A3524 /* InvitationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvitationsViewController.h; sourceTree = "<group>"; };
@@ -112,6 +116,8 @@
 		948C090618C5258D002A3524 /* Invitation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Invitation.m; sourceTree = "<group>"; };
 		948C090E18C67F26002A3524 /* InviteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteViewController.h; sourceTree = "<group>"; };
 		948C090F18C67F26002A3524 /* InviteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteViewController.m; sourceTree = "<group>"; };
+		94C3928118E35B7900F194F3 /* ScheduledMealController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScheduledMealController.h; sourceTree = "<group>"; };
+		94C3928218E35B7900F194F3 /* ScheduledMealController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScheduledMealController.m; sourceTree = "<group>"; };
 		94D2605618BA9DAB005FF97C /* CreateMealNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateMealNavigationController.h; sourceTree = "<group>"; };
 		94D2605718BA9DAB005FF97C /* CreateMealNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateMealNavigationController.m; sourceTree = "<group>"; };
 		94D2605918BB9BE4005FF97C /* WhereViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhereViewController.h; sourceTree = "<group>"; };
@@ -168,6 +174,10 @@
 		942B9DAC18AD5A8D003F8CA6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				94C3928118E35B7900F194F3 /* ScheduledMealController.h */,
+				94C3928218E35B7900F194F3 /* ScheduledMealController.m */,
+				9466154318E3047A0066E84D /* RestaurantViewController.h */,
+				9466154418E3047A0066E84D /* RestaurantViewController.m */,
 				9438EC2C18E1DAE0007A1643 /* RestaurantTableViewCell.h */,
 				9438EC2D18E1DAE0007A1643 /* RestaurantTableViewCell.m */,
 				948C090E18C67F26002A3524 /* InviteViewController.h */,
@@ -422,6 +432,7 @@
 				948C091018C67F26002A3524 /* InviteViewController.m in Sources */,
 				94EF731318C8BF3800FFF973 /* NSDate-Utilities.m in Sources */,
 				94394FFB18B4019B00A2FEDB /* JSONKit.m in Sources */,
+				94C3928318E35B7900F194F3 /* ScheduledMealController.m in Sources */,
 				94610F5818A950B40094779E /* AppDelegate.m in Sources */,
 				94610F5418A950B40094779E /* main.m in Sources */,
 				94EF731918CE6BA700FFF973 /* Graphics.m in Sources */,
@@ -430,6 +441,7 @@
 				942CF35018B2852700BF1B70 /* LEViewController.m in Sources */,
 				942B9DAB18AD5A44003F8CA6 /* HomeViewController.m in Sources */,
 				941CE23318AEBE4600E773BF /* Server.m in Sources */,
+				9466154518E3047A0066E84D /* RestaurantViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -29,7 +29,6 @@
     [Server postRequest:@"register" data:[dict JSONData] source:source];
 
 }
-
 + (void) createInvitation:(NSMutableDictionary*)preferences source:(NSObject*)source{
     [preferences setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
     [Server postRequest:@"create_invitation" data:[preferences JSONData] source:source];
@@ -55,7 +54,14 @@
     [dict setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
     [Server postRequest:@"get_invitations" data:[dict JSONData] source:source];
 }
-
++ (void) castVote:(NSMutableDictionary*)dict source:(NSObject*)source{
+    [dict setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
+    [Server postRequest:@"cast_vote" data:[dict JSONData] source:source];
+}
++ (void) castUnvote:(NSMutableDictionary*)dict source:(NSObject*)source{
+    [dict setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
+    [Server postRequest:@"cast_unvote" data:[dict JSONData] source:source];
+}
 + (void) getRestaurants:(int)num source:(NSObject*)source{
     NSMutableDictionary* data = [[NSMutableDictionary alloc] init];
     [data setObject:[NSNumber numberWithInt:num] forKey:@"id"];

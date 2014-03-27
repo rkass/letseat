@@ -14,6 +14,7 @@
 #import "Graphics.h"
 #import "Restaurant.h"
 #import "RestaurantTableViewCell.h"
+#import "RestaurantViewController.h"
 
 @interface InviteViewController ()
 
@@ -21,7 +22,7 @@
 @property (strong, nonatomic) IBOutlet UITableView *rsvpTable;
 @property (strong, nonatomic) IBOutlet UILabel *date;
 @property (strong, nonatomic) IBOutlet UIImageView *white;
-
+@property (strong, nonatomic) NSIndexPath* selectedIndexPath;
 @property (strong, nonatomic) IBOutlet UITableView *restaurantsTable;
 @property (strong, nonatomic) NSMutableArray* going;
 @property (strong, nonatomic) NSMutableArray* undecided;
@@ -35,11 +36,12 @@
 @end
 
 @implementation InviteViewController
-@synthesize invitation, rsvpTable, going, undecided, notGoing, overview, restaurants,  restaurantsTable, white, acquired, tries, restaurantsArr, responseData;
+@synthesize invitation, rsvpTable, going, undecided, notGoing, overview, restaurants,  restaurantsTable, white, acquired, tries, restaurantsArr, responseData, voteChanged, selectedIndexPath;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.voteChanged = NO;
     self.restaurantsTable.hidden = YES;
     self.title = @"Invitation";
     self.responseData = [[NSMutableData alloc] initWithLength:0];
@@ -231,9 +233,26 @@
     NSLog(@"%@", resultsDictionary);
     [self.responseData setLength:0];
     if ([resultsDictionary[@"request"] isEqualToString:@"restaurants" ]){
+        NSMutableArray* arr = [self.restaurantsArr mutableCopy];
         [self.restaurantsArr removeAllObjects];
         for (NSMutableDictionary* dict in resultsDictionary[@"restaurants"]){
-            [self.restaurantsArr addObject:[[Restaurant alloc] init:dict[@"address"] distanceInput:dict[@"distance"] nameInput:dict[@"name"] percentMatchInput:dict[@"percentMatch"] priceInput:dict[@"price"] ratingImgInput:dict[@"rating_img"] snippetImgInput:dict[@"snippet_img"] votesInput:dict[@"votes"] typesInput:dict[@"types_list"] iVotedInput:[dict[@"user_voted"] boolValue]]];
+            NSNumber* votes = dict[@"votes"];
+            bool iVoted = [dict[@"user_voted"] boolValue];
+            if (self.voteChanged){
+                for (Restaurant* r in arr){
+                    if ([r.snippetImg isEqualToString:dict[@"snippet_img"]]){
+                        if (iVoted != r.iVoted){
+                            if (iVoted)
+                                votes = [NSNumber numberWithInt:([votes integerValue] - 1)];
+                            else
+                                votes = [NSNumber numberWithInt:([votes integerValue] + 1)];
+                        }
+                        iVoted = r.iVoted;
+                        break;
+                    }
+                }
+            }
+            [self.restaurantsArr addObject:[[Restaurant alloc] init:dict[@"address"] distanceInput:dict[@"distance"] nameInput:dict[@"name"] percentMatchInput:dict[@"percentMatch"] priceInput:dict[@"price"] ratingImgInput:dict[@"rating_img"] snippetImgInput:dict[@"snippet_img"] votesInput:votes typesInput:dict[@"types_list"] iVotedInput:iVoted invitationInput:self.invitation.num urlInput:dict[@"url"]]];
         }
         NSMutableArray* serialzedRests = [[NSMutableArray alloc] init];
         for (Restaurant* r in self.restaurantsArr)
@@ -259,6 +278,23 @@
     NSLog(@"receiving");
     [self.responseData appendData:data];
 }
+
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if([segue.identifier isEqualToString:@"inviteToRestaurant"]){
+        RestaurantViewController *rv = (RestaurantViewController *)segue.destinationViewController;
+        rv.restaurant = self.restaurantsArr[selectedIndexPath.row];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if(tableView == self.restaurantsTable) {
+        self.selectedIndexPath = indexPath;
+        [self performSegueWithIdentifier:@"inviteToRestaurant" sender:self];
+    }
+}
+
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.rsvpTable){
         if (section == 0)
@@ -312,7 +348,7 @@
     }
     static NSString *CellIdentifier = @"restCell";
     RestaurantTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    [cell setWithRestaurant:self.restaurantsArr[indexPath.row] row:indexPath.row];
+    [cell setWithRestaurant:self.restaurantsArr[indexPath.row] rowInput:indexPath.row ivcInput:self];
 
     return cell;
 }

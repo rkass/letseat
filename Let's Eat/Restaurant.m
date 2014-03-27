@@ -9,20 +9,42 @@
 #import "Restaurant.h"
 
 @implementation Restaurant
-@synthesize address, distance, name, percentMatch, price, ratingImg, snippetImg, votes, types;
--(id)init:(NSString*)addressInput distanceInput:(NSNumber*)distanceInput nameInput:(NSString*)nameInput percentMatchInput:(NSNumber*)percentMatchInput priceInput:(NSNumber*)priceInput ratingImgInput:(NSString*)ratingImgInput snippetImgInput:(NSString*)snippetImgInput votesInput:(NSNumber *)votesInput typesInput:(NSArray*)typesInput iVotedInput:(BOOL)iVotedInput{
+@synthesize address, distance, name, percentMatch, price, ratingImg, snippetImg, votes, types, invitation, url;
+-(id)init:(NSString*)addressInput distanceInput:(NSNumber*)distanceInput nameInput:(NSString*)nameInput percentMatchInput:(NSNumber*)percentMatchInput priceInput:(NSNumber*)priceInput ratingImgInput:(NSString*)ratingImgInput snippetImgInput:(NSString*)snippetImgInput votesInput:(NSNumber *)votesInput typesInput:(NSArray*)typesInput iVotedInput:(BOOL)iVotedInput invitationInput:(int)invitationInput urlInput:(NSString*)urlInput{
     self = [super init];
     if (self){
         self.address = addressInput;
-        self.distance = [distanceInput floatValue];
+        if (!distanceInput){
+            NSLog(@"distance null for %@", urlInput);
+            self.distance = 5;
+        }
+        else
+            self.distance = [distanceInput floatValue];
         self.name = nameInput;
-        self.percentMatch = [percentMatchInput integerValue];
-        self.price = [priceInput integerValue];
+        if (!percentMatchInput){
+            self.percentMatch = 50;
+            NSLog(@"percent match null for %@", urlInput);
+        }
+        else
+            self.percentMatch = [percentMatchInput integerValue];
+        if (!priceInput){
+            self.price = 2;
+            NSLog(@"price null for %@", urlInput);
+        }
+        else
+            self.price = [priceInput integerValue];
         self.ratingImg = ratingImgInput;
         self.snippetImg = snippetImgInput;
-        self.votes = [votesInput integerValue];
+        if (!votesInput){
+            self.votes = 0;
+            NSLog(@"votes null for %@", urlInput);
+        }
+        else
+            self.votes = [votesInput integerValue];
         self.types = typesInput;
         self.iVoted = iVotedInput;
+        self.invitation = invitationInput;
+        self.url = urlInput;
     }
     return self;
 }
@@ -40,6 +62,8 @@
         self.votes = [dict[@"votes"] integerValue];
         self.types = dict[@"types"];
         self.iVoted = [dict[@"iVoted"] boolValue];
+        self.invitation = [dict[@"invitation"] integerValue];
+        self.url = dict[@"url"];
     }
     return self;
 }
@@ -62,6 +86,8 @@
     [dict setObject:[NSNumber numberWithInt:self.votes] forKey:@"votes"];
     [dict setObject:self.types forKey:@"types"];
     [dict setObject:[NSNumber numberWithBool:self.iVoted] forKey:@"iVoted"];
+    [dict setObject:[NSNumber numberWithInt:self.invitation] forKey:@"invitation"];
+    [dict setObject:self.url forKey:@"url"];
     return dict;
 }
 

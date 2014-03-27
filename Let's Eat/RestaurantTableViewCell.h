@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Restaurant.h"
+#import "InviteViewController.h"
 @interface RestaurantTableViewCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UIImageView *snippetImg;
 @property (strong, nonatomic) IBOutlet UIImageView *ratingImg;
@@ -16,9 +17,11 @@
 @property (strong, nonatomic) IBOutlet UILabel *votes;
 @property (strong, nonatomic) IBOutlet UILabel *price;
 @property (strong, nonatomic) IBOutlet UILabel *percentMatch;
-
+@property int row;
 @property (strong, nonatomic) IBOutlet UIButton *vote;
 @property (strong, nonatomic) IBOutlet UILabel *types;
 @property (strong, nonatomic) Restaurant* restaurant;
--(void)setWithRestaurant:(Restaurant*)restaurant row:(int)row;
+@property (strong, nonatomic) NSMutableData* responseData;
+@property (strong, nonatomic) InviteViewController* ivc;
+-(void)setWithRestaurant:(Restaurant*)restaurant rowInput:(int)rowInput ivcInput:(InviteViewController*)ivcInput;
 @end

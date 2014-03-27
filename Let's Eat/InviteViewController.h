@@ -11,4 +11,5 @@
 
 @interface InviteViewController : LEViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 @property (strong, nonatomic) Invitation* invitation;
+@property bool voteChanged;
 @end

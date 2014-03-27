@@ -40,15 +40,18 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        
-        
     }
     if (indexPath.row == 0){
+        cell.textLabel.text = @"Scheduled Meals";
+        UIImage *bigImage = [UIImage imageNamed:@"Calendar"];
+        cell.imageView.image = [Graphics makeThumbnailOfSize:bigImage size:CGSizeMake(20, 20)];
+    }
+    else if (indexPath.row == 1){
         cell.textLabel.text = @"My Invitations";
         UIImage *bigImage = [UIImage imageNamed:@"Envelope"];
         cell.imageView.image = [Graphics makeThumbnailOfSize:bigImage size:CGSizeMake(20,20)];
     }
-    else if (indexPath.row == 1){
+    else if (indexPath.row == 2){
         cell.textLabel.text = @"Tell friends about Let's Eat!";
         UIImage *bigImage = [UIImage imageNamed:@"AddFriend"];
         cell.imageView.image = [Graphics makeThumbnailOfSize:bigImage size:CGSizeMake(20,20)];
@@ -68,9 +71,12 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0)
-        [self performSegueWithIdentifier:@"homeToInvitations" sender:self];
+    if (indexPath.row == 0){
+        
+    }
     else if (indexPath.row == 1)
+        [self performSegueWithIdentifier:@"homeToInvitations" sender:self];
+    else if (indexPath.row == 2)
         [self performSegueWithIdentifier:@"homeToTellFriends" sender:self];
     else{
         
@@ -85,7 +91,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return 4;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

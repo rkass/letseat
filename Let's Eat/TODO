@@ -1,24 +1,19 @@
-Rennovate Invite View
-    -Show people that are going's preferences
-    -Make a menu bar, overview and suggested restaurants
-    -Make the suggested restaurants view
-        -Enable voting
-        
-Create Restaurant View
-
-Create Preferences View
+Hide Yelp search bar in webview
 
 Scheduled Meals
-        
-Add Scheduled Meals to the Homepage
 
 Add the logout feature.
 
 Price View Controller Segue
 
+Change Price View To:
+
+    Schedule Only if x Respond YES
+    Give Folks x time to Respond
+
 Push notifications.
 
-Rate this app
+recommendations
 
 Handle people not granting access.
 
