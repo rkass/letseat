@@ -19,18 +19,21 @@
 @property (strong, nonatomic) UIImage* carrot;
 @property (strong, nonatomic) UIImage* reply;
 @property (strong, nonatomic) NSNumber* acquired;
-@property (strong, nonatomic) NSMutableArray* connections;
 @property (strong, nonatomic) NSMutableData* responseData;
+
 @property int tries;
 @end
 
 @implementation InvitationsViewController
-@synthesize passedInvitations, selectedIndexPath, upcomingInvitations, carrot, reply, acquired, tries, connections, responseData;
+@synthesize passedInvitations, selectedIndexPath, upcomingInvitations, carrot, reply, acquired, tries, responseData, scheduled;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [User getInvitations:self];
+    if (self.scheduled)
+        [User getMeals:self];
+    else
+        [User getInvitations:self];
     self.tries = 0;
     self.responseData = [[NSMutableData alloc] initWithLength:0];
     self.acquired = [NSNumber numberWithInt:0];
@@ -38,12 +41,21 @@
     self.carrot = [Graphics makeThumbnailOfSize:bigCarrot size:CGSizeMake(10, 10)];
     UIImage* bigReply = [UIImage imageNamed:@"Reply"];
     self.reply = [Graphics makeThumbnailOfSize:bigReply size:CGSizeMake(14, 18)];
-    self.title = @"Invitations";
+    if (self.scheduled)
+        self.title = @"Meals";
+    else
+        self.title = @"Invitations";
     self.invitationsTable.dataSource = self;
     self.invitationsTable.delegate = self;
     self.invitationsTable.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
-    self.passedInvitations = [self loadInvitation:@"passedInvitations"];
-    self.upcomingInvitations = [self loadInvitation:@"upcomingInvitations"];
+    if (self.scheduled){
+        self.passedInvitations = [self loadInvitation:@"passedMeals"];
+        self.upcomingInvitations = [self loadInvitation:@"upcomingMeals"];
+    }
+    else{
+        self.passedInvitations = [self loadInvitation:@"passedInvitations"];
+        self.upcomingInvitations = [self loadInvitation:@"upcomingInvitations"];
+    }
     [self syncInvitations];
     [self.invitationsTable reloadData];
     
@@ -56,9 +68,7 @@
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:back];
     [back addTarget:self action:@selector(homePressed:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = backItem;
-    self.connections = [[NSMutableArray alloc] init];
-
-	// Do any additional setup after loading the view.
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -87,12 +97,19 @@
         [pi addObject:[i serializeToData]];
     for (Invitation* i in self.upcomingInvitations)
         [ui addObject:[i serializeToData]];
-    [LEViewController setUserDefault:@"passedInvitations" data:pi];
+    if (self.scheduled){
+        [LEViewController setUserDefault:@"passedMeals" data:pi];
+        [LEViewController setUserDefault:@"upcomingMeals" data:ui];
+    }
+    else{
+        [LEViewController setUserDefault:@"passedInvitations" data:pi];
     [LEViewController setUserDefault:@"upcomingInvitations" data:ui];
+    }
 }
 
 - (void) syncInvitations
 {
+
     NSMutableArray* removals = [[NSMutableArray alloc] init];
     for (Invitation* i in self.upcomingInvitations){
         if ([i passed] || [i respondedNo])
@@ -126,7 +143,10 @@
 }
 
 -(void)recall{
-   [User getInvitations:self];
+    if (self.scheduled)
+        [User getMeals:self];
+    else
+        [User getInvitations:self];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection
@@ -135,9 +155,17 @@
     NSLog(@"%@", resultsDictionary);
     [self.passedInvitations removeAllObjects];
     [self.upcomingInvitations removeAllObjects];
-    for (NSMutableDictionary* dict in resultsDictionary[@"invitations"])
-        [self.upcomingInvitations addObject:[[Invitation alloc] init:dict[@"id"] timeInput:dict[@"time"] peopleInput:dict[@"people"] messageInput:dict[@"message"] iRespondedInput:[dict[@"iResponded"] boolValue] creatorIndexInput:dict[@"creatorIndex"] responseArrayInput:dict[@"responses"] centralInput:[dict[@"central"] boolValue] preferencesInput:dict[@"preferences"]]];
+    for (NSMutableDictionary* dict in resultsDictionary[@"invitations"]){
+        Invitation* i = [[Invitation alloc] init:dict[@"id"] timeInput:dict[@"time"] peopleInput:dict[@"people"] messageInput:dict[@"message"] iRespondedInput:[dict[@"iResponded"] boolValue] creatorIndexInput:dict[@"creatorIndex"] responseArrayInput:dict[@"responses"] centralInput:[dict[@"central"] boolValue] preferencesInput:dict[@"preferences"]];
+        NSLog(@"id: %d", i.num);
+        [self.upcomingInvitations addObject:i];
+        NSLog(@"upcoming invitations count: %d,", self.upcomingInvitations.count);
+    }
+    NSLog(@"passed inviations count: %d", self.passedInvitations.count);
+    NSLog(@"upcoming invitations count: %d,", self.upcomingInvitations.count);
     [self syncInvitations];
+    NSLog(@"passed inviations count: %d", self.passedInvitations.count);
+    NSLog(@"upcoming invitations count: %d,", self.upcomingInvitations.count);
     [self.invitationsTable reloadData];
 }
 
@@ -176,7 +204,7 @@
     for (NSMutableDictionary* dict in resultsDictionary[@"invitations"]){
        // NSLog(@"one");
       //  NSLog(@"%@", dict);
-        [self.upcomingInvitations addObject:[[Invitation alloc] init:dict[@"id"] timeInput:dict[@"time"] peopleInput:dict[@"people"] messageInput:dict[@"message"] iRespondedInput:[dict[@"iResponded"] boolValue] creatorIndexInput:dict[@"creatorIndex"] responseArrayInput:dict[@"responses"] centralInput:[dict[@"central"] boolValue] preferencesInput:dict[@"preferences"]]];/*
+        [self.upcomingInvitations addObject:[[Invitation alloc] init:dict[@"id"] timeInput:dict[@"time"] peopleInput:dict[@"people"] messageInput:dict[@"message"] iRespondedInput:[dict[@"iResponded"] boolValue] creatorIndexInput:dict[@"creatorIndex"] responseArrayInput:dict[@"responses"] centralInput:[dict[@"central"] boolValue] preferencesInput:dict[@"preferences"]]];
         Invitation* i = [[Invitation alloc] init:dict[@"id"] timeInput:dict[@"time"] peopleInput:dict[@"people"] messageInput:dict[@"message"] iRespondedInput:[dict[@"iResponded"] boolValue] creatorIndexInput:dict[@"creatorIndex"] responseArrayInput:dict[@"responses"] centralInput:[dict[@"central"] boolValue] preferencesInput:dict[@"preferences"]];
         [self addInvitation:i];
         
@@ -186,8 +214,8 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0)
-        return [self.upcomingInvitations count];
-    return [self.passedInvitations count];
+        return MAX([self.upcomingInvitations count], 1);
+    return MAX([self.passedInvitations count], 1);
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -195,8 +223,13 @@
 }
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if(section == 0)
+    if(section == 0){
+        if (self.scheduled)
+            return @"Upcoming Meals";
         return @"Upcoming Invitations";
+    }
+    if (self.scheduled)
+        return @"Passed Meals";
     return @"Passed Invitations";
 }
 
@@ -211,25 +244,36 @@
         
     }
     Invitation *i;
-    if (indexPath.section == 0)
-        i = [self.upcomingInvitations objectAtIndex:indexPath.row];
-    else
-        i = [self.passedInvitations objectAtIndex:indexPath.row];
-    cell.textLabel.text = [i displayPeople];
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"cccc, MMM d, h:mm aa"];
-    if (!i.iResponded && indexPath.section == 0)
-        cell.accessoryView = [[UIImageView alloc] initWithImage:self.reply];
-    else
-        cell.accessoryView = [[UIImageView alloc] initWithImage:self.carrot];
-    cell.detailTextLabel.text = [dateFormat stringFromDate:i.date];
-    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    if (indexPath.section == 0){
+        if ([self.upcomingInvitations count] > indexPath.row)
+            i = [self.upcomingInvitations objectAtIndex:indexPath.row];
+    }
+    else{
+        if ([self.passedInvitations count] > indexPath.row)
+            i = [self.passedInvitations objectAtIndex:indexPath.row];
+    }
+    if (!i){
+        cell.textLabel.text = @"(None)";
+        cell.detailTextLabel.text = nil;
+    }
+    else{
+        cell.textLabel.text = [i displayPeople];
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"cccc, MMM d, h:mm aa"];
+        if (!i.iResponded && indexPath.section == 0)
+            cell.accessoryView = [[UIImageView alloc] initWithImage:self.reply];
+        else
+            cell.accessoryView = [[UIImageView alloc] initWithImage:self.carrot];
+        cell.detailTextLabel.text = [dateFormat stringFromDate:i.date];
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    }
     return cell;
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:@"invitationsToInvite"]){
         InviteViewController *iv = (InviteViewController *)segue.destinationViewController;
+        iv.scheduled = self.scheduled;
         NSMutableArray* arr = self.upcomingInvitations;
         if (self.selectedIndexPath.section == 1)
             arr = self.passedInvitations;

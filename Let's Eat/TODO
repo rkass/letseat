@@ -1,20 +1,36 @@
-Hide Yelp search bar in webview
-
 Scheduled Meals
-
-Add the logout feature.
-
-Price View Controller Segue
 
 Change Price View To:
 
     Schedule Only if x Respond YES
     Give Folks x time to Respond
 
+Add the logout feature.
+
+Price View Controller Segue
+    
+Make invitations view look non shitty
+
+Make nav bar on restaurant view look non-shitty
+
+Make logins look non shitty
+
+Fix login bug
+
 Push notifications.
+
+make compatible with 3.5"
 
 recommendations
 
+unfuck invite friends
+
 Handle people not granting access.
 
+try out textured background
+
+figure out deal with google places requests
+
 Refine design images.
+
+Make some tables highlightable

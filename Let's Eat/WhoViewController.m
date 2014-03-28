@@ -19,8 +19,11 @@
 @property (strong, nonatomic) IBOutlet UISearchBar* search;
 
 @property (strong, nonatomic) NSMutableArray *friendsCache;
+@property (strong, nonatomic) IBOutlet UIView *spacer1;
+@property (strong, nonatomic) IBOutlet UIView *spacer2;
 @property (strong, nonatomic) UIImage* unchecked;
 @property (strong, nonatomic) NSMutableData* responseData;
+@property (strong, nonatomic) IBOutlet UIButton *rankTypes;
 @property (strong, nonatomic) UIImage* checked;
 
 @property BOOL initializing;
@@ -37,6 +40,8 @@
     [self.search setDelegate:self];
     self.friendsTable.dataSource = self;
     self.friendsTable.delegate = self;
+    self.spacer1.hidden = YES;
+    self.spacer2.hidden = YES;
     self.responseData = [[NSMutableData alloc] initWithLength:0];
     UIImage* bigunchecked = [UIImage imageNamed:@"unchecked"];
     UIImage* bigchecked = [UIImage imageNamed:@"checked"];
@@ -44,6 +49,7 @@
     self.checked = [Graphics makeThumbnailOfSize:bigchecked size:CGSizeMake(20, 20)];
     self.friendsCache = [self loadMutable];
     self.friends = [self.friendsCache mutableCopy];
+    self.rankTypes.titleLabel.textColor = [Graphics colorWithHexString:@"ffa500"];
     [self.friendsTable reloadData];
     CreateMealNavigationController* cmnc = (CreateMealNavigationController*) self.navigationController;
     cmnc.creator = YES;

@@ -71,6 +71,7 @@
         [self.vote setTitle:@"" forState:UIControlStateNormal];
         self.restaurant.iVoted = NO;
         self.restaurant.votes -= 1;
+        [self setVotesText];
         [User castUnvote:[self.restaurant serialize] source:self];
         
     }
@@ -80,6 +81,7 @@
         [self.vote setTitle:@"" forState:UIControlStateNormal];
         self.restaurant.iVoted = YES;
         self.restaurant.votes += 1;
+        [self setVotesText];
         [User castVote:[self.restaurant serialize] source:self];
     }
 }

@@ -12,6 +12,7 @@
 #import "WhatViewController.h"
 #import "InviteViewController.h"
 #import "CreateMealNavigationController.h"
+#import "NMRangeSlider.h"
 #import "User.h"
 #import "JSONKit.h"
 #import "Graphics.h"
@@ -19,6 +20,7 @@
 
 
 @interface PriceViewController ()
+@property (strong, nonatomic) IBOutlet UISlider *slidePiece;
 
 
 @property (strong, nonatomic) IBOutlet UILabel *currLocLabel;
@@ -107,7 +109,7 @@
     self.stepper.maximumValue = 5;
     self.stepper.minimumValue = 0;
     self.indicator.hidden = YES;
-    self.timeOptions = @[@"15 Minutes", @"30 Minutes", @"1 Hour", @"5 Hours", @"24 Hours", @"Never"];
+    self.timeOptions = @[@"15 Minutes", @"30 Minutes", @"1 Hour", @"5 Hours", @"24 Hours", @"Whenevs"];
     self.scheduleWhen.text = self.timeOptions[(int)self.stepper.value];
     self.myUITextField.delegate = self;
     
@@ -122,6 +124,7 @@
     [back addTarget:self action:@selector(backPressed:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = backItem;
     UIImage *bigImage = [UIImage imageNamed:@"Home"];
+   // self.slidePiece.backgroundColor = [Graphics colorWithHexString:@"ffa500"];
     UIImage* homeImg = [Graphics makeThumbnailOfSize:bigImage size:CGSizeMake(30,30)];
     UIButton *home = [UIButton buttonWithType:UIButtonTypeCustom];
     home.bounds = CGRectMake( 0, 0, homeImg.size.width, homeImg.size.height );
@@ -132,10 +135,11 @@
     self.view.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
     self.subscroll.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
     self.byMe.titleLabel.textColor = [UIColor grayColor];
-    UIImage *thumb = [UIImage imageNamed:@"Thumb"];
+    UIImage *thumb = [UIImage imageNamed:@"SlickThumb"];
     self.sliderMaxX = self.sliderBackdrop.frame.origin.x + self.sliderBackdrop.frame.size.width - thumb.size.width/2;
     self.sliderMinX = self.sliderBackdrop.frame.origin.x - thumb.size.width/2;
     self.thumb1 = [[UIButton alloc] initWithFrame:CGRectMake(self.sliderMinX, self.sliderBackdrop.frame.origin.y + self.sliderBackdrop.frame.size.height/2 - thumb.size.height/2,thumb.size.width, thumb.size.height)];
+   // self.thumb1.center = CGPointMake(self.sliderMinX, self.thumb1.center.y );
     self.sliderMin = self.sliderMinX;
     self.sliderMax = self.sliderMaxX;
     [self.thumb1 setImage:thumb forState:UIControlStateNormal];
@@ -152,6 +156,9 @@
     [self.thumb2 addTarget:self action:@selector(wasDragged:withEvent:)
           forControlEvents:UIControlEventTouchDragOutside];
     self.locationField.hidden = YES;
+   // self.sliderMinX = self.thumb1.center.x;
+    self.sliderMin = self.thumb1.center.x;
+   // self.sliderMax = self.thumb2.center.y;
     [self setPppText];
     [self setSliderFillFrame];
     [self.subscroll addSubview:self.sliderFill];
@@ -203,6 +210,17 @@
     }
     else
         [self.respondToInvite removeFromSuperview];
+    self.thumb2.hidden = YES;
+    self.thumb1.hidden = YES;
+    self.sliderBackdrop.hidden = YES;
+    self.sliderFill.hidden = YES;
+    NMRangeSlider* rangeSlider = [[NMRangeSlider alloc] initWithFrame:CGRectMake(self.sliderBackdrop.frame.origin.x, self.sliderBackdrop.frame.origin.y, 275, 34)];
+        rangeSlider.lowerValue = 0.54;
+        rangeSlider.upperValue = 0.94;
+    [self.view addSubview:rangeSlider];
+    [self.view bringSubviewToFront:rangeSlider];
+    
+    
 
 }
 - (void)viewDidLayoutSubviews{
@@ -300,12 +318,13 @@
 
 -(void) setPppText{
     int min = roundf(powf((self.sliderMin - self.sliderMinX) / (self.sliderMaxX - self.sliderMinX), 2) * 60) + 10;
-    int max =roundf(powf((self.sliderMax - self.sliderMinX) / (self.sliderMaxX - self.sliderMinX),2) * 60) + 10;
+    int max =roundf(powf((self.sliderMax - self.sliderMinX) / (self.sliderMaxX - self.sliderMinX),2) * 60) + 7;
     self.minPrice = min;
     self.maxPrice = max;
     //int max = roundf((self.sliderMax - self.sliderMinX) / (self.sliderMaxX - self.sliderMinX) * 90) + 10;
-    if (max == 70)
+    if (max >= 70){
         self.ppp.text = [NSString stringWithFormat:@"$%d - $%d+", min, max];
+    }
     else
         self.ppp.text = [NSString stringWithFormat:@"$%d - $%d", min, max];
     
@@ -325,12 +344,12 @@
         x = self.sliderMaxX + (button.imageView.image.size.width/2);
     button.center = CGPointMake(x, button.center.y);
     if (self.thumb2.frame.origin.x < self.thumb1.frame.origin.x){
-        self.sliderMin = self.thumb2.frame.origin.x;
-        self.sliderMax = self.thumb1.frame.origin.x;
+        self.sliderMin = self.thumb2.center.x;
+        self.sliderMax = self.thumb1.center.x;
     }
     else {
-        self.sliderMin = self.thumb1.frame.origin.x;
-        self.sliderMax = self.thumb2.frame.origin.x;
+        self.sliderMin = self.thumb1.center.x;
+        self.sliderMax = self.thumb2.center.x;
     }
     [self setSliderFillFrame];
     [self setPppText];
@@ -355,7 +374,7 @@
 
 -(void)setSliderFillFrame
 {
-    [self.sliderFill setFrame:CGRectMake(self.sliderMin, self.sliderBackdrop.frame.origin.y, self.sliderMax-self.sliderMin + self.thumb2.imageView.image.size.width/2, self.sliderBackdrop.frame.size.height)];
+    [self.sliderFill setFrame:CGRectMake(self.sliderMin, self.sliderBackdrop.frame.origin.y, self.sliderMax-self.sliderMin /*+ self.thumb2.imageView.image.size.width/2*/, self.sliderBackdrop.frame.size.height)];
 }
 
 -(void)homePressed:(UIBarButtonItem*)sender{

@@ -54,6 +54,13 @@
     [dict setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
     [Server postRequest:@"get_invitations" data:[dict JSONData] source:source];
 }
++ (void) getMeals:(NSObject *) source
+{
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
+    [Server postRequest:@"get_meals" data:[dict JSONData] source:source];
+}
+
 + (void) castVote:(NSMutableDictionary*)dict source:(NSObject*)source{
     [dict setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
     [Server postRequest:@"cast_vote" data:[dict JSONData] source:source];

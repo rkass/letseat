@@ -13,7 +13,6 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *rightBar;
 @property (strong, nonatomic) IBOutlet UIWebView *yelpView;
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *ind;
-
 @property (strong, nonatomic) UIButton* back;
 @end
 
@@ -23,6 +22,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.yelpView.scalesPageToFit = YES;
     NSURL *url = [NSURL URLWithString:self.restaurant.url];
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
     [self.yelpView loadRequest:requestObj];
@@ -53,11 +53,26 @@
     else
         [self.navigationController popViewControllerAnimated:YES];
 }
+
+-(void)editPage:(bool)finished
+{
+    if (finished){
+        [self.ind stopAnimating];
+        [self.ind removeFromSuperview];
+    }
+    [self.yelpView stringByEvaluatingJavaScriptFromString:@"document.getElementById('app-pitch').style.display = 'none'"];
+    NSString *exists = [self.yelpView stringByEvaluatingJavaScriptFromString:@"document.getElementById('search-bar')!=null;"];
+    if ([exists isEqualToString:@"true"]){
+        [self.yelpView stringByEvaluatingJavaScriptFromString:@"document.getElementById('search-bar').style.display = 'none'"];
+         self.yelpView.scrollView.contentOffset = CGPointMake(0,-18);
+
+    }
+}
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+    [self editPage:NO];
+}
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    [self.ind stopAnimating];
-    [self.ind removeFromSuperview];
-    [webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('app-pitch').style.display = 'none'"];
-    //[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('search-bar').style.display = 'none'"];
+    [self editPage:YES];
 }
 - (void)didReceiveMemoryWarning
 {

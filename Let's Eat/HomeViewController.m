@@ -9,26 +9,69 @@
 #import "HomeViewController.h"
 #import "CreateMealNavigationController.h"
 #import "Graphics.h"
+#import "InvitationsViewController.h"
 
 @interface HomeViewController ()
 @property (strong, nonatomic) UIViewController* whenViewController;
+@property (strong, nonatomic) IBOutlet UILabel *invite;
 @property (strong, nonatomic) IBOutlet UITableView *optionsTable;
+@property (strong, nonatomic) IBOutlet UIView *spacer2;
+@property (strong, nonatomic) IBOutlet UIView *spacer1;
+@property (strong, nonatomic) IBOutlet UIView *spacer3;
+@property (strong, nonatomic) IBOutlet UIView *spacer4;
+@property (strong, nonatomic) IBOutlet UIButton *selectPeople;
 
-@property (strong, nonatomic) IBOutlet UITableView *options;
+@property int selectedRow;
 @end
 
 @implementation HomeViewController
-@synthesize whenViewController;
+@synthesize whenViewController, selectedRow;
 
 - (void)viewDidLoad
 {
     
     [super viewDidLoad];
+    self.spacer1.hidden = YES;
+    self.spacer2.hidden = YES;
+    self.spacer4.hidden = YES;
+    self.spacer3.hidden = YES;
+   /* [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.spacer1 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:5]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.spacer1 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.spacer1 attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:1]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.spacer1 attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.invite attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:1]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.spacer2 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.invite attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:1]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.spacer2 attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.date attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:1]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.spacer3 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.date attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:1 ]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.spacer3 attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.selectPeople attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:1]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.spacer4 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.selectPeople attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:1]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.spacer4 attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.options attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:1]];
+    */
+/*
+    self.selectPeople.translatesAutoresizingMaskIntoConstraints = NO;
+    self.spacer2.translatesAutoresizingMaskIntoConstraints = NO;
+    self.spacer1.translatesAutoresizingMaskIntoConstraints = NO;
+    self.date.translatesAutoresizingMaskIntoConstraints = NO;
+    self.optionsTable.translatesAutoresizingMaskIntoConstraints = NO;
+    UIView* spacer22 = [[UIView alloc] init];
+    [self.view addSubview:spacer22];
+    NSLayoutConstraint* c = [NSLayoutConstraint constraintWithItem:self.date attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.spacer1 attribute:NSLayoutAttributeTop multiplier:1 constant:0];
+    [self.view addConstraint:c];
+    NSLayoutConstraint* c1 = [NSLayoutConstraint constraintWithItem:spacer22 attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.optionsTable attribute:NSLayoutAttributeTop multiplier:1 constant:0];
+   [self.view addConstraint:c1];
+    NSLayoutConstraint* c2 = [NSLayoutConstraint constraintWithItem:self.spacer1 attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.selectPeople attribute:NSLayoutAttributeTop multiplier:1 constant:0];
+  //  [self.view addConstraint:c2];
+    NSLayoutConstraint* c3 = [NSLayoutConstraint constraintWithItem:self.selectPeople attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.spacer2 attribute:NSLayoutAttributeTop multiplier:1 constant:0];
+  //  [self.view addConstraint:c3];*/
+    //self.optionsTable.translatesAutoresizingMaskIntoConstraints = NO;
+ //   NSLayoutConstraint* c = [NSLayoutConstraint constraintWithItem:self.optionsTable attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1 constant:0];
+  // [self.view addConstraint:c];
+   
+    self.selectPeople.titleLabel.textColor = [Graphics colorWithHexString:@"ffa500"];
     self.navigationController.navigationBarHidden = YES;
     self.optionsTable.delegate = self;
     self.optionsTable.dataSource = self;
     self.date.minimumDate = [NSDate date];
-    
+    self.view.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
+
     
 }
 
@@ -72,16 +115,29 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0){
-        
-    }
-    else if (indexPath.row == 1)
+        self.selectedRow = 0;
         [self performSegueWithIdentifier:@"homeToInvitations" sender:self];
+    }
+    else if (indexPath.row == 1){
+        self.selectedRow = 1;
+        [self performSegueWithIdentifier:@"homeToInvitations" sender:self];
+    }
     else if (indexPath.row == 2)
         [self performSegueWithIdentifier:@"homeToTellFriends" sender:self];
     else{
         
     }
 
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString: @"homeToInvitations"]){
+        InvitationsViewController* ivc = (InvitationsViewController*)segue.destinationViewController;
+        if (self.selectedRow == 0)
+            ivc.scheduled = YES;
+        else
+            ivc.scheduled = NO;
+    }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

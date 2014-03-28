@@ -30,6 +30,8 @@
 @property (strong, nonatomic) NSMutableArray* otherSource;
 @property (strong, nonatomic) UIImage* draggable;
 @property int movingCellIndex;//row of cell that's being dragged in the table
+@property (strong, nonatomic) IBOutlet UIView *spacer2;
+@property (strong, nonatomic) IBOutlet UIView *spacer1;
 @property int movingCellOtherIndex;
 @property int movingCellHeight;
 @property int movingCellWidth;
@@ -61,7 +63,8 @@
     UIImage* twoImg = [UIImage imageNamed:@"YellowTwo"];
     //UIImage* threeImg = [UIImage imageNamed:@"Three)"];
     self.two = [[UIImageView alloc ] initWithImage:twoImg];
-
+    self.spacer1.hidden = YES;
+    self.spacer2.hidden = YES;
     CGRect converted = [self.one convertRect:self.one.frame toView:self.view];
     [self.two setFrame:CGRectMake(converted.origin.x, converted.origin.y + 55, self.inishPosish.size.width, self.inishPosish.size.height)];
     [self.view addSubview:self.two];
@@ -209,8 +212,8 @@
     [lsource removeObjectAtIndex:indexPath.row];
     if (lotherSource == self.wantItems){
         [lotherSource addObject:txt];
-        if ([lotherSource count] == 8){
-            NSString* removeit = lotherSource[6];
+        if ([lotherSource count] == 7){//
+            NSString* removeit = lotherSource[5];
             int count = 0;
             for (NSString* food in lsource)
             {
@@ -222,7 +225,7 @@
             }
             if (! [lsource containsObject:removeit])
                 [lsource addObject:removeit];
-            [lotherSource removeObjectAtIndex:6];
+            [lotherSource removeObjectAtIndex:5];
 
         }
     }
@@ -333,6 +336,7 @@
                 if (CGRectContainsPoint([rectVal CGRectValue], point)){
                     if (self.movingCellOtherIndex == -1){
                         [self.otherSource insertObject:self.movingCellText atIndex:count];
+
                     }
                     else if (self.movingCellOtherIndex != count){
                         self.moved = YES;
@@ -340,7 +344,9 @@
                     }
                     self.movingCellOtherIndex = count;
                     [self reloadTable:self.currOtherTbl];//[self.currOtherTbl reloadData];
-                    [self.currOtherTbl cellForRowAtIndexPath:[NSIndexPath indexPathForRow:count inSection:0]].hidden = YES;
+                    if ([self.currOtherTbl cellForRowAtIndexPath:[NSIndexPath indexPathForRow:count inSection:0]]){
+                        [self.currOtherTbl cellForRowAtIndexPath:[NSIndexPath indexPathForRow:count inSection:0]].hidden = YES;
+                    }
                     inAny = YES;
                 }
                 count++;
@@ -444,7 +450,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     if (tableView == self.wantTable)
-       return [self.wantItems count];
+       return MIN(6,[self.wantItems count]);//
     return [self.typesItems count];
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -453,8 +459,8 @@
 }
 -(void)reloadTable:(UITableView* )tableView{
     [tableView reloadData];
-    if ([self.wantItems count] == 8){
-        [self.typesItems addObject:self.wantItems[7]] ;
+    if ([self.wantItems count] == 7){//
+        [self.typesItems addObject:self.wantItems[6]] ;//
         [self.wantItems removeLastObject];
     }
     self.one.frame = self.inishPosish;
@@ -470,10 +476,7 @@
         [self.view addSubview:self.six];
     else if ([self.view.subviews containsObject:self.six])
         [self.six removeFromSuperview];
-    if ([self.wantItems count] > 6)
-        [self.view addSubview:self.seven];
-    else if ([self.view.subviews containsObject:self.seven])
-        [self.seven removeFromSuperview];
+
 }
 
 - (NSArray*)getRectForTable:(UITableView*)tbl
@@ -487,6 +490,7 @@
     int count = 0;
     for (NSString* string in s)
     {
+        [NSString stringWithFormat:@"%@",string];
         [ret addObject:[NSValue valueWithCGRect:[tbl convertRect:[tbl rectForRowAtIndexPath:[NSIndexPath indexPathForRow:count inSection:0]] toView:[tbl superview]]]];
         count++;
     }

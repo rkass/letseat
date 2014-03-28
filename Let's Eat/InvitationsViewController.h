@@ -12,5 +12,6 @@
 @property (strong, nonatomic) NSMutableArray* passedInvitations;
 @property (strong, nonatomic) NSMutableArray* upcomingInvitations;
 @property (strong, nonatomic) IBOutlet UITableView *invitationsTable;
+@property bool scheduled;
 - (void) saveInvitations;
 @end
