@@ -210,15 +210,7 @@
     }
     else
         [self.respondToInvite removeFromSuperview];
-    self.thumb2.hidden = YES;
-    self.thumb1.hidden = YES;
-    self.sliderBackdrop.hidden = YES;
-    self.sliderFill.hidden = YES;
-    NMRangeSlider* rangeSlider = [[NMRangeSlider alloc] initWithFrame:CGRectMake(self.sliderBackdrop.frame.origin.x, self.sliderBackdrop.frame.origin.y, 275, 34)];
-        rangeSlider.lowerValue = 0.54;
-        rangeSlider.upperValue = 0.94;
-    [self.view addSubview:rangeSlider];
-    [self.view bringSubviewToFront:rangeSlider];
+
     
     
 
