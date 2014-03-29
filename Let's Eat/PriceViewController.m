@@ -159,6 +159,8 @@
     self.sliderMinX = self.thumb1.center.x;
    // self.sliderMinX = self.thumb1.center.x;
     self.sliderMin = self.thumb1.center.x;
+    self.thumb1.adjustsImageWhenHighlighted = NO;
+    self.thumb2.adjustsImageWhenHighlighted = NO;
    // self.sliderMax = self.thumb2.center.y;
     [self setPppText];
     [self setSliderFillFrame];
@@ -222,6 +224,15 @@
 
     [self.indicator2 setFrame: CGRectMake(self.indicator2.frame.origin.x, self.respondToInvite.frame.origin.y, self.indicator2.frame.size.width, self.indicator2.frame.size.height)];
     }
+}
+- (float)xPositionFromSliderValue:(UISlider *)aSlider;
+{
+    float sliderRange = aSlider.frame.size.width - aSlider.currentThumbImage.size.width;
+    float sliderOrigin = aSlider.frame.origin.x + (aSlider.currentThumbImage.size.width / 2.0);
+    
+    float sliderValueToPixels = (((aSlider.value-aSlider.minimumValue)/(aSlider.maximumValue-aSlider.minimumValue)) * sliderRange) + sliderOrigin;
+    
+    return sliderValueToPixels;
 }
 
 - (void)locationManager:(CLLocationManager *)manager
