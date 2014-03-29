@@ -139,13 +139,11 @@
     self.sliderMaxX = self.sliderBackdrop.frame.origin.x + self.sliderBackdrop.frame.size.width - thumb.size.width/2;
     self.sliderMinX = self.sliderBackdrop.frame.origin.x - thumb.size.width/2;
     self.thumb1 = [[UIButton alloc] initWithFrame:CGRectMake(self.sliderMinX, self.sliderBackdrop.frame.origin.y + self.sliderBackdrop.frame.size.height/2 - thumb.size.height/2,thumb.size.width, thumb.size.height)];
-   // self.thumb1.center = CGPointMake(self.sliderMinX, self.thumb1.center.y );
     self.sliderMin = self.sliderMinX;
     self.sliderMax = self.sliderMaxX;
     [self.thumb1 setImage:thumb forState:UIControlStateNormal];
     self.thumb2 = [[UIButton alloc] initWithFrame:CGRectMake(self.sliderMaxX, self.sliderBackdrop.frame.origin.y + self.sliderBackdrop.frame.size.height/2 - thumb.size.height/2 ,thumb.size.width, thumb.size.height)];
     [self.thumb2 setImage:thumb forState:UIControlStateNormal];
-    
     UIImage *sliderFillImg = [UIImage imageNamed:@"SliderFill"];
     self.sliderFill = [[UIImageView alloc] initWithImage:sliderFillImg];
     [self.thumb1 addTarget:self action:@selector(wasDragged:withEvent:)
@@ -156,6 +154,9 @@
     [self.thumb2 addTarget:self action:@selector(wasDragged:withEvent:)
           forControlEvents:UIControlEventTouchDragOutside];
     self.locationField.hidden = YES;
+    self.sliderMax = self.thumb2.center.x;
+    self.sliderMaxX = self.thumb2.center.x;
+    self.sliderMinX = self.thumb1.center.x;
    // self.sliderMinX = self.thumb1.center.x;
     self.sliderMin = self.thumb1.center.x;
    // self.sliderMax = self.thumb2.center.y;
@@ -310,7 +311,7 @@
 
 -(void) setPppText{
     int min = roundf(powf((self.sliderMin - self.sliderMinX) / (self.sliderMaxX - self.sliderMinX), 2) * 60) + 10;
-    int max =roundf(powf((self.sliderMax - self.sliderMinX) / (self.sliderMaxX - self.sliderMinX),2) * 60) + 7;
+    int max =roundf(powf((self.sliderMax - self.sliderMinX) / (self.sliderMaxX - self.sliderMinX),2) * 60) + 10;
     self.minPrice = min;
     self.maxPrice = max;
     //int max = roundf((self.sliderMax - self.sliderMinX) / (self.sliderMaxX - self.sliderMinX) * 90) + 10;
@@ -330,10 +331,10 @@
 	// get delta
 	CGPoint point = [touch locationInView:nil];
     float x = point.x;
-    if (x < self.sliderMinX + (button.imageView.image.size.width/2))
-        x = self.sliderMinX + (button.imageView.image.size.width/2);
-    else if (x > self.sliderMaxX + (button.imageView.image.size.width/2))
-        x = self.sliderMaxX + (button.imageView.image.size.width/2);
+    if (x < self.sliderMinX/* + (button.imageView.image.size.width/2)*/)
+        x = self.sliderMinX;// + (button.imageView.image.size.width/2);
+    else if (x > self.sliderMaxX /*+ (button.imageView.image.size.width/2)*/)
+        x = self.sliderMaxX; /*+ (button.imageView.image.size.width/2);*/
     button.center = CGPointMake(x, button.center.y);
     if (self.thumb2.frame.origin.x < self.thumb1.frame.origin.x){
         self.sliderMin = self.thumb2.center.x;
