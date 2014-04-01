@@ -18,8 +18,10 @@
 @property (strong, nonatomic) NSMutableArray* preferences;
 @property BOOL iResponded;
 @property BOOL central;
+@property NSDate* scheduleTime;
 -(BOOL)passed;
-- (id)init:(NSNumber*)numInput timeInput:(NSString*)timeInput peopleInput:(NSArray*)peopleInput messageInput:(NSString*)messageInput iRespondedInput:(BOOL)iRespondedInput creatorIndexInput:(NSNumber*)creatorIndexInput responseArrayInput:(NSArray*)responseArrayInput centralInput:(BOOL)centralInput preferencesInput:(NSArray*)preferencesInput;
+-(BOOL)passedScheduleTime;
+- (id)init:(NSNumber*)numInput timeInput:(NSString*)timeInput peopleInput:(NSArray*)peopleInput messageInput:(NSString*)messageInput iRespondedInput:(BOOL)iRespondedInput creatorIndexInput:(NSNumber*)creatorIndexInput responseArrayInput:(NSArray*)responseArrayInput centralInput:(BOOL)centralInput preferencesInput:(NSArray*)preferencesInput scheduleTimeInput:(NSString*)scheduleTimeInput;
 -(NSString*) displayPeople;
 -(id)initWithDict:(NSMutableDictionary*)dict;
 -(NSMutableDictionary*)serialize;

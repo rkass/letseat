@@ -366,62 +366,90 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="Dn2-HY-nhE">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="eiG-uB-gqH">
                                 <rect key="frame" x="0.0" y="106" width="320" height="462"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                             </tableView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="VertWhiteLine" translatesAutoresizingMaskIntoConstraints="NO" id="YZr-nr-wUq">
-                                <rect key="frame" x="0.0" y="63" width="2" height="44"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="Dn2-HY-nhE">
+                                <rect key="frame" x="0.0" y="106" width="320" height="462"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FoB-FC-ypo">
+                                <rect key="frame" x="0.0" y="63" width="160" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="VertWhiteLine" translatesAutoresizingMaskIntoConstraints="NO" id="tki-Od-oW2">
-                                <rect key="frame" x="0.0" y="63" width="320" height="3"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="VertWhiteLine" translatesAutoresizingMaskIntoConstraints="NO" id="qMN-Hj-dBU">
-                                <rect key="frame" x="0.0" y="106" width="320" height="2"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="aIB-jG-eaY">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
+                                <state key="normal" title="Meals">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="mealsPressed:" destination="dzF-AY-5sf" eventType="touchUpInside" id="ZZq-f5-z0j"/>
+                                    <action selector="overviewPressed:" destination="RPr-gX-qgL" eventType="touchUpInside" id="cZV-2A-OJ4"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="d0I-en-3RL">
                                 <rect key="frame" x="160" y="63" width="160" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.72156862749999995" green="0.63921568630000003" blue="0.4941176471" alpha="1" colorSpace="deviceRGB"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                <state key="normal" title="Restaurants">
+                                <state key="normal" title="Invitations">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="restsPressed:" destination="RPr-gX-qgL" eventType="touchUpInside" id="k4t-3d-mVi"/>
+                                    <action selector="invitationsPressed:" destination="dzF-AY-5sf" eventType="touchUpInside" id="zfx-ng-iQf"/>
+                                    <action selector="restsPressed:" destination="RPr-gX-qgL" eventType="touchUpInside" id="3aX-qf-olw"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="VertWhiteLine" translatesAutoresizingMaskIntoConstraints="NO" id="ojj-G0-KOp">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="VertWhiteLine" translatesAutoresizingMaskIntoConstraints="NO" id="3Eo-vA-pcJ">
                                 <rect key="frame" x="157" y="63" width="3" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="VertWhiteLine" translatesAutoresizingMaskIntoConstraints="NO" id="2L5-cG-GSS">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="VertWhiteLine" translatesAutoresizingMaskIntoConstraints="NO" id="IEU-Vn-bGg">
+                                <rect key="frame" x="0.0" y="63" width="2" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="VertWhiteLine" translatesAutoresizingMaskIntoConstraints="NO" id="JGB-vk-MGL">
                                 <rect key="frame" x="318" y="63" width="2" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f0f-Y3-xUg">
-                                <rect key="frame" x="0.0" y="63" width="160" height="44"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VertWhiteLine" translatesAutoresizingMaskIntoConstraints="NO" id="pXT-xJ-vaX">
+                                <rect key="frame" x="0.0" y="63" width="320" height="3"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
-                                <state key="normal" title="Overview">
-                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="overviewPressed:" destination="RPr-gX-qgL" eventType="touchUpInside" id="dim-gh-thK"/>
-                                </connections>
-                            </button>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="3" id="IA4-gt-j9S"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="3" id="eUt-Un-yqG"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="VertWhiteLine" translatesAutoresizingMaskIntoConstraints="NO" id="qhp-bx-O0Y">
+                                <rect key="frame" x="0.0" y="106" width="320" height="2"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="eiG-uB-gqH" secondAttribute="trailing" id="53m-o3-zIz"/>
+                            <constraint firstItem="Dn2-HY-nhE" firstAttribute="leading" secondItem="6Dv-Wd-BL3" secondAttribute="leading" id="5U4-vi-r1w"/>
+                            <constraint firstItem="Dn2-HY-nhE" firstAttribute="top" secondItem="pXT-xJ-vaX" secondAttribute="bottom" constant="40" id="L6A-wh-74R"/>
+                            <constraint firstItem="gjl-KV-aj9" firstAttribute="top" secondItem="Dn2-HY-nhE" secondAttribute="bottom" id="MMW-xW-XRi"/>
+                            <constraint firstItem="eiG-uB-gqH" firstAttribute="leading" secondItem="6Dv-Wd-BL3" secondAttribute="leading" id="Ovm-JF-rk3"/>
+                            <constraint firstItem="eiG-uB-gqH" firstAttribute="top" secondItem="Dn2-HY-nhE" secondAttribute="top" id="QyY-zx-pvl"/>
+                            <constraint firstItem="gjl-KV-aj9" firstAttribute="top" secondItem="eiG-uB-gqH" secondAttribute="bottom" id="RKu-xQ-ViD"/>
+                            <constraint firstItem="pXT-xJ-vaX" firstAttribute="top" secondItem="6Dv-Wd-BL3" secondAttribute="top" constant="63" id="T7R-X4-1t0"/>
+                            <constraint firstAttribute="trailing" secondItem="pXT-xJ-vaX" secondAttribute="trailing" id="YKd-Mh-5dP"/>
+                            <constraint firstItem="eiG-uB-gqH" firstAttribute="top" secondItem="pXT-xJ-vaX" secondAttribute="bottom" constant="40" id="b1W-xi-q0n"/>
+                            <constraint firstAttribute="trailing" secondItem="Dn2-HY-nhE" secondAttribute="trailing" id="bRN-eJ-4a7"/>
+                            <constraint firstItem="pXT-xJ-vaX" firstAttribute="leading" secondItem="6Dv-Wd-BL3" secondAttribute="leading" id="xZm-fB-aXt"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="8NB-Qb-TBc"/>
                     <connections>
-                        <outlet property="invitationsTable" destination="Dn2-HY-nhE" id="ZRR-Tb-hoc"/>
+                        <outlet property="invitations" destination="d0I-en-3RL" id="K1V-hY-6cO"/>
+                        <outlet property="invitationsTable" destination="Dn2-HY-nhE" id="DnU-8m-enn"/>
+                        <outlet property="meals" destination="FoB-FC-ypo" id="yYt-L3-c8I"/>
+                        <outlet property="mealsTable" destination="eiG-uB-gqH" id="7ac-A5-G92"/>
                         <segue destination="RPr-gX-qgL" kind="push" identifier="invitationsToInvite" id="0xw-lS-4Z1"/>
                     </connections>
                 </viewController>

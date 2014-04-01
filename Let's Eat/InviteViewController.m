@@ -46,7 +46,7 @@
     if (self.scheduled){
         UIImageView* iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"White"]];
         [iv setFrame:CGRectMake(self.message.frame.origin.x, self.message.frame.origin.y + 100, self.message.frame.size.width, self.message.frame.size.height)];
-        [self.view addSubview:iv];
+        //[self.view addSubview:iv];
     }
     self.voteChanged = NO;
     self.restaurantsTable.hidden = YES;
@@ -143,6 +143,7 @@
     [self.view sendSubviewToBack:self.overview];
     [self.view sendSubviewToBack:self.white];
     [self.rsvpTable setFrame:CGRectMake(self.rsvpTable.frame.origin.x, self.rsvpTable.frame.origin.y - 900, self.rsvpTable.frame.size.width, self.rsvpTable.frame.size.height)];
+    
 
 	
 }

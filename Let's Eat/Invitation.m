@@ -15,15 +15,16 @@
 @end
 
 @implementation Invitation
-@synthesize num, message, date, people, iResponded, creatorIndex, responseArray, central, preferences;
+@synthesize num, message, date, people, iResponded, creatorIndex, responseArray, central, preferences, scheduleTime;
 
-- (id)init:(NSNumber*)numInput timeInput:(NSString*)timeInput peopleInput:(NSArray*)peopleInput messageInput:(NSString*)messageInput iRespondedInput:(BOOL)iRespondedInput creatorIndexInput:(NSNumber*)creatorIndexInput responseArrayInput:(NSArray*)responseArrayInput centralInput:(BOOL)centralInput preferencesInput:(NSArray*)preferencesInput
+- (id)init:(NSNumber*)numInput timeInput:(NSString*)timeInput peopleInput:(NSArray*)peopleInput messageInput:(NSString*)messageInput iRespondedInput:(BOOL)iRespondedInput creatorIndexInput:(NSNumber*)creatorIndexInput responseArrayInput:(NSArray*)responseArrayInput centralInput:(BOOL)centralInput preferencesInput:(NSArray*)preferencesInput scheduleTimeInput:(NSString *)scheduleTimeInput
 {
     self = [super init];
     if (self){
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"EEE, dd MMM yyyy H:m:s"];
         self.date = [dateFormatter dateFromString:timeInput];
+        self.scheduleTime = [dateFormatter dateFromString:scheduleTimeInput];
         self.people = [[NSMutableArray alloc] init];
         for (NSString* person in peopleInput){
             [self.people addObject:[User contactNameForNumber:person]];
@@ -36,6 +37,7 @@
         self.responseArray = [responseArrayInput mutableCopy];
         self.preferences = [preferencesInput mutableCopy];
     }
+    NSLog(@"schedule time: %@", self.scheduleTime);
     return self;
 }
 
@@ -49,6 +51,7 @@
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
     [dict setObject:[NSNumber numberWithInt:self.num] forKey:@"num"];
     [dict setObject:self.date forKey:@"date"];
+    [dict setObject:self.scheduleTime forKey:@"scheduleTime"];
     [dict setObject:self.people forKey:@"people"];
     [dict setObject:self.message forKey:@"message"];
     [dict setObject:[NSNumber numberWithBool:self.iResponded] forKey:@"iResponded"];
@@ -69,6 +72,8 @@
     NSString* ret = @"";
     int count = 1;
     person = [person stringByReplacingOccurrencesOfString:@" (creator)" withString:@""];
+    if ((self.preferences[[self.people indexOfObject:person]]) == (id)[NSNull null])
+        return @"";
     for (NSString* foodType in self.preferences[[self.people indexOfObject:person]]){
         if (count == [self.preferences[[self.people indexOfObject:person]] count])
             ret = [ret stringByAppendingString:[NSString stringWithFormat:@"%@",  foodType]];
@@ -85,6 +90,7 @@
     if (self){
         self.num = [dict[@"num"] intValue];
         self.date = dict[@"date"];
+        self.scheduleTime = dict[@"scheduleTime"];
         self.people = dict[@"people"];
         self.message = dict[@"message"];
         self.iResponded = [dict[@"iResponded"] boolValue];
@@ -193,6 +199,13 @@
 {
     NSDate* today = [NSDate date];
     if([today compare: self.date] == NSOrderedDescending)
+        return YES;
+    return NO;
+}
+
+-(BOOL) passedScheduleTime{
+    NSDate* today = [NSDate date];
+    if([today compare: self.scheduleTime] == NSOrderedDescending)
         return YES;
     return NO;
 }

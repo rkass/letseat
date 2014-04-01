@@ -38,6 +38,7 @@
 		9466154518E3047A0066E84D /* RestaurantViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9466154418E3047A0066E84D /* RestaurantViewController.m */; };
 		946CE1C218E5FE74009ADED6 /* NMRangeSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 946CE1C118E5FE74009ADED6 /* NMRangeSlider.m */; };
 		947F1DEA18B4FC38009924E5 /* ValidationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 947F1DE918B4FC38009924E5 /* ValidationViewController.m */; };
+		9483580018EB02D60022A13C /* InvitationsConnectionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 948357FF18EB02D60022A13C /* InvitationsConnectionHandler.m */; };
 		948C090418C51575002A3524 /* InvitationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948C090318C51575002A3524 /* InvitationsViewController.m */; };
 		948C090718C5258D002A3524 /* Invitation.m in Sources */ = {isa = PBXBuildFile; fileRef = 948C090618C5258D002A3524 /* Invitation.m */; };
 		948C091018C67F26002A3524 /* InviteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948C090F18C67F26002A3524 /* InviteViewController.m */; };
@@ -113,6 +114,8 @@
 		946CE1C118E5FE74009ADED6 /* NMRangeSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NMRangeSlider.m; sourceTree = "<group>"; };
 		947F1DE818B4FC38009924E5 /* ValidationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValidationViewController.h; sourceTree = "<group>"; };
 		947F1DE918B4FC38009924E5 /* ValidationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValidationViewController.m; sourceTree = "<group>"; };
+		948357FE18EB02D60022A13C /* InvitationsConnectionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvitationsConnectionHandler.h; sourceTree = "<group>"; };
+		948357FF18EB02D60022A13C /* InvitationsConnectionHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InvitationsConnectionHandler.m; sourceTree = "<group>"; };
 		948C090218C51575002A3524 /* InvitationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvitationsViewController.h; sourceTree = "<group>"; };
 		948C090318C51575002A3524 /* InvitationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InvitationsViewController.m; sourceTree = "<group>"; };
 		948C090518C5258D002A3524 /* Invitation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Invitation.h; sourceTree = "<group>"; };
@@ -181,8 +184,6 @@
 				94C3928218E35B7900F194F3 /* ScheduledMealController.m */,
 				9466154318E3047A0066E84D /* RestaurantViewController.h */,
 				9466154418E3047A0066E84D /* RestaurantViewController.m */,
-				9438EC2C18E1DAE0007A1643 /* RestaurantTableViewCell.h */,
-				9438EC2D18E1DAE0007A1643 /* RestaurantTableViewCell.m */,
 				948C090E18C67F26002A3524 /* InviteViewController.h */,
 				948C090F18C67F26002A3524 /* InviteViewController.m */,
 				948C090218C51575002A3524 /* InvitationsViewController.h */,
@@ -262,6 +263,7 @@
 				941CE23118AEBE4600E773BF /* Server.h */,
 				94D2606718BD59A6005FF97C /* KnownBugs */,
 				941CE23218AEBE4600E773BF /* Server.m */,
+				9483580118EB02E60022A13C /* Helpers */,
 				9438EC2018D61332007A1643 /* Deprecated */,
 				94EF731018C8BEA500FFF973 /* Libraries */,
 				941CE22918AD6AB400E773BF /* Models */,
@@ -301,6 +303,17 @@
 				94610F6F18A950B40094779E /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9483580118EB02E60022A13C /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				948357FE18EB02D60022A13C /* InvitationsConnectionHandler.h */,
+				948357FF18EB02D60022A13C /* InvitationsConnectionHandler.m */,
+				9438EC2C18E1DAE0007A1643 /* RestaurantTableViewCell.h */,
+				9438EC2D18E1DAE0007A1643 /* RestaurantTableViewCell.m */,
+			);
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 		94EF731018C8BEA500FFF973 /* Libraries */ = {
@@ -448,6 +461,7 @@
 				942B9DAB18AD5A44003F8CA6 /* HomeViewController.m in Sources */,
 				941CE23318AEBE4600E773BF /* Server.m in Sources */,
 				9466154518E3047A0066E84D /* RestaurantViewController.m in Sources */,
+				9483580018EB02D60022A13C /* InvitationsConnectionHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,53 +12,64 @@
 #import "Invitation.h"
 #import "InviteViewController.h"
 #import "Graphics.h"
-
+#import "InvitationsConnectionHandler.h"
 @interface InvitationsViewController ()
 
 @property (strong, nonatomic) NSIndexPath* selectedIndexPath;
 @property (strong, nonatomic) UIImage* carrot;
 @property (strong, nonatomic) UIImage* reply;
+
 @property (strong, nonatomic) NSNumber* acquired;
-@property (strong, nonatomic) NSMutableData* responseData;
+@property (strong, nonatomic) NSMutableData* responseDataMeals;
+@property (strong, nonatomic) NSMutableData* responseDataInvitations;
+@property (strong, nonatomic) IBOutlet UIButton *invitations;
+
+
+@property (strong, nonatomic) IBOutlet UIButton *meals;
 
 @property int tries;
 @end
 
 @implementation InvitationsViewController
-@synthesize passedInvitations, selectedIndexPath, upcomingInvitations, carrot, reply, acquired, tries, responseData, scheduled;
+@synthesize passedInvitations, selectedIndexPath, upcomingInvitations, carrot, reply, acquired, tries, responseDataMeals, responseDataInvitations, scheduled, mealsTable, upcomingMeals, passedMeals, canDoWork;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if (self.scheduled)
-        [User getMeals:self];
-    else
-        [User getInvitations:self];
-    self.tries = 0;
-    self.responseData = [[NSMutableData alloc] initWithLength:0];
+    self.canDoWork = [NSNumber numberWithInt:0];
+    [User getMeals:[[InvitationsConnectionHandler alloc] initWithInvitationsViewController:self] ];
+    [User getInvitations:[[InvitationsConnectionHandler alloc] initWithInvitationsViewController:self] ];
+    NSLog(@"here");
     self.acquired = [NSNumber numberWithInt:0];
     UIImage* bigCarrot = [UIImage imageNamed:@"OrangeCarrot"];
     self.carrot = [Graphics makeThumbnailOfSize:bigCarrot size:CGSizeMake(10, 10)];
     UIImage* bigReply = [UIImage imageNamed:@"Reply"];
     self.reply = [Graphics makeThumbnailOfSize:bigReply size:CGSizeMake(14, 18)];
-    if (self.scheduled)
-        self.title = @"Meals";
-    else
-        self.title = @"Invitations";
+    self.title = @"Meals and Invitations";
     self.invitationsTable.dataSource = self;
     self.invitationsTable.delegate = self;
+    self.view.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
     self.invitationsTable.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
-    if (self.scheduled){
-        self.passedInvitations = [self loadInvitation:@"passedMeals"];
-        self.upcomingInvitations = [self loadInvitation:@"upcomingMeals"];
-    }
-    else{
-        self.passedInvitations = [self loadInvitation:@"passedInvitations"];
-        self.upcomingInvitations = [self loadInvitation:@"upcomingInvitations"];
-    }
-    [self syncInvitations];
+   // self.invitationsTable.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
+   // self.mealsTable = [[UITableView alloc] initWithFrame:[self.view convertRect:self.invitationsTable.frame toView:self.invitationsTable.superview] style:UITableViewStyleGrouped];
+  //  [self.mealsTable addConstraints:self.invitationsTable.constraints];
+    self.mealsTable.contentInset = UIEdgeInsetsMake(-40, 0, -20, 0);
+    self.invitationsTable.contentInset = UIEdgeInsetsMake(24, 0, 0, 0);
+   // [self.view addSubview:self.mealsTable];
+    //self.mealsTable.contentInset = self.invitationsTable.contentInset;
+
+    self.mealsTable.hidden = YES;
+    self.mealsTable.delegate = self;
+    self.mealsTable.dataSource = self;
+    self.mealsTable.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
+    self.passedMeals = [self loadInvitation:@"passedMeals"];
+    self.upcomingMeals = [self loadInvitation:@"upcomingMeals"];
+    self.passedInvitations = [self loadInvitation:@"passedInvitations"];
+    self.upcomingInvitations = [self loadInvitation:@"upcomingInvitations"];
+    [self syncInvitations:YES];
+    [self syncInvitations:NO];
     [self.invitationsTable reloadData];
-    
+    [self.mealsTable reloadData];
     [self.navigationController setNavigationBarHidden:NO];
     UIImage *bigImg = [UIImage imageNamed:@"HomeBack"];
     UIImage* backImg = [Graphics makeThumbnailOfSize:bigImg size:CGSizeMake(37,22)];
@@ -68,7 +79,9 @@
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:back];
     [back addTarget:self action:@selector(homePressed:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = backItem;
-    
+  //  CGFloat height = self.invitationsTable.contentSize.height - self.invitationsTable.bounds.size.height;
+  //  [self.invitationsTable setContentOffset:CGPointMake(0, 40) animated:YES];
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -79,6 +92,24 @@
 -(void)homePressed:(UIBarButtonItem*)sender{
     [self.navigationController popToRootViewControllerAnimated:YES];
     self.navigationController.navigationBarHidden = YES;
+}
+- (IBAction)mealsPressed:(id)sender {
+    self.meals.backgroundColor = [Graphics colorWithHexString:@"b8a37e"];
+    self.invitations.backgroundColor = [UIColor clearColor];
+    self.meals.titleLabel.textColor = [UIColor blackColor];
+    self.invitations.titleLabel.textColor = [UIColor grayColor];
+    self.mealsTable.hidden = NO;
+    self.invitationsTable.hidden = YES;
+
+}
+
+- (IBAction)invitationsPressed:(id)sender {
+    self.invitations.backgroundColor = [Graphics colorWithHexString:@"b8a37e"];
+    self.meals.backgroundColor = [UIColor clearColor];
+    self.invitations.titleLabel.textColor = [UIColor blackColor];
+    self.meals.titleLabel.textColor = [UIColor grayColor];
+    self.mealsTable.hidden = YES;
+    self.invitationsTable.hidden = NO;
 }
 
 - (NSMutableArray*) loadInvitation:(NSString*)invitations
@@ -93,129 +124,86 @@
 {
     NSMutableArray* pi = [[NSMutableArray alloc] init];
     NSMutableArray* ui = [[NSMutableArray alloc] init];
+    NSMutableArray* pm = [[NSMutableArray alloc] init];
+    NSMutableArray* um = [[NSMutableArray alloc] init];
     for(Invitation* i in self.passedInvitations)
         [pi addObject:[i serializeToData]];
     for (Invitation* i in self.upcomingInvitations)
         [ui addObject:[i serializeToData]];
-    if (self.scheduled){
-        [LEViewController setUserDefault:@"passedMeals" data:pi];
-        [LEViewController setUserDefault:@"upcomingMeals" data:ui];
-    }
-    else{
+    for(Invitation* i in self.passedMeals)
+        [pm addObject:[i serializeToData]];
+    for (Invitation* i in self.upcomingMeals)
+        [um addObject:[i serializeToData]];
+
+        [LEViewController setUserDefault:@"passedMeals" data:pm];
+        [LEViewController setUserDefault:@"upcomingMeals" data:um];
+ 
         [LEViewController setUserDefault:@"passedInvitations" data:pi];
     [LEViewController setUserDefault:@"upcomingInvitations" data:ui];
-    }
+  
 }
 
-- (void) syncInvitations
+- (void) syncInvitations:(bool)meals
 {
-
+    NSMutableArray* upcoming;
+    NSMutableArray* passed;
+    if (meals){
+        upcoming = self.upcomingMeals;
+        passed = self.passedMeals;
+    }
+    else{
+        upcoming = self.upcomingInvitations;
+        passed = self.passedInvitations;
+    }
     NSMutableArray* removals = [[NSMutableArray alloc] init];
-    for (Invitation* i in self.upcomingInvitations){
-        if ([i passed] || [i respondedNo])
-            [removals addObject:i];
+    for (Invitation* i in upcoming){
+        if (meals){
+            if ([i passed] || [i respondedNo])
+                [removals addObject:i];
+        }
+        else{
+            if ([i passedScheduleTime] || [i respondedNo] || [i passed])
+                [removals addObject:i];
+        }
     }
     for (Invitation* i in removals){
-        [self.upcomingInvitations removeObject:i];
-        [self.passedInvitations addObject:i];
+        [upcoming removeObject:i];
+        [passed addObject:i];
     }
     [removals removeAllObjects];
-    for (Invitation* i in self.passedInvitations){
+    for (Invitation* i in passed){
         if ([i respondedNo])
            [removals addObject:i];
     }
     for (Invitation* i in removals)
-        [self.passedInvitations removeObject:i];
-    NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES];
-    NSSortDescriptor *dateDescriptor2 = [NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO];
-    NSArray *sortDescriptors = [NSArray arrayWithObject:dateDescriptor];
-    NSArray *sortDescriptors2 = [NSArray arrayWithObject:dateDescriptor2];
-    self.passedInvitations = [[self.passedInvitations
-                                 sortedArrayUsingDescriptors:sortDescriptors2] mutableCopy];
-    self.upcomingInvitations = [[self.upcomingInvitations sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
+        [passed removeObject:i];
+    [passed sortUsingFunction:sortInvitationByDate context:nil];
+    [upcoming sortUsingFunction:sortInvitationByDate context:nil];
     [self saveInvitations];
 }
 
-- (void) addInvitation:(Invitation*)invitation
+NSComparisonResult sortInvitationByDate(Invitation *i1, Invitation *i2, void *ignore)
 {
-    [self.upcomingInvitations addObject:invitation];
-    //[self syncInvitations];
+    return [i1.date compare:i2.date];
 }
 
--(void)recall{
-    if (self.scheduled)
-        [User getMeals:self];
-    else
-        [User getInvitations:self];
-}
 
-- (void)connectionDidFinishLoading:(NSURLConnection*)connection
-{
-    NSDictionary *resultsDictionary = [self.responseData objectFromJSONData];
-    NSLog(@"%@", resultsDictionary);
-    [self.passedInvitations removeAllObjects];
-    [self.upcomingInvitations removeAllObjects];
-    for (NSMutableDictionary* dict in resultsDictionary[@"invitations"]){
-        Invitation* i = [[Invitation alloc] init:dict[@"id"] timeInput:dict[@"time"] peopleInput:dict[@"people"] messageInput:dict[@"message"] iRespondedInput:[dict[@"iResponded"] boolValue] creatorIndexInput:dict[@"creatorIndex"] responseArrayInput:dict[@"responses"] centralInput:[dict[@"central"] boolValue] preferencesInput:dict[@"preferences"]];
-        NSLog(@"id: %d", i.num);
-        [self.upcomingInvitations addObject:i];
-        NSLog(@"upcoming invitations count: %d,", self.upcomingInvitations.count);
-    }
-    NSLog(@"passed inviations count: %d", self.passedInvitations.count);
-    NSLog(@"upcoming invitations count: %d,", self.upcomingInvitations.count);
-    [self syncInvitations];
-    NSLog(@"passed inviations count: %d", self.passedInvitations.count);
-    NSLog(@"upcoming invitations count: %d,", self.upcomingInvitations.count);
-    [self.invitationsTable reloadData];
-}
 
-- (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    [self.responseData appendData:data];
-    /*@synchronized(self.acquired){
-        if(self.acquired.integerValue == 1 || [self.navigationController viewControllers][[[self.navigationController viewControllers] count] -1 ] != self || self.tries > 10 || [self.connections containsObject:connection]){
-            return;
-        }
-    }
-    NSDictionary *resultsDictionary = [data objectFromJSONData];
-    if(!resultsDictionary){
-        NSLog(@"failed");
-        NSLog(@"data: %@", data);
-        @synchronized(self.acquired){
-            if (self.acquired.integerValue == 0 && (!(self.tries > 10)) && (!([self.connections containsObject:connection]))){
-                self.tries += 1;
-                [self.connections addObject:connection];
-                [self performSelector:@selector(recall) withObject:nil afterDelay:.5];
-            }
-        }
-        //NSLog(@"returning");
-        return;
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    NSMutableArray* upcoming;
+    NSMutableArray* passed;
+    if (tableView == self.invitationsTable){
+        upcoming = self.upcomingInvitations;
+        passed = self.passedInvitations;
     }
     else{
-        NSLog(@"succeeded");
-        @synchronized(self.acquired){
-            self.acquired = [NSNumber numberWithInt:1];
-        }
+        upcoming = self.upcomingMeals;
+        passed = self.passedMeals;
     }
-    NSLog(@"%@", resultsDictionary);
-    [self.passedInvitations removeAllObjects];
-    [self.upcomingInvitations removeAllObjects];
-
-    for (NSMutableDictionary* dict in resultsDictionary[@"invitations"]){
-       // NSLog(@"one");
-      //  NSLog(@"%@", dict);
-        [self.upcomingInvitations addObject:[[Invitation alloc] init:dict[@"id"] timeInput:dict[@"time"] peopleInput:dict[@"people"] messageInput:dict[@"message"] iRespondedInput:[dict[@"iResponded"] boolValue] creatorIndexInput:dict[@"creatorIndex"] responseArrayInput:dict[@"responses"] centralInput:[dict[@"central"] boolValue] preferencesInput:dict[@"preferences"]]];
-        Invitation* i = [[Invitation alloc] init:dict[@"id"] timeInput:dict[@"time"] peopleInput:dict[@"people"] messageInput:dict[@"message"] iRespondedInput:[dict[@"iResponded"] boolValue] creatorIndexInput:dict[@"creatorIndex"] responseArrayInput:dict[@"responses"] centralInput:[dict[@"central"] boolValue] preferencesInput:dict[@"preferences"]];
-        [self addInvitation:i];
-        
-    }NSLog(@"reloading data");
-    [self syncInvitations];
-    [self.invitationsTable reloadData];*/
-}
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0)
-        return MAX([self.upcomingInvitations count], 1);
-    return MAX([self.passedInvitations count], 1);
+        return MAX([upcoming count], 1);
+    return MAX([passed count], 1);
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -224,11 +212,11 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if(section == 0){
-        if (self.scheduled)
+        if (tableView == self.mealsTable)
             return @"Upcoming Meals";
         return @"Upcoming Invitations";
     }
-    if (self.scheduled)
+    if (tableView == self.mealsTable)
         return @"Passed Meals";
     return @"Passed Invitations";
 }
@@ -243,18 +231,29 @@
         
         
     }
-    Invitation *i;
-    if (indexPath.section == 0){
-        if ([self.upcomingInvitations count] > indexPath.row)
-            i = [self.upcomingInvitations objectAtIndex:indexPath.row];
+    NSMutableArray* upcoming;
+    NSMutableArray* passed;
+    if (tableView == self.invitationsTable){
+        upcoming = self.upcomingInvitations;
+        passed = self.passedInvitations;
     }
     else{
-        if ([self.passedInvitations count] > indexPath.row)
-            i = [self.passedInvitations objectAtIndex:indexPath.row];
+        upcoming = self.upcomingMeals;
+        passed = self.passedMeals;
+    }
+    Invitation *i;
+    if (indexPath.section == 0){
+        if ([upcoming count] > indexPath.row)
+            i = [upcoming objectAtIndex:indexPath.row];
+    }
+    else{
+        if ([passed count] > indexPath.row)
+            i = [passed objectAtIndex:indexPath.row];
     }
     if (!i){
         cell.textLabel.text = @"(None)";
         cell.detailTextLabel.text = nil;
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
     else{
         cell.textLabel.text = [i displayPeople];
@@ -265,7 +264,7 @@
         else
             cell.accessoryView = [[UIImageView alloc] initWithImage:self.carrot];
         cell.detailTextLabel.text = [dateFormat stringFromDate:i.date];
-        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+
     }
     return cell;
 }
@@ -282,8 +281,12 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if ([[tableView cellForRowAtIndexPath:indexPath].textLabel.text isEqualToString:@"(None)"]){
+        return;
+    }
     self.selectedIndexPath = indexPath;
     [self performSegueWithIdentifier:@"invitationsToInvite" sender:self];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
        
 
