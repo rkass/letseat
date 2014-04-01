@@ -16,20 +16,30 @@
 #import "User.h"
 #import "JSONKit.h"
 #import "Graphics.h"
+#import "LEViewController.h"
 #import "Invitation.h"
 
 
 @interface PriceViewController ()
 @property (strong, nonatomic) IBOutlet UISlider *slidePiece;
+@property (strong, nonatomic) IBOutlet UILabel *minYeses;
 
+@property int invitees;
 
 @property (strong, nonatomic) IBOutlet UILabel *currLocLabel;
 @property int minPrice;
+@property (strong, nonatomic) IBOutlet UILabel *scheduleIf;
 @property int maxPrice;
 @property (strong, nonatomic) IBOutlet UIImageView *white2;
+@property (strong, nonatomic) IBOutlet UILabel *scheduleResponse;
+@property (strong, nonatomic) IBOutlet UILabel *numPeople;
+@property (strong, nonatomic) IBOutlet UIImageView *whiteSched;
+@property (strong, nonatomic) IBOutlet UIImageView *slideBackDrop2;
+@property int minPeople;
 @property (strong, nonatomic) IBOutlet UILabel *whereLabel;
 @property (strong, nonatomic) IBOutlet UIImageView *white;
 @property (strong, nonatomic) UIButton *thumb1;
+@property (strong, nonatomic) UIButton *thumb3;
 @property (strong, nonatomic) IBOutlet UIButton *submit;
 @property (strong, nonatomic) IBOutlet UIScrollView *scroller;
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *indicator2;
@@ -45,6 +55,7 @@
 @property (strong, nonatomic) CLLocation* myLocation;
 @property (strong, nonatomic) IBOutlet UISwitch *locSwitch;
 @property (strong, nonatomic) UIImageView* sliderFill;
+@property (strong, nonatomic) UIImageView* sliderFill2;
 @property (strong, nonatomic) UIButton *thumb2;
 @property (strong, nonatomic) IBOutlet UILabel *ppp;
 @property CGRect sliderPosition;
@@ -56,11 +67,13 @@
 @property (strong, nonatomic) UIImage* greencheck;
 
 @property (strong, nonatomic) UIImage* redexc;
-
+@property float sliderMin2;
+@property float sliderMax2;
 @property float sliderMax;
 @property (strong, nonatomic) IBOutlet UILabel *scheduleWhen;
 @property (strong, nonatomic) IBOutlet UILabel *recRests;
 @property (strong, nonatomic) IBOutlet UILabel *whenScheduleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *messageLabel;
 @property (strong, nonatomic) IBOutlet UIImageView *whiteness;
 @property (strong, nonatomic) IBOutlet UIButton *respondToInvite;
 @property (strong, nonatomic) UIButton* responder;
@@ -71,7 +84,7 @@
 
 @implementation PriceViewController
 
-@synthesize white, thumb1, thumb2, sliderBackdrop, sliderPosition, sliderMaxX, sliderMinX, sliderMax, sliderMin, sliderFill, ppp, locSwitch, locationField, myLocation, locValidator, greencheck, redexc, central, byMe, stepper, timeOptions, scheduleWhen, subscroll, indicator, myUITextField, scroller, submit, indicator2, recRests, whenScheduleLabel, whiteBorder, respondToInvite, responder, whereLabel, white2, currLocLabel, nav, minPrice, maxPrice, switchTicked;
+@synthesize white, thumb1, thumb2, thumb3, sliderBackdrop, sliderPosition, sliderMaxX, sliderMinX, sliderMax, sliderMin, sliderFill, sliderFill2, ppp, locSwitch, locationField, myLocation, locValidator, greencheck, redexc, central, byMe, stepper, timeOptions, scheduleWhen, subscroll, indicator, myUITextField, scroller, submit, indicator2, recRests, whenScheduleLabel, whiteBorder, respondToInvite, responder, whereLabel, white2, currLocLabel, nav, minPrice, maxPrice, switchTicked, invitees, sliderMin2, sliderMax2, numPeople;
 +(CLLocationManager*) locationManager
 {
     static CLLocationManager *locationManager = nil;
@@ -93,7 +106,7 @@
     [PriceViewController locationManager].desiredAccuracy = kCLLocationAccuracyBest;
     [PriceViewController locationManager].distanceFilter = kCLDistanceFilterNone;
     [[PriceViewController locationManager] startUpdatingLocation];
-    self.title = @"Price";
+
     self.stepper.stepValue = 1;
     self.greencheck = [UIImage imageNamed:@"GreenCheck"];
     self.redexc = [UIImage imageNamed:@"RedExc"];
@@ -134,18 +147,28 @@
     self.navigationItem.rightBarButtonItem = homeItem;
     self.view.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
     self.subscroll.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
+    self.byMe.titleLabel.textAlignment = NSTextAlignmentCenter;
     self.byMe.titleLabel.textColor = [UIColor grayColor];
     UIImage *thumb = [UIImage imageNamed:@"SlickThumb"];
     self.sliderMaxX = self.sliderBackdrop.frame.origin.x + self.sliderBackdrop.frame.size.width - thumb.size.width/2;
     self.sliderMinX = self.sliderBackdrop.frame.origin.x - thumb.size.width/2;
     self.thumb1 = [[UIButton alloc] initWithFrame:CGRectMake(self.sliderMinX, self.sliderBackdrop.frame.origin.y + self.sliderBackdrop.frame.size.height/2 - thumb.size.height/2,thumb.size.width, thumb.size.height)];
+    if (self.nav.creator){
+        NSMutableArray* arr = [self getCreatorPreferences][@"numbers"];
+        self.invitees = arr.count;
+    }
     self.sliderMin = self.sliderMinX;
     self.sliderMax = self.sliderMaxX;
+    self.sliderMin2 = self.sliderMinX;
+    self.sliderMax2 = self.sliderMax2;
     [self.thumb1 setImage:thumb forState:UIControlStateNormal];
     self.thumb2 = [[UIButton alloc] initWithFrame:CGRectMake(self.sliderMaxX, self.sliderBackdrop.frame.origin.y + self.sliderBackdrop.frame.size.height/2 - thumb.size.height/2 ,thumb.size.width, thumb.size.height)];
     [self.thumb2 setImage:thumb forState:UIControlStateNormal];
+    self.thumb3 = [[UIButton alloc] initWithFrame:CGRectMake(self.sliderMinX, self.slideBackDrop2.frame.origin.y + self.slideBackDrop2.frame.size.height/2 - thumb.size.height/2,thumb.size.width, thumb.size.height)];
     UIImage *sliderFillImg = [UIImage imageNamed:@"SliderFill"];
+
     self.sliderFill = [[UIImageView alloc] initWithImage:sliderFillImg];
+    self.sliderFill2 = [[UIImageView alloc] initWithImage:sliderFillImg];
     [self.thumb1 addTarget:self action:@selector(wasDragged:withEvent:)
      forControlEvents:UIControlEventTouchDragInside];
     [self.thumb1 addTarget:self action:@selector(wasDragged:withEvent:) forControlEvents:UIControlEventTouchDragOutside];
@@ -159,11 +182,17 @@
     self.sliderMinX = self.thumb1.center.x;
    // self.sliderMinX = self.thumb1.center.x;
     self.sliderMin = self.thumb1.center.x;
+    self.sliderMin2 = self.thumb1.center.x;
+    self.sliderMax2 = self.thumb3.center.x;
     self.thumb1.adjustsImageWhenHighlighted = NO;
     self.thumb2.adjustsImageWhenHighlighted = NO;
    // self.sliderMax = self.thumb2.center.y;
+    NSLog(@"slidermin1: %f", self.sliderMin);
+    NSLog(@"slidermin2: %f", self.sliderMin2);
     [self setPppText];
     [self setSliderFillFrame];
+    [self setPppText2];
+    [self setSliderFillFrame2];
     [self.subscroll addSubview:self.sliderFill];
     [self.subscroll addSubview:self.thumb2];
     [self.subscroll addSubview:self.thumb1];
@@ -174,6 +203,7 @@
     [self.subscroll bringSubviewToFront:self.stepper];
     [self.subscroll bringSubviewToFront:self.scheduleWhen];
     self.responder = self.submit;
+  //for testing: self.nav.creator = NO;
     if (!self.nav.creator){
        /* self.recRests.hidden = YES;
         self.whiteBorder.hidden = YES;
@@ -184,6 +214,10 @@
         self.whiteness.hidden = YES;
         self.myUITextField.hidden = YES;
         self.byMe.hidden = YES;*/
+        [self.scheduleIf removeFromSuperview];
+        [self.scheduleResponse removeFromSuperview];
+        [self.whiteSched removeFromSuperview];
+        [self.slideBackDrop2 removeFromSuperview];
         [self.recRests removeFromSuperview];
         [self.whiteBorder removeFromSuperview];
         [self.central removeFromSuperview];
@@ -192,6 +226,7 @@
         [self.scheduleWhen removeFromSuperview];
         [self.whiteness removeFromSuperview];
         [self.myUITextField removeFromSuperview];
+        [self.messageLabel removeFromSuperview];
         [self.byMe removeFromSuperview];
         self.responder = self.respondToInvite;
         [self.submit removeFromSuperview];
@@ -211,8 +246,42 @@
         [self.indicator2 setFrame: CGRectMake(self.indicator2.frame.origin.x, height, self.indicator2.frame.size.width, self.indicator2.frame.size.height)];*/
         
     }
-    else
-        [self.respondToInvite removeFromSuperview];
+    else{
+        if (self.invitees == 0){
+            NSLog(@"here");
+            self.respondToInvite.titleLabel.textAlignment = NSTextAlignmentCenter;
+            self.respondToInvite.titleLabel.text = @"Schedule Meal";
+            [self.submit removeFromSuperview];
+            [self.scheduleIf removeFromSuperview];
+            [self.scheduleResponse removeFromSuperview];
+            [self.whiteSched removeFromSuperview];
+            [self.slideBackDrop2 removeFromSuperview];
+            [self.recRests removeFromSuperview];
+            [self.whiteBorder removeFromSuperview];
+            [self.central removeFromSuperview];
+            [self.whenScheduleLabel removeFromSuperview];
+            [self.stepper removeFromSuperview];
+            [self.scheduleWhen removeFromSuperview];
+            [self.whiteness removeFromSuperview];
+            [self.myUITextField removeFromSuperview];
+            [self.byMe removeFromSuperview];
+            [self.messageLabel removeFromSuperview];
+
+        }
+        else{
+            [self.respondToInvite removeFromSuperview];
+
+            [self.thumb3 setImage:thumb forState:UIControlStateNormal];
+            [self.thumb3 addTarget:self action:@selector(wasDragged2:withEvent:)
+              forControlEvents:UIControlEventTouchDragInside];
+            [self.thumb3 addTarget:self action:@selector(wasDragged2:withEvent:) forControlEvents:UIControlEventTouchDragOutside];
+            self.thumb3.adjustsImageWhenHighlighted = NO;
+            [self.subscroll addSubview:self.sliderFill2];
+            [self.subscroll addSubview:self.thumb3];
+
+        }
+    }
+    [self loadDefaults];
 
     
     
@@ -220,7 +289,7 @@
 }
 - (void)viewDidLayoutSubviews{
 
-    if (!self.nav.creator){
+    if (!self.nav.creator || self.invitees == 0){
 
     [self.indicator2 setFrame: CGRectMake(self.indicator2.frame.origin.x, self.respondToInvite.frame.origin.y, self.indicator2.frame.size.width, self.indicator2.frame.size.height)];
     }
@@ -334,6 +403,37 @@
     
 }
 
+-(void) setPppText2{
+    int min = lroundf((self.sliderMax2 - self.sliderMinX) / (self.sliderMaxX - self.sliderMinX) * self.invitees);
+    self.minPeople = min;
+    //int max = roundf((self.sliderMax - self.sliderMinX) / (self.sliderMaxX - self.sliderMinX) * 90) + 10;
+    if (self.minPeople == self.invitees)
+        self.numPeople.text = @"Everyone";
+    else
+        self.numPeople.text = [NSString stringWithFormat:@"%d", min];
+
+    
+}
+
+- (void)wasDragged2:(UIButton *)button withEvent:(UIEvent *)event
+{
+	// get the touch
+	UITouch *touch = [[event touchesForView:button] anyObject];
+    
+	// get delta
+	CGPoint point = [touch locationInView:nil];
+    float x = point.x;
+    if (x < self.sliderMinX/* + (button.imageView.image.size.width/2)*/)
+        x = self.sliderMinX;// + (button.imageView.image.size.width/2);
+    else if (x > self.sliderMaxX /*+ (button.imageView.image.size.width/2)*/)
+        x = self.sliderMaxX; /*+ (button.imageView.image.size.width/2);*/
+    button.center = CGPointMake(x, button.center.y);
+    self.sliderMax2 = button.center.x;
+    [self setSliderFillFrame2];
+    [self setPppText2];
+    
+}
+
 - (void)wasDragged:(UIButton *)button withEvent:(UIEvent *)event
 {
 	// get the touch
@@ -364,11 +464,61 @@
     self.myLocation = nil;
     if (self.locSwitch.on){
         self.locationField.hidden = YES;
+        self.indicator.hidden = YES;
+        self.locValidator.hidden = YES;
+        [self.locationField resignFirstResponder];
         [[PriceViewController locationManager] startUpdatingLocation];
     }
     else{
         self.locationField.hidden = NO;
+
     }
+}
+
+- (void) loadDefaults{
+    NSNumber *sliderMinDef = [[NSUserDefaults standardUserDefaults] objectForKey:@"sliderMin"];
+    if (sliderMinDef){
+        self.sliderMin = [sliderMinDef floatValue];
+        self.thumb1.center = CGPointMake(self.sliderMin, self.thumb1.center.y);
+        [self setPppText];
+        [self setSliderFillFrame];
+    }
+    NSNumber *sliderMaxDef = [[NSUserDefaults standardUserDefaults] objectForKey:@"sliderMax"];
+    if (sliderMaxDef){
+        self.sliderMax = [sliderMaxDef floatValue];
+        self.thumb2.center = CGPointMake(self.sliderMax, self.thumb2.center.y);
+        [self setPppText];
+        [self setSliderFillFrame];
+    }
+    NSNumber *centralDef = [[NSUserDefaults standardUserDefaults] objectForKey:@"central"];
+    if (centralDef && (![centralDef boolValue])){
+        NSLog(@"here");
+        self.byMe.backgroundColor = [Graphics colorWithHexString:@"b8a37e"];
+        self.central.backgroundColor = [UIColor clearColor];
+        self.byMe.titleLabel.textColor = [UIColor blackColor];
+        self.central.titleLabel.textColor = [UIColor grayColor];
+    }
+    NSNumber *scheduleAfterDef = [[NSUserDefaults standardUserDefaults] objectForKey:@"scheduleAfter"];
+    if (scheduleAfterDef){
+        [self.stepper setValue:[scheduleAfterDef doubleValue]];
+        self.scheduleWhen.text = self.timeOptions[(int)self.stepper.value];
+    }
+    NSNumber *sliderMax2Def = [[NSUserDefaults standardUserDefaults] objectForKey:@"sliderMax2"];
+    if (sliderMax2Def){
+        self.sliderMax2 = [sliderMax2Def floatValue];
+        self.thumb3.center = CGPointMake(self.sliderMax2, self.thumb3.center.y);
+        [self setPppText2];
+        [self setSliderFillFrame2];
+    }
+    
+}
+
+- (void) saveDefaults{
+    [LEViewController setUserDefault:@"sliderMin" data:[NSNumber numberWithFloat: self.sliderMin]];
+     [LEViewController setUserDefault:@"sliderMax" data:[NSNumber numberWithFloat:self.sliderMax]];
+     [LEViewController setUserDefault:@"central" data:[NSNumber numberWithBool:(![self.central.backgroundColor  isEqual:[UIColor clearColor]])]];
+     [LEViewController setUserDefault:@"scheduleAfter" data:[NSNumber numberWithDouble:self.stepper.value]];
+     [LEViewController setUserDefault:@"sliderMax2" data:[NSNumber numberWithFloat:self.sliderMax2]];
 }
 
 - (IBAction)scrollDown:(id)sender {
@@ -378,9 +528,17 @@
 
 -(void)setSliderFillFrame
 {
+    NSLog(@"fill frame min 1: %f", self.sliderMin);
+    NSLog(@"width1: %f", self.sliderMax-self.sliderMin);
     [self.sliderFill setFrame:CGRectMake(self.sliderMin, self.sliderBackdrop.frame.origin.y, self.sliderMax-self.sliderMin /*+ self.thumb2.imageView.image.size.width/2*/, self.sliderBackdrop.frame.size.height)];
 }
 
+-(void)setSliderFillFrame2
+{
+    NSLog(@"fill frame min 2: %f", self.sliderMin2);
+    NSLog(@"width2: %f", self.sliderMax2-self.sliderMin2);
+    [self.sliderFill2 setFrame:CGRectMake(self.sliderMin2,  self.slideBackDrop2.frame.origin.y, self.sliderMax2-self.sliderMin2 /*+ self.thumb2.imageView.image.size.width/2*/, self.slideBackDrop2.frame.size.height)];
+}
 -(void)homePressed:(UIBarButtonItem*)sender{
     [self.navigationController popToRootViewControllerAnimated:YES];
     self.navigationController.navigationBarHidden = YES;
@@ -453,6 +611,7 @@
         }
     }
     [ret setObject:self.timeOptions[(int)self.stepper.value] forKey:@"scheduleAfter"];
+    [ret setObject:[NSNumber numberWithInt:self.minPeople] forKey:@"minPeople"];
     [ret setObject:[NSNumber numberWithBool:(![self.central.backgroundColor  isEqual:[UIColor clearColor]] )] forKey:@"central"];
     [ret setObject:numbers forKey:@"numbers"];
     [ret setObject:self.myUITextField.text forKey:@"message"];
@@ -460,7 +619,7 @@
 }
 
 - (BOOL) validate{
-    if(!self.myLocation){
+    if(!self.myLocation && [[self.nav getInvitation] needToRespondToDate]){
         UIAlertView* av;
         if (!self.switchTicked){
             av = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"We can't get a read on your current location, please enter it manually" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -479,26 +638,34 @@
         [self.scroller setContentOffset:offset animated:YES];
         return NO;
     }
+    [self saveDefaults];
     return YES;
 }
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     return !([textField.text length]>80 && [string length] > range.length);
 }
 - (IBAction)respondSubmit:(id)sender {
-    self.respondToInvite.hidden = YES;
-    self.indicator2.hidden = NO;
-    [self.indicator2 startAnimating];
-    if([self validate])
+    if([self validate]){
+        NSLog(@"validated");
+        self.respondToInvite.hidden = YES;
+        self.indicator2.hidden = NO;
+        [self.indicator2 startAnimating];
+        if (self.nav.creator)
+            [User createInvitation:[self getCreatorPreferences] source:self];
+        else
             [User respondYes:[self.nav getInvitation].num preferences:[self getPreferences] source:self];
+    }
 }
 - (IBAction)submit:(id)sender {
-    self.submit.hidden = YES;
-    self.indicator2.hidden = NO;
-    [self.indicator2 startAnimating];
     if ([self validate]){
+        self.submit.hidden = YES;
+        self.indicator2.hidden = NO;
+        [self.indicator2 startAnimating];
         [User createInvitation:[self getCreatorPreferences] source:self];
     }
     
+
+
 }
 /*
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data

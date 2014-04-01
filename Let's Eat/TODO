@@ -1,17 +1,24 @@
-Scheduled Meals
+price view controller slider
 
-Change Price View To:
+price view controller user defaults
 
-    Schedule Only if x Respond YES
-    Give Folks x time to Respond
+price view controller by me/between everyone alignemnts
+
+invitations view controller
+
+home page
+
+invite view controller
+
+add distance to in restaurants
+
+Price View Controller Segue
 
 Add the logout feature.
 
-Price View Controller Segue
-    
-Make invitations view look non shitty
 
-Make nav bar on restaurant view look non-shitty
+
+Make some buttons and tables tables highlightable
 
 Make logins look non shitty
 
@@ -19,11 +26,7 @@ Fix login bug
 
 Push notifications.
 
-add distance to in restaurants
-
-make compatible with 3.5"
-
-recommendations
+tutorial
 
 unfuck invite friends
 
@@ -35,4 +38,5 @@ figure out deal with google places requests
 
 Refine design images.
 
-Make some tables highlightable
+recommendations
+
