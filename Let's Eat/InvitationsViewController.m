@@ -13,6 +13,8 @@
 #import "InviteViewController.h"
 #import "Graphics.h"
 #import "InvitationsConnectionHandler.h"
+#import "LEViewController.h"
+#import "InviteTransitionConnectionHandler.h"
 @interface InvitationsViewController ()
 
 @property (strong, nonatomic) NSIndexPath* selectedIndexPath;
@@ -31,21 +33,42 @@
 @end
 
 @implementation InvitationsViewController
-@synthesize passedInvitations, selectedIndexPath, upcomingInvitations, carrot, reply, acquired, tries, responseDataMeals, responseDataInvitations, scheduled, mealsTable, upcomingMeals, passedMeals, canDoWork;
-
+@synthesize passedInvitations, selectedIndexPath, upcomingInvitations, carrot, reply, acquired, tries, responseDataMeals, responseDataInvitations, scheduled, mealsTable, upcomingMeals, passedMeals, canDoWork, transitionInvitation, myLocation;
++(CLLocationManager*) locationManager
+{
+    static CLLocationManager *locationManager = nil;
+    
+    if (locationManager == nil)
+    {
+        locationManager = [[CLLocationManager alloc] init];
+    }
+    
+    return locationManager;
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if ([CLLocationManager locationServicesEnabled]) {
+        
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [InvitationsViewController locationManager].delegate = self;
+            [InvitationsViewController locationManager].desiredAccuracy = kCLLocationAccuracyBest;
+            [InvitationsViewController locationManager].distanceFilter = kCLDistanceFilterNone;
+            [[InvitationsViewController locationManager] startUpdatingLocation];
+        });
+        
+    }
     self.canDoWork = [NSNumber numberWithInt:0];
     [User getMeals:[[InvitationsConnectionHandler alloc] initWithInvitationsViewController:self] ];
     [User getInvitations:[[InvitationsConnectionHandler alloc] initWithInvitationsViewController:self] ];
-    NSLog(@"here");
+
     self.acquired = [NSNumber numberWithInt:0];
     UIImage* bigCarrot = [UIImage imageNamed:@"OrangeCarrot"];
     self.carrot = [Graphics makeThumbnailOfSize:bigCarrot size:CGSizeMake(10, 10)];
     UIImage* bigReply = [UIImage imageNamed:@"Reply"];
     self.reply = [Graphics makeThumbnailOfSize:bigReply size:CGSizeMake(14, 18)];
-    self.title = @"Meals and Invitations";
+    self.title = @"Meals";
     self.invitationsTable.dataSource = self;
     self.invitationsTable.delegate = self;
     self.view.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
@@ -79,6 +102,22 @@
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:back];
     [back addTarget:self action:@selector(homePressed:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = backItem;
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"mealsPressed"] && [[[NSUserDefaults standardUserDefaults] objectForKey:@"mealsPressed"] boolValue]){
+        self.meals.backgroundColor = [Graphics colorWithHexString:@"b8a37e"];
+        self.invitations.backgroundColor = [UIColor clearColor];
+        self.meals.titleLabel.textColor = [UIColor blackColor];
+        self.invitations.titleLabel.textColor = [UIColor grayColor];
+        self.mealsTable.hidden = NO;
+        self.invitationsTable.hidden = YES;
+    }
+    else{
+        self.invitations.backgroundColor = [Graphics colorWithHexString:@"b8a37e"];
+        self.meals.backgroundColor = [UIColor clearColor];
+        self.invitations.titleLabel.textColor = [UIColor blackColor];
+        self.meals.titleLabel.textColor = [UIColor grayColor];
+        self.mealsTable.hidden = YES;
+        self.invitationsTable.hidden = NO;
+    }
   //  CGFloat height = self.invitationsTable.contentSize.height - self.invitationsTable.bounds.size.height;
   //  [self.invitationsTable setContentOffset:CGPointMake(0, 40) animated:YES];
 
@@ -87,6 +126,18 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 20;
+}
+- (void)locationManager:(CLLocationManager *)manager
+    didUpdateToLocation:(CLLocation *)newLocation
+           fromLocation:(CLLocation *)oldLocation
+{
+    self.myLocation = newLocation;
+    [[InvitationsViewController locationManager] stopUpdatingLocation];
+        
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [self.invitationsTable reloadData];
+    [self.mealsTable reloadData];
 }
 
 -(void)homePressed:(UIBarButtonItem*)sender{
@@ -100,7 +151,7 @@
     self.invitations.titleLabel.textColor = [UIColor grayColor];
     self.mealsTable.hidden = NO;
     self.invitationsTable.hidden = YES;
-
+    [LEViewController setUserDefault:@"mealsPressed" data:[NSNumber numberWithBool:YES]];
 }
 
 - (IBAction)invitationsPressed:(id)sender {
@@ -110,6 +161,7 @@
     self.meals.titleLabel.textColor = [UIColor grayColor];
     self.mealsTable.hidden = YES;
     self.invitationsTable.hidden = NO;
+    [LEViewController setUserDefault:@"mealsPressed" data:[NSNumber numberWithBool:NO]];
 }
 
 - (NSMutableArray*) loadInvitation:(NSString*)invitations
@@ -157,9 +209,18 @@
     }
     NSMutableArray* removals = [[NSMutableArray alloc] init];
     for (Invitation* i in upcoming){
+        if (i.num == 138)
+            NSLog(@"here we goo....");
         if (meals){
-            if ([i passed] || [i respondedNo])
+            if ([i passed] || [i respondedNo]){
+                if (i.num == 138){
+                    NSLog(@"thinks it passed");
+                    NSLog(@"date: %@", i.date);
+                    NSLog(@"passed: %hhd", [i passed]);
+                    NSLog(@"responded no: %hhd", [i respondedNo]);
+                }
                 [removals addObject:i];
+            }
         }
         else{
             if ([i passedScheduleTime] || [i respondedNo] || [i passed])
@@ -177,16 +238,37 @@
     }
     for (Invitation* i in removals)
         [passed removeObject:i];
-    [passed sortUsingFunction:sortInvitationByDate context:nil];
-    [upcoming sortUsingFunction:sortInvitationByDate context:nil];
+    if (meals){
+        [passed sortUsingFunction:sortInvitationByDate3 context:nil];
+        [upcoming sortUsingFunction:sortInvitationByDate4 context:nil];
+    }
+    else{
+        [passed sortUsingFunction:sortInvitationByDate2 context:nil];
+        [upcoming sortUsingFunction:sortInvitationByDate context:nil];
+    }
+
     [self saveInvitations];
 }
 
 NSComparisonResult sortInvitationByDate(Invitation *i1, Invitation *i2, void *ignore)
 {
-    return [i1.date compare:i2.date];
+    return [i1.scheduleTime compare:i2.scheduleTime];
 }
 
+NSComparisonResult sortInvitationByDate2(Invitation *i1, Invitation *i2, void *ignore)
+{
+    return [i2.scheduleTime compare:i1.scheduleTime];
+}
+
+NSComparisonResult sortInvitationByDate3(Invitation *i1, Invitation *i2, void *ignore)
+{
+    return [i2.date compare:i1.date];
+}
+
+NSComparisonResult sortInvitationByDate4(Invitation *i1, Invitation *i2, void *ignore)
+{
+    return [i1.date compare:i2.date];
+}
 
 
 
@@ -203,10 +285,14 @@ NSComparisonResult sortInvitationByDate(Invitation *i1, Invitation *i2, void *ig
     }
     if (section == 0)
         return MAX([upcoming count], 1);
+    if (tableView == self.invitationsTable)
+        return 0;
     return MAX([passed count], 1);
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if (tableView == self.invitationsTable)
+        return 1;
     return 2;
 }
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -253,6 +339,7 @@ NSComparisonResult sortInvitationByDate(Invitation *i1, Invitation *i2, void *ig
     if (!i){
         cell.textLabel.text = @"(None)";
         cell.detailTextLabel.text = nil;
+        cell.accessoryView = nil;
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
     else{
@@ -272,11 +359,7 @@ NSComparisonResult sortInvitationByDate(Invitation *i1, Invitation *i2, void *ig
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:@"invitationsToInvite"]){
         InviteViewController *iv = (InviteViewController *)segue.destinationViewController;
-        iv.scheduled = self.scheduled;
-        NSMutableArray* arr = self.upcomingInvitations;
-        if (self.selectedIndexPath.section == 1)
-            arr = self.passedInvitations;
-        iv.invitation = arr[self.selectedIndexPath.row];
+        iv.invitation = self.transitionInvitation;
     }
 }
 
@@ -285,8 +368,21 @@ NSComparisonResult sortInvitationByDate(Invitation *i1, Invitation *i2, void *ig
         return;
     }
     self.selectedIndexPath = indexPath;
-    [self performSegueWithIdentifier:@"invitationsToInvite" sender:self];
+    InviteTransitionConnectionHandler* ivtch = [[InviteTransitionConnectionHandler alloc] initWithInvitationsViewController:self segueInput:@"invitationsToInvite"];
+    NSMutableArray* arr;
+    if (self.invitationsTable.hidden){
+        if (self.selectedIndexPath.section == 0)
+            arr = self.upcomingMeals;
+        else
+            arr = self.passedMeals;
+    }
+    else{
+        arr = self.upcomingInvitations;
+    }
+    Invitation* selectedInvitation = arr[indexPath.row];
+    [User getInvitation:selectedInvitation.num source:ivtch];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSLog(@"double passed it all");
 }
        
 

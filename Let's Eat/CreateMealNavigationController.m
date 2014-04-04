@@ -17,7 +17,7 @@
 @end
 
 @implementation CreateMealNavigationController
-@synthesize creator;
+@synthesize creator, invitation;
 - (void)viewDidLoad
 {
 

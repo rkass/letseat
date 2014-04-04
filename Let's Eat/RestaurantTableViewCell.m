@@ -9,9 +9,11 @@
 #import "RestaurantTableViewCell.h"
 #import "JSONKit.h"
 #import "LEViewController.h"
+#import "Graphics.h"
+
 
 @implementation RestaurantTableViewCell
-@synthesize snippetImg, ratingImg, name, address, votes, price, vote, types, restaurant, responseData, row, ivc;
+@synthesize snippetImg, ratingImg, name, address, votes, price, vote, types, restaurant, responseData, row, ivc, oneRest;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     NSLog(@"initting with style");
@@ -29,7 +31,7 @@
     NSLog(@"finished: %@", resultsDictionary);
     self.restaurant.votes = [resultsDictionary[@"restaurant"][@"votes"] integerValue];
     self.restaurant.iVoted = [resultsDictionary[@"restaurant"][@"user_voted"] boolValue];
-    [self setWithRestaurant:self.restaurant rowInput:self.row ivcInput:self.ivc];
+    [self setWithRestaurant:self.restaurant rowInput:self.row ivcInput:self.ivc oneRestInput:self.oneRest];
     NSMutableArray* rests = [[NSMutableArray alloc] init];
     for (NSData* data in [[NSUserDefaults standardUserDefaults] arrayForKey:
                           [@"restaurants" stringByAppendingString:[NSString stringWithFormat:@"%d", self.restaurant.invitation]]])
@@ -65,6 +67,7 @@
 }
 
 - (IBAction)votePressed:(id)sender {
+
     if (self.restaurant.iVoted){
         self.ivc.voteChanged = YES;
         [self.vote setBackgroundImage:[UIImage imageNamed:@"VoteBackground"] forState:UIControlStateNormal];
@@ -86,7 +89,8 @@
     }
 }
 
--(void)setWithRestaurant:(Restaurant*)restaurantInput rowInput:(int)rowInput ivcInput:(InviteViewController*)ivcInput{
+-(void)setWithRestaurant:(Restaurant*)restaurantInput rowInput:(int)rowInput ivcInput:(InviteViewController*)ivcInput oneRestInput:(BOOL)oneRestInput{
+    self.oneRest = oneRestInput;
     if (self.responseData)
         [self.responseData setLength:0];
     self.ivc = ivcInput;
@@ -124,6 +128,8 @@
         self.price.text = [self.price.text stringByAppendingString:@"$"];
         count += 1;
     }
+    if (self.restaurant.distance != -1)
+        self.price.text = [NSString stringWithFormat:@"%@, %.1f mi.", self.price.text, self.restaurant.distance];
     self.percentMatch.text = [NSString stringWithFormat:@"%u%% Match", self.restaurant.percentMatch];
     if (self.restaurant.iVoted){
         [self.vote setBackgroundImage:[UIImage imageNamed:@"VotedBackground"] forState:UIControlStateNormal];
@@ -134,6 +140,22 @@
         [self.vote setBackgroundImage:[UIImage imageNamed:@"VoteBackground"] forState:UIControlStateNormal];
         [self.vote setTitle:@"VOTE" forState:UIControlStateNormal];
         self.restaurant.iVoted = NO;
+    }
+
+    if (self.ivc.scheduled && (!self.oneRest)){
+        UILabel* labia = [[UILabel alloc] initWithFrame:CGRectMake(self.vote.frame.origin.x + 35, self.vote.frame.origin.y -3, self.vote.frame.size.width, self.vote.frame.size.height)];
+        [labia setFont:[UIFont systemFontOfSize:35]];
+        labia.textColor = [Graphics colorWithHexString:@"ffa500"];
+        labia.text = @">";
+        [self addSubview:labia];
+        [self.vote removeFromSuperview];
+    }
+    if (self.oneRest){
+        self.vote.titleLabel.text = @"";
+        self.name.text = self.restaurant.name;
+        [self.name setFrame:CGRectMake(self.name.frame.origin.x, self.frame.origin.y, 320 - self.name.frame.origin.x, self.name.frame.size.height)];
+        [self.vote setImage:[UIImage imageNamed:@"OrangeCarrot"] forState:UIControlStateNormal];
+
     }
 
 

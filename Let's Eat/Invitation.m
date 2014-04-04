@@ -15,15 +15,17 @@
 @end
 
 @implementation Invitation
-@synthesize num, message, date, people, iResponded, creatorIndex, responseArray, central, preferences, scheduleTime;
+@synthesize num, message, date, people, iResponded, creatorIndex, responseArray, central, preferences, scheduleTime, scheduled, restaurants, updatingRecommendations;
 
-- (id)init:(NSNumber*)numInput timeInput:(NSString*)timeInput peopleInput:(NSArray*)peopleInput messageInput:(NSString*)messageInput iRespondedInput:(BOOL)iRespondedInput creatorIndexInput:(NSNumber*)creatorIndexInput responseArrayInput:(NSArray*)responseArrayInput centralInput:(BOOL)centralInput preferencesInput:(NSArray*)preferencesInput scheduleTimeInput:(NSString *)scheduleTimeInput
+- (id)init:(NSNumber*)numInput timeInput:(NSString*)timeInput peopleInput:(NSArray*)peopleInput messageInput:(NSString*)messageInput iRespondedInput:(BOOL)iRespondedInput creatorIndexInput:(NSNumber*)creatorIndexInput responseArrayInput:(NSArray*)responseArrayInput centralInput:(BOOL)centralInput preferencesInput:(NSArray*)preferencesInput scheduleTimeInput:(NSString *)scheduleTimeInput scheduledInput:(BOOL)scheduledInput messagesArrayInput:(NSMutableArray *)messagesArrayInput
 {
     self = [super init];
     if (self){
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+
         [dateFormatter setDateFormat:@"EEE, dd MMM yyyy H:m:s"];
         self.date = [dateFormatter dateFromString:timeInput];
+        [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
         self.scheduleTime = [dateFormatter dateFromString:scheduleTimeInput];
         self.people = [[NSMutableArray alloc] init];
         for (NSString* person in peopleInput){
@@ -35,9 +37,11 @@
         self.central = centralInput;
         self.creatorIndex = [creatorIndexInput integerValue];
         self.responseArray = [responseArrayInput mutableCopy];
+        self.messagesArray = [messagesArrayInput mutableCopy];
         self.preferences = [preferencesInput mutableCopy];
+        self.scheduled = scheduledInput;
+        self.restaurants = [[NSMutableArray alloc] init];
     }
-    NSLog(@"schedule time: %@", self.scheduleTime);
     return self;
 }
 
@@ -58,7 +62,9 @@
     [dict setObject:[NSNumber numberWithBool:self.central] forKey:@"central"];
     [dict setObject:[NSNumber numberWithInt:self.creatorIndex] forKey:@"creatorIndex"];
     [dict setObject:self.responseArray forKey:@"responseArray"];
+    [dict setObject:self.messagesArray forKey:@"messagesArray"];
     [dict setObject:self.preferences forKey:@"preferences"];
+    [dict setObject:[NSNumber numberWithBool:self.scheduled] forKey:@"scheduled"];
     return dict;
 }
 
@@ -84,6 +90,20 @@
     return ret;
 }
 
+-(NSString*) messagesForPerson:(NSString*)person{
+    person = [person stringByReplacingOccurrencesOfString:@" (creator)" withString:@""];
+    if (([self.people indexOfObject:person] == NSNotFound) || (self.messagesArray[[self.people indexOfObject:person]]) == (id)[NSNull null])
+        return @"";
+    return self.messagesArray[[self.people indexOfObject:person]];
+}
+
+-(NSString*) responseForPerson:(NSString*)person{
+    person = [person stringByReplacingOccurrencesOfString:@" (creator)" withString:@""];
+    if ((self.responseArray[[self.people indexOfObject:person]]) == (id)[NSNull null])
+        return @"";
+    return self.responseArray[[self.people indexOfObject:person]];
+}
+
 -(id)initWithDict:(NSMutableDictionary*)dict
 {
     self = [super init];
@@ -98,6 +118,8 @@
         self.creatorIndex = [dict[@"creatorIndex"] intValue];
         self.responseArray = [dict[@"responseArray"] mutableCopy];
         self.preferences = [dict[@"preferences"] mutableCopy];
+        self.scheduled = [dict[@"scheduled"] boolValue];
+        self.messagesArray = [dict[@"messagesArray"] mutableCopy];
     }
     return self;
 }
@@ -197,17 +219,12 @@
 
 - (BOOL) passed
 {
-    NSDate* today = [NSDate date];
-    if([today compare: self.date] == NSOrderedDescending)
-        return YES;
-    return NO;
+    return [self.date isInPast];
+
 }
 
 -(BOOL) passedScheduleTime{
-    NSDate* today = [NSDate date];
-    if([today compare: self.scheduleTime] == NSOrderedDescending)
-        return YES;
-    return NO;
+    return [self.scheduleTime isInPast];
 }
 
 - (void)viewDidLoad

@@ -1,0 +1,19 @@
+Invitations
+
+Get Invitations return invitations without restaurants
+
+
+
+---------->Invite
+
+Get Restaurants
+Update Invitation
+
+
+
+In invitation model have property called updating
+
+while updating, move restaurants table down a bit (content inset) and don't display oneRest table, and poll the server until updating is off and then display restaurants as normal
+
+when calling from price view controller get invitation first, then segue with that invitation
+

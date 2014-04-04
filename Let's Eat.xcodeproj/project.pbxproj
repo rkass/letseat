@@ -36,9 +36,10 @@
 		94610F7118A950B40094779E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94610F6F18A950B40094779E /* InfoPlist.strings */; };
 		94610F7318A950B40094779E /* Let_s_EatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 94610F7218A950B40094779E /* Let_s_EatTests.m */; };
 		9466154518E3047A0066E84D /* RestaurantViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9466154418E3047A0066E84D /* RestaurantViewController.m */; };
-		946CE1C218E5FE74009ADED6 /* NMRangeSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 946CE1C118E5FE74009ADED6 /* NMRangeSlider.m */; };
 		947F1DEA18B4FC38009924E5 /* ValidationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 947F1DE918B4FC38009924E5 /* ValidationViewController.m */; };
 		9483580018EB02D60022A13C /* InvitationsConnectionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 948357FF18EB02D60022A13C /* InvitationsConnectionHandler.m */; };
+		9483580618ECA0550022A13C /* InviteCases in Resources */ = {isa = PBXBuildFile; fileRef = 9483580518ECA0550022A13C /* InviteCases */; };
+		9483C4A618EF4B4E00373A56 /* InviteTransitionConnectionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9483C4A518EF4B4E00373A56 /* InviteTransitionConnectionHandler.m */; };
 		948C090418C51575002A3524 /* InvitationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948C090318C51575002A3524 /* InvitationsViewController.m */; };
 		948C090718C5258D002A3524 /* Invitation.m in Sources */ = {isa = PBXBuildFile; fileRef = 948C090618C5258D002A3524 /* Invitation.m */; };
 		948C091018C67F26002A3524 /* InviteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948C090F18C67F26002A3524 /* InviteViewController.m */; };
@@ -110,12 +111,13 @@
 		94610F7218A950B40094779E /* Let_s_EatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Let_s_EatTests.m; sourceTree = "<group>"; };
 		9466154318E3047A0066E84D /* RestaurantViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantViewController.h; sourceTree = "<group>"; };
 		9466154418E3047A0066E84D /* RestaurantViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantViewController.m; sourceTree = "<group>"; };
-		946CE1C018E5FE74009ADED6 /* NMRangeSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMRangeSlider.h; sourceTree = "<group>"; };
-		946CE1C118E5FE74009ADED6 /* NMRangeSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NMRangeSlider.m; sourceTree = "<group>"; };
 		947F1DE818B4FC38009924E5 /* ValidationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValidationViewController.h; sourceTree = "<group>"; };
 		947F1DE918B4FC38009924E5 /* ValidationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValidationViewController.m; sourceTree = "<group>"; };
 		948357FE18EB02D60022A13C /* InvitationsConnectionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvitationsConnectionHandler.h; sourceTree = "<group>"; };
 		948357FF18EB02D60022A13C /* InvitationsConnectionHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InvitationsConnectionHandler.m; sourceTree = "<group>"; };
+		9483580518ECA0550022A13C /* InviteCases */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = InviteCases; sourceTree = "<group>"; };
+		9483C4A418EF4B4E00373A56 /* InviteTransitionConnectionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteTransitionConnectionHandler.h; sourceTree = "<group>"; };
+		9483C4A518EF4B4E00373A56 /* InviteTransitionConnectionHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteTransitionConnectionHandler.m; sourceTree = "<group>"; };
 		948C090218C51575002A3524 /* InvitationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvitationsViewController.h; sourceTree = "<group>"; };
 		948C090318C51575002A3524 /* InvitationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InvitationsViewController.m; sourceTree = "<group>"; };
 		948C090518C5258D002A3524 /* Invitation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Invitation.h; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 			isa = PBXGroup;
 			children = (
 				94610F5918A950B40094779E /* Main.storyboard */,
+				9483580518ECA0550022A13C /* InviteCases */,
 				9438EC1E18D405C2007A1643 /* TODO */,
 				941CE23118AEBE4600E773BF /* Server.h */,
 				94D2606718BD59A6005FF97C /* KnownBugs */,
@@ -308,6 +311,8 @@
 		9483580118EB02E60022A13C /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				9483C4A418EF4B4E00373A56 /* InviteTransitionConnectionHandler.h */,
+				9483C4A518EF4B4E00373A56 /* InviteTransitionConnectionHandler.m */,
 				948357FE18EB02D60022A13C /* InvitationsConnectionHandler.h */,
 				948357FF18EB02D60022A13C /* InvitationsConnectionHandler.m */,
 				9438EC2C18E1DAE0007A1643 /* RestaurantTableViewCell.h */,
@@ -319,8 +324,6 @@
 		94EF731018C8BEA500FFF973 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				946CE1C018E5FE74009ADED6 /* NMRangeSlider.h */,
-				946CE1C118E5FE74009ADED6 /* NMRangeSlider.m */,
 				94EF731718CE6BA700FFF973 /* Graphics.h */,
 				94EF731818CE6BA700FFF973 /* Graphics.m */,
 				94EF731118C8BF0800FFF973 /* NSDate-Utilities.h */,
@@ -413,6 +416,7 @@
 			files = (
 				94610F6018A950B40094779E /* Images.xcassets in Resources */,
 				9438EC1F18D405C2007A1643 /* TODO in Resources */,
+				9483580618ECA0550022A13C /* InviteCases in Resources */,
 				94610F5218A950B40094779E /* InfoPlist.strings in Resources */,
 				94610F5B18A950B40094779E /* Main.storyboard in Resources */,
 				94D2606818BD59A6005FF97C /* KnownBugs in Resources */,
@@ -438,9 +442,9 @@
 				9438EC2318D65EA0007A1643 /* TellFriendsViewController.m in Sources */,
 				9448D86B18BFAAC5007D40D0 /* PriceViewController.m in Sources */,
 				94394FF518B3EBE200A2FEDB /* WhoViewController.m in Sources */,
-				946CE1C218E5FE74009ADED6 /* NMRangeSlider.m in Sources */,
 				94D2606618BD2184005FF97C /* WhatViewController.m in Sources */,
 				9438EC2818E1C816007A1643 /* Restaurant.m in Sources */,
+				9483C4A618EF4B4E00373A56 /* InviteTransitionConnectionHandler.m in Sources */,
 				941CE22C18AD6BA200E773BF /* User.m in Sources */,
 				948C090718C5258D002A3524 /* Invitation.m in Sources */,
 				9438EC2E18E1DAE0007A1643 /* RestaurantTableViewCell.m in Sources */,

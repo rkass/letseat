@@ -85,13 +85,13 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     if (indexPath.row == 0){
-        cell.textLabel.text = @"Scheduled Meals";
-        UIImage *bigImage = [UIImage imageNamed:@"Calendar"];
+        cell.textLabel.text = @"Invitations and Meals";
+        UIImage *bigImage = [UIImage imageNamed:@"Envelope"];
         cell.imageView.image = [Graphics makeThumbnailOfSize:bigImage size:CGSizeMake(20, 20)];
     }
     else if (indexPath.row == 1){
-        cell.textLabel.text = @"My Invitations";
-        UIImage *bigImage = [UIImage imageNamed:@"Envelope"];
+        cell.textLabel.text = @"What is Let's Eat!?";
+        UIImage *bigImage = [UIImage imageNamed:@"Home"];
         cell.imageView.image = [Graphics makeThumbnailOfSize:bigImage size:CGSizeMake(20,20)];
     }
     else if (indexPath.row == 2){

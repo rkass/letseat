@@ -31,6 +31,8 @@
 }
 + (void) createInvitation:(NSMutableDictionary*)preferences source:(NSObject*)source{
     [preferences setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
+    NSTimeZone* x = [NSTimeZone localTimeZone];
+    [preferences setObject:[NSNumber numberWithInt:x.secondsFromGMT] forKey:@"secondsFromGMT"];
     [Server postRequest:@"create_invitation" data:[preferences JSONData] source:source];
 }
 + (void) respondYes:(int)num preferences:(NSMutableDictionary*)preferences source:(NSObject*)source{
@@ -47,6 +49,7 @@
     [data setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
     [Server postRequest:@"respond_no" data:[data JSONData] source:source];
 }
+
 
 + (void) getInvitations:(NSObject *) source
 {
@@ -68,6 +71,12 @@
 + (void) castUnvote:(NSMutableDictionary*)dict source:(NSObject*)source{
     [dict setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
     [Server postRequest:@"cast_unvote" data:[dict JSONData] source:source];
+}
++ (void) getInvitation:(int)num source:(NSObject*)source{
+    NSMutableDictionary* data = [[NSMutableDictionary alloc] init];
+    [data setObject:[NSNumber numberWithInt:num] forKey:@"id"];
+    [data setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
+    [Server postRequest:@"get_invitation" data:[data JSONData] source:source];
 }
 + (void) getRestaurants:(int)num source:(NSObject*)source{
     NSMutableDictionary* data = [[NSMutableDictionary alloc] init];

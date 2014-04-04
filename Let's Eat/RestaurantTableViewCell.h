@@ -18,10 +18,11 @@
 @property (strong, nonatomic) IBOutlet UILabel *price;
 @property (strong, nonatomic) IBOutlet UILabel *percentMatch;
 @property int row;
+@property bool oneRest;
 @property (strong, nonatomic) IBOutlet UIButton *vote;
 @property (strong, nonatomic) IBOutlet UILabel *types;
 @property (strong, nonatomic) Restaurant* restaurant;
 @property (strong, nonatomic) NSMutableData* responseData;
 @property (strong, nonatomic) InviteViewController* ivc;
--(void)setWithRestaurant:(Restaurant*)restaurant rowInput:(int)rowInput ivcInput:(InviteViewController*)ivcInput;
+-(void)setWithRestaurant:(Restaurant*)restaurant rowInput:(int)rowInput ivcInput:(InviteViewController*)ivcInput oneRestInput:(BOOL)oneRestInput;
 @end

@@ -10,8 +10,8 @@
 #import "Invitation.h"
 
 @interface CreateMealNavigationController : UINavigationController
-
+@property Invitation* invitation;
 @property BOOL creator;
--(Invitation*)getInvitation;
+
 
 @end

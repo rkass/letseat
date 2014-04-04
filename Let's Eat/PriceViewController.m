@@ -12,7 +12,7 @@
 #import "WhatViewController.h"
 #import "InviteViewController.h"
 #import "CreateMealNavigationController.h"
-#import "NMRangeSlider.h"
+
 #import "User.h"
 #import "JSONKit.h"
 #import "Graphics.h"
@@ -230,7 +230,7 @@
         [self.byMe removeFromSuperview];
         self.responder = self.respondToInvite;
         [self.submit removeFromSuperview];
-        if (![[self.nav getInvitation] needToRespondToDate]){
+        if (![self.nav.invitation needToRespondToDate]){
             [self.whereLabel removeFromSuperview];
             [self.white2 removeFromSuperview];
             [self.locSwitch removeFromSuperview];
@@ -277,7 +277,7 @@
             [self.thumb3 addTarget:self action:@selector(wasDragged2:withEvent:) forControlEvents:UIControlEventTouchDragOutside];
             self.thumb3.adjustsImageWhenHighlighted = NO;
             [self.subscroll addSubview:self.sliderFill2];
-            [self.subscroll addSubview:self.thumb3];
+        //    [self.subscroll addSubview:self.thumb3];
 
         }
     }
@@ -587,7 +587,7 @@
 
 -(NSMutableDictionary*)getPreferences{
     NSMutableDictionary* ret = [[NSMutableDictionary alloc] init];
-    if (self.nav.creator || [[self.nav getInvitation] needToRespondToDate])
+    if (self.nav.creator || [self.nav.invitation needToRespondToDate])
         [ret setObject:[NSString stringWithFormat:@"%f,%f", self.myLocation.coordinate.latitude, self.myLocation.coordinate.longitude]  forKey:@"location"];
     WhatViewController* whatvc = (WhatViewController*)[self.nav viewControllers][[[self.nav viewControllers] count] - 2 ];
     [ret setObject:whatvc.wantItems forKey:@"foodList"];
@@ -619,7 +619,7 @@
 }
 
 - (BOOL) validate{
-    if(!self.myLocation && [[self.nav getInvitation] needToRespondToDate]){
+    if(!self.myLocation && [self.nav.invitation needToRespondToDate]){
         UIAlertView* av;
         if (!self.switchTicked){
             av = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"We can't get a read on your current location, please enter it manually" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -648,12 +648,13 @@
     if([self validate]){
         NSLog(@"validated");
         self.respondToInvite.hidden = YES;
+        self.locValidator.hidden = YES;
         self.indicator2.hidden = NO;
         [self.indicator2 startAnimating];
         if (self.nav.creator)
             [User createInvitation:[self getCreatorPreferences] source:self];
         else
-            [User respondYes:[self.nav getInvitation].num preferences:[self getPreferences] source:self];
+            [User respondYes:self.nav.invitation.num preferences:[self getPreferences] source:self];
     }
 }
 - (IBAction)submit:(id)sender {
