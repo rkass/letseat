@@ -27,13 +27,14 @@
 @property (strong, nonatomic) IBOutlet UIButton *invitations;
 
 
+
 @property (strong, nonatomic) IBOutlet UIButton *meals;
 
 @property int tries;
 @end
 
 @implementation InvitationsViewController
-@synthesize passedInvitations, selectedIndexPath, upcomingInvitations, carrot, reply, acquired, tries, responseDataMeals, responseDataInvitations, scheduled, mealsTable, upcomingMeals, passedMeals, canDoWork, transitionInvitation, myLocation;
+@synthesize passedInvitations, selectedIndexPath, upcomingInvitations, carrot, reply, acquired, tries, responseDataMeals, responseDataInvitations, scheduled, mealsTable, upcomingMeals, passedMeals, canDoWork, transitionInvitation, myLocation, tableLock;
 +(CLLocationManager*) locationManager
 {
     static CLLocationManager *locationManager = nil;
@@ -59,40 +60,33 @@
         });
         
     }
-    self.canDoWork = [NSNumber numberWithInt:0];
+    self.tableLock = [NSNumber numberWithInt:0];
+    self.invitationsTable.dataSource = self;
+    self.invitationsTable.delegate = self;
+    self.mealsTable.delegate = self;
+    self.mealsTable.dataSource = self;
+    @synchronized(self.tableLock){
+        self.passedMeals = [self loadInvitation:@"passedMeals"];
+        self.upcomingMeals = [self loadInvitation:@"upcomingMeals"];
+        self.passedInvitations = [self loadInvitation:@"passedInvitations"];
+        self.upcomingInvitations = [self loadInvitation:@"upcomingInvitations"];
+        [self syncInvitations:YES];
+        [self syncInvitations:NO];
+        [self.invitationsTable reloadData];
+        [self.mealsTable reloadData];
+    }
     [User getMeals:[[InvitationsConnectionHandler alloc] initWithInvitationsViewController:self] ];
     [User getInvitations:[[InvitationsConnectionHandler alloc] initWithInvitationsViewController:self] ];
-
-    self.acquired = [NSNumber numberWithInt:0];
     UIImage* bigCarrot = [UIImage imageNamed:@"OrangeCarrot"];
     self.carrot = [Graphics makeThumbnailOfSize:bigCarrot size:CGSizeMake(10, 10)];
     UIImage* bigReply = [UIImage imageNamed:@"Reply"];
     self.reply = [Graphics makeThumbnailOfSize:bigReply size:CGSizeMake(14, 18)];
     self.title = @"Meals";
-    self.invitationsTable.dataSource = self;
-    self.invitationsTable.delegate = self;
     self.view.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
     self.invitationsTable.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
-   // self.invitationsTable.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
-   // self.mealsTable = [[UITableView alloc] initWithFrame:[self.view convertRect:self.invitationsTable.frame toView:self.invitationsTable.superview] style:UITableViewStyleGrouped];
-  //  [self.mealsTable addConstraints:self.invitationsTable.constraints];
     self.mealsTable.contentInset = UIEdgeInsetsMake(-40, 0, -20, 0);
     self.invitationsTable.contentInset = UIEdgeInsetsMake(24, 0, 0, 0);
-   // [self.view addSubview:self.mealsTable];
-    //self.mealsTable.contentInset = self.invitationsTable.contentInset;
-
-    self.mealsTable.hidden = YES;
-    self.mealsTable.delegate = self;
-    self.mealsTable.dataSource = self;
     self.mealsTable.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
-    self.passedMeals = [self loadInvitation:@"passedMeals"];
-    self.upcomingMeals = [self loadInvitation:@"upcomingMeals"];
-    self.passedInvitations = [self loadInvitation:@"passedInvitations"];
-    self.upcomingInvitations = [self loadInvitation:@"upcomingInvitations"];
-    [self syncInvitations:YES];
-    [self syncInvitations:NO];
-    [self.invitationsTable reloadData];
-    [self.mealsTable reloadData];
     [self.navigationController setNavigationBarHidden:NO];
     UIImage *bigImg = [UIImage imageNamed:@"HomeBack"];
     UIImage* backImg = [Graphics makeThumbnailOfSize:bigImg size:CGSizeMake(37,22)];
@@ -118,9 +112,6 @@
         self.mealsTable.hidden = YES;
         self.invitationsTable.hidden = NO;
     }
-  //  CGFloat height = self.invitationsTable.contentSize.height - self.invitationsTable.bounds.size.height;
-  //  [self.invitationsTable setContentOffset:CGPointMake(0, 40) animated:YES];
-
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -136,8 +127,10 @@
         
 }
 -(void)viewWillAppear:(BOOL)animated{
-    [self.invitationsTable reloadData];
-    [self.mealsTable reloadData];
+    @synchronized(self.tableLock){
+        [self.invitationsTable reloadData];
+        [self.mealsTable reloadData];
+    }
 }
 
 -(void)homePressed:(UIBarButtonItem*)sender{
@@ -178,19 +171,19 @@
     NSMutableArray* ui = [[NSMutableArray alloc] init];
     NSMutableArray* pm = [[NSMutableArray alloc] init];
     NSMutableArray* um = [[NSMutableArray alloc] init];
-    for(Invitation* i in self.passedInvitations)
-        [pi addObject:[i serializeToData]];
-    for (Invitation* i in self.upcomingInvitations)
-        [ui addObject:[i serializeToData]];
-    for(Invitation* i in self.passedMeals)
-        [pm addObject:[i serializeToData]];
-    for (Invitation* i in self.upcomingMeals)
-        [um addObject:[i serializeToData]];
-
-        [LEViewController setUserDefault:@"passedMeals" data:pm];
-        [LEViewController setUserDefault:@"upcomingMeals" data:um];
- 
-        [LEViewController setUserDefault:@"passedInvitations" data:pi];
+    @synchronized(self.tableLock){
+        for(Invitation* i in self.passedInvitations)
+            [pi addObject:[i serializeToData]];
+        for (Invitation* i in self.upcomingInvitations)
+            [ui addObject:[i serializeToData]];
+        for(Invitation* i in self.passedMeals)
+            [pm addObject:[i serializeToData]];
+        for (Invitation* i in self.upcomingMeals)
+            [um addObject:[i serializeToData]];
+    }
+    [LEViewController setUserDefault:@"passedMeals" data:pm];
+    [LEViewController setUserDefault:@"upcomingMeals" data:um];
+    [LEViewController setUserDefault:@"passedInvitations" data:pi];
     [LEViewController setUserDefault:@"upcomingInvitations" data:ui];
   
 }
@@ -209,16 +202,8 @@
     }
     NSMutableArray* removals = [[NSMutableArray alloc] init];
     for (Invitation* i in upcoming){
-        if (i.num == 138)
-            NSLog(@"here we goo....");
         if (meals){
             if ([i passed] || [i respondedNo]){
-                if (i.num == 138){
-                    NSLog(@"thinks it passed");
-                    NSLog(@"date: %@", i.date);
-                    NSLog(@"passed: %hhd", [i passed]);
-                    NSLog(@"responded no: %hhd", [i respondedNo]);
-                }
                 [removals addObject:i];
             }
         }

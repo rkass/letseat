@@ -22,44 +22,33 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection
 {
-    NSLog(@"finished loading");
     NSDictionary *resultsDictionary = [self.responseData objectFromJSONData];
     NSMutableArray* upcoming;
     NSMutableArray* passed;
-    if ([resultsDictionary[@"meals"] boolValue]){
+    if ([resultsDictionary[@"call"] isEqualToString:@"get_meals"]){
       //  NSLog(@"meals");
         upcoming = self.ivc.upcomingMeals;
         passed = self.ivc.passedMeals;
     }
     else{
-       // NSLog(@"not meals");
-      //  NSLog(@"%@", resultsDictionary);
         upcoming = self.ivc.upcomingInvitations;
         passed = self.ivc.passedInvitations;
     }
-    [upcoming removeAllObjects];
-    [passed removeAllObjects];
-    NSLog(@"%@", resultsDictionary[@"invitations"]);
-    for (NSMutableDictionary* dict in resultsDictionary[@"invitations"]){
-        Invitation* i = [[Invitation alloc] init:dict[@"id"] timeInput:dict[@"time"] peopleInput:dict[@"people"] messageInput:dict[@"message"] iRespondedInput:[dict[@"iResponded"] boolValue] creatorIndexInput:dict[@"creatorIndex"] responseArrayInput:dict[@"responses"] centralInput:[dict[@"central"] boolValue] preferencesInput:dict[@"preferences"] scheduleTimeInput:dict[@"scheduleTime"] scheduledInput:[dict[@"scheduled"] boolValue] messagesArrayInput:dict[@"messages"]];
-        NSLog(@"messages array: %@", i.messagesArray);
-        NSLog(@"message: %@", i.message);
-        [upcoming addObject:i];
-    }
-    @synchronized(self.ivc.canDoWork){
-    [self.ivc syncInvitations:[resultsDictionary[@"meals"] boolValue]];
-        NSLog(@"reloading");
-        if ([resultsDictionary[@"meals"] boolValue]){
-
-            NSLog(@"reloading meals");
+    @synchronized(self.ivc.tableLock){
+        [upcoming removeAllObjects];
+        [passed removeAllObjects];
+        for (NSMutableDictionary* dict in resultsDictionary[@"invitations"]){
+            Invitation* i = [[Invitation alloc] init:dict[@"id"] timeInput:dict[@"time"] peopleInput:dict[@"people"] messageInput:dict[@"message"] iRespondedInput:[dict[@"iResponded"] boolValue] creatorIndexInput:dict[@"creatorIndex"] responseArrayInput:dict[@"responses"] centralInput:[dict[@"central"] boolValue] preferencesInput:dict[@"preferences"] scheduleTimeInput:dict[@"scheduleTime"] scheduledInput:[dict[@"scheduled"] boolValue] messagesArrayInput:dict[@"messages"]];
+            [upcoming addObject:i];
+        }
+        [self.ivc syncInvitations:[resultsDictionary[@"call"] isEqualToString:@"get_meals"]];
+        if ([resultsDictionary[@"call"] isEqualToString:@"get_meals"]){
             [self.ivc.mealsTable reloadData];
         }
         else{
-            NSLog(@"reloading invites");
             [self.ivc.invitationsTable reloadData];
         }
-        self.ivc.canDoWork = [NSNumber numberWithInt:1];
-
+        
     }
 
 }

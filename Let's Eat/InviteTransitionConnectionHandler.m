@@ -35,10 +35,14 @@
 {
     NSDictionary *resultsDictionary = [self.responseData objectFromJSONData];
     if ([resultsDictionary[@"success"] boolValue]){
+        NSLog(@"dict: %@", resultsDictionary);
         Invitation* i = [[Invitation alloc] init:resultsDictionary[@"invitation"][@"id"] timeInput:resultsDictionary[@"invitation"][@"time"] peopleInput:resultsDictionary[@"invitation"][@"people"] messageInput:resultsDictionary[@"invitation"][@"message"] iRespondedInput:[resultsDictionary[@"invitation"][@"iResponded"] boolValue] creatorIndexInput:resultsDictionary[@"invitation"][@"creatorIndex"] responseArrayInput:resultsDictionary[@"invitation"][@"responses"] centralInput:[resultsDictionary[@"invitation"][@"central"] boolValue] preferencesInput:resultsDictionary[@"invitation"][@"preferences"] scheduleTimeInput:resultsDictionary[@"invitation"][@"scheduleTime"] scheduledInput:[resultsDictionary[@"invitation"][@"scheduled"] boolValue] messagesArrayInput:resultsDictionary[@"invitation"][@"messages"]];
         for (NSMutableDictionary* rest in resultsDictionary[@"invitation"][@"restaurants"])
-            [i.restaurants addObject:[[Restaurant alloc] init:rest[@"address"] nameInput:rest[@"name"] percentMatchInput:rest[@"percentMatch"] priceInput:rest[@"price"] ratingImgInput:rest[@"rating_img"] snippetImgInput:rest[@"snippet_img"] votesInput:rest[@"votes"] typesInput:rest[@"types_list"] iVotedInput:[rest[@"user_voted"] boolValue] urlInput:rest[@"url"] myLocationInput:self.ivc.myLocation]];
-        i.updatingRecommendations = [resultsDictionary[@"invitation"][@"updatingRecommendation"] integerValue];
+            [i.restaurants addObject:[[Restaurant alloc] init:rest[@"address"] nameInput:rest[@"name"] percentMatchInput:rest[@"percentMatch"] priceInput:rest[@"price"] ratingImgInput:rest[@"rating_img"] snippetImgInput:rest[@"snippet_img"] votesInput:rest[@"votes"] typesInput:rest[@"types_list"] iVotedInput:[rest[@"user_voted"] boolValue] urlInput:rest[@"url"] myLocationInput:self.ivc.myLocation invitationInput:i.num]];
+
+        i.updatingRecommendations = [resultsDictionary[@"invitation"][@"updatingRecommendations"] integerValue];
+        
+        NSLog(@"id: %d", i.num);
         if (self.ivc){
             self.ivc.transitionInvitation = i;
             [self.ivc performSegueWithIdentifier:self.segue sender:self.ivc];

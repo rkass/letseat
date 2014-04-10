@@ -27,7 +27,7 @@
 @property BOOL iVoted;
 @property NSMutableData* responseData;
 -(id)init:(NSString*)addressInput distanceInput:(NSNumber*)distanceInput nameInput:(NSString*)nameInput percentMatchInput:(NSNumber*)percentMatchInput priceInput:(NSNumber*)priceInput ratingImgInput:(NSString*)ratingImgInput snippetImgInput:(NSString*)snippetImgInput votesInput:(NSNumber*)votesInput typesInput:(NSArray*)typesInput iVotedInput:(BOOL)iVotedInput invitationInput:(int)invitationInput urlInput:(NSString*)urlInput InviteViewControllerInput:(InviteViewController*)InviteViewControllerInput;
--(id)init:(NSString*)addressInput nameInput:(NSString*)nameInput percentMatchInput:(NSNumber*)percentMatchInput priceInput:(NSNumber*)priceInput ratingImgInput:(NSString*)ratingImgInput snippetImgInput:(NSString*)snippetImgInput votesInput:(NSNumber*)votesInput typesInput:(NSArray*)typesInput iVotedInput:(BOOL)iVotedInput urlInput:(NSString*)urlInput myLocationInput:(CLLocation*)myLocationInput;
+-(id)init:(NSString*)addressInput nameInput:(NSString*)nameInput percentMatchInput:(NSNumber*)percentMatchInput priceInput:(NSNumber*)priceInput ratingImgInput:(NSString*)ratingImgInput snippetImgInput:(NSString*)snippetImgInput votesInput:(NSNumber*)votesInput typesInput:(NSArray*)typesInput iVotedInput:(BOOL)iVotedInput urlInput:(NSString*)urlInput myLocationInput:(CLLocation*)myLocationInput invitationInput:(int)invitationInput;
 -(id)initWithData:(NSData*)data;
 -(void)setInviteAndDistance:(InviteViewController*)ivcin;
 -(NSData*)serializeToData;

@@ -50,10 +50,11 @@
     return self;
 }
 
--(id)init:(NSString*)addressInput nameInput:(NSString*)nameInput percentMatchInput:(NSNumber*)percentMatchInput priceInput:(NSNumber*)priceInput ratingImgInput:(NSString*)ratingImgInput snippetImgInput:(NSString*)snippetImgInput votesInput:(NSNumber*)votesInput typesInput:(NSArray*)typesInput iVotedInput:(BOOL)iVotedInput urlInput:(NSString*)urlInput myLocationInput:(CLLocation*)myLocationInput{
+-(id)init:(NSString*)addressInput nameInput:(NSString*)nameInput percentMatchInput:(NSNumber*)percentMatchInput priceInput:(NSNumber*)priceInput ratingImgInput:(NSString*)ratingImgInput snippetImgInput:(NSString*)snippetImgInput votesInput:(NSNumber*)votesInput typesInput:(NSArray*)typesInput iVotedInput:(BOOL)iVotedInput urlInput:(NSString*)urlInput myLocationInput:(CLLocation*)myLocationInput invitationInput:(int)invitationInput{
     self = [super init];
     self.responseData = [[NSMutableData alloc] initWithLength:0];
     self.distance = -1;
+    self.invitation = invitationInput;
     [self searchCoordinatesForAddress:self.address];
     if (self){
         self.address = addressInput;

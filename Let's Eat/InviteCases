@@ -1,19 +1,24 @@
-Invitations
+Want to use user votes to build a better recommendation system
 
-Get Invitations return invitations without restaurants
+For every vote create n examples where n = amount of restaurants shown to the user
+
+Vote Example:
+
+--------------------------------------------------------------------------------
+
+All yelp categories of the restaurant
+
+Yelp Rating
+
+How many yelp reviews
+
+The dude's category ratings
+
+---------------------------------------------------------------------------------
+
+Store in a table: user preferences, restaurant vote for, restaurant not voted for
+
+---------------------------------------------------------------------------------
 
 
-
----------->Invite
-
-Get Restaurants
-Update Invitation
-
-
-
-In invitation model have property called updating
-
-while updating, move restaurants table down a bit (content inset) and don't display oneRest table, and poll the server until updating is off and then display restaurants as normal
-
-when calling from price view controller get invitation first, then segue with that invitation
 

@@ -42,7 +42,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *msg;
 @property (strong, nonatomic) UIView* labelbg;
 @property double start;
-@property int tries;
+@property (strong, nonatomic) NSNumber* tries;
 @property (strong, nonatomic) NSTimer* timer;
 @property (strong, nonatomic) IBOutlet UITableView* oneRest;
 
@@ -57,6 +57,7 @@
     [super viewDidLoad];
     self.start = [self.invitation.scheduleTime timeIntervalSince1970];
     self.responseData = [[NSMutableData alloc] initWithLength:0];
+    self.tries = [NSNumber numberWithInt:0];
     self.restaurantsTable.dataSource = self;
     self.restaurantsTable.delegate = self;
     self.rsvpTable.delegate = self;
@@ -108,12 +109,7 @@
             [self layoutAccordingToRestsPressed];
         }
         else{
-            self.overview.titleLabel.text = @"  Decline";
-            self.restaurants.backgroundColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:.1];
-            self.restaurants.titleLabel.text = @"    Attend";
-            self.overview.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:.1];
-            self.overview.titleLabel.textColor = [Graphics colorWithHexString:@"ffa500"];
-            self.restaurants.titleLabel.textColor = [Graphics colorWithHexString:@"ffa500"];
+            [self layoutAcceptDecline];
         }
         if (self.invitation.scheduled){
             self.date.text = [@"Scheduled For " stringByAppendingString:[self.invitation dateToString]];
@@ -152,10 +148,26 @@
     }
     self.previousInvitation = self.invitation;
     if (self.invitation.updatingRecommendations > 0){
-        InviteTransitionConnectionHandler* ivtch = [[InviteTransitionConnectionHandler alloc] initWithInvitateViewController:self];
-        [User getInvitation:self.invitation.num source:ivtch];
+        bool retry;
+        @synchronized(self.tries){
+            self.tries = [NSNumber numberWithInt:([self.tries integerValue ]+ 1)];
+            retry = ([self.tries integerValue] < 20);
+        }
+        if (retry)
+            [self performSelector:@selector(recall) withObject:nil afterDelay:1];
+        else
+            NSLog(@"retries exceeded max val before restaurants updated");
+    }
+    else{
+        @synchronized(self.tries){
+            self.tries = [NSNumber numberWithInt:0];
+        }
     }
     
+}
+-(void) recall{
+    InviteTransitionConnectionHandler* ivtch = [[InviteTransitionConnectionHandler alloc] initWithInvitateViewController:self];
+    [User getInvitation:self.invitation.num source:ivtch];
 }
 -(void) saveRests{
     NSMutableArray* serialzedRests = [[NSMutableArray alloc] init];
@@ -166,16 +178,14 @@
 
 
 -(void)viewWillAppear:(BOOL)animated{
-    NSLog(@"willapear");
+    InviteTransitionConnectionHandler* ivtch = [[InviteTransitionConnectionHandler alloc] initWithInvitateViewController:self];
+    [User getInvitation:self.invitation.num source:ivtch];
 }
 
 -(void)viewDidDisappear:(BOOL)animated {
-    NSLog(@"apeearing 1");
     [super viewDidDisappear:animated];
-    NSLog(@"appearing2");
     [self.timer invalidate];
     self.timer = nil;
-    NSLog(@"appeard");
 }
 
 - (void)updateCounter:(NSTimer *)theTimer {
@@ -228,6 +238,7 @@
     
     
 }
+/*
 - (NSMutableArray*) loadRestaurants
 {
     NSMutableArray* ret = [[NSMutableArray alloc] init];
@@ -238,6 +249,15 @@
         [ret addObject:r];
     }
     return ret;
+}*/
+
+-(void) layoutAcceptDecline{
+    [self.overview setTitle:@"  Decline" forState:UIControlStateNormal];
+    [self.restaurants setTitle:@"  Attend" forState:UIControlStateNormal];
+    self.restaurants.backgroundColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:.1];
+    self.overview.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:.1];
+    [self.restaurants setTitleColor:[Graphics colorWithHexString:@"ffa500"] forState:UIControlStateNormal];
+    [self.overview setTitleColor:[Graphics colorWithHexString:@"ffa500"] forState:UIControlStateNormal];
 }
 - (IBAction)overviewPressed:(id)sender {
     if (self.invitation.iResponded || [self.invitation passed]){
@@ -245,12 +265,7 @@
         [self layoutAccordingToRestsPressed];
     }
     else{
-        [self.overview setTitle:@"  Decline" forState:UIControlStateNormal];
-        [self.restaurants setTitle:@"  Attend" forState:UIControlStateNormal];
-        self.restaurants.backgroundColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:.1];
-        self.overview.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:.1];
-        [self.restaurants setTitleColor:[Graphics colorWithHexString:@"ffa500"] forState:UIControlStateNormal];
-        [self.overview setTitleColor:[Graphics colorWithHexString:@"ffa500"] forState:UIControlStateNormal];
+        [self layoutAcceptDecline];
         UIAlertView* noResponseAlert = [[UIAlertView alloc] initWithTitle:@"Decline?" message:@"Include an optional message:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Okay", nil];
         noResponseAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
         [noResponseAlert textFieldAtIndex:0].delegate = self;
@@ -298,34 +313,17 @@
         [self layoutAccordingToRestsPressed];
     }
     else{
-        [self.overview setTitle:@"  Decline" forState:UIControlStateNormal];
-        [self.overview setTitleColor:[Graphics colorWithHexString:@"ffa500"] forState:UIControlStateNormal];
-        [self.restaurants setTitle:@"  Attend" forState:UIControlStateNormal];
-        [self.restaurants setTitleColor:[Graphics colorWithHexString:@"ffa500"] forState:UIControlStateNormal];
-        self.restaurants.backgroundColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:.1];
-        self.overview.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:.1];
+        [self layoutAcceptDecline];
         [self performSegueWithIdentifier:@"inviteToWhat" sender:self];
     }
     
 }
 
-/*
-- (IBAction)overviewPressed:(id)sender {
-    self.suggestedRestaurants.hidden = YES;
-    self.rsvpTable.hidden = NO;
-    self.message.hidden = NO;
-}
-- (IBAction)suggestedRestaurantsPressed:(id)sender {
-    self.suggestedRestaurants.hidden = NO;
-    self.rsvpTable.hidden = YES;
-    self.message.hidden = YES;
-}*/
-
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1)
         [User respondNo:self.invitation.num message:[alertView textFieldAtIndex:0].text source:self];
 }
-
+/*
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection{
     NSMutableDictionary* resultsDictionary = [self.responseData objectFromJSONData];
   //  NSLog(@"%@", resultsDictionary);
@@ -379,6 +377,7 @@
    // NSLog(@"receiving");
     [self.responseData appendData:data];
 }
+ */
 
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
