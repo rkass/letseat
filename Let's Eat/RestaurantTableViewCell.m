@@ -10,6 +10,7 @@
 #import "JSONKit.h"
 #import "LEViewController.h"
 #import "Graphics.h"
+#import "InviteTransitionConnectionHandler.h"
 
 
 @implementation RestaurantTableViewCell
@@ -28,6 +29,11 @@
     //  NSLog(@"here");
     
     NSDictionary *resultsDictionary = [self.responseData objectFromJSONData];
+    Invitation* i = [InviteTransitionConnectionHandler loadInvitation:resultsDictionary locationInput:self.ivc.myLocation];
+    self.ivc.invitation = i;
+    [self.ivc layoutView];
+    for (NSMutableDictionary* rest in resultsDictionary[@"invitation"][@"restaurants"])
+        [i.restaurants addObject:[[Restaurant alloc] init:rest[@"address"] nameInput:rest[@"name"] percentMatchInput:rest[@"percentMatch"] priceInput:rest[@"price"] ratingImgInput:rest[@"rating_img"] snippetImgInput:rest[@"snippet_img"] votesInput:rest[@"votes"] typesInput:rest[@"types_list"] iVotedInput:[rest[@"user_voted"] boolValue] urlInput:rest[@"url"] myLocationInput:self.ivc.myLocation invitationInput:i.num]];
     NSLog(@"finished: %@", resultsDictionary);
     self.restaurant.votes = [resultsDictionary[@"restaurant"][@"votes"] integerValue];
     self.restaurant.iVoted = [resultsDictionary[@"restaurant"][@"user_voted"] boolValue];
@@ -142,7 +148,7 @@
         self.restaurant.iVoted = NO;
     }
 
-    if (self.ivc.scheduled && (!self.oneRest)){
+    if (self.ivc.invitation.scheduled && (!oneRest)){
         UILabel* labia = [[UILabel alloc] initWithFrame:CGRectMake(self.vote.frame.origin.x + 35, self.vote.frame.origin.y -3, self.vote.frame.size.width, self.vote.frame.size.height)];
         [labia setFont:[UIFont systemFontOfSize:35]];
         labia.textColor = [Graphics colorWithHexString:@"ffa500"];
@@ -151,7 +157,8 @@
         [self.vote removeFromSuperview];
     }
     if (self.oneRest){
-        self.vote.titleLabel.text = @"";
+        [self.vote setTitle:@"" forState:UIControlStateNormal];
+        //self.vote.titleLabel.text = @"";
         self.name.text = self.restaurant.name;
         [self.name setFrame:CGRectMake(self.name.frame.origin.x, self.frame.origin.y, 320 - self.name.frame.origin.x, self.name.frame.size.height)];
         [self.vote setImage:[UIImage imageNamed:@"OrangeCarrot"] forState:UIControlStateNormal];

@@ -12,7 +12,7 @@
 #import "WhatViewController.h"
 #import "InviteViewController.h"
 #import "CreateMealNavigationController.h"
-
+#import "InviteTransitionConnectionHandler.h"
 #import "User.h"
 #import "JSONKit.h"
 #import "Graphics.h"
@@ -51,6 +51,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *central;
 @property (strong, nonatomic) IBOutlet UIButton *byMe;
 @property (strong, nonatomic) IBOutlet UIStepper *stepper;
+@property (strong, nonatomic) Invitation* invitation;
 @property bool switchTicked;
 @property (strong, nonatomic) CLLocation* myLocation;
 @property (strong, nonatomic) IBOutlet UISwitch *locSwitch;
@@ -84,7 +85,7 @@
 
 @implementation PriceViewController
 
-@synthesize white, thumb1, thumb2, thumb3, sliderBackdrop, sliderPosition, sliderMaxX, sliderMinX, sliderMax, sliderMin, sliderFill, sliderFill2, ppp, locSwitch, locationField, myLocation, locValidator, greencheck, redexc, central, byMe, stepper, timeOptions, scheduleWhen, subscroll, indicator, myUITextField, scroller, submit, indicator2, recRests, whenScheduleLabel, whiteBorder, respondToInvite, responder, whereLabel, white2, currLocLabel, nav, minPrice, maxPrice, switchTicked, invitees, sliderMin2, sliderMax2, numPeople;
+@synthesize white, thumb1, thumb2, thumb3, sliderBackdrop, sliderPosition, sliderMaxX, sliderMinX, sliderMax, sliderMin, sliderFill, sliderFill2, ppp, locSwitch, locationField, myLocation, locValidator, greencheck, redexc, central, byMe, stepper, timeOptions, scheduleWhen, subscroll, indicator, myUITextField, scroller, submit, indicator2, recRests, whenScheduleLabel, whiteBorder, respondToInvite, responder, whereLabel, white2, currLocLabel, nav, minPrice, maxPrice, switchTicked, invitees, sliderMin2, sliderMax2, numPeople, invitation;
 +(CLLocationManager*) locationManager
 {
     static CLLocationManager *locationManager = nil;
@@ -348,6 +349,13 @@
     self.central.titleLabel.textColor = [UIColor grayColor];
 }
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"priceToInvite"]){
+        InviteViewController *iv = (InviteViewController *)segue.destinationViewController;
+        iv.invitation = self.invitation;
+    }
+}
+
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
@@ -357,6 +365,11 @@
     NSDictionary *resultsDictionary = [data objectFromJSONData];
     if ([resultsDictionary[@"success"] isEqual: @YES]){
         NSLog(@"%@",resultsDictionary);
+        if ([resultsDictionary[@"call"] isEqualToString:@"create_invitation"]){
+            Invitation* i = [InviteTransitionConnectionHandler loadInvitation:resultsDictionary locationInput:self.myLocation];
+            self.invitation = i;
+            [self performSegueWithIdentifier:@"priceToInvite" sender:self];
+        }
        // [self performSegueWithIdentifier:@"priceToHome" sender:self];
     }
     else if ([resultsDictionary[@"success"] isEqual: @NO]){

@@ -17,4 +17,5 @@
 @property (strong, nonatomic) NSString* segue;
 -(id)initWithInvitationsViewController:(InvitationsViewController*)ivcInput segueInput:(NSString*)segueInput;
 -(id)initWithInvitateViewController:(InviteViewController*)ivcInput;
++(Invitation*)loadInvitation:(NSDictionary*)resultsDictionary locationInput:(CLLocation*)locationInput;
 @end

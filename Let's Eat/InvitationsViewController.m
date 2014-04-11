@@ -75,8 +75,6 @@
         [self.invitationsTable reloadData];
         [self.mealsTable reloadData];
     }
-    [User getMeals:[[InvitationsConnectionHandler alloc] initWithInvitationsViewController:self] ];
-    [User getInvitations:[[InvitationsConnectionHandler alloc] initWithInvitationsViewController:self] ];
     UIImage* bigCarrot = [UIImage imageNamed:@"OrangeCarrot"];
     self.carrot = [Graphics makeThumbnailOfSize:bigCarrot size:CGSizeMake(10, 10)];
     UIImage* bigReply = [UIImage imageNamed:@"Reply"];
@@ -127,6 +125,8 @@
         
 }
 -(void)viewWillAppear:(BOOL)animated{
+    [User getMeals:[[InvitationsConnectionHandler alloc] initWithInvitationsViewController:self] ];
+    [User getInvitations:[[InvitationsConnectionHandler alloc] initWithInvitationsViewController:self] ];
     @synchronized(self.tableLock){
         [self.invitationsTable reloadData];
         [self.mealsTable reloadData];

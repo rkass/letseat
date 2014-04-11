@@ -117,12 +117,15 @@
             self.message.hidden = YES;
             self.msg.hidden = YES;
             self.timerLabel.hidden = YES;
+            self.labelbg.hidden = YES;
+            self.oneRest.hidden = NO;
             [self.timer invalidate];
         }
         else{
             self.date.text = [self.invitation dateToString];
             self.oneRest.hidden = YES;
             [self updateCounter:nil];
+            [self.timer invalidate];
             self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateCounter:) userInfo:nil repeats:YES];
             if (self.invitation.message.length >80)
                 self.msg.text = [self.invitation.message substringToIndex:80];
@@ -153,8 +156,10 @@
             self.tries = [NSNumber numberWithInt:([self.tries integerValue ]+ 1)];
             retry = ([self.tries integerValue] < 20);
         }
-        if (retry)
+        if (retry){
+            NSLog(@"retrying...");
             [self performSelector:@selector(recall) withObject:nil afterDelay:1];
+        }
         else
             NSLog(@"retries exceeded max val before restaurants updated");
     }
@@ -166,6 +171,7 @@
     
 }
 -(void) recall{
+    NSLog(@"recalling.");
     InviteTransitionConnectionHandler* ivtch = [[InviteTransitionConnectionHandler alloc] initWithInvitateViewController:self];
     [User getInvitation:self.invitation.num source:ivtch];
 }
@@ -178,6 +184,7 @@
 
 
 -(void)viewWillAppear:(BOOL)animated{
+    NSLog(@"will appear");
     InviteTransitionConnectionHandler* ivtch = [[InviteTransitionConnectionHandler alloc] initWithInvitateViewController:self];
     [User getInvitation:self.invitation.num source:ivtch];
 }
@@ -191,7 +198,7 @@
 - (void)updateCounter:(NSTimer *)theTimer {
    
     int secondsLeft = self.start - [[NSDate date] timeIntervalSince1970];
-    if(secondsLeft > 0 ){
+    if(secondsLeft > -1 ){
         int hours = secondsLeft / 3600;
         int minutes = (secondsLeft % 3600) / 60;
         int seconds = (secondsLeft %3600) % 60;
@@ -216,9 +223,17 @@
 
        
     }
-    else{
+    else {
         InviteTransitionConnectionHandler* ivtch = [[InviteTransitionConnectionHandler alloc] initWithInvitateViewController:self];
         [User getInvitation:self.invitation.num source:ivtch];
+        //[User getMeals:<#(NSObject *)#>]
+        [self.labelbg setHidden:YES];
+        [self.labelbg removeFromSuperview];
+       /* InvitationsViewController* ivs = [self.navigationController viewControllers][[self.navigationController viewControllers].count - 2 ];
+        [User getMeals:[[InvitationsConnectionHandler alloc] initWithInvitationsViewController:ivs] ];
+        [User getInvitations:[[InvitationsConnectionHandler alloc] initWithInvitationsViewController:ivs] ];*/
+        [self.timer invalidate];
+        self.timer = nil;
     }
 }
 
@@ -234,9 +249,13 @@
     self.navigationController.navigationBarHidden = YES;
 }
 -(void)backPressed:(UIBarButtonItem*)sender{
-    [self.navigationController popViewControllerAnimated:YES];
-    
-    
+    NSArray* vc = [self.navigationController viewControllers];
+    if ([vc[vc.count - 2] isKindOfClass:[InvitationsViewController class]]){
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else{
+        [self performSegueWithIdentifier:@"inviteToInvitations" sender:self];
+         }
 }
 /*
 - (NSMutableArray*) loadRestaurants
@@ -260,6 +279,7 @@
     [self.overview setTitleColor:[Graphics colorWithHexString:@"ffa500"] forState:UIControlStateNormal];
 }
 - (IBAction)overviewPressed:(id)sender {
+    NSLog(@"overview pressed");
     if (self.invitation.iResponded || [self.invitation passed]){
         self.restsPressed = NO;
         [self layoutAccordingToRestsPressed];
@@ -304,10 +324,16 @@
             self.labelbg.hidden = NO;
             self.msg.hidden = NO;
         }
+        else{
+            self.message.hidden = YES;
+            self.labelbg.hidden = YES;
+            self.msg.hidden = YES;
+        }
         self.rsvpTable.hidden = NO;
     }
 }
 - (IBAction)restsPressed:(id)sender {
+    NSLog(@"rests pressed");
     if (self.invitation.iResponded || [self.invitation passed]){
         self.restsPressed = YES;
         [self layoutAccordingToRestsPressed];
@@ -382,13 +408,16 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:@"inviteToRestaurant"]){
+        NSLog(@"preparing for segue %@", segue.identifier);
         RestaurantViewController *rv = (RestaurantViewController *)segue.destinationViewController;
         rv.restaurant = self.invitation.restaurants[selectedIndexPath.row];
+        NSLog(@"restaurant name: %@", rv.restaurant.name);
     }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if(tableView != self.rsvpTable) {
+        NSLog(@"here");
         self.selectedIndexPath = indexPath;
         [self performSegueWithIdentifier:@"inviteToRestaurant" sender:self];
     }
