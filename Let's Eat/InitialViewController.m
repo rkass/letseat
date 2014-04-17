@@ -22,8 +22,8 @@
      handle checking if user is logged in in app delegate
      */
     [super viewDidLoad];
-    if ([[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"])
-        [self performSelector:@selector(loadHomeViewController) withObject:nil afterDelay:0.0];
+    
+      //  [self performSelector:@selector(loadHomeViewController) withObject:nil afterDelay:0.0];
 
 }
 

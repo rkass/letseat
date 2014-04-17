@@ -25,7 +25,7 @@
 
 @property (strong, nonatomic) IBOutlet UIButton *restaurants;
 @property (strong, nonatomic) IBOutlet UITableView *rsvpTable;
-@property (strong, nonatomic) IBOutlet UILabel *date;
+
 @property (strong, nonatomic) IBOutlet UIImageView *white;
 @property (strong, nonatomic) NSIndexPath* selectedIndexPath;
 @property (strong, nonatomic) IBOutlet UITableView *restaurantsTable;
@@ -37,7 +37,11 @@
 @property (strong, nonatomic) NSNumber* acquired;
 @property (strong, nonatomic) IBOutlet UILabel *timerLabel;
 @property (strong, nonatomic) Invitation* previousInvitation;
-@property BOOL restsPressed;
+@property (strong, nonatomic) UIActivityIndicatorView *restaurantSpinner;
+@property (strong, nonatomic) UIActivityIndicatorView *oneRestSpinner;
+@property (strong, nonatomic) UILabel *loadingLabel;
+@property (strong, nonatomic) UILabel *oneRestLoadingLabel;
+
 @property (strong, nonatomic) NSMutableData* responseData;
 @property (strong, nonatomic) IBOutlet UILabel *msg;
 @property (strong, nonatomic) UIView* labelbg;
@@ -50,7 +54,7 @@
 @end
 
 @implementation InviteViewController
-@synthesize invitation, rsvpTable, going, undecided, notGoing, overview, restaurants,  restaurantsTable, white, acquired, tries, restaurantsArr, responseData, voteChanged, selectedIndexPath, scheduled, labelbg, start, timer, oneRest, myLocation, restsPressed, previousInvitation;
+@synthesize invitation, rsvpTable, going, undecided, notGoing, overview, restaurants,  restaurantsTable, white, acquired, tries, restaurantsArr, responseData, voteChanged, selectedIndexPath, scheduled, labelbg, start, timer, oneRest,restsPressed, previousInvitation;
 
 - (void)viewDidLoad
 {
@@ -76,6 +80,7 @@
     [back setImage:backImg forState:UIControlStateNormal];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:back];
     [back addTarget:self action:@selector(backPressed:) forControlEvents:UIControlEventTouchUpInside];
+    ((CreateMealNavigationController*)self.navigationController).invitation = self.invitation;
     self.navigationItem.leftBarButtonItem = backItem;
     UIImage *bigImage = [UIImage imageNamed:@"Home"];
     UIImage* homeImg = [Graphics makeThumbnailOfSize:bigImage size:CGSizeMake(30,30)];
@@ -85,27 +90,55 @@
     UIBarButtonItem *homeItem = [[UIBarButtonItem alloc] initWithCustomView:home];
     [home addTarget:self action:@selector(homePressed:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = homeItem;
+    self.restaurantSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [self.restaurantSpinner setFrame:CGRectMake(160 - (self.restaurantSpinner.frame.size.width/2), self.restaurantsTable.frame.origin.y + 5, self.restaurantSpinner.frame.size.width, self.restaurantSpinner.frame.size.height)];
+    [self.restaurantSpinner startAnimating];
+    [self.view addSubview:self.restaurantSpinner];
+    self.loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.restaurantSpinner.frame.origin.y + self.restaurantSpinner.frame.size.height + 2, self.view.frame.size.width, 50)];
+    self.loadingLabel.text = loadingRestaurantsText;
+    self.loadingLabel.font = [UIFont systemFontOfSize:15];
+    self.loadingLabel.numberOfLines = 2;
+    self.loadingLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:self.loadingLabel];
+    self.oneRestSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [self.oneRestSpinner setFrame:CGRectMake(160 - (self.oneRestSpinner.frame.size.width/2), self.oneRest.frame.origin.y + 5, self.oneRestSpinner.frame.size.width, self.oneRestSpinner.frame.size.height)];
+    self.oneRestLoadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.oneRestSpinner.frame.origin.y + self.oneRestSpinner.frame.size.height + 2, self.view.frame.size.width, 50)];
+    [self.oneRestSpinner startAnimating];
+    [self.view addSubview:self.oneRestSpinner];
+    self.oneRestLoadingLabel.text = loadingRestaurantsText;
+    self.oneRestLoadingLabel.font = [UIFont systemFontOfSize:15];
+    self.oneRestLoadingLabel.numberOfLines = 2;
+    self.oneRestLoadingLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:self.oneRestLoadingLabel];
     [self layoutView];
     [self.view sendSubviewToBack:self.restaurants];
     [self.view sendSubviewToBack:self.overview];
     [self.view sendSubviewToBack:self.white];
     [self.view bringSubviewToFront:self.msg];
+    self.inviteSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [self.inviteSpinner setFrame:CGRectMake(self.view.frame.size.width - self.inviteSpinner.frame.size.width, self.date.frame.origin.y, self.inviteSpinner.frame.size.width, self.inviteSpinner.frame.size.height)];
+    [self.view addSubview:self.inviteSpinner];
     [self.rsvpTable setFrame:CGRectMake(self.rsvpTable.frame.origin.x, self.rsvpTable.frame.origin.y - 900, self.rsvpTable.frame.size.width, self.rsvpTable.frame.size.height)];
     labelbg = [[UIView alloc] initWithFrame:CGRectMake(self.msg.frame.origin.x - 5, self.msg.frame.origin.y + 7, self.msg.frame.size.width + 10, self.msg.frame.size.height -10)];
     labelbg.backgroundColor = [Graphics colorWithHexString:@"ffa500"];
     labelbg.alpha = .5;
     labelbg.layer.cornerRadius = 8;
+    
+
 	
 }
 
+
 //Everything that could change with a fresh invitation
 - (void) layoutView{
+    [self.inviteSpinner stopAnimating];
     NSMutableArray* arrays = [self.invitation generateResponsesArrays];
     self.going = arrays[0];
     self.undecided = arrays[1];
     self.notGoing = arrays[2];
     if ((!self.previousInvitation) || (![self.invitation isEqual:self.previousInvitation])){
         if (self.invitation.scheduled || self.invitation.iResponded){
+            NSLog(@"laying out rests pressed");
             [self layoutAccordingToRestsPressed];
         }
         else{
@@ -158,7 +191,7 @@
         }
         if (retry){
             NSLog(@"retrying...");
-            [self performSelector:@selector(recall) withObject:nil afterDelay:1];
+            [self performSelector:@selector(recall) withObject:nil afterDelay:10];
         }
         else
             NSLog(@"retries exceeded max val before restaurants updated");
@@ -168,7 +201,7 @@
             self.tries = [NSNumber numberWithInt:0];
         }
     }
-    
+
 }
 -(void) recall{
     NSLog(@"recalling.");
@@ -186,6 +219,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     NSLog(@"will appear");
     InviteTransitionConnectionHandler* ivtch = [[InviteTransitionConnectionHandler alloc] initWithInvitateViewController:self];
+   // NSLog(@"invite view location: %@", L.myLocation);
     [User getInvitation:self.invitation.num source:ivtch];
 }
 
@@ -229,6 +263,8 @@
         //[User getMeals:<#(NSObject *)#>]
         [self.labelbg setHidden:YES];
         [self.labelbg removeFromSuperview];
+       // [self.msg removeFromSuperview];
+        //[self.message removeFromSuperview];
        /* InvitationsViewController* ivs = [self.navigationController viewControllers][[self.navigationController viewControllers].count - 2 ];
         [User getMeals:[[InvitationsConnectionHandler alloc] initWithInvitationsViewController:ivs] ];
         [User getInvitations:[[InvitationsConnectionHandler alloc] initWithInvitationsViewController:ivs] ];*/
@@ -271,16 +307,22 @@
 }*/
 
 -(void) layoutAcceptDecline{
-    [self.overview setTitle:@"  Decline" forState:UIControlStateNormal];
-    [self.restaurants setTitle:@"  Attend" forState:UIControlStateNormal];
+    [self.overview setTitle:@" Decline" forState:UIControlStateNormal];
+    [self.restaurants setTitle:@" Attend" forState:UIControlStateNormal];
     self.restaurants.backgroundColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:.1];
     self.overview.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:.1];
+    self.restaurantsTable.hidden = YES;
+    self.message.hidden = NO;
+    self.labelbg.hidden = NO;
+    self.msg.hidden = NO;
+    self.rsvpTable.hidden = NO;
     [self.restaurants setTitleColor:[Graphics colorWithHexString:@"ffa500"] forState:UIControlStateNormal];
     [self.overview setTitleColor:[Graphics colorWithHexString:@"ffa500"] forState:UIControlStateNormal];
+    
 }
 - (IBAction)overviewPressed:(id)sender {
     NSLog(@"overview pressed");
-    if (self.invitation.iResponded || [self.invitation passed]){
+    if (self.invitation.iResponded || self.invitation.scheduled){
         self.restsPressed = NO;
         [self layoutAccordingToRestsPressed];
     }
@@ -298,28 +340,45 @@
     return !([textField.text length]>40 && [string length] > range.length);
 }
 - (void) layoutAccordingToRestsPressed{
+    [self.overview setTitle:@"Overview" forState:UIControlStateNormal];
+    [self.restaurants setTitle:@"Restaurants" forState:UIControlStateNormal];
     if (self.restsPressed){
+        self.oneRestLoadingLabel.hidden = YES;
+        [self.oneRestSpinner stopAnimating];
         self.restaurants.backgroundColor = [Graphics colorWithHexString:@"b8a37e"];
         self.overview.backgroundColor = [UIColor clearColor];
-        self.restaurants.titleLabel.textColor = [UIColor blackColor];
-        self.overview.titleLabel.textColor = [UIColor grayColor];
+        [self.restaurants setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.overview setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         self.restaurantsTable.hidden = NO;
         self.date.hidden = YES;
-        if (!self.scheduled){
+        if (!self.invitation.scheduled){
             self.message.hidden = YES;
             self.msg.hidden = YES;
             self.labelbg.hidden = YES;
         }
         self.rsvpTable.hidden = YES;
+        if (self.invitation.updatingRecommendations > 0){
+            [self.restaurantSpinner startAnimating];
+            self.loadingLabel.hidden = NO;
+            [self.restaurantsTable setContentInset:UIEdgeInsetsMake(70, 0, 0, 0)];
+        }
+        else{
+            [self.restaurantSpinner stopAnimating];
+            self.loadingLabel.hidden = YES;
+            [self.restaurantsTable setContentInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+        }
     }
     else{
+        self.loadingLabel.hidden = YES;
+        [self.restaurantSpinner stopAnimating];
         self.overview.backgroundColor = [Graphics colorWithHexString:@"b8a37e"];
         self.restaurants.backgroundColor = [UIColor clearColor];
-        self.overview.titleLabel.textColor = [UIColor blackColor];
-        self.restaurants.titleLabel.textColor = [UIColor grayColor];
+        [self.restaurants setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [self.overview setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         self.restaurantsTable.hidden = YES;
         self.date.hidden = NO;
-        if (!self.scheduled){
+        if (!self.invitation.scheduled){
+            NSLog(@"schedueled not hding");
             self.message.hidden = NO;
             self.labelbg.hidden = NO;
             self.msg.hidden = NO;
@@ -328,13 +387,22 @@
             self.message.hidden = YES;
             self.labelbg.hidden = YES;
             self.msg.hidden = YES;
+            NSLog(@"hid errthing"); 
         }
         self.rsvpTable.hidden = NO;
+        if (self.invitation.updatingRecommendations > 0 && self.invitation.scheduled){
+            [self.oneRestSpinner startAnimating];
+            self.oneRestLoadingLabel.hidden = NO;
+        }
+        else{
+            [self.oneRestSpinner stopAnimating];
+            self.oneRestLoadingLabel.hidden = YES;
+        }
     }
 }
 - (IBAction)restsPressed:(id)sender {
     NSLog(@"rests pressed");
-    if (self.invitation.iResponded || [self.invitation passed]){
+    if (self.invitation.iResponded || self.invitation.scheduled){
         self.restsPressed = YES;
         [self layoutAccordingToRestsPressed];
     }
@@ -348,6 +416,10 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1)
         [User respondNo:self.invitation.num message:[alertView textFieldAtIndex:0].text source:self];
+}
+//just for declines
+-(void) connectionDidFinishLoading:(NSURLConnection*)connection{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 /*
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection{

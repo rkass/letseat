@@ -134,6 +134,7 @@
         self.price.text = [self.price.text stringByAppendingString:@"$"];
         count += 1;
     }
+    NSLog(@"table layout thinks distance is %f", self.restaurant.distance);
     if (self.restaurant.distance != -1)
         self.price.text = [NSString stringWithFormat:@"%@, %.1f mi.", self.price.text, self.restaurant.distance];
     self.percentMatch.text = [NSString stringWithFormat:@"%u%% Match", self.restaurant.percentMatch];

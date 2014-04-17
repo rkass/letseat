@@ -39,6 +39,7 @@
     {
         [LEViewController setUserDefault:@"auth_token" data:[responseDict objectForKey:@"auth_token"]];
         [LEViewController setUserDefault:@"phone_number" data:[responseDict objectForKey:@"phone_number"]];
+
         if ([[responseDict objectForKey:@"request"]isEqualToString:@"sign_up" ]){
             [self performSegueWithIdentifier:@"signupToHome" sender:self];
         }
@@ -57,7 +58,10 @@
         [self.failedLoginAlert show];
     }
 }
-
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    NSLog(@"prepared");
+    //[[UIApplication sharedApplication] keyWindow].rootViewController = segue.destinationViewController;
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

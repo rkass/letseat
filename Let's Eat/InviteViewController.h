@@ -17,7 +17,10 @@
 @property bool scheduled;
 @property (strong, nonatomic) NSMutableArray* restaurantsArr;
 @property (strong, nonatomic) CLLocation* myLocation;
+@property (strong, nonatomic) IBOutlet UILabel *date;
+@property (strong, nonatomic) UIActivityIndicatorView* inviteSpinner;
+@property BOOL restsPressed;
 - (void) layoutView;
-- (NSMutableArray*) loadRestaurants;
 - (void) saveRests;
+-(void) recall;
 @end

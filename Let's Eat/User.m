@@ -35,6 +35,10 @@
     [preferences setObject:[NSNumber numberWithInt:x.secondsFromGMT] forKey:@"secondsFromGMT"];
     [Server postRequest:@"create_invitation" data:[preferences JSONData] source:source];
 }
++ (void) sendToken{
+    NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"], @"auth_token", [[NSUserDefaults standardUserDefaults] dataForKey:@"deviceToken"], @"token", nil];
+    [Server postRequest:@"update_token" data:[dict JSONData] source:nil];
+}
 + (void) respondYes:(int)num preferences:(NSMutableDictionary*)preferences source:(NSObject*)source{
     [preferences setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
     [preferences setObject:[NSNumber numberWithInt:num] forKey:@"id"];

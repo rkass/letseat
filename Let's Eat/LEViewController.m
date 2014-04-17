@@ -14,24 +14,74 @@
 @property (strong, nonatomic) UIAlertView *failedConnection;
 @end
 
+
+
+
 @implementation LEViewController
 
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    if ([CLLocationManager locationServicesEnabled]) {
+        
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [LEViewController locationManager].delegate = self;
+            [LEViewController locationManager].desiredAccuracy = kCLLocationAccuracyBest;
+            [LEViewController locationManager].distanceFilter = kCLDistanceFilterNone;
+            [[LEViewController locationManager] startUpdatingLocation];
+        });
+        
+    }
 	// Do any additional setup after loading the view.
     /*TODO
      write bad request function
      */
 }
+static CLLocation* myLocation;
++ (CLLocation*) myLocation
+{
+    @synchronized(self) {
+        return myLocation;
+    }
+}
++ (void) setMyLocation:(CLLocation *)locationInput
+{
+    @synchronized(self)
+        {
+            myLocation = locationInput;
+        }
+}
+
++(CLLocationManager*) locationManager
+{
+    static CLLocationManager *locationManager = nil;
+    
+    if (locationManager == nil)
+    {
+        locationManager = [[CLLocationManager alloc] init];
+    }
+    
+    return locationManager;
+}
+
 
 - (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
     self.failedConnection = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"Couldn't connect to the server.  Check your connection and try again." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
     [self.failedConnection show];
 }
-
+- (void)locationManager:(CLLocationManager *)manager
+    didUpdateToLocation:(CLLocation *)newLocation
+           fromLocation:(CLLocation *)oldLocation
+{
+    LEViewController.myLocation = newLocation;
+  //  NSLog(@"SEETTTTING LOC to %@", self.myLocation);
+    [[LEViewController locationManager] stopUpdatingLocation];
+    
+}
 - (NSUInteger) supportedInterfaceOrientations {
     // Return a bitmask of supported orientations. If you need more,
     // use bitwise or (see the commented return).

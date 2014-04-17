@@ -35,6 +35,7 @@
         passed = self.ivc.passedInvitations;
     }
     @synchronized(self.ivc.tableLock){
+        self.ivc.tableLock = [NSNumber numberWithInt:[self.ivc.tableLock integerValue] + 1];
         [upcoming removeAllObjects];
         [passed removeAllObjects];
         for (NSMutableDictionary* dict in resultsDictionary[@"invitations"]){
@@ -47,6 +48,10 @@
         }
         else{
             [self.ivc.invitationsTable reloadData];
+        }
+        if ([self.ivc.tableLock integerValue] == 2){
+            self.ivc.tableLock = [NSNumber numberWithInt:0];
+            [self.ivc.spinner stopAnimating];
         }
         
     }

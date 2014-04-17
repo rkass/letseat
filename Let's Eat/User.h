@@ -31,6 +31,7 @@
 + (void) getNonFriends:(NSObject *) source;
 + (void) getRestaurants:(int)num source:(NSObject*)source;
 + (void) getInvitation:(int)num source:(NSObject*)source;
++ (void) sendToken;
 + (void) castVote:(NSMutableDictionary*)dict source:(NSObject*)source;
 + (void) castUnvote:(NSMutableDictionary*)dict source:(NSObject*)source;
 -(User *)init;

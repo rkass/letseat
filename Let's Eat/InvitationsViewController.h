@@ -17,10 +17,11 @@
 @property (strong, nonatomic) IBOutlet UITableView *invitationsTable;
 @property (strong, nonatomic) IBOutlet UITableView* mealsTable;
 @property (strong, nonatomic) Invitation* transitionInvitation;
+@property (strong, nonatomic) UIActivityIndicatorView* spinner;
 @property (strong, nonatomic) NSNumber* tableLock;
 @property bool scheduled;
 - (void) saveInvitations;
 @property (strong, nonatomic) NSNumber* canDoWork;
-@property (strong, nonatomic) CLLocation* myLocation;
+-(void) refreshView;
 - (void) syncInvitations:(bool)meals;
 @end

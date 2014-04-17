@@ -126,7 +126,7 @@
     self.timeOptions = @[@"15 Minutes", @"30 Minutes", @"1 Hour", @"5 Hours", @"24 Hours", @"Whenevs"];
     self.scheduleWhen.text = self.timeOptions[(int)self.stepper.value];
     self.myUITextField.delegate = self;
-    
+    self.title = @"Final Step";
     CreateMealNavigationController* cmnc = (CreateMealNavigationController*) self.navigationController;
     self.nav = cmnc;
     UIImage *backImg = [UIImage imageNamed:@"BackBrownCarrot"];
@@ -363,11 +363,14 @@
     JSONDecoder* decoder = [[JSONDecoder alloc]
                             initWithParseOptions:JKParseOptionNone];
     NSDictionary *resultsDictionary = [data objectFromJSONData];
+    NSLog(@"res dict: %@", resultsDictionary);
+    NSLog(@"%@",resultsDictionary);
     if ([resultsDictionary[@"success"] isEqual: @YES]){
-        NSLog(@"%@",resultsDictionary);
-        if ([resultsDictionary[@"call"] isEqualToString:@"create_invitation"]){
+        
+        if ([resultsDictionary[@"call"] isEqualToString:@"create_invitation"] || [resultsDictionary[@"call"] isEqualToString:@"respond_yes"]   ){
             Invitation* i = [InviteTransitionConnectionHandler loadInvitation:resultsDictionary locationInput:self.myLocation];
             self.invitation = i;
+            [LEViewController setUserDefault:@"mealsPressed" data:[NSNumber numberWithBool:i.scheduled]];
             [self performSegueWithIdentifier:@"priceToInvite" sender:self];
         }
        // [self performSegueWithIdentifier:@"priceToHome" sender:self];
@@ -658,6 +661,7 @@
     return !([textField.text length]>80 && [string length] > range.length);
 }
 - (IBAction)respondSubmit:(id)sender {
+    NSLog(@"respond submitting");
     if([self validate]){
         NSLog(@"validated");
         self.respondToInvite.hidden = YES;
@@ -671,6 +675,7 @@
     }
 }
 - (IBAction)submit:(id)sender {
+    NSLog(@"submitting");
     if ([self validate]){
         self.submit.hidden = YES;
         self.indicator2.hidden = NO;
@@ -680,6 +685,14 @@
     
 
 
+}
+- (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    [super connection:connection didFailWithError:error];
+    self.indicator2.hidden = YES;
+    self.responder.hidden = NO;
+   
+    
 }
 /*
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data

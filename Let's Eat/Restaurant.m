@@ -98,6 +98,7 @@
     JSONDecoder* decoder = [[JSONDecoder alloc]
                             initWithParseOptions:JKParseOptionNone];
     NSMutableDictionary* json = [decoder objectWithData:self.responseData];
+   // NSLog(@"restaurant finished loading %@", json);
     [self.responseData setLength:0];
     if(!json){
         NSLog(@"data");
@@ -110,11 +111,16 @@
     else{
      
         self.restLoc = [[CLLocation alloc] initWithLatitude:[json[@"results"][0][@"geometry"][@"location"][@"lat"] floatValue] longitude:[json[@"results"][0][@"geometry"][@"location"][@"lng"] floatValue]];
-        if (self.ivc){
+       /* if (self.ivc){
             CLLocationDistance d = [self.ivc.myLocation distanceFromLocation:self.restLoc];
             self.distance = d / 1609.34;
             [self.ivc saveRests];
-        }
+        }*/
+        CLLocationDistance d = [self.myLocation distanceFromLocation:self.restLoc];
+        NSLog(@"MY LOC: %@", self.myLocation);
+       NSLog(@"REST LOC: %@", self.restLoc);
+        self.distance = d / 1609.34;
+        NSLog(@"setting distance to %f", self.distance);
     }
     
 }

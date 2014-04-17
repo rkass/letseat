@@ -5,4 +5,6 @@
 
 On login, enter wrong credentials, receive alert, say okay. Press enter without changing anything and brought to home page.
 
-Grip on double slider is off
+distance sometimes goes away--fix by reloading tables from restaurant
+after a cell is clicked in invitations view, restrict user from clicking another ones
+stray gray arrow in restaurants table

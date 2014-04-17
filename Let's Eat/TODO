@@ -1,40 +1,8 @@
-Have getrestaurants happen when new preferences or vote entered, switch to updating
-
-Call get long invitation before segueing (includes restaurants)
-
-Price View Controller Segue
-
-------------------------------------------------------
-
-Push notifications.
-
-mess around with different backgrounds
-
-Add the logout feature.
-
-
-
-Make some buttons and tables tables highlightable
-
-Make logins look non shitty
-
-Fix login bug
-
-
-
-tutorial
-
-unfuck invite friends
-
-Handle people not granting access.
-
-try out textured background
-
-figure out deal with google places requests
-
-Refine design images.
-
-recommendations
-
-refactor location services to happen in the main thread
+implement push notifications
+implement logout
+combine who view and enable sending text messages
+do up logins (auto-layout and forgot password)
+implement information bars atop create invitation path and make it default to come up the first time that you're there
+fix nav bar in restaurant view
+fix assorted bugs
 

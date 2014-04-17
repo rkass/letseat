@@ -7,6 +7,21 @@
 //
 
 #import "AppDelegate.h"
+#import "CreateMealNavigationController.h"
+#import "InviteViewController.h"
+#import "InvitationsViewController.h"
+#import "InviteTransitionConnectionHandler.h"
+#import "User.h"
+
+#define loadNotification(userInfo)\
+{\
+    if ([userInfo[@"link"] isEqualToString:@"invitations" ]){\
+        [self loadInvitations:[userInfo[@"scheduled"] boolValue]];\
+    }\
+    else if ([userInfo[@"link"] isEqualToString:@"invite"]){\
+    [self loadInvite:[userInfo[@"num"] integerValue]];\
+    }\
+}
 
 @implementation AppDelegate
 
@@ -29,10 +44,51 @@
     }
 
     [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:dateKey];
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+     (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    if (launchOptions != nil) {
+        NSLog(@"Launched from push notification");
+        NSDictionary *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        NSLog(@"notification dict: %@", notification);
+    }
+        // Do something with the notification dictionary
+  //      self.myViewController = [LaunchFromNotificationViewController alloc] init];
+    //} else {
+      //  self.myViewController = [OrdinaryLaunchViewController alloc] init];
+    //}
+    
+    //self.window.rootViewController = self.myViewController;
+    self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    UIViewController *viewController =  [storyboard instantiateViewControllerWithIdentifier:@"Initial"];
+    if ([[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"]){
+        viewController = [storyboard instantiateViewControllerWithIdentifier:@"navController"];
+    }
+    self.window.rootViewController = viewController;
+    [self.window makeKeyAndVisible];
+    NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    
+    if(userInfo)
+    {
+        loadNotification(userInfo);
+    }
     return YES;
 
 }
-							
+
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+    [[NSUserDefaults standardUserDefaults] setObject:deviceToken forKey:@"deviceToken"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+{
+    NSLog(@"Failed to get token, error: %@", error);
+}
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -56,8 +112,58 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    NSLog(@"In application did become active");
+    /*NSLog(@"In application did become active");
+    CreateMealNavigationController* cm = (CreateMealNavigationController*)self.window.rootViewController;
+    if ([[cm.viewControllers lastObject] isKindOfClass:[InvitationsViewController class]]){
+        NSLog(@"refresh");
+    }
+    else{
+        InvitationsViewController* iv = [[InvitationsViewController alloc] init];
+        [cm pushViewController:iv animated:NO];
+        NSLog(@"segue to it");
+    }*/
     
+}
+
+-(void)loadInvitations:(bool)scheduled{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    CreateMealNavigationController* cm = (CreateMealNavigationController*)self.window.rootViewController;
+    [LEViewController setUserDefault:@"mealsPressed" data:[NSNumber numberWithBool:scheduled]];
+    if ([[cm.viewControllers lastObject] isKindOfClass:[InvitationsViewController class]]){
+        [[cm.viewControllers lastObject] refreshView];
+    }
+    else{
+        InvitationsViewController* iv = (InvitationsViewController*)[storyboard instantiateViewControllerWithIdentifier:@"Invitations"];
+        [cm pushViewController:iv animated:NO];
+    }
+
+}
+-(void)loadInvite:(int)num{
+  //  UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    CreateMealNavigationController* cm = (CreateMealNavigationController*)self.window.rootViewController;
+    if ([[cm.viewControllers lastObject] isKindOfClass:[InviteViewController class]]){
+        InviteViewController* iv = (InviteViewController*)[cm.viewControllers lastObject];
+        iv.invitation.num = num;
+        iv.date.text = @"Loading new invitation, hold on a sec...";
+        [iv.inviteSpinner startAnimating];
+        [iv recall];
+    }
+    else{
+        InviteTransitionConnectionHandler* ivtch = [[InviteTransitionConnectionHandler alloc] initWithNav:cm];
+        [User getInvitation:num source:ivtch];
+    }
+}
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    NSLog(@"Received remote notification");
+    NSLog(@"Application State: %d", application.applicationState);
+    if (application.applicationState == UIApplicationStateActive)
+        NSLog(@"display notification");
+    else{
+        loadNotification(userInfo);
+    }
+
+
 }
 
 

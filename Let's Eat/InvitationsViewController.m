@@ -34,32 +34,12 @@
 @end
 
 @implementation InvitationsViewController
-@synthesize passedInvitations, selectedIndexPath, upcomingInvitations, carrot, reply, acquired, tries, responseDataMeals, responseDataInvitations, scheduled, mealsTable, upcomingMeals, passedMeals, canDoWork, transitionInvitation, myLocation, tableLock;
-+(CLLocationManager*) locationManager
-{
-    static CLLocationManager *locationManager = nil;
-    
-    if (locationManager == nil)
-    {
-        locationManager = [[CLLocationManager alloc] init];
-    }
-    
-    return locationManager;
-}
+@synthesize passedInvitations, selectedIndexPath, upcomingInvitations, carrot, reply, acquired, tries, responseDataMeals, responseDataInvitations, scheduled, mealsTable, upcomingMeals, passedMeals, canDoWork, transitionInvitation, tableLock;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if ([CLLocationManager locationServicesEnabled]) {
-        
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [InvitationsViewController locationManager].delegate = self;
-            [InvitationsViewController locationManager].desiredAccuracy = kCLLocationAccuracyBest;
-            [InvitationsViewController locationManager].distanceFilter = kCLDistanceFilterNone;
-            [[InvitationsViewController locationManager] startUpdatingLocation];
-        });
-        
-    }
+    NSLog(@"view's loading");
     self.tableLock = [NSNumber numberWithInt:0];
     self.invitationsTable.dataSource = self;
     self.invitationsTable.delegate = self;
@@ -110,23 +90,42 @@
         self.mealsTable.hidden = YES;
         self.invitationsTable.hidden = NO;
     }
+    self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [self.spinner setFrame:CGRectMake(self.view.frame.size.width - 40, self.mealsTable.frame.origin.y + 20,self.spinner.frame.size.width, self.spinner.frame.size.height )];
+    [self.spinner startAnimating];
+    [self.view addSubview:self.spinner];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 20;
 }
-- (void)locationManager:(CLLocationManager *)manager
-    didUpdateToLocation:(CLLocation *)newLocation
-           fromLocation:(CLLocation *)oldLocation
-{
-    self.myLocation = newLocation;
-    [[InvitationsViewController locationManager] stopUpdatingLocation];
-        
-}
+
 -(void)viewWillAppear:(BOOL)animated{
+    [self refreshView];
+}
+
+-(void)refreshView{
+    NSLog(@"reloading view");
+    [self.spinner startAnimating];
     [User getMeals:[[InvitationsConnectionHandler alloc] initWithInvitationsViewController:self] ];
     [User getInvitations:[[InvitationsConnectionHandler alloc] initWithInvitationsViewController:self] ];
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"mealsPressed"] && [[[NSUserDefaults standardUserDefaults] objectForKey:@"mealsPressed"] boolValue]){
+        self.meals.backgroundColor = [Graphics colorWithHexString:@"b8a37e"];
+        self.invitations.backgroundColor = [UIColor clearColor];
+        self.meals.titleLabel.textColor = [UIColor blackColor];
+        self.invitations.titleLabel.textColor = [UIColor grayColor];
+        self.mealsTable.hidden = NO;
+        self.invitationsTable.hidden = YES;
+    }
+    else{
+        self.invitations.backgroundColor = [Graphics colorWithHexString:@"b8a37e"];
+        self.meals.backgroundColor = [UIColor clearColor];
+        self.invitations.titleLabel.textColor = [UIColor blackColor];
+        self.meals.titleLabel.textColor = [UIColor grayColor];
+        self.mealsTable.hidden = YES;
+        self.invitationsTable.hidden = NO;
+    }
     @synchronized(self.tableLock){
         [self.invitationsTable reloadData];
         [self.mealsTable reloadData];
@@ -331,7 +330,7 @@ NSComparisonResult sortInvitationByDate4(Invitation *i1, Invitation *i2, void *i
         cell.textLabel.text = [i displayPeople];
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
         [dateFormat setDateFormat:@"cccc, MMM d, h:mm aa"];
-        if (!i.iResponded && indexPath.section == 0)
+        if (!i.iResponded && indexPath.section == 0 && tableView == self.invitationsTable)
             cell.accessoryView = [[UIImageView alloc] initWithImage:self.reply];
         else
             cell.accessoryView = [[UIImageView alloc] initWithImage:self.carrot];
