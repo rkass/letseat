@@ -85,6 +85,9 @@
         [self.friendsCache insertObject:meDict atIndex:0];
     
 }
+-(void)viewWillAppear:(BOOL)animated{
+    NSLog(@"Who's gonna appear");
+}
 -(int) findMe:(NSMutableArray*)arr{
     int count = 0;
     for (NSMutableDictionary* dict in arr){

@@ -23,7 +23,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     if ([CLLocationManager locationServicesEnabled]) {
         
         
@@ -78,6 +78,7 @@ static CLLocation* myLocation;
            fromLocation:(CLLocation *)oldLocation
 {
     LEViewController.myLocation = newLocation;
+    NSLog(@"updated my location to %@", LEViewController.myLocation);
   //  NSLog(@"SEETTTTING LOC to %@", self.myLocation);
     [[LEViewController locationManager] stopUpdatingLocation];
     

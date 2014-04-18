@@ -128,6 +128,9 @@
    // [self.view sendSubviewToBack:self.chalkboard];
 
 }
+-(void)viewWillAppear:(BOOL)animated{
+    NSLog(@"what's gonna appear");
+}
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 55;
@@ -419,6 +422,12 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSMutableArray *arr;
+    if (tableView == self.typesTable)
+        arr = self.typesItems;
+    else
+        arr = self.wantItems;
+    NSLog(@"Loading cell for table %@ with array %@", tableView, arr);
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {

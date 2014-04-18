@@ -18,6 +18,7 @@
 #import "Graphics.h"
 #import "LEViewController.h"
 #import "Invitation.h"
+#import "LEViewController.h"
 
 
 @interface PriceViewController ()
@@ -25,7 +26,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *minYeses;
 
 @property int invitees;
-
+@property (strong, nonatomic) CLLocation* nonCurrentLocation;
 @property (strong, nonatomic) IBOutlet UILabel *currLocLabel;
 @property int minPrice;
 @property (strong, nonatomic) IBOutlet UILabel *scheduleIf;
@@ -53,7 +54,7 @@
 @property (strong, nonatomic) IBOutlet UIStepper *stepper;
 @property (strong, nonatomic) Invitation* invitation;
 @property bool switchTicked;
-@property (strong, nonatomic) CLLocation* myLocation;
+
 @property (strong, nonatomic) IBOutlet UISwitch *locSwitch;
 @property (strong, nonatomic) UIImageView* sliderFill;
 @property (strong, nonatomic) UIImageView* sliderFill2;
@@ -85,28 +86,14 @@
 
 @implementation PriceViewController
 
-@synthesize white, thumb1, thumb2, thumb3, sliderBackdrop, sliderPosition, sliderMaxX, sliderMinX, sliderMax, sliderMin, sliderFill, sliderFill2, ppp, locSwitch, locationField, myLocation, locValidator, greencheck, redexc, central, byMe, stepper, timeOptions, scheduleWhen, subscroll, indicator, myUITextField, scroller, submit, indicator2, recRests, whenScheduleLabel, whiteBorder, respondToInvite, responder, whereLabel, white2, currLocLabel, nav, minPrice, maxPrice, switchTicked, invitees, sliderMin2, sliderMax2, numPeople, invitation;
-+(CLLocationManager*) locationManager
-{
-    static CLLocationManager *locationManager = nil;
-    
-    if (locationManager == nil)
-    {
-        locationManager = [[CLLocationManager alloc] init];
-    }
-    
-    return locationManager;
-}
+@synthesize white, thumb1, thumb2, thumb3, sliderBackdrop, sliderPosition, sliderMaxX, sliderMinX, sliderMax, sliderMin, sliderFill, sliderFill2, ppp, locSwitch, locationField, locValidator, greencheck, redexc, central, byMe, stepper, timeOptions, scheduleWhen, subscroll, indicator, myUITextField, scroller, submit, indicator2, recRests, whenScheduleLabel, whiteBorder, respondToInvite, responder, whereLabel, white2, currLocLabel, nav, minPrice, maxPrice, switchTicked, invitees, sliderMin2, sliderMax2, numPeople, invitation;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.switchTicked = NO;
     self.stepper.tintColor = [Graphics colorWithHexString:@"b8a37e"];
-    [PriceViewController locationManager].delegate = self;
-    [PriceViewController locationManager].desiredAccuracy = kCLLocationAccuracyBest;
-    [PriceViewController locationManager].distanceFilter = kCLDistanceFilterNone;
-    [[PriceViewController locationManager] startUpdatingLocation];
+
 
     self.stepper.stepValue = 1;
     self.greencheck = [UIImage imageNamed:@"GreenCheck"];
@@ -305,14 +292,7 @@
     return sliderValueToPixels;
 }
 
-- (void)locationManager:(CLLocationManager *)manager
-    didUpdateToLocation:(CLLocation *)newLocation
-           fromLocation:(CLLocation *)oldLocation
-{
-    self.myLocation = newLocation;
-    [[PriceViewController locationManager] stopUpdatingLocation];
-     NSLog(@"updated location: %@", self.myLocation);
-}
+
 
 - (IBAction)stepperStepped:(id)sender {
     self.scheduleWhen.text = self.timeOptions[(int)self.stepper.value];
@@ -368,7 +348,7 @@
     if ([resultsDictionary[@"success"] isEqual: @YES]){
         
         if ([resultsDictionary[@"call"] isEqualToString:@"create_invitation"] || [resultsDictionary[@"call"] isEqualToString:@"respond_yes"]   ){
-            Invitation* i = [InviteTransitionConnectionHandler loadInvitation:resultsDictionary locationInput:self.myLocation];
+            Invitation* i = [InviteTransitionConnectionHandler loadInvitation:resultsDictionary locationInput:LEViewController.myLocation];
             self.invitation = i;
             [LEViewController setUserDefault:@"mealsPressed" data:[NSNumber numberWithBool:i.scheduled]];
             [self performSegueWithIdentifier:@"priceToInvite" sender:self];
@@ -396,8 +376,8 @@
         else{
             self.indicator.hidden = YES;
             [self.indicator stopAnimating];
-            self.myLocation = [[CLLocation alloc] initWithLatitude:[json[@"results"][0][@"geometry"][@"location"][@"lat"] floatValue] longitude:[json[@"results"][0][@"geometry"][@"location"][@"lng"] floatValue]];
-            NSLog(@"updated location: %@", self.myLocation);
+            self.nonCurrentLocation = [[CLLocation alloc] initWithLatitude:[json[@"results"][0][@"geometry"][@"location"][@"lat"] floatValue] longitude:[json[@"results"][0][@"geometry"][@"location"][@"lng"] floatValue]];
+            NSLog(@"updated location: %@", self.nonCurrentLocation);
             self.locValidator.image = greencheck;
             self.locValidator.hidden = NO;
         }
@@ -477,13 +457,11 @@
 }
 - (IBAction)switchToggled:(id)sender {
     self.switchTicked = YES;
-    self.myLocation = nil;
     if (self.locSwitch.on){
         self.locationField.hidden = YES;
         self.indicator.hidden = YES;
         self.locValidator.hidden = YES;
         [self.locationField resignFirstResponder];
-        [[PriceViewController locationManager] startUpdatingLocation];
     }
     else{
         self.locationField.hidden = NO;
@@ -603,8 +581,15 @@
 
 -(NSMutableDictionary*)getPreferences{
     NSMutableDictionary* ret = [[NSMutableDictionary alloc] init];
-    if (self.nav.creator || [self.nav.invitation needToRespondToDate])
-        [ret setObject:[NSString stringWithFormat:@"%f,%f", self.myLocation.coordinate.latitude, self.myLocation.coordinate.longitude]  forKey:@"location"];
+    if (self.nav.creator || [self.nav.invitation needToRespondToDate]){
+        CLLocation* activeLocation;
+        if (self.locSwitch.on){
+            activeLocation = LEViewController.myLocation;
+        }
+        else
+            activeLocation = self.nonCurrentLocation;
+        [ret setObject:[NSString stringWithFormat:@"%f,%f", activeLocation.coordinate.latitude, activeLocation.coordinate.longitude]  forKey:@"location"];
+    }
     WhatViewController* whatvc = (WhatViewController*)[self.nav viewControllers][[[self.nav viewControllers] count] - 2 ];
     [ret setObject:whatvc.wantItems forKey:@"foodList"];
     [ret setObject:[NSNumber numberWithInt:self.minPrice] forKey:@"minPrice"];
@@ -635,7 +620,7 @@
 }
 
 - (BOOL) validate{
-    if(!self.myLocation && [self.nav.invitation needToRespondToDate]){
+    if((!LEViewController.myLocation) && ([self.nav.invitation needToRespondToDate]) && (!self.nonCurrentLocation)){
         UIAlertView* av;
         if (!self.switchTicked){
             av = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"We can't get a read on your current location, please enter it manually" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];

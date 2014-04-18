@@ -123,6 +123,7 @@
     labelbg.backgroundColor = [Graphics colorWithHexString:@"ffa500"];
     labelbg.alpha = .5;
     labelbg.layer.cornerRadius = 8;
+    [labelbg setFrame:CGRectMake(self.msg.frame.origin.x - 5, self.msg.frame.origin.y + 7, self.msg.frame.size.width + 10, self.msg.frame.size.height -10)];
     
 
 	
@@ -201,6 +202,7 @@
             self.tries = [NSNumber numberWithInt:0];
         }
     }
+    [labelbg setFrame:CGRectMake(self.msg.frame.origin.x - 5, self.msg.frame.origin.y + 7, self.msg.frame.size.width + 10, self.msg.frame.size.height -10)];
 
 }
 -(void) recall{
@@ -221,6 +223,7 @@
     InviteTransitionConnectionHandler* ivtch = [[InviteTransitionConnectionHandler alloc] initWithInvitateViewController:self];
    // NSLog(@"invite view location: %@", L.myLocation);
     [User getInvitation:self.invitation.num source:ivtch];
+    [labelbg setFrame:CGRectMake(self.msg.frame.origin.x - 5, self.msg.frame.origin.y + 7, self.msg.frame.size.width + 10, self.msg.frame.size.height -10)];
 }
 
 -(void)viewDidDisappear:(BOOL)animated {
@@ -307,8 +310,12 @@
 }*/
 
 -(void) layoutAcceptDecline{
-    [self.overview setTitle:@" Decline" forState:UIControlStateNormal];
-    [self.restaurants setTitle:@" Attend" forState:UIControlStateNormal];
+    [self.oneRestSpinner stopAnimating];
+    self.loadingLabel.hidden = YES;
+    [self.restaurantSpinner stopAnimating];
+    self.oneRestLoadingLabel.hidden = YES;
+    [self.overview setTitle:@"Decline" forState:UIControlStateNormal];
+    [self.restaurants setTitle:@"Attend" forState:UIControlStateNormal];
     self.restaurants.backgroundColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:.1];
     self.overview.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:.1];
     self.restaurantsTable.hidden = YES;

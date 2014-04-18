@@ -128,6 +128,7 @@
 -(void)loadInvitations:(bool)scheduled{
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     CreateMealNavigationController* cm = (CreateMealNavigationController*)self.window.rootViewController;
+    [cm setNavigationBarHidden:NO];
     [LEViewController setUserDefault:@"mealsPressed" data:[NSNumber numberWithBool:scheduled]];
     if ([[cm.viewControllers lastObject] isKindOfClass:[InvitationsViewController class]]){
         [[cm.viewControllers lastObject] refreshView];
@@ -141,6 +142,7 @@
 -(void)loadInvite:(int)num{
   //  UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     CreateMealNavigationController* cm = (CreateMealNavigationController*)self.window.rootViewController;
+    [cm setNavigationBarHidden:NO];
     if ([[cm.viewControllers lastObject] isKindOfClass:[InviteViewController class]]){
         InviteViewController* iv = (InviteViewController*)[cm.viewControllers lastObject];
         iv.invitation.num = num;
@@ -155,8 +157,8 @@
 }
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    NSLog(@"Received remote notification");
-    NSLog(@"Application State: %d", application.applicationState);
+    NSLog(@"Received remote notification with info %@", userInfo);
+    NSLog(@"Application State: %ld", application.applicationState);
     if (application.applicationState == UIApplicationStateActive)
         NSLog(@"display notification");
     else{
