@@ -11,7 +11,7 @@
 #import "Server.h"
 
 @interface SignupViewController ()
-@property (strong, nonatomic) IBOutlet UITextField *phoneNumber;
+
 @property (strong, nonatomic) IBOutlet UIButton *enter;
 @property (strong, nonatomic) UIAlertView *phoneAlert;
 @property (strong, nonatomic) UIAlertView *usernameAlert;
@@ -31,7 +31,6 @@
      Validate phone number
      */
     [super viewDidLoad];
-
     self.phoneNumber.delegate = self;
     self.username.delegate = self;
     self.password.delegate = self;
@@ -39,12 +38,14 @@
     self.password.secureTextEntry = YES;
     self.enter.hidden = YES;
     [self.username addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+
     [self.password addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     [self.enter addTarget:self action:@selector (enterPressed:) forControlEvents:UIControlEventTouchDown];
     
 }
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
+
     if (textField == phoneNumber){
         NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
         NSArray *components = [newString componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
@@ -55,6 +56,7 @@
     
         if (length == 0 || (length > 10 && !hasLeadingOne) || (length > 11)) {
             textField.text = decimalString;
+                        [self textFieldDidChange:nil];
             return NO;
         }
     
@@ -82,9 +84,11 @@
         [formattedString appendString:remainder];
     
         textField.text = formattedString;
-    
+                [self textFieldDidChange:nil];
         return NO;
+
     }
+            [self textFieldDidChange:nil];
     return YES;
 }
 
@@ -101,6 +105,7 @@
     NSString *rawNumber = [self getRawNumber];
     return ([rawNumber length] == 10 && (![[NSString stringWithFormat:@"%C",[rawNumber characterAtIndex:0]]isEqualToString:@"1"])) || ([rawNumber length] == 11 && [[NSString stringWithFormat:@"%C",[rawNumber characterAtIndex:0]]isEqualToString:@"1"]);
 }
+
 -(BOOL)validatePassword
 {
     return [password.text length] != 0;
@@ -172,6 +177,7 @@
 */
 - (void)textFieldDidChange:(UITextField *)textField
 {
+    NSLog(@"Phone number: %@", self.phoneNumber.text);
     if ([self.username.text length] && [self.password.text length] && [self.phoneNumber.text length]){
         self.enter.hidden = NO;
     }

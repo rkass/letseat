@@ -1,10 +1,4 @@
-
-
-
-
-when going back from price to what it crashes
-On login, enter wrong credentials, receive alert, say okay. Press enter without changing anything and brought to home page.
-
-distance sometimes goes away--fix by reloading tables from restaurant
-after a cell is clicked in invitations view, restrict user from clicking another ones
-stray gray arrow in restaurants table
+2)distance sometimes goes away--fix by reloading tables from restaurant
+3)after a cell is clicked in invitations view, restrict user from clicking another ones
+4)stray gray arrow in restaurants table
+5)sometimes price view transition to invite doesn't happen on an invitaiton response

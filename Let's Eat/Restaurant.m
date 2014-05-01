@@ -26,7 +26,7 @@
             NSLog(@"percent match null for %@", urlInput);
         }
         else
-            self.percentMatch = [percentMatchInput integerValue];
+            self.percentMatch = (int)([percentMatchInput integerValue] * 100);
         if (priceInput == (id)[NSNull null]){
             self.price = 2;
             NSLog(@"price null for %@", urlInput);
@@ -64,7 +64,7 @@
             NSLog(@"percent match null for %@", urlInput);
         }
         else
-            self.percentMatch = [percentMatchInput integerValue];
+            self.percentMatch = (int)([percentMatchInput floatValue] * 100);
         if (priceInput == (id)[NSNull null]){
             self.price = 2;
             NSLog(@"price null for %@", urlInput);

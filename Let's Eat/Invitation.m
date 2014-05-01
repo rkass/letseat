@@ -35,6 +35,7 @@
         self.message = messageInput;
         self.iResponded = iRespondedInput;
         self.central = centralInput;
+        NSLog(@"creator index input: %@", creatorIndexInput);
         self.creatorIndex = [creatorIndexInput integerValue];
         self.responseArray = [responseArrayInput mutableCopy];
         self.messagesArray = [messagesArrayInput mutableCopy];

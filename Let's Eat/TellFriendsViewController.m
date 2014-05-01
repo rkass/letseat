@@ -86,11 +86,24 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
     self.navigationController.navigationBarHidden = YES;
 }
--(void)backPressed:(UIBarButtonItem*)sender{
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 0)
+        [self.nav.invitees removeAllObjects];
     [self.navigationController popViewControllerAnimated:YES];
-    if (![[self.nav viewControllers][[[self.nav viewControllers] count] - 1] isKindOfClass:[WhoViewController class]])
-        [self.navigationController setNavigationBarHidden:YES];
     
+}
+-(void)backPressed:(UIBarButtonItem*)sender{
+    if (self.nav.invitees.count > 0){
+        UIAlertView* includeAlert = [[UIAlertView alloc] initWithTitle:@"Should we send an invite text to the contacts you have checked?" message:@"" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+        [includeAlert show];
+    }
+    else{
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
+}
+- (IBAction)sendInvites:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
@@ -137,7 +150,13 @@
         
         
     }
+    
     NSMutableDictionary *i = [self.invitees objectAtIndex:indexPath.row];
+    i[@"checked"] = @YES;
+    if ([self.nav.invitees containsObject:i])
+        i[@"checked"] = @YES;
+    else
+        i[@"checked"] = @NO;
     if ([i[@"checked"]  isEqual: @YES])
     {
         UIImageView* accChecked = [[UIImageView alloc] initWithImage:self.checked];
@@ -226,6 +245,8 @@
         
         UIImageView* accUnchecked = [[UIImageView alloc] initWithImage:self.unchecked];
         cell.accessoryView = accUnchecked;
+
+        [self.nav.invitees removeObject:self.invitees[indexPath.row]];
         invitee[@"checked"] = @NO;
         
     }
@@ -235,8 +256,9 @@
         UIImageView* accChecked = [[UIImageView alloc] initWithImage:self.checked];
         cell.accessoryView = accChecked;
         invitee[@"checked"] = @YES;
+        [self.nav.invitees addObject:self.invitees[indexPath.row]];
     }
-    
+    NSLog(@"nav invitees: %@", self.nav.invitees);
     
 }
 
@@ -268,12 +290,12 @@
 - (void)searchBarTextDidBeginEditing:(UISearchBar*)searchBar
 {
     self.search.showsCancelButton = YES;
-}
+}/*
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     [self.navigationController popToRootViewControllerAnimated:YES];
     self.navigationController.navigationBarHidden = YES;
     
-}
+}*/
 -(void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
 {
     NSLog(@"pressed");

@@ -12,6 +12,8 @@
 
 + (void) setUserDefault:(NSString *)key data:(NSObject*) data;
 + (CLLocation*) myLocation;
-+ (void) setLocation:(CLLocation*)locationInput;
++ (void) setMyLocation:(CLLocation*)locationInput;
 - (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
+-(void)loadingScreen;
+@property (strong, nonatomic) UIView* fadeout;
 @end

@@ -1,9 +1,9 @@
-implement push notifications
-    sort scheduled at respond yes
-implement logout
-combine who view and enable sending text messages
-do up logins (auto-layout and forgot password)
-implement information bars atop create invitation path and make it default to come up the first time that you're there
-fix nav bar in restaurant view
-fix assorted bugs
+1)recommendation system
+    a) percent match
+    b) distance quadratic
+2)change price to start at 7
+3)tutorial
+3.5)add desserts and cafe to poss choices
+4)schedule a job to schedule a meal
 
+5) make the website

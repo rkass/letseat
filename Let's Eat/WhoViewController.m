@@ -53,6 +53,7 @@
     [self.friendsTable reloadData];
     CreateMealNavigationController* cmnc = (CreateMealNavigationController*) self.navigationController;
     cmnc.creator = YES;
+    [cmnc.invitees removeAllObjects];
     self.navigationController.navigationBarHidden = NO;
     self.title = @"Invitation";
     UIImage *bigImage = [UIImage imageNamed:@"HomeBack"];

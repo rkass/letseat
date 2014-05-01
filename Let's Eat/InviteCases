@@ -1,1 +1,66 @@
-Active CSR: PushCSR
+Active CSR: PushCSR--encryption
+
+started day at 248k queries
+
+
+1000 test run....
+
+start 252.76
+end 258.29 queries
+
+258.29-252.76 = 5.53
+
+1000 test run with gem...
+
+start 258.37k
+end 258.98
+
+258.98 - 258.37 = .61
+
+
+http_party test start
+259.01k
+
+http_partt direct start 265.19k
+270.33k
+
+experiment start 
+247.32k
+247.43k
+
+irb(main):003:0> Request.where(api:'google').length
+=> 1188
+
+253.87k
+247.43k
+1224
+
+254.35k
+
+260.69k
+267.04k
+
+273.39k
+
+279.74k
+280.06k
+
+
+
+286.1k
+
+
+
+
+286.3k
+
+
+
+
+
+286.33k
+287.24k
+
+
+Price Nil: 0.28225806451612906
+Hours Nil: 0.24193548387096775

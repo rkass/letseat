@@ -158,7 +158,7 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     NSLog(@"Received remote notification with info %@", userInfo);
-    NSLog(@"Application State: %ld", application.applicationState);
+    NSLog(@"Application State: %d", application.applicationState);
     if (application.applicationState == UIApplicationStateActive)
         NSLog(@"display notification");
     else{

@@ -22,7 +22,7 @@
 {
 
     [super viewDidLoad];
-
+    self.invitees = [[NSMutableArray alloc] init];
 }
 
 /*

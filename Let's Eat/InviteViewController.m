@@ -41,7 +41,7 @@
 @property (strong, nonatomic) UIActivityIndicatorView *oneRestSpinner;
 @property (strong, nonatomic) UILabel *loadingLabel;
 @property (strong, nonatomic) UILabel *oneRestLoadingLabel;
-
+@property CGRect originalPosish;
 @property (strong, nonatomic) NSMutableData* responseData;
 @property (strong, nonatomic) IBOutlet UILabel *msg;
 @property (strong, nonatomic) UIView* labelbg;
@@ -49,6 +49,8 @@
 @property (strong, nonatomic) NSNumber* tries;
 @property (strong, nonatomic) NSTimer* timer;
 @property (strong, nonatomic) IBOutlet UITableView* oneRest;
+@property (strong, nonatomic) UIActivityIndicatorView* reloadingRests;
+@property BOOL reloading;
 
 
 @end
@@ -72,6 +74,7 @@
     self.title = @"Meal";
     [self.white setBackgroundColor:[UIColor colorWithRed:184 green:163 blue:126 alpha:1]];
     self.restsPressed = NO;
+    self.reloading = NO;
     self.rsvpTable.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
     self.view.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
     UIImage *backImg = [UIImage imageNamed:@"BackBrownCarrot"];
@@ -94,6 +97,10 @@
     [self.restaurantSpinner setFrame:CGRectMake(160 - (self.restaurantSpinner.frame.size.width/2), self.restaurantsTable.frame.origin.y + 5, self.restaurantSpinner.frame.size.width, self.restaurantSpinner.frame.size.height)];
     [self.restaurantSpinner startAnimating];
     [self.view addSubview:self.restaurantSpinner];
+    self.reloadingRests = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [self.reloadingRests setFrame:CGRectMake(160 - (self.reloadingRests.frame.size.width/2), self.overview.center.y - (self.reloadingRests.frame.size.height/2), self.reloadingRests.frame.size.width, self.reloadingRests.frame.size.height)];
+    [self.reloadingRests startAnimating];
+    [self.view addSubview:self.reloadingRests];
     self.loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.restaurantSpinner.frame.origin.y + self.restaurantSpinner.frame.size.height + 2, self.view.frame.size.width, 50)];
     self.loadingLabel.text = loadingRestaurantsText;
     self.loadingLabel.font = [UIFont systemFontOfSize:15];
@@ -124,7 +131,7 @@
     labelbg.alpha = .5;
     labelbg.layer.cornerRadius = 8;
     [labelbg setFrame:CGRectMake(self.msg.frame.origin.x - 5, self.msg.frame.origin.y + 7, self.msg.frame.size.width + 10, self.msg.frame.size.height -10)];
-    
+    self.originalPosish = self.restaurantsTable.frame;
 
 	
 }
@@ -313,6 +320,7 @@
     [self.oneRestSpinner stopAnimating];
     self.loadingLabel.hidden = YES;
     [self.restaurantSpinner stopAnimating];
+    [self.reloadingRests stopAnimating];
     self.oneRestLoadingLabel.hidden = YES;
     [self.overview setTitle:@"Decline" forState:UIControlStateNormal];
     [self.restaurants setTitle:@"Attend" forState:UIControlStateNormal];
@@ -365,17 +373,35 @@
         }
         self.rsvpTable.hidden = YES;
         if (self.invitation.updatingRecommendations > 0){
-            [self.restaurantSpinner startAnimating];
-            self.loadingLabel.hidden = NO;
-            [self.restaurantsTable setContentInset:UIEdgeInsetsMake(70, 0, 0, 0)];
+            NSLog(@"updating");
+            if (((self.invitation.restaurants) && (self.invitation.restaurants.count == 15)) || self.reloading){
+                [self.reloadingRests startAnimating];
+                [self.restaurantSpinner stopAnimating];
+                self.loadingLabel.hidden = YES;
+                [self.restaurantsTable setFrame:self.originalPosish];
+                [self.restaurantsTable setContentInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+                self.reloading = YES;
+            }
+            else{
+                [self.reloadingRests stopAnimating];
+                [self.restaurantSpinner startAnimating];
+                self.loadingLabel.hidden = NO;
+                [self.restaurantsTable setFrame:CGRectMake(self.originalPosish.origin.x, self.originalPosish.origin.y + 70,self.originalPosish.size.width, self.originalPosish.size.height)];
+            }
+           // [self.restaurantsTable setContentInset:UIEdgeInsetsMake(70, 0, 0, 0)];
         }
         else{
+            NSLog(@"not updating");
+            self.reloading = NO;
+            [self.reloadingRests stopAnimating];
             [self.restaurantSpinner stopAnimating];
             self.loadingLabel.hidden = YES;
+            [self.restaurantsTable setFrame:self.originalPosish];
             [self.restaurantsTable setContentInset:UIEdgeInsetsMake(0, 0, 0, 0)];
         }
     }
     else{
+        [self.reloadingRests stopAnimating];
         self.loadingLabel.hidden = YES;
         [self.restaurantSpinner stopAnimating];
         self.overview.backgroundColor = [Graphics colorWithHexString:@"b8a37e"];
@@ -500,6 +526,7 @@
         self.selectedIndexPath = indexPath;
         [self performSegueWithIdentifier:@"inviteToRestaurant" sender:self];
     }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 
@@ -557,7 +584,7 @@
             cell.detailTextLabel.text = [self.invitation messagesForPerson:p];
 
         }
-
+        
         return cell;
     }
 
@@ -566,12 +593,14 @@
     if (tableView == oneRest){
         cell =  [tableView dequeueReusableCellWithIdentifier:@"restCell2"];
         [cell setWithRestaurant:self.invitation.restaurants[indexPath.row] rowInput:indexPath.row ivcInput:self oneRestInput:YES];
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
     else{
         cell =  [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         [cell setWithRestaurant:self.invitation.restaurants[indexPath.row] rowInput:indexPath.row ivcInput:self oneRestInput:NO];
-        
+        [cell setSelectionStyle:UITableViewCellSelectionStyleDefault];
     }
+    
     return cell;
 }
 - (void)didReceiveMemoryWarning

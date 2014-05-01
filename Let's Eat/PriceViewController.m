@@ -24,7 +24,7 @@
 @interface PriceViewController ()
 @property (strong, nonatomic) IBOutlet UISlider *slidePiece;
 @property (strong, nonatomic) IBOutlet UILabel *minYeses;
-
+@property (strong, nonatomic) NSMutableData* responseData;
 @property int invitees;
 @property (strong, nonatomic) CLLocation* nonCurrentLocation;
 @property (strong, nonatomic) IBOutlet UILabel *currLocLabel;
@@ -94,7 +94,7 @@
     self.switchTicked = NO;
     self.stepper.tintColor = [Graphics colorWithHexString:@"b8a37e"];
 
-
+ self.responseData = [[NSMutableData alloc] initWithLength:0];
     self.stepper.stepValue = 1;
     self.greencheck = [UIImage imageNamed:@"GreenCheck"];
     self.redexc = [UIImage imageNamed:@"RedExc"];
@@ -190,6 +190,7 @@
     [self.subscroll bringSubviewToFront:self.whiteBorder];
     [self.subscroll bringSubviewToFront:self.stepper];
     [self.subscroll bringSubviewToFront:self.scheduleWhen];
+    NSLog(@"invitees count: %lu", (unsigned long)self.nav.invitees.count);
     self.responder = self.submit;
   //for testing: self.nav.creator = NO;
     if (!self.nav.creator){
@@ -235,7 +236,7 @@
         
     }
     else{
-        if (self.invitees == 0){
+        if (self.invitees == 0 && self.nav.invitees.count == 0){
             NSLog(@"here");
             self.respondToInvite.titleLabel.textAlignment = NSTextAlignmentCenter;
             self.respondToInvite.titleLabel.text = @"Schedule Meal";
@@ -277,7 +278,7 @@
 }
 - (void)viewDidLayoutSubviews{
 
-    if (!self.nav.creator || self.invitees == 0){
+    if (!self.nav.creator || (self.invitees == 0 && self.nav.invitees.count == 0)){
 
     [self.indicator2 setFrame: CGRectMake(self.indicator2.frame.origin.x, self.respondToInvite.frame.origin.y, self.indicator2.frame.size.width, self.indicator2.frame.size.height)];
     }
@@ -313,6 +314,7 @@
     //Setup and start an async download.
     //Note that we should test for reachability!.
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+    NSLog(@"requesting.....\n.....\n....");
     [NSURLConnection connectionWithRequest:request delegate:self];
 }
 
@@ -335,14 +337,11 @@
         iv.invitation = self.invitation;
     }
 }
-
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    
+- (void)connectionDidFinishLoading:(NSURLConnection*)connection{
+    NSDictionary* resultsDictionary = [self.responseData objectFromJSONData];
+self.responseData = [[NSMutableData alloc] initWithLength:0];
     JSONDecoder* decoder = [[JSONDecoder alloc]
                             initWithParseOptions:JKParseOptionNone];
-    NSDictionary *resultsDictionary = [data objectFromJSONData];
     NSLog(@"res dict: %@", resultsDictionary);
     NSLog(@"%@",resultsDictionary);
     if ([resultsDictionary[@"success"] isEqual: @YES]){
@@ -353,35 +352,27 @@
             [LEViewController setUserDefault:@"mealsPressed" data:[NSNumber numberWithBool:i.scheduled]];
             [self performSegueWithIdentifier:@"priceToInvite" sender:self];
         }
-       // [self performSegueWithIdentifier:@"priceToHome" sender:self];
+        // [self performSegueWithIdentifier:@"priceToHome" sender:self];
     }
     else if ([resultsDictionary[@"success"] isEqual: @NO]){
         NSLog(@"do something failure related");
     }
     else{
-        NSLog(@"also hurray");
-        NSMutableDictionary* json = [decoder objectWithData:data];
-        if(!json){
-            NSLog(@"researching");
-        [self searchCoordinatesForAddress:[self.locationField text]];
-        return;
-        }
-        if ([json[@"status"] isEqualToString:@"ZERO_RESULTS"]){
-            NSLog(@"location not found");
+       
             self.indicator.hidden = YES;
             [self.indicator stopAnimating];
-            self.locValidator.image = redexc;
-            self.locValidator.hidden = NO;
-        }
-        else{
-            self.indicator.hidden = YES;
-            [self.indicator stopAnimating];
-            self.nonCurrentLocation = [[CLLocation alloc] initWithLatitude:[json[@"results"][0][@"geometry"][@"location"][@"lat"] floatValue] longitude:[json[@"results"][0][@"geometry"][@"location"][@"lng"] floatValue]];
+            self.nonCurrentLocation = [[CLLocation alloc] initWithLatitude:[resultsDictionary[@"results"][0][@"geometry"][@"location"][@"lat"] floatValue] longitude:[resultsDictionary[@"results"][0][@"geometry"][@"location"][@"lng"] floatValue]];
             NSLog(@"updated location: %@", self.nonCurrentLocation);
             self.locValidator.image = greencheck;
             self.locValidator.hidden = NO;
-        }
+        
     }
+
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    [self.responseData appendData:data];
     
 }
 
@@ -611,10 +602,16 @@
                 [numbers addObject:number];
         }
     }
+    NSMutableArray* invs = [[NSMutableArray alloc] init];
+    for (NSMutableDictionary* dict in self.nav.invitees){
+        for (NSString* number in dict[@"numbers"])
+            [ invs addObject:number];
+    }
     [ret setObject:self.timeOptions[(int)self.stepper.value] forKey:@"scheduleAfter"];
     [ret setObject:[NSNumber numberWithInt:self.minPeople] forKey:@"minPeople"];
     [ret setObject:[NSNumber numberWithBool:(![self.central.backgroundColor  isEqual:[UIColor clearColor]] )] forKey:@"central"];
     [ret setObject:numbers forKey:@"numbers"];
+    [ret setObject:invs forKey:@"invitees"];
     [ret setObject:self.myUITextField.text forKey:@"message"];
     return ret;
 }
@@ -653,10 +650,14 @@
         self.locValidator.hidden = YES;
         self.indicator2.hidden = NO;
         [self.indicator2 startAnimating];
+        [self loadingScreen];
         if (self.nav.creator)
             [User createInvitation:[self getCreatorPreferences] source:self];
-        else
+        else{
+            NSLog(@"responding yes");
             [User respondYes:self.nav.invitation.num preferences:[self getPreferences] source:self];
+        }
+        
     }
 }
 - (IBAction)submit:(id)sender {
@@ -665,11 +666,15 @@
         self.submit.hidden = YES;
         self.indicator2.hidden = NO;
         [self.indicator2 startAnimating];
+        [self loadingScreen];
         [User createInvitation:[self getCreatorPreferences] source:self];
     }
     
 
 
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
 }
 - (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {

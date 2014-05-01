@@ -38,7 +38,9 @@
         self.ivc.tableLock = [NSNumber numberWithInt:[self.ivc.tableLock integerValue] + 1];
         [upcoming removeAllObjects];
         [passed removeAllObjects];
+        NSLog(@"res dict: %@", resultsDictionary);
         for (NSMutableDictionary* dict in resultsDictionary[@"invitations"]){
+            NSLog(@"dict %@", dict );
             Invitation* i = [[Invitation alloc] init:dict[@"id"] timeInput:dict[@"time"] peopleInput:dict[@"people"] messageInput:dict[@"message"] iRespondedInput:[dict[@"iResponded"] boolValue] creatorIndexInput:dict[@"creatorIndex"] responseArrayInput:dict[@"responses"] centralInput:[dict[@"central"] boolValue] preferencesInput:dict[@"preferences"] scheduleTimeInput:dict[@"scheduleTime"] scheduledInput:[dict[@"scheduled"] boolValue] messagesArrayInput:dict[@"messages"]];
             [upcoming addObject:i];
         }

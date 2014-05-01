@@ -29,11 +29,12 @@
     //  NSLog(@"here");
     
     NSDictionary *resultsDictionary = [self.responseData objectFromJSONData];
+    NSLog(@"results dict in tabe view cell: %@", resultsDictionary);
     Invitation* i = [InviteTransitionConnectionHandler loadInvitation:resultsDictionary locationInput:self.ivc.myLocation];
     self.ivc.invitation = i;
     [self.ivc layoutView];
     for (NSMutableDictionary* rest in resultsDictionary[@"invitation"][@"restaurants"])
-        [i.restaurants addObject:[[Restaurant alloc] init:rest[@"address"] nameInput:rest[@"name"] percentMatchInput:rest[@"percentMatch"] priceInput:rest[@"price"] ratingImgInput:rest[@"rating_img"] snippetImgInput:rest[@"snippet_img"] votesInput:rest[@"votes"] typesInput:rest[@"types_list"] iVotedInput:[rest[@"user_voted"] boolValue] urlInput:rest[@"url"] myLocationInput:self.ivc.myLocation invitationInput:i.num]];
+        [i.restaurants addObject:[[Restaurant alloc] init:rest[@"address"] nameInput:rest[@"name"] percentMatchInput:rest[@"percent_match"] priceInput:rest[@"price"] ratingImgInput:rest[@"rating_img"] snippetImgInput:rest[@"snippet_img"] votesInput:rest[@"votes"] typesInput:rest[@"types_list"] iVotedInput:[rest[@"user_voted"] boolValue] urlInput:rest[@"url"] myLocationInput:self.ivc.myLocation invitationInput:i.num]];
     NSLog(@"finished: %@", resultsDictionary);
     self.restaurant.votes = [resultsDictionary[@"restaurant"][@"votes"] integerValue];
     self.restaurant.iVoted = [resultsDictionary[@"restaurant"][@"user_voted"] boolValue];
@@ -104,15 +105,19 @@
     self.restaurant = restaurantInput;
     self.row = rowInput;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    NSURL *imageURL = [NSURL URLWithString:self.restaurant.snippetImg];
+    NSURL *imageURL;
+    if (self.restaurant.snippetImg && (![self.restaurant.snippetImg isEqual:[NSNull null]])){
+        imageURL = [NSURL URLWithString:self.restaurant.snippetImg];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             // Update the UI
-            self.snippetImg.image = [UIImage imageWithData:imageData];
+        
+                self.snippetImg.image = [UIImage imageWithData:imageData];
         });
     });
+    }
     imageURL = [NSURL URLWithString:self.restaurant.ratingImg];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{

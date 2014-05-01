@@ -54,7 +54,19 @@ static CLLocation* myLocation;
             myLocation = locationInput;
         }
 }
-
+-(void)viewWillDisappear:(BOOL)animated{
+    [self unloadScreen];
+}
+-(void)unloadScreen{
+    if (self.fadeout && self.fadeout != (id)[NSNull null])
+        [self.fadeout removeFromSuperview];
+}
+-(void)loadingScreen{
+    self.fadeout = [[UIView alloc] initWithFrame:CGRectMake(0,0,[UIApplication sharedApplication].keyWindow.frame.size.width , [UIApplication sharedApplication].keyWindow.frame.size.height)];
+    self.fadeout.backgroundColor = [UIColor blackColor];
+    self.fadeout.alpha = .7;
+    [[UIApplication sharedApplication].keyWindow addSubview:self.fadeout];
+}
 +(CLLocationManager*) locationManager
 {
     static CLLocationManager *locationManager = nil;

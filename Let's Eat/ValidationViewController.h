@@ -11,5 +11,6 @@
 @interface ValidationViewController : LEViewController
 @property (strong, nonatomic) IBOutlet UITextField *username;
 @property (strong, nonatomic) IBOutlet UITextField *password;
+@property (strong, nonatomic) IBOutlet UITextField *phoneNumber;
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data;
 @end

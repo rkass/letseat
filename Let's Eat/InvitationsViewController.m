@@ -94,15 +94,19 @@
     [self.spinner setFrame:CGRectMake(self.view.frame.size.width - 40, self.mealsTable.frame.origin.y + 20,self.spinner.frame.size.width, self.spinner.frame.size.height )];
     [self.spinner startAnimating];
     [self.view addSubview:self.spinner];
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 20;
 }
-
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+}
 -(void)viewWillAppear:(BOOL)animated{
     [self refreshView];
+
 }
 
 -(void)refreshView{
@@ -327,6 +331,7 @@ NSComparisonResult sortInvitationByDate4(Invitation *i1, Invitation *i2, void *i
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
     else{
+        [cell setSelectionStyle:UITableViewCellSelectionStyleDefault];
         cell.textLabel.text = [i displayPeople];
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
         [dateFormat setDateFormat:@"cccc, MMM d, h:mm aa"];
@@ -366,6 +371,7 @@ NSComparisonResult sortInvitationByDate4(Invitation *i1, Invitation *i2, void *i
     Invitation* selectedInvitation = arr[indexPath.row];
     [User getInvitation:selectedInvitation.num source:ivtch];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self loadingScreen];
     NSLog(@"double passed it all");
 }
        

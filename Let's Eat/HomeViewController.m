@@ -92,8 +92,8 @@
         cell.imageView.image = [Graphics makeThumbnailOfSize:bigImage size:CGSizeMake(20, 20)];
     }
     else if (indexPath.row == 1){
-        cell.textLabel.text = @"What is Let's Eat!?";
-        UIImage *bigImage = [UIImage imageNamed:@"Home"];
+        cell.textLabel.text = @"Logout";
+        UIImage *bigImage = [UIImage imageNamed:@"Logout"];
         cell.imageView.image = [Graphics makeThumbnailOfSize:bigImage size:CGSizeMake(20,20)];
     }
     else if (indexPath.row == 2){
@@ -107,13 +107,21 @@
         UIImage *bigImage = [UIImage imageNamed:@"Logout"];
         cell.imageView.image = [Graphics makeThumbnailOfSize:bigImage size:CGSizeMake(20,20)];
     }
-    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    [cell setSelectionStyle:UITableViewCellSelectionStyleDefault];
     cell.imageView.frame = CGRectMake(0,0,10,10);
     cell.imageView.bounds = CGRectMake(0,0, 10, 10);
     cell.textLabel.textColor = [Graphics colorWithHexString:@"b8a37e"];
     cell.accessoryView = [[UIImageView alloc] initWithImage:[Graphics makeThumbnailOfSize:[UIImage imageNamed:@"OrangeCarrot"] size:CGSizeMake(10, 10)]];
     return cell;
 }
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1){
+        [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];
+        [self performSegueWithIdentifier:@"homeToInitial" sender:self];
+    }
+    
+}
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0){
@@ -121,15 +129,13 @@
         [self performSegueWithIdentifier:@"homeToInvitations" sender:self];
     }
     else if (indexPath.row == 1){
-        self.selectedRow = 1;
-        [self performSegueWithIdentifier:@"homeToInvitations" sender:self];
-    }
-    else if (indexPath.row == 2)
-        [self performSegueWithIdentifier:@"homeToTellFriends" sender:self];
-    else{
+        UIAlertView* lo = [[UIAlertView alloc] initWithTitle:@"Logout?" message:@"" delegate:self cancelButtonTitle:@"Nope" otherButtonTitles:@"Logout", nil];
+        [lo show];
+
+        
         
     }
-
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -144,12 +150,12 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 
-    return 48;
+    return 70;
     
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+    return 2;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

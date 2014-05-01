@@ -8,6 +8,6 @@
 
 #import "LEViewController.h"
 #import <MessageUI/MessageUI.h>
-@interface TellFriendsViewController : LEViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, MFMessageComposeViewControllerDelegate>
+@interface TellFriendsViewController : LEViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, MFMessageComposeViewControllerDelegate, UIAlertViewDelegate>
 
 @end

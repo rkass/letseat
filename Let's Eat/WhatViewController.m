@@ -8,6 +8,7 @@
 
 #import "WhatViewController.h"
 #import "Graphics.h"
+#import "CreateMealNavigationController.h"
 
 @interface WhatViewController ()
 @property (strong, nonatomic) IBOutlet UITableView* wantTable;
@@ -100,7 +101,7 @@
     [self.typesTable addGestureRecognizer:gesture];
     [self.wantTable addGestureRecognizer:gesture2];
     self.wantItems = [[NSMutableArray alloc] init];
-    self.typesItems = [@[@"American", @"Chinese", @"Diner", @"Indian", @"Italian", @"Japanese", @"Korean", @"Mediterranean", @"Mexican", @"Seafood", @"Spanish", @"Steakhouse", @"Thai", @"Vegetarian", @"Vietnamese"] mutableCopy];
+    self.typesItems = [@[@"American",@"Cafe", @"Chinese",@"Dessert", @"Diner", @"Indian", @"Italian", @"Japanese", @"Korean", @"Mediterranean", @"Mexican", @"Seafood", @"Spanish", @"Steakhouse", @"Thai", @"Vegetarian", @"Vietnamese"] mutableCopy];
     self.movingCellIndex = -1;
     self.movingCellOtherIndex = -1;
     UIImage *backImg = [UIImage imageNamed:@"BackBrownCarrot"];
