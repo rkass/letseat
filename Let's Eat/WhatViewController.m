@@ -28,6 +28,7 @@
 @property (strong, nonatomic) UIImageView *six;
 @property (strong, nonatomic) UIImageView *seven;
 @property (strong, nonatomic) IBOutlet UISearchBar* search;
+@property bool searching;
 @property (strong, nonatomic) IBOutlet UITableView *typesTable;
 @property (strong, nonatomic) IBOutlet UITableView *progressTable;
 @property (strong, nonatomic) UITableView *currTbl;
@@ -37,6 +38,7 @@
 @property (strong, nonatomic) NSMutableArray* source;
 @property (strong, nonatomic) NSMutableArray* otherSource;
 @property (strong, nonatomic) UIImage* draggable;
+@property (strong, nonatomic) NSMutableArray* foodTypesCopy;
 @property int movingCellIndex;//row of cell that's being dragged in the table
 @property (strong, nonatomic) IBOutlet UIView *spacer2;
 @property (strong, nonatomic) IBOutlet UIView *spacer1;
@@ -46,6 +48,7 @@
 @property float movingDiffx;
 @property float movingDiffy;
 @property NSMutableDictionary* ratingsDict;
+@property NSMutableArray* allFoodTypes;
 @property CGRect inishPosish;
 @property (strong, nonatomic) ProgressBarDelegate* progressBarDelegate;
 @property bool moved;
@@ -147,6 +150,13 @@
                 }
             }
             cnt += 1;
+            NSMutableArray* arr = [[NSMutableArray alloc] init];
+            for (NSString* su in self.ratingsDict){
+                [arr addObject:su];
+            }
+            for (NSString* su in arr){
+                self.ratingsDict[su] = [NSNumber numberWithInt:s - 1];
+            }
         }
     }
      [self setState];
@@ -219,11 +229,14 @@
             if ([dict[@"expanded"] boolValue]){
                 while (innercnt <= ((NSArray*)dict[@"subcategories"]).count){
                     NSString* str = self.foodTypes[innercnt + cnt][@"label"];
+                    if ([((NSArray*) dict[@"subcategories"]) indexOfObject:str] == NSNotFound)
+                        break;
                     if ([str isEqualToString:sub]){
                         [ret addObject:[NSNumber numberWithInt:innercnt + cnt]];
                         [ret addObject:[NSNumber numberWithInt:cnt]];
+                        return ret;
                     }
-                innercnt += 1;
+                    innercnt += 1;
                     
                 }
                 cnt += innercnt - 1;
@@ -235,89 +248,76 @@
     return ret;
 }
 -(NSMutableArray*)loadFoodTypes{
-    if ([[NSUserDefaults standardUserDefaults] arrayForKey:@"foodTypes"]){
-        if ([[NSUserDefaults standardUserDefaults] objectForKey:@"ratingsDict"])
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"ratingsDict"])
             self.ratingsDict = [[NSUserDefaults standardUserDefaults] objectForKey:@"ratingsDict"];
-        else{
-            self.ratingsDict = [[NSMutableDictionary alloc] init];
-            for (NSMutableDictionary* dict in self.foodTypes)
-                if ([dict[@"category"] boolValue])
-                    self.ratingsDict[dict[@"label"]] = dict[@"stars"];
-                else
-                    self.ratingsDict[[NSString stringWithFormat:@"sub%@", dict[@"label"]]] = dict[@"stars"];
-         //   [self saveRatings];
-            
-        }
-        NSMutableArray* ret = [[NSMutableArray alloc] init];
-        for (NSDictionary* dict in [[NSUserDefaults standardUserDefaults] arrayForKey:@"foodTypes"] )
-            [ret addObject:[dict mutableCopy]];
-        return ret;
-    }
-    else{
+    else
         self.ratingsDict = [[NSMutableDictionary alloc] init];
-        //NSArray*tv =[NSArray arrayWithObjects:@"Bagels",@"Diners",@"Brunch", nil];
-        NSMutableDictionary* t2 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Breakfast",  nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label",  nil]];
+    
+    //NSArray*tv =[NSArray arrayWithObjects:@"Bagels",@"Diners",@"Brunch", nil];
+    NSMutableDictionary* t2 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Breakfast",  nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label",  nil]];
         t2[@"subcategories"] =[NSArray arrayWithObjects:@"Bagels",@"Diners",@"Brunch", nil];
-        self.ratingsDict[t2[@"label"]] = [NSNumber numberWithInt:1];
-       //Expand All these
-        NSMutableDictionary* t3 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Steakhouse", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label",  nil]];
-        t3[@"subcategories"] = [NSArray arrayWithObjects:@"Steakhouse", nil];
-        self.ratingsDict[t3[@"label"]] = [NSNumber numberWithInt:1];
-        NSMutableDictionary* t4 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Healthy",  nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
-        t4[@"subcategories"] = [NSArray arrayWithObjects:@"Gluten Free",@"Raw", @"Vegan", @"Vegetarian", nil];
-        self.ratingsDict[t4[@"label"]] = [NSNumber numberWithInt:1];
-        NSMutableDictionary* t5 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Buffet", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label",  nil]];
-        t5[@"subcategories"] = [NSArray arrayWithObjects:@"Buffet", @"Cafeteria", nil];
-        self.ratingsDict[t5[@"label"]] = [NSNumber numberWithInt:1];
-        NSMutableDictionary* t6 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Quick Bite", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label" , nil]];
-        t6[@"subcategories"] = [NSArray arrayWithObjects:@"Deli", @"Fast Food", @"Food Court", @"Food Stand", @"Hot Dogs", @"Sandwiches", @"Soup", nil];
-        self.ratingsDict[t6[@"label"]] = [NSNumber numberWithInt:1];
-        NSMutableDictionary* t1 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Italian", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
-        t1[@"subcategories"] =  [NSArray arrayWithObjects:@"Italian",@"pizza", nil];
-        self.ratingsDict[t1[@"label"]] = [NSNumber numberWithInt:1];
-        NSMutableDictionary* t7 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"American", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
-        t7[@"subcategories"] =[NSArray arrayWithObjects:@"American", @"BBQ",@"Burgers",@"Cajun", @"Cheesesteaks",@"Chicken Wings", @"Comfort Food", @"Soul Food", @"Southern Food", nil];
-        self.ratingsDict[t7[@"label"]] = [NSNumber numberWithInt:1];
-        NSMutableDictionary* t8 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Latin", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label",  nil]];
-        t8[@"subcategories"] =  [NSArray arrayWithObjects:@"Caribbean",@"Colombian", @"Dominican",@"Haitian",@"Hawaiian", @"Latin American",@"Puetro Rican", @"Salvadoran", @"Trinidadian", @"Venezuelan", nil];
-        self.ratingsDict[t8[@"label"]] = [NSNumber numberWithInt:1];
-        NSMutableDictionary* t9 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Seafood", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
-        t9[@"subcategories"] = [NSArray arrayWithObjects:@"Fish & Chips", @"Seafood", nil];
-        self.ratingsDict[t9[@"label"]] = [NSNumber numberWithInt:1];
-        NSMutableDictionary* t10 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Spanish", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label",  nil]];
-        t10[@"subcategories"] =  [NSArray arrayWithObjects:@"Spanish", @"Tapas", nil];
-        self.ratingsDict[t10[@"label"]] = [NSNumber numberWithInt:1];
-        NSMutableDictionary* t11 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Indian", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
-        t11[@"subcategories"] =  [NSArray arrayWithObjects:@"Indian", nil];
-         self.ratingsDict[t11[@"label"]] = [NSNumber numberWithInt:1];
-        NSMutableDictionary* t12 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Chinese", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
-        t12[@"subcategories"] =  [NSArray arrayWithObjects:@"Chinese", @"Dim Sum",@"Shanghainese", nil];
-         self.ratingsDict[t12[@"label"]] = [NSNumber numberWithInt:1];
-        NSMutableDictionary* t13 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Mediterranean",  nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
-       
-        t13[@"subcategories"] =[NSArray arrayWithObjects:@"Falafel",@"Greek", @"Halal", @"Lebanese", @"Mediterranean", @"Middle Eastern", @"Slovakian", nil];
-        
-        self.ratingsDict[t13[@"label"]] = [NSNumber numberWithInt:1];
-        NSMutableDictionary* t14 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Japanese/Sushi",  nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
 
-        t14[@"subcategories"] = [NSArray arrayWithObjects:@"Japanese",@"Sushi", nil];
-         self.ratingsDict[t14[@"label"]] = [NSNumber numberWithInt:1];
-        NSMutableDictionary* t15 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Mexian", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
-        t15[@"subcategories"] =  [NSArray arrayWithObjects:@"Mexican",@"Tex-Mex", nil];
-         self.ratingsDict[t15[@"label"]] = [NSNumber numberWithInt:1];
-        NSMutableDictionary* t16 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"French",  nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
-        t16[@"subcategories"] =[NSArray arrayWithObjects:@"Brasseries",@"Fondue",@"French", nil];
-         self.ratingsDict[t16[@"label"]] = [NSNumber numberWithInt:1];
-        NSMutableDictionary* t17 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Dessert/Coffee",  nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label",nil]];
-        t17[@"subcategories"] = [NSArray arrayWithObjects:@"Cafe", @"Coffee & Tea",@"Crepery",@"Cupcakes",@"Dessert", @"Donuts", @"Gelato", @"Ice Cream/Frozen Yogurt", @"Juice Bar", nil];
-         self.ratingsDict[t17[@"label"]] = [NSNumber numberWithInt:1];
-        NSMutableDictionary* t18 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Exotic Others", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
-        t18[@"subcategories"] = [NSArray arrayWithObjects: @"Afghan",@"Arabian",@"Armenian",@"Austrian",@"Bangladeshi",@"Australian",@"Basque",@"African",@"Senegalese",@"South African",@"Brazilian"    ,@"Belgian",@"British",@"Catalan",@"Burmese",@"Cantonese",@"Cambodian",@"Szechuan",@"Cuban",@"Czech",@"Ethiopian",@"Filipino",@"Vietnamese"    ,@"Gastropubs",@"German",@"Himalayan/Nepalese",@"Hot Pot",@"Hungarian",@"Iberian",@"Indonesian",@"Irish",@"Korean",@"Kosher",@"Laotian",@"Malaysian",@"Egyptian",@"Modern European",@"Mongolian",@"Moroccan",@"Pakistani", @"Persian Iranian",@"Peruvian",@"Polish",@"Portuguese",@"Russian",@"Scandinavian", @"Scottish", @"Singaporean", @"Thai",@"Turkish",@"Ukrainian",@"Taiwanese",@"Asian Fusion",@"Argentine" , nil];
-         self.ratingsDict[t18[@"label"]] = [NSNumber numberWithInt:1];
-        self.foodTypes = [[NSArray arrayWithObjects:t7,t2,t5,t12,t17,t16,t4,t11,t1,t14,t8,t13,t15,t6,t9, t10,t3,t18, nil] mutableCopy];
+    //Expand All these
+    NSMutableDictionary* t3 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Steakhouse", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label",  nil]];
+    t3[@"subcategories"] = [NSArray arrayWithObjects:@"Steakhouse", nil];
+ 
+    NSMutableDictionary* t4 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Healthy",  nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
+    t4[@"subcategories"] = [NSArray arrayWithObjects:@"Gluten Free",@"Raw", @"Vegan", @"Vegetarian", nil];
+
+    NSMutableDictionary* t5 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Buffet", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label",  nil]];
+    t5[@"subcategories"] = [NSArray arrayWithObjects:@"Buffet", @"Cafeteria", nil];
+
+    NSMutableDictionary* t6 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Quick Bite", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label" , nil]];
+    t6[@"subcategories"] = [NSArray arrayWithObjects:@"Deli", @"Fast Food", @"Food Court", @"Food Stand", @"Hot Dogs", @"Sandwiches", @"Soup", nil];
+
+    NSMutableDictionary* t1 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Italian", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
+    t1[@"subcategories"] =  [NSArray arrayWithObjects:@"Italian",@"pizza", nil];
+
+    NSMutableDictionary* t7 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"American", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
+    t7[@"subcategories"] =[NSArray arrayWithObjects:@"American", @"BBQ",@"Burgers",@"Cajun", @"Cheesesteaks",@"Chicken Wings", @"Comfort Food", @"Soul Food", @"Southern Food", nil];
+
+    NSMutableDictionary* t8 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Latin", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label",  nil]];
+    t8[@"subcategories"] =  [NSArray arrayWithObjects:@"Caribbean",@"Colombian", @"Dominican",@"Haitian",@"Hawaiian", @"Latin American",@"Puetro Rican", @"Salvadoran", @"Trinidadian", @"Venezuelan", nil];
+
+    NSMutableDictionary* t9 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Seafood", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
+    t9[@"subcategories"] = [NSArray arrayWithObjects:@"Fish & Chips", @"Seafood", nil];
+
+    NSMutableDictionary* t10 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Spanish", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label",  nil]];
+    t10[@"subcategories"] =  [NSArray arrayWithObjects:@"Spanish", @"Tapas", nil];
+
+    NSMutableDictionary* t11 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Indian", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
+    t11[@"subcategories"] =  [NSArray arrayWithObjects:@"Indian", nil];
+      
+    NSMutableDictionary* t12 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Chinese", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
+    t12[@"subcategories"] =  [NSArray arrayWithObjects:@"Chinese", @"Dim Sum",@"Shanghainese", nil];
+
+    NSMutableDictionary* t13 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Mediterranean",  nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
        
-        return  self.foodTypes;
+    t13[@"subcategories"] =[NSArray arrayWithObjects:@"Falafel",@"Greek", @"Halal", @"Lebanese", @"Mediterranean", @"Middle Eastern", @"Slovakian", nil];
+        
+
+    NSMutableDictionary* t14 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Japanese/Sushi",  nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
+
+    t14[@"subcategories"] = [NSArray arrayWithObjects:@"Japanese",@"Sushi", nil];
+       
+    NSMutableDictionary* t15 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Mexian", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
+    t15[@"subcategories"] =  [NSArray arrayWithObjects:@"Mexican",@"Tex-Mex", nil];
+
+    NSMutableDictionary* t16 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"French",  nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
+    t16[@"subcategories"] =[NSArray arrayWithObjects:@"Brasseries",@"Fondue",@"French", nil];
+         
+    NSMutableDictionary* t17 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Dessert/Coffee",  nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label",nil]];
+    t17[@"subcategories"] = [NSArray arrayWithObjects:@"Cafe", @"Coffee & Tea",@"Crepery",@"Cupcakes",@"Dessert", @"Donuts", @"Gelato", @"Ice Cream/Frozen Yogurt", @"Juice Bar", nil];
+
+    NSMutableDictionary* t18 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Exotic Others", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
+    t18[@"subcategories"] = [NSArray arrayWithObjects: @"Afghan",@"Arabian",@"Armenian",@"Austrian",@"Bangladeshi",@"Australian",@"Basque",@"African",@"Senegalese",@"South African",@"Brazilian"    ,@"Belgian",@"British",@"Catalan",@"Burmese",@"Cantonese",@"Cambodian",@"Szechuan",@"Cuban",@"Czech",@"Ethiopian",@"Filipino",@"Vietnamese"    ,@"Gastropubs",@"German",@"Himalayan/Nepalese",@"Hot Pot",@"Hungarian",@"Iberian",@"Indonesian",@"Irish",@"Korean",@"Kosher",@"Laotian",@"Malaysian",@"Egyptian",@"Modern European",@"Mongolian",@"Moroccan",@"Pakistani", @"Persian Iranian",@"Peruvian",@"Polish",@"Portuguese",@"Russian",@"Scandinavian", @"Scottish", @"Singaporean", @"Thai",@"Turkish",@"Ukrainian",@"Taiwanese",@"Asian Fusion",@"Argentine" , nil];
+    
+    self.foodTypes = [[NSArray arrayWithObjects:t7,t2,t5,t12,t17,t16,t4,t11,t1,t14,t8,t13,t15,t6,t9, t10,t3,t18, nil] mutableCopy];
+    for (NSMutableDictionary* dict in self.foodTypes){
+        dict[@"stars"] = [self rating:nil childName:dict[@"label"]];
     }
+    return  self.foodTypes;
+    
 }
 
 -(NSNumber*) rating:(NSString*)parentName childName:(NSString*)childName{
@@ -326,6 +326,10 @@
         if (!self.ratingsDict[[NSString stringWithFormat:@"sub%@",childName] ])
             self.ratingsDict[[NSString stringWithFormat:@"sub%@",childName] ] = [self.ratingsDict[parentName] copy];
         return self.ratingsDict[[NSString stringWithFormat:@"sub%@",childName] ];
+    }
+    else{
+        if (!self.ratingsDict[childName])
+            self.ratingsDict[childName] = [NSNumber numberWithInt:1];
     }
     return self.ratingsDict[childName];
 }
@@ -336,7 +340,7 @@
         else
             dict[@"stars"] = self.ratingsDict[[NSString stringWithFormat:@"sub%@", dict[@"label"]] ];
     }
-     [LEViewController setUserDefault:@"foodTypes" data:self.foodTypes];
+
     [LEViewController setUserDefault:@"ratingsDict" data:self.ratingsDict];
 }
 
@@ -408,8 +412,8 @@
 
 
 -(void)collapseCategory:(NSString*)categoryInput{
- 
-    [self modifyCategory:NO categoryInput:categoryInput];
+    if (!self.searching)
+        [self modifyCategory:NO categoryInput:categoryInput];
 }
 -(void)expandCategory:(NSString*)categoryInput{
 
@@ -420,6 +424,7 @@
     [super viewDidLoad];
     self.foodTypes = [self loadFoodTypes];
     [self setState];
+    self.searching = NO;
     self.progressBarDelegate = [[ProgressBarDelegate alloc] initWithTitle:@"Create Invitation"];
     [self.progressTable setDelegate:self.progressBarDelegate];
     [self.progressTable setDataSource:self.progressBarDelegate];
@@ -537,41 +542,99 @@
 {
     [searchBar resignFirstResponder];
     self.search.text = @"";
-    [self.typesItems removeAllObjects];
-    for (NSString* type in self.savedTypes)
-    {
-        if (![self.wantItems containsObject:type])
-            [self.typesItems addObject:type];
-    }
-    [self reloadTable:self.typesTable];//[self.typesTable reloadData];
     self.search.showsCancelButton = NO;
+    [self exitSearch];
 }
-
+-(void)exitSearch{
+    NSMutableArray* ret = [[NSMutableArray alloc] init];
+    for (NSMutableDictionary* dict in self.foodTypesCopy){
+        if ([dict[@"category"] boolValue])
+            dict[@"stars"] = self.ratingsDict[dict[@"label"]];
+        else
+            dict[@"stars"] = self.ratingsDict[[NSString stringWithFormat:@"sub%@", dict[@"label"]]];
+        [ret addObject:dict];
+    }
+    self.searching = NO;
+    self.foodTypes = ret;
+    [self reloadTable:self.foodTypeTable];
+}
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
     self.search.showsCancelButton = NO;
-    //exit searching
+    
+   // [self exitSearch:NO];
 }
+-(NSMutableArray*)copyFoodTypes{
+    NSMutableArray* ret = [[NSMutableArray alloc] init];
+    for (NSMutableDictionary* dict in self.foodTypes)
+        [ret addObject:[dict mutableCopy]];
+    return ret;
+}
+
 - (void)searchBarTextDidBeginEditing:(UISearchBar*)searchBar
 {
     //enter searching if not in it
-    NSLog(@"editing");
-    self.savedTypes = [self.typesItems mutableCopy];
+    if (!self.searching){
+        NSMutableArray* cats = [[NSMutableArray alloc] init];
+        self.foodTypesCopy = [self copyFoodTypes];
+        for (NSMutableDictionary* dict in self.foodTypesCopy){
+            if ([dict[@"category"] boolValue]){
+                if (![dict[@"expanded"] boolValue])
+                    [cats addObject:dict[@"label"]];
+                }
+        }
+        for (NSString* cat in cats){
+            [self expandCategory:cat];
+        }
+        self.searching = YES;
+        self.allFoodTypes = [self.foodTypes mutableCopy];
+    }
     self.search.showsCancelButton = YES;
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     
-    [self.typesItems removeAllObjects];
+    self.foodTypes = [self.allFoodTypes mutableCopy];
     if ([searchText isEqualToString:@""])
-        self.typesItems = [self.savedTypes mutableCopy];
+    {}
     else
     {
-        
-        NSArray* splitSearch = [searchText componentsSeparatedByString:@" "];
-        for(NSString* type in self.savedTypes)
+        NSMutableArray* removals = [[NSMutableArray alloc] init];
+        int cnt = 0;
+        for (NSMutableDictionary* dict in self.foodTypes){
+            bool anyIn = NO;
+            if ([dict[@"category"] boolValue]){
+                int innercnt = 1;
+                if([[self.foodTypes[cnt][@"label"] lowercaseString] rangeOfString:[searchText lowercaseString]].location != NSNotFound){
+                    anyIn = YES;
+                }
+                if (!anyIn) {
+                    while (innercnt <= ((NSArray*)dict[@"subcategories"]).count){
+                        if ([[self.foodTypes[cnt + innercnt ][@"label"] lowercaseString] rangeOfString:[searchText lowercaseString]].location != NSNotFound){
+                            anyIn = YES;
+                        }
+                        else{
+                        [removals addObject:self.foodTypes[cnt + innercnt]];
+                        }
+                        innercnt += 1;
+                    }
+                }
+                else{
+                    innercnt = ((NSArray*) dict[@"subcategories"]).count + 1;
+                }
+                if (!anyIn)
+                    [removals addObject:self.foodTypes[cnt]];
+                cnt += innercnt - 1;
+                cnt += 1;
+            }
+        }
+        for (NSMutableDictionary* dict in removals)
+             [self.foodTypes removeObject:dict];
+    }
+    [self.foodTypeTable reloadData];
+    /*    for(NSString* type in self.savedTypes)
         {
             
             bool allin = YES;
@@ -587,7 +650,7 @@
                 [self.typesItems addObject:type];
         }
     }
-    [self reloadTable:self.typesTable];//[self.typesTable reloadData];
+    [self reloadTable:self.typesTable];//[self.typesTable reloadData];*/
 }
 
 -(void)swapTables:(UITableView*)tableView indexPath:(NSIndexPath*)indexPath
@@ -811,9 +874,9 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (tableView == self.foodTypeTable){
-        [self.search resignFirstResponder];
-    self.search.showsCancelButton = NO;
-}
+        [self searchBarSearchButtonClicked:self.search];
+
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
