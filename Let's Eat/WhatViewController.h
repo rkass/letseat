@@ -10,4 +10,7 @@
 
 @interface WhatViewController : LEViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 @property (strong, nonatomic) NSMutableArray* wantItems;
+-(void)collapseCategory:(NSString*)categoryInput;
+-(void)expandCategory:(NSString*)categoryInput;
+
 @end

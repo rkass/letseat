@@ -6,7 +6,13 @@
 
 #import <Availability.h>
 
+
 #define loadingRestaurantsText @"Loading Recommendations.\nThis usually takes about a minute..."
+#define color3 @"FAF5F1"
+#define color4 @"F8E6D3"
+#define color14 @"EDFAF8"
+#define collapsedImg [Graphics makeThumbnailOfSize:[UIImage imageNamed:@"Thumb"] size:CGSizeMake(38, 54)]
+#define expandedImg [Graphics makeThumbnailOfSize:[UIImage imageNamed:@"SMS"] size:CGSizeMake(38, 54)]
 
 #ifndef __IPHONE_5_0
 #warning "This project uses features only available in iOS SDK 5.0 and later."

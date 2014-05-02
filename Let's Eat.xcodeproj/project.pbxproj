@@ -21,6 +21,9 @@
 		94394FF518B3EBE200A2FEDB /* WhoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94394FF418B3EBE200A2FEDB /* WhoViewController.m */; };
 		94394FFB18B4019B00A2FEDB /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 94394FFA18B4019B00A2FEDB /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9448D86B18BFAAC5007D40D0 /* PriceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9448D86A18BFAAC5007D40D0 /* PriceViewController.m */; };
+		945930001912B631007C5C05 /* ProgressBarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94592FFF1912B631007C5C05 /* ProgressBarTableViewCell.m */; };
+		945930031912B824007C5C05 /* ProgressBarDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 945930021912B824007C5C05 /* ProgressBarDelegate.m */; };
+		945930061912C6D8007C5C05 /* FoodTypeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 945930051912C6D8007C5C05 /* FoodTypeTableViewCell.m */; };
 		94610F4818A950B40094779E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94610F4718A950B40094779E /* Foundation.framework */; };
 		94610F4A18A950B40094779E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94610F4918A950B40094779E /* CoreGraphics.framework */; };
 		94610F4C18A950B40094779E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94610F4B18A950B40094779E /* UIKit.framework */; };
@@ -90,6 +93,12 @@
 		94394FFA18B4019B00A2FEDB /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = "Let's Eat/JSONKit.m"; sourceTree = "<group>"; };
 		9448D86918BFAAC5007D40D0 /* PriceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PriceViewController.h; sourceTree = "<group>"; };
 		9448D86A18BFAAC5007D40D0 /* PriceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PriceViewController.m; sourceTree = "<group>"; };
+		94592FFE1912B631007C5C05 /* ProgressBarTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgressBarTableViewCell.h; path = ../ProgressBarTableViewCell.h; sourceTree = "<group>"; };
+		94592FFF1912B631007C5C05 /* ProgressBarTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgressBarTableViewCell.m; path = ../ProgressBarTableViewCell.m; sourceTree = "<group>"; };
+		945930011912B824007C5C05 /* ProgressBarDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressBarDelegate.h; sourceTree = "<group>"; };
+		945930021912B824007C5C05 /* ProgressBarDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressBarDelegate.m; sourceTree = "<group>"; };
+		945930041912C6D8007C5C05 /* FoodTypeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoodTypeTableViewCell.h; sourceTree = "<group>"; };
+		945930051912C6D8007C5C05 /* FoodTypeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoodTypeTableViewCell.m; sourceTree = "<group>"; };
 		94610F4418A950B40094779E /* Let's Eat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Let's Eat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94610F4718A950B40094779E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		94610F4918A950B40094779E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -311,6 +320,12 @@
 		9483580118EB02E60022A13C /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				945930041912C6D8007C5C05 /* FoodTypeTableViewCell.h */,
+				945930051912C6D8007C5C05 /* FoodTypeTableViewCell.m */,
+				945930011912B824007C5C05 /* ProgressBarDelegate.h */,
+				945930021912B824007C5C05 /* ProgressBarDelegate.m */,
+				94592FFE1912B631007C5C05 /* ProgressBarTableViewCell.h */,
+				94592FFF1912B631007C5C05 /* ProgressBarTableViewCell.m */,
 				9483C4A418EF4B4E00373A56 /* InviteTransitionConnectionHandler.h */,
 				9483C4A518EF4B4E00373A56 /* InviteTransitionConnectionHandler.m */,
 				948357FE18EB02D60022A13C /* InvitationsConnectionHandler.h */,
@@ -451,10 +466,13 @@
 				947F1DEA18B4FC38009924E5 /* ValidationViewController.m in Sources */,
 				94D2605818BA9DAB005FF97C /* CreateMealNavigationController.m in Sources */,
 				94610F5E18A950B40094779E /* InitialViewController.m in Sources */,
+				945930031912B824007C5C05 /* ProgressBarDelegate.m in Sources */,
 				941CE22F18AD725800E773BF /* SignupViewController.m in Sources */,
 				948C091018C67F26002A3524 /* InviteViewController.m in Sources */,
 				94EF731318C8BF3800FFF973 /* NSDate-Utilities.m in Sources */,
+				945930061912C6D8007C5C05 /* FoodTypeTableViewCell.m in Sources */,
 				94394FFB18B4019B00A2FEDB /* JSONKit.m in Sources */,
+				945930001912B631007C5C05 /* ProgressBarTableViewCell.m in Sources */,
 				94C3928318E35B7900F194F3 /* ScheduledMealController.m in Sources */,
 				94610F5818A950B40094779E /* AppDelegate.m in Sources */,
 				94610F5418A950B40094779E /* main.m in Sources */,
