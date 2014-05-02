@@ -24,6 +24,7 @@
 		945930001912B631007C5C05 /* ProgressBarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94592FFF1912B631007C5C05 /* ProgressBarTableViewCell.m */; };
 		945930031912B824007C5C05 /* ProgressBarDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 945930021912B824007C5C05 /* ProgressBarDelegate.m */; };
 		945930061912C6D8007C5C05 /* FoodTypeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 945930051912C6D8007C5C05 /* FoodTypeTableViewCell.m */; };
+		945930091913E382007C5C05 /* CheckAllStarsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 945930081913E382007C5C05 /* CheckAllStarsTableViewCell.m */; };
 		94610F4818A950B40094779E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94610F4718A950B40094779E /* Foundation.framework */; };
 		94610F4A18A950B40094779E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94610F4918A950B40094779E /* CoreGraphics.framework */; };
 		94610F4C18A950B40094779E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94610F4B18A950B40094779E /* UIKit.framework */; };
@@ -99,6 +100,8 @@
 		945930021912B824007C5C05 /* ProgressBarDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressBarDelegate.m; sourceTree = "<group>"; };
 		945930041912C6D8007C5C05 /* FoodTypeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoodTypeTableViewCell.h; sourceTree = "<group>"; };
 		945930051912C6D8007C5C05 /* FoodTypeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoodTypeTableViewCell.m; sourceTree = "<group>"; };
+		945930071913E382007C5C05 /* CheckAllStarsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckAllStarsTableViewCell.h; sourceTree = "<group>"; };
+		945930081913E382007C5C05 /* CheckAllStarsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckAllStarsTableViewCell.m; sourceTree = "<group>"; };
 		94610F4418A950B40094779E /* Let's Eat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Let's Eat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94610F4718A950B40094779E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		94610F4918A950B40094779E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -320,6 +323,8 @@
 		9483580118EB02E60022A13C /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				945930071913E382007C5C05 /* CheckAllStarsTableViewCell.h */,
+				945930081913E382007C5C05 /* CheckAllStarsTableViewCell.m */,
 				945930041912C6D8007C5C05 /* FoodTypeTableViewCell.h */,
 				945930051912C6D8007C5C05 /* FoodTypeTableViewCell.m */,
 				945930011912B824007C5C05 /* ProgressBarDelegate.h */,
@@ -483,6 +488,7 @@
 				942B9DAB18AD5A44003F8CA6 /* HomeViewController.m in Sources */,
 				941CE23318AEBE4600E773BF /* Server.m in Sources */,
 				9466154518E3047A0066E84D /* RestaurantViewController.m in Sources */,
+				945930091913E382007C5C05 /* CheckAllStarsTableViewCell.m in Sources */,
 				9483580018EB02D60022A13C /* InvitationsConnectionHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

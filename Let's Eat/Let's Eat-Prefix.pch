@@ -13,7 +13,18 @@
 #define color14 @"EDFAF8"
 #define collapsedImg [Graphics makeThumbnailOfSize:[UIImage imageNamed:@"Thumb"] size:CGSizeMake(38, 54)]
 #define expandedImg [Graphics makeThumbnailOfSize:[UIImage imageNamed:@"SMS"] size:CGSizeMake(38, 54)]
-
+#define noStarsImg [Graphics makeThumbnailOfSize:[UIImage imageNamed:@"SMS"] size:CGSizeMake(75, 54)]
+#define noStarsSmallImg [Graphics makeThumbnailOfSize:[UIImage imageNamed:@"SMS"] size:CGSizeMake(75, 34)]
+#define oneStarImg [Graphics makeThumbnailOfSize:[UIImage imageNamed:@"OrangeThumb"] size:CGSizeMake(75, 54)]
+#define oneStarSmallImg [Graphics makeThumbnailOfSize:[UIImage imageNamed:@"OrangeThumb"] size:CGSizeMake(75, 34)]
+#define twoStarsImg [Graphics makeThumbnailOfSize:[UIImage imageNamed:@"Reply"] size:CGSizeMake(75, 54)]
+#define twoStarsSmallImg [Graphics makeThumbnailOfSize:[UIImage imageNamed:@"Reply"] size:CGSizeMake(75, 34)]
+#define allNoStarsOnImg [Graphics makeThumbnailOfSize:[UIImage imageNamed:@"SMS"] size:CGSizeMake(106, 43)]
+#define allNoStarsOffImg [Graphics makeThumbnailOfSize:[UIImage imageNamed:@"MinPrice"] size:CGSizeMake(106, 43)]
+#define allOneStarOnImg [Graphics makeThumbnailOfSize:[UIImage imageNamed:@"OrangeThumb"] size:CGSizeMake(106, 43)]
+#define allOneStarOffImg [Graphics makeThumbnailOfSize:[UIImage imageNamed:@"MinPrice"] size:CGSizeMake(106, 43)]
+#define allTwoStarsOnImg [Graphics makeThumbnailOfSize:[UIImage imageNamed:@"Reply"] size:CGSizeMake(106, 43)]
+#define allTwoStarsOffImg [Graphics makeThumbnailOfSize:[UIImage imageNamed:@"MinPrice"] size:CGSizeMake(106, 43)]
 #ifndef __IPHONE_5_0
 #warning "This project uses features only available in iOS SDK 5.0 and later."
 #endif

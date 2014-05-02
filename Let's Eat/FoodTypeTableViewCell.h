@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WhatViewController.h"
 
+@class WhatViewController;
 @interface FoodTypeTableViewCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UIButton *expandCollapseButton;
 @property (strong, nonatomic) IBOutlet UILabel *foodTypeLabel;

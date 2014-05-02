@@ -11,12 +11,15 @@
 #import "ProgressBarDelegate.h"
 #import "CreateMealNavigationController.h"
 #import "FoodTypeTableViewCell.h"
+#import "CheckAllStarsTableViewCell.h"
 
 @interface WhatViewController ()
 @property (strong, nonatomic) IBOutlet UITableView* wantTable;
+@property (strong, nonatomic) IBOutlet UITableView *starsTableView;
 @property (strong, nonatomic) NSMutableArray* typesItems;
 @property (strong, nonatomic) NSMutableArray* savedTypes;
 @property (strong, nonatomic) IBOutlet UITableView *foodTypeTable;
+@property int checkAllState;
 @property (strong, nonatomic) IBOutlet UIImageView *one;
 @property (strong, nonatomic) UIImageView *two;
 @property (strong, nonatomic) UIImageView *three;
@@ -46,12 +49,191 @@
 @property CGRect inishPosish;
 @property (strong, nonatomic) ProgressBarDelegate* progressBarDelegate;
 @property bool moved;
-@property (strong, nonatomic) NSMutableArray* foodTypes;
+
 @end
 
 @implementation WhatViewController
 @synthesize wantTable, wantItems, typesItems, typesTable, movingCellOtherIndex, movingCellText, movingCellIndex, movingCellImage, currTbl, currOtherTbl, source, otherSource, draggable, movingDiffx, movingDiffy, moved, inishPosish, two, three;
+-(void)setRating:(FoodTypeTableViewCell*)cell{
+    NSString* str = cell.foodTypeLabel.text;
+    if (cell.category){
+        str = [NSString stringWithFormat:@"sub%@", str ];
+    }
+    self.ratingsDict[str] = [NSNumber numberWithInt:cell.stars];
+}
+-(bool)categoryRatingsAllTheSame:(NSString*)categoryInput{
+    int rating = -1;
+    for (NSMutableDictionary* dict in self.foodTypes){
+        if ([dict[@"category"] boolValue] && [dict[@"label"] isEqualToString:categoryInput]){
+            int newRating;
+            for (NSString* subcat in dict[@"subcategories"]){
+                newRating = [[self rating:dict[@"label"] childName:subcat] intValue];
+                if ((rating != -1) && (rating != newRating)){
+                    return NO;
+                }
+                rating = newRating;
+            }
+           
+            break;
+        }
+    }
+    return YES;
+  
+}
 
+-(bool)ratingsAllTheSame{
+    int rating = -1;
+    for (NSMutableDictionary* dict in self.foodTypes){
+        if ([dict[@"category"] boolValue]){
+            int newRating = [[self rating:nil childName:dict[@"label"]] intValue];
+            if ((rating != -1) && (rating != newRating)){
+                return NO;
+            }
+            rating = newRating;
+            for (NSString* subcat in dict[@"subcategories"])
+                newRating = [[self rating:dict[@"label"] childName:subcat] intValue];
+            if ((rating != -1) && (rating != newRating)){
+                return NO;
+            }
+            rating = newRating;
+        }
+    }
+    return YES;
+}
+
+-(void)setState{
+    int oldState = self.checkAllState;
+    if ([self ratingsAllTheSame]){
+        NSLog(@"ratings all the same");
+        if ([self.ratingsDict[@"American"] intValue] == 0){
+            self.checkAllState = 1;
+        }
+        else if ([self.ratingsDict[@"American"] intValue] == 1){
+            self.checkAllState = 2;
+        }
+        else if ([self.ratingsDict[@"American"] intValue] == 2){
+            self.checkAllState = 3;
+        }
+    }
+    else{
+        NSLog(@"ratings not all the same");
+        self.checkAllState = 0;
+    }
+    if (oldState != self.checkAllState){
+        [self.starsTableView beginUpdates];
+        [self.starsTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0] ,nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.starsTableView endUpdates];
+    }
+}
+-(void)statePressed:(int)s{
+    NSMutableArray* editIndices = [[NSMutableArray alloc] init];
+    int cnt = 0;
+    if (self.checkAllState != s){
+        for (NSMutableDictionary* dict in self.foodTypes){
+            if ([dict[@"category"] boolValue]){
+                self.ratingsDict[dict[@"label"]] = [NSNumber numberWithInt:s - 1];
+                if ([dict[@"stars"] intValue] != [self.ratingsDict[dict[@"label"]] intValue]){
+                    [ editIndices addObject:[NSIndexPath indexPathForRow:cnt inSection:0]];
+                    dict[@"stars"] = [NSNumber numberWithInt:s - 1];
+                }
+                for (NSString* subcat in dict[@"subcategories"]){
+                    self.ratingsDict[[NSString stringWithFormat:@"sub%@", subcat]] = [NSNumber numberWithInt:s - 1];
+                }
+            }
+            else{
+                if ([dict[@"stars"] intValue] != [self.ratingsDict[[NSString stringWithFormat:@"sub%@",dict[@"label"]] ] intValue]){
+                    self.ratingsDict[[NSString stringWithFormat:@"sub%@",dict[@"label"]]] = [NSNumber numberWithInt:s -1];
+                    [ editIndices addObject:[NSIndexPath indexPathForRow:cnt inSection:0]];
+                }
+            }
+            cnt += 1;
+        }
+    }
+     [self setState];
+    [self saveRatings];
+    [self updateFoodTypesTable:nil editIndices:editIndices removeIndices:nil];
+   
+    
+}
+-(void)ratingPressed:(FoodTypeTableViewCell *)cell{
+    NSLog(@"rating pressed cell: %@", cell);
+    NSMutableArray* editIndices = [[NSMutableArray alloc] init];
+     NSMutableArray* addIndices = [[NSMutableArray alloc] init];
+     NSMutableArray* deleteIndices = [[NSMutableArray alloc] init];
+    cell.stars = (1 + cell.stars) % 3;
+    if (cell.category){
+        //set all same within category
+        NSLog(@"cell category");
+        int cnt = 0;
+        for (NSMutableDictionary* dict in self.foodTypes){
+            if ([dict[@"label"] isEqualToString:cell.foodTypeLabel.text] && [dict[@"category"] boolValue]){
+                NSLog(@"category, %@", dict[@"label"]);
+                [editIndices addObject:[NSIndexPath indexPathForRow:cnt inSection:0]];
+                self.ratingsDict[dict[@"label"]] = [NSNumber numberWithInt:cell.stars];
+                for (NSString* subcat in dict[@"subcategories"]){
+                    cnt += 1;
+                    self.ratingsDict[[NSString stringWithFormat:@"sub%@", subcat] ] = [NSNumber numberWithInt:cell.stars];
+                    if (cell.expanded)
+                        [editIndices addObject:[NSIndexPath indexPathForRow:cnt inSection:0]];
+                }
+                break;
+            }
+            
+            cnt += 1;
+        }
+       
+    }
+    else{
+        NSMutableArray* indices = [self getSelfAndCategory:cell.foodTypeLabel.text];
+        int catIndex = [indices[1] intValue];
+        int selfIndex = [indices[0] intValue];
+        [editIndices addObject:[NSIndexPath indexPathForRow:selfIndex inSection:0]];
+        self.ratingsDict[[NSString stringWithFormat:@"sub%@",cell.foodTypeLabel.text]] = [NSNumber numberWithInt:cell.stars];
+        NSString* category = self.foodTypes[catIndex][@"label"];
+        int oldCatRating = [self.ratingsDict[category] intValue];
+        if ([self categoryRatingsAllTheSame:category]){
+            NSLog(@"all in cat the same");
+            self.ratingsDict[category] = [NSNumber numberWithInt:cell.stars];
+        
+        }
+        else{
+            NSLog(@"all in cat not the same");
+            self.ratingsDict[category] = [NSNumber numberWithInt:0];
+        }
+        if (oldCatRating != [self.ratingsDict[category] intValue])
+            [editIndices addObject:[NSIndexPath indexPathForRow:catIndex inSection:0]];
+        
+    }
+    [self setState];
+    [self saveRatings];
+    [self updateFoodTypesTable:addIndices editIndices:editIndices removeIndices:deleteIndices];
+            
+}
+-(NSMutableArray*)getSelfAndCategory:(NSString*)sub
+{
+    NSMutableArray* ret = [[NSMutableArray alloc] init];
+    int cnt = 0;
+    for (NSMutableDictionary* dict in self.foodTypes){
+        if ([dict[@"category"] boolValue]){
+            int innercnt = 1;
+            if ([dict[@"expanded"] boolValue]){
+                while (innercnt <= ((NSArray*)dict[@"subcategories"]).count){
+                    NSString* str = self.foodTypes[innercnt + cnt][@"label"];
+                    if ([str isEqualToString:sub]){
+                        [ret addObject:[NSNumber numberWithInt:innercnt + cnt]];
+                        [ret addObject:[NSNumber numberWithInt:cnt]];
+                    }
+                innercnt += 1;
+                    
+                }
+                cnt += innercnt - 1;
+            }
+        cnt += 1;
+        }
+      
+    }
+    return ret;
+}
 -(NSMutableArray*)loadFoodTypes{
     if ([[NSUserDefaults standardUserDefaults] arrayForKey:@"foodTypes"]){
         if ([[NSUserDefaults standardUserDefaults] objectForKey:@"ratingsDict"])
@@ -59,19 +241,19 @@
         else{
             self.ratingsDict = [[NSMutableDictionary alloc] init];
             for (NSMutableDictionary* dict in self.foodTypes)
-                self.ratingsDict[dict[@"label"]] = dict[@"stars"]
-                ;
+                if ([dict[@"category"] boolValue])
+                    self.ratingsDict[dict[@"label"]] = dict[@"stars"];
+                else
+                    self.ratingsDict[[NSString stringWithFormat:@"sub%@", dict[@"label"]]] = dict[@"stars"];
          //   [self saveRatings];
             
         }
-        NSLog(@"returning from user default");
         NSMutableArray* ret = [[NSMutableArray alloc] init];
         for (NSDictionary* dict in [[NSUserDefaults standardUserDefaults] arrayForKey:@"foodTypes"] )
             [ret addObject:[dict mutableCopy]];
         return ret;
     }
     else{
-        NSLog(@"making the shit");
         self.ratingsDict = [[NSMutableDictionary alloc] init];
         //NSArray*tv =[NSArray arrayWithObjects:@"Bagels",@"Diners",@"Brunch", nil];
         NSMutableDictionary* t2 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Breakfast",  nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label",  nil]];
@@ -137,23 +319,29 @@
         return  self.foodTypes;
     }
 }
+
 -(NSNumber*) rating:(NSString*)parentName childName:(NSString*)childName{
 
-    if (!self.ratingsDict[childName]){
-        self.ratingsDict[childName] = [self.ratingsDict[parentName] copy];
+    if (parentName){
+        if (!self.ratingsDict[[NSString stringWithFormat:@"sub%@",childName] ])
+            self.ratingsDict[[NSString stringWithFormat:@"sub%@",childName] ] = [self.ratingsDict[parentName] copy];
+        return self.ratingsDict[[NSString stringWithFormat:@"sub%@",childName] ];
     }
     return self.ratingsDict[childName];
 }
 -(void)saveRatings{
+    for (NSMutableDictionary* dict in self.foodTypes){
+       if ([dict[@"category"] boolValue])
+           dict[@"stars"] = self.ratingsDict[dict[@"label"]];
+        else
+            dict[@"stars"] = self.ratingsDict[[NSString stringWithFormat:@"sub%@", dict[@"label"]] ];
+    }
      [LEViewController setUserDefault:@"foodTypes" data:self.foodTypes];
     [LEViewController setUserDefault:@"ratingsDict" data:self.ratingsDict];
 }
 
 -(void)updateFoodTypesTable:(NSMutableArray*)addIndices editIndices:(NSMutableArray*)editIndices removeIndices:(NSMutableArray*)removeIndices{
-    NSLog(@"Food types: %@", self.foodTypes);
-    NSLog(@"Add indices %@",addIndices);
-    NSLog(@"Edit Indices %@", editIndices);
-    NSLog(@"Remove Indices %@", removeIndices);
+
     [self.foodTypeTable beginUpdates];
     if (removeIndices)
         [self.foodTypeTable deleteRowsAtIndexPaths:removeIndices withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -194,7 +382,6 @@
                     [addIndices addObject:[NSIndexPath indexPathForRow:cnt inSection:0]];
                 }
                 else{
-                    NSLog(@"new food types %@", newFoodTypes);
                     [newFoodTypes removeObjectAtIndex:reloadIndex + 1];
                     [removeIndices addObject:[NSIndexPath indexPathForRow:cnt inSection:0]];
                 }
@@ -221,22 +408,25 @@
 
 
 -(void)collapseCategory:(NSString*)categoryInput{
-    NSLog(@"collapsing");
+ 
     [self modifyCategory:NO categoryInput:categoryInput];
 }
 -(void)expandCategory:(NSString*)categoryInput{
-    NSLog(@"expanding");
+
     [self modifyCategory:YES categoryInput:categoryInput];
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.foodTypes = [self loadFoodTypes];
+    [self setState];
     self.progressBarDelegate = [[ProgressBarDelegate alloc] initWithTitle:@"Create Invitation"];
     [self.progressTable setDelegate:self.progressBarDelegate];
     [self.progressTable setDataSource:self.progressBarDelegate];
     [self.foodTypeTable setDelegate:self];
     [self.foodTypeTable setDataSource:self];
+    self.starsTableView.dataSource = self;
+    self.starsTableView.delegate = self;
     UIImage* bigDraggable = [UIImage imageNamed:@"Draggable"];
     self.draggable = [Graphics makeThumbnailOfSize:bigDraggable size:CGSizeMake(15, 15)];
     self.navigationController.navigationBarHidden = YES;
@@ -246,6 +436,7 @@
     self.search.delegate = self;
     self.typesTable.delegate = self;
     self.typesTable.dataSource = self;
+
     self.savedTypes = [[NSMutableArray alloc] init];
     [self.search setDelegate:self];
     self.inishPosish = self.one.frame;
@@ -318,7 +509,7 @@
 
 }
 -(void)viewWillAppear:(BOOL)animated{
-    NSLog(@"what's gonna appear");
+
 }
 
 -(void)homePressed:(UIBarButtonItem*)sender{
@@ -331,10 +522,16 @@
 
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if ([self.foodTypes[indexPath.row][@"category"] boolValue])
-        return 55;
-    else
-        return 35;
+    if (tableView == self.foodTypeTable){
+        if ([self.foodTypes[indexPath.row][@"category"] boolValue])
+            return 55;
+        else
+            return 35;
+    }
+    else if (tableView == self.starsTableView){
+        return 44;
+    }
+    return 0;
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
@@ -354,9 +551,12 @@
 {
     [searchBar resignFirstResponder];
     self.search.showsCancelButton = NO;
+    //exit searching
 }
 - (void)searchBarTextDidBeginEditing:(UISearchBar*)searchBar
 {
+    //enter searching if not in it
+    NSLog(@"editing");
     self.savedTypes = [self.typesItems mutableCopy];
     self.search.showsCancelButton = YES;
 }
@@ -608,19 +808,30 @@
         self.movingCellOtherIndex = -1;
         self.movingCellIndex = -1;
     }
-}/*
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [self swapTables:tableView indexPath:indexPath];
-}*/
+    if (tableView == self.foodTypeTable){
+        [self.search resignFirstResponder];
+    self.search.showsCancelButton = NO;
+}
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == self.foodTypeTable){
-        FoodTypeTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"FoodType"];
-        [cell setLayout:[self.foodTypes[indexPath.row] mutableCopy] vc:self];
-        if (indexPath.row % 2)
-            [cell setBackgroundColor:[Graphics colorWithHexString:color14]];
+        NSDictionary* member = self.foodTypes[indexPath.row];
+        FoodTypeTableViewCell* cell;
+        if ([member[@"category"] boolValue])
+            cell = [tableView dequeueReusableCellWithIdentifier:@"FoodType"];
         else
-            [cell setBackgroundColor:[UIColor whiteColor]];
+            cell = [tableView dequeueReusableCellWithIdentifier:@"yelpFood"];
+        [cell setLayout:[self.foodTypes[indexPath.row] mutableCopy] vc:self];
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        return cell;
+    }
+    if (tableView == self.starsTableView){
+        CheckAllStarsTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CheckAllStars"];
+        [cell setWithState:self.checkAllState vc:self];
+         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         return cell;
     }
     NSMutableArray *arr;
@@ -658,7 +869,12 @@
     return cell;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.foodTypes.count;
+    if (tableView == self.foodTypeTable)
+        return self.foodTypes.count;
+    else if (tableView == self.starsTableView){
+        return 1;
+    }
+    return 0;
     //if (tableView == self.wantTable)
       // return MIN(6,[self.wantItems count]);//
     //return [self.typesItems count];

@@ -1005,13 +1005,54 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                                     <state key="normal" title="Button">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="ratingButtonPressed:" destination="TbR-x3-6fp" eventType="touchUpInside" id="n02-r2-PD2"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="expandCollapseButton" destination="egw-t3-XVK" id="LPo-7A-Cf6"/>
                                             <outlet property="foodTypeLabel" destination="fdw-Td-Mif" id="O0j-C9-jzE"/>
-                                            <outlet property="ratingButton" destination="d7q-DY-I0l" id="Dcf-Mv-qg2"/>
+                                            <outlet property="ratingButton" destination="d7q-DY-I0l" id="4vO-j4-63B"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="yelpFood" rowHeight="35" id="gSH-bZ-JEr" customClass="FoodTypeTableViewCell">
+                                        <rect key="frame" x="0.0" y="100" width="320" height="35"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gSH-bZ-JEr" id="GEI-rh-khk">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="34"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qQG-5n-y3C">
+                                                    <rect key="frame" x="245" y="-10" width="75" height="54"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="Button">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="ratingButtonPressed:" destination="gSH-bZ-JEr" eventType="touchUpInside" id="0eQ-PG-wA8"/>
+                                                    </connections>
+                                                </button>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xkM-Et-yks">
+                                                    <rect key="frame" x="38" y="-10" width="207" height="54"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iau-k7-vaM">
+                                                    <rect key="frame" x="0.0" y="-10" width="38" height="54"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="Button">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="expandCollapseButton" destination="iau-k7-vaM" id="WU5-TB-sQA"/>
+                                            <outlet property="foodTypeLabel" destination="xkM-Et-yks" id="dYk-bg-Mun"/>
+                                            <outlet property="ratingButton" destination="qQG-5n-y3C" id="7j4-Du-Q6I"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1060,13 +1101,50 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CheckAllStars" id="Eft-Gw-OIE">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CheckAllStars" id="Eft-Gw-OIE" customClass="CheckAllStarsTableViewCell">
                                         <rect key="frame" x="0.0" y="1" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Eft-Gw-OIE" id="xnF-pY-C6M">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZeY-Bj-iJR">
+                                                    <rect key="frame" x="0.0" y="0.0" width="106" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="Button">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="noStarsPressed:" destination="Eft-Gw-OIE" eventType="touchUpInside" id="OUJ-XA-lUD"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RYC-YO-Imr">
+                                                    <rect key="frame" x="106" y="0.0" width="107" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="Button">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="oneStarPressed:" destination="Eft-Gw-OIE" eventType="touchUpInside" id="cvC-Sv-iAM"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ILg-f6-wb3">
+                                                    <rect key="frame" x="213" y="0.0" width="107" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="Button">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="twoStarsPressed:" destination="Eft-Gw-OIE" eventType="touchUpInside" id="oNd-NV-1y0"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="noStarsButton" destination="ZeY-Bj-iJR" id="3tB-UJ-Da2"/>
+                                            <outlet property="oneStarButton" destination="RYC-YO-Imr" id="fEB-IX-WDs"/>
+                                            <outlet property="twoStarsButton" destination="ILg-f6-wb3" id="Dvp-Np-lkO"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -1099,6 +1177,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         <outlet property="ProgressTable" destination="eCF-IO-oui" id="aHN-ae-YZK"/>
                         <outlet property="foodTypeTable" destination="b56-Cu-FCy" id="cgf-2m-GYa"/>
                         <outlet property="search" destination="0pj-ap-j93" id="1hc-1S-khT"/>
+                        <outlet property="starsTableView" destination="0J3-sf-pgX" id="9sz-dd-RVo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yKG-fZ-Lpm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1471,10 +1550,10 @@ Everyone</string>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="Lsm-5n-AWM"/>
-        <segue reference="ImK-8y-m4j"/>
-        <segue reference="nxn-kj-C03"/>
+        <segue reference="A4d-5R-xNP"/>
         <segue reference="rry-LI-xSU"/>
         <segue reference="70D-d4-FWB"/>
         <segue reference="4So-Ca-LIJ"/>
+        <segue reference="nxn-kj-C03"/>
     </inferredMetricsTieBreakers>
 </document>

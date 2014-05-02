@@ -7,10 +7,15 @@
 //
 
 #import "LEViewController.h"
+@class FoodTypeTableViewCell;
+@class CheckAllStarsTableViewCell;
 
 @interface WhatViewController : LEViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 @property (strong, nonatomic) NSMutableArray* wantItems;
 -(void)collapseCategory:(NSString*)categoryInput;
 -(void)expandCategory:(NSString*)categoryInput;
-
+-(void)updateFoodTypesTable:(NSMutableArray*)addIndices editIndices:(NSMutableArray*)editIndices removeIndices:(NSMutableArray*)removeIndices;
+-(void)ratingPressed:(FoodTypeTableViewCell*)cell;
+@property (strong, nonatomic) NSMutableArray* foodTypes;
+-(void)statePressed:(int)s;
 @end
