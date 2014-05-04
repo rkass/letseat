@@ -10,7 +10,7 @@
 
 @class WhatViewController;
 @interface FoodTypeTableViewCell : UITableViewCell
-@property (strong, nonatomic) IBOutlet UIButton *expandCollapseButton;
+@property (strong, nonatomic) IBOutlet UIImageView *expandCollapseIV;
 @property (strong, nonatomic) IBOutlet UILabel *foodTypeLabel;
 @property (strong, nonatomic) IBOutlet UIButton *ratingButton;
 @property BOOL category;
@@ -18,4 +18,6 @@
 @property BOOL expanded;
 @property (strong, nonatomic) WhatViewController* wvc;
 -(void)setLayout:(NSMutableDictionary*)input vc:(WhatViewController*)vc;
+-(void)expandCollapse;
+-(void)setRatingButtonWithImage;
 @end

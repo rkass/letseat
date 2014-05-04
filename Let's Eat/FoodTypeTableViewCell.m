@@ -20,7 +20,7 @@
     }
     return self;
 }
-- (IBAction)expandCollapse:(id)sender {
+-(void)expandCollapse{
     if (self.expanded){
         [self.wvc collapseCategory:self.foodTypeLabel.text];
     }
@@ -28,6 +28,8 @@
         [self.wvc expandCategory:self.foodTypeLabel.text];
     }
 }
+
+
 -(void)updateRow{
     NSMutableArray* reviseIndices = [[NSMutableArray alloc] init];
     int cnt = 0;
@@ -53,38 +55,24 @@
     self.expanded = [input[@"expanded"] boolValue];
     [self.foodTypeLabel setText:input[@"label"]];
     if (!self.category){
-        [self setBackgroundColor:[UIColor whiteColor]];
-        [self.expandCollapseButton setHidden:YES];
+        [self setBackgroundColor:[UIColor clearColor]/*[Graphics colorWithHexString:color2]*/];
+        [self.expandCollapseIV setHidden:YES];
        
     }
     else{
         [self setBackgroundColor:[Graphics colorWithHexString:color14]];
-        [self.expandCollapseButton setHidden:NO];
+        [self.expandCollapseIV setHidden:NO];
         if (self.expanded){
-            [self.expandCollapseButton setImage:expandedImg forState:UIControlStateNormal];
+            [self.expandCollapseIV setImage:GET_IMG(@"Expanded")];
         }
         else{
-            [self.expandCollapseButton setImage:collapsedImg forState:UIControlStateNormal];
+            [self.expandCollapseIV setImage: GET_IMG(@"Collapsed")];
+  
         }
+        [self.expandCollapseIV setHidden:NO];
     }
-    if (self.stars == 0){
-        if (self.category)
-            [self.ratingButton setImage:noStarsImg forState:UIControlStateNormal];
-        else
-            [self.ratingButton setImage:noStarsSmallImg forState:UIControlStateNormal];
-    }
-    else if (self.stars == 1){
-        if (self.category)
-            [self.ratingButton setImage:oneStarImg forState:UIControlStateNormal];
-        else
-            [self.ratingButton setImage:oneStarSmallImg forState:UIControlStateNormal];
-    }
-    else if (self.stars == 2){
-        if (self.category)
-            [self.ratingButton setImage:twoStarsImg forState:UIControlStateNormal];
-        else
-            [self.ratingButton setImage:twoStarsSmallImg forState:UIControlStateNormal];
-    }
+    [self setRatingButtonWithImage];
+   // self.ratingButton setTintColor:[UIColor]
 
     
   
@@ -92,6 +80,40 @@
     
 
    
+}
+-(void)setRatingButtonWithImage{
+    NSLog(@"setting with image");
+    if (self.stars == 0){
+        if (self.category){
+            [self.ratingButton setImage:noStarsImg forState:UIControlStateNormal];
+            [self.ratingButton setImage:GET_IMG(@"NoStarsPressed") forState:UIControlStateHighlighted];
+        }
+        else{
+            [self.ratingButton setImage:GET_IMG(@"NoStarsSmall") forState:UIControlStateNormal];
+            [self.ratingButton setImage:GET_IMG(@"NoStarsSmallPressed") forState:UIControlStateHighlighted];
+        }
+    }
+    else if (self.stars == 1){
+        if (self.category){
+            [self.ratingButton setImage:oneStarImg forState:UIControlStateNormal];
+            [self.ratingButton setImage:GET_IMG(@"OneStarPressed") forState:UIControlStateHighlighted];
+        }
+        else{
+            [self.ratingButton setImage:GET_IMG(@"OneStarSmall") forState:UIControlStateNormal];
+            [self.ratingButton setImage:GET_IMG(@"OneStarSmallPressed") forState:UIControlStateHighlighted];
+        }
+    }
+    else if (self.stars == 2){
+        if (self.category){
+            [self.ratingButton setImage:twoStarsImg forState:UIControlStateNormal];
+            [self.ratingButton setImage:GET_IMG(@"TwoStarsPressed") forState:UIControlStateHighlighted];
+        }
+        else{
+            [self.ratingButton setImage:GET_IMG(@"TwoStarsSmall") forState:UIControlStateNormal];
+            [self.ratingButton setImage:GET_IMG(@"TwoStarsSmallPressed") forState:UIControlStateHighlighted];
+        }
+    }
+
 }
 - (void)awakeFromNib
 {

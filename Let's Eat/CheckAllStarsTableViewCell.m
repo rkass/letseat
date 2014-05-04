@@ -37,25 +37,29 @@
     self.wvc = vc;
     self.state = state;
     if (self.state == 0){
-        [self.noStarsButton setImage:allNoStarsOffImg forState:UIControlStateNormal];
-        [self.oneStarButton setImage:allOneStarOffImg forState:UIControlStateNormal];
-        [self.twoStarsButton setImage:allTwoStarsOffImg forState:UIControlStateNormal];
+        [self.noStarsButton setImage:GET_IMG(@"NoStarsAllOff") forState:UIControlStateNormal];
+        [self.oneStarButton setImage:GET_IMG(@"OneStarAllOff") forState:UIControlStateNormal];
+        [self.twoStarsButton setImage:GET_IMG(@"TwoStarsAllOff") forState:UIControlStateNormal];
     }
     else if (self.state == 1){
-        [self.noStarsButton setImage:allNoStarsOnImg forState:UIControlStateNormal];
-        [self.oneStarButton setImage:allOneStarOffImg forState:UIControlStateNormal];
-        [self.twoStarsButton setImage:allTwoStarsOffImg forState:UIControlStateNormal];
+        [self.noStarsButton setImage:GET_IMG(@"NoStarsAllOn") forState:UIControlStateNormal];
+        [self.oneStarButton setImage:GET_IMG(@"OneStarAllOff") forState:UIControlStateNormal];
+        [self.twoStarsButton setImage:GET_IMG(@"TwoStarsAllOff") forState:UIControlStateNormal];
     }
     else if (self.state == 2){
-        [self.noStarsButton setImage:allNoStarsOffImg forState:UIControlStateNormal];
-        [self.oneStarButton setImage:allOneStarOnImg forState:UIControlStateNormal];
-        [self.twoStarsButton setImage:allTwoStarsOffImg forState:UIControlStateNormal];
+        [self.noStarsButton setImage:GET_IMG(@"NoStarsAllOff") forState:UIControlStateNormal];
+        [self.oneStarButton setImage:GET_IMG(@"OneStarAllOn") forState:UIControlStateNormal];
+        [self.twoStarsButton setImage:GET_IMG(@"TwoStarsAllOff") forState:UIControlStateNormal];
     }
     else if (self.state == 3){
-        [self.noStarsButton setImage:allNoStarsOffImg forState:UIControlStateNormal];
-        [self.oneStarButton setImage:allOneStarOffImg forState:UIControlStateNormal];
-        [self.twoStarsButton setImage:allTwoStarsOnImg forState:UIControlStateNormal];
+        [self.noStarsButton setImage:GET_IMG(@"NoStarsAllOff") forState:UIControlStateNormal];
+        [self.oneStarButton setImage:GET_IMG(@"OneStarAllOff") forState:UIControlStateNormal];
+        [self.twoStarsButton setImage:GET_IMG(@"TwoStarsAllOn") forState:UIControlStateNormal];
     }
+    [self.noStarsButton setImage:GET_IMG(@"NoStarsAllOn") forState:UIControlStateHighlighted];
+    [self.oneStarButton setImage:GET_IMG(@"OneStarAllOn") forState:UIControlStateHighlighted];
+    [self.twoStarsButton setImage:GET_IMG(@"TwoStarsAllOn") forState:UIControlStateHighlighted];
+    [self setBackgroundColor:[UIColor clearColor]];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

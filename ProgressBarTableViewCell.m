@@ -5,7 +5,7 @@
 //  Created by Ryan Kass on 5/1/14.
 //  Copyright (c) 2014 Ryan Kass. All rights reserved.
 //
-
+#import "Graphics.h"
 #import "ProgressBarTableViewCell.h"
 #import "WhoViewController.h"
 #import "WhatViewController.h"
@@ -39,6 +39,7 @@
         [self.pathTitleButton   setTitle:@"Attend Meal" forState:UIControlStateNormal ];
         [self.progressSlider setValue:0.5];
     }
+    [self.progressSlider setTintColor:[Graphics colorWithHexString:color3]];
 
 }
 
