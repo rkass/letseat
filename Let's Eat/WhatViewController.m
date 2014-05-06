@@ -517,7 +517,7 @@
     [home addTarget:self action:@selector(homePressed:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = homeItem;
     self.title = @"Rank Preferences";
-    self.view.backgroundColor = [Graphics colorWithHexString:color4];
+    self.view.backgroundColor = [Graphics colorWithHexString:@"ffffff" ];
     UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Chalkboard"]];
     [tempImageView setFrame:self.wantTable.frame];
     self.wantTable.backgroundView = tempImageView;
@@ -541,7 +541,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (tableView == self.foodTypeTable){
         if ([self.foodTypes[indexPath.row][@"category"] boolValue])
-            return 55;
+            return 40;
         else
             return 35;
     }

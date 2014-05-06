@@ -9,9 +9,7 @@
 #import <UIKit/UIKit.h>
 @class WhatViewController;
 @interface CheckAllStarsTableViewCell : UITableViewCell
-@property (strong, nonatomic) IBOutlet UIButton *noStarsButton;
-@property (strong, nonatomic) IBOutlet UIButton *oneStarButton;
-@property (strong, nonatomic) IBOutlet UIButton *twoStarsButton;
+@property (strong, nonatomic) IBOutlet UIButton *stateButton;
 @property int state;
 @property (strong, nonatomic) WhatViewController* wvc;
 -(void)setWithState:(int)state vc:(WhatViewController*)vc;

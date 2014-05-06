@@ -71,6 +71,7 @@
         }
         [self.expandCollapseIV setHidden:NO];
     }
+    [self setBackgroundColor:[UIColor clearColor]];
     [self setRatingButtonWithImage];
    // self.ratingButton setTintColor:[UIColor]
 
@@ -82,7 +83,6 @@
    
 }
 -(void)setRatingButtonWithImage{
-    NSLog(@"setting with image");
     if (self.stars == 0){
         if (self.category){
             [self.ratingButton setImage:noStarsImg forState:UIControlStateNormal];
