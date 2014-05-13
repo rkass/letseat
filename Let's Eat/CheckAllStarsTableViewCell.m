@@ -9,6 +9,7 @@
 #import "CheckAllStarsTableViewCell.h"
 #import "Graphics.h"
 #import "WhatViewController.h"
+#import "PriceViewController.h"
 @implementation CheckAllStarsTableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -29,25 +30,40 @@
 {
     // Initialization code
 }
+-(void)setWithPriceVC:(PriceViewController*)pvcInput{
+    self.pvc = pvcInput;
+    [self generalSetup];
+}
+- (IBAction)leftButtonPressed:(id)sender {
+    //different code when not the back button
+    if (self.pvc){
+        [self.pvc.navigationController popViewControllerAnimated:YES];
+    }
+    [self.wvc.navigationController popViewControllerAnimated:YES];
+}
 
 -(void)setWithState:(int)state vc:(WhatViewController*)vc{
+
     NSLog(@"setting with state %u", state);
     self.wvc = vc;
     self.state = state;
     if (self.state == 0){
-        [self.stateButton setImage:GET_IMG(@"NoStarsAllOff") forState:UIControlStateNormal];
+        [self.stateButton setImage:GET_IMG(@"nostarsall") forState:UIControlStateNormal];
     }
     else if (self.state == 1){
-        [self.stateButton setImage:GET_IMG(@"NoStarsAllOff") forState:UIControlStateNormal];
+        [self.stateButton setImage:GET_IMG(@"nostarsall") forState:UIControlStateNormal];
     }
     else if (self.state == 2){
-        [self.stateButton setImage:GET_IMG(@"OneStarAllOff") forState:UIControlStateNormal];
+        [self.stateButton setImage:GET_IMG(@"onestarall") forState:UIControlStateNormal];
     }
     else if (self.state == 3){
-        [self.stateButton setImage:GET_IMG(@"TwoStarsAllOff") forState:UIControlStateNormal];
+        [self.stateButton setImage:GET_IMG(@"twostarsall") forState:UIControlStateNormal];
     }
+    [self generalSetup];
 
-    [self setBackgroundColor:[UIColor colorWithPatternImage:GET_IMG(@"BlueBarBackground")]];
+}
+-(void)generalSetup{
+    [self setBackgroundColor:[UIColor colorWithPatternImage:GET_IMG(@"menubar")]];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

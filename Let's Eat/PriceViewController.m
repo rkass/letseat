@@ -19,9 +19,12 @@
 #import "LEViewController.h"
 #import "Invitation.h"
 #import "LEViewController.h"
-
-
+#import "CheckAllStarsTableViewCell.h"
+#import "ProgressBarDelegate.h"
+#import "ProgressBarTableViewCell.h"
+#import "FinalStepTableViewCell.h"
 @interface PriceViewController ()
+@property (strong, nonatomic) IBOutlet UITableView *progressBarTable;
 @property (strong, nonatomic) IBOutlet UISlider *slidePiece;
 @property (strong, nonatomic) IBOutlet UILabel *minYeses;
 @property (strong, nonatomic) NSMutableData* responseData;
@@ -73,14 +76,19 @@
 @property float sliderMax2;
 @property float sliderMax;
 @property (strong, nonatomic) IBOutlet UILabel *scheduleWhen;
+@property (strong, nonatomic) IBOutlet UITableView *navBar;
 @property (strong, nonatomic) IBOutlet UILabel *recRests;
 @property (strong, nonatomic) IBOutlet UILabel *whenScheduleLabel;
 @property (strong, nonatomic) IBOutlet UILabel *messageLabel;
 @property (strong, nonatomic) IBOutlet UIImageView *whiteness;
 @property (strong, nonatomic) IBOutlet UIButton *respondToInvite;
 @property (strong, nonatomic) UIButton* responder;
+@property (strong, nonatomic) IBOutlet UIView *bottomNavBar;
 
 @property (strong ,nonatomic) NSArray* timeOptions;
+@property (strong,nonatomic) ProgressBarDelegate* progressBarDelegate;
+
+
 @property (strong, nonatomic) CreateMealNavigationController* nav;
 @end
 
@@ -91,9 +99,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+   // self.progressBarDelegate = [[ProgressBarDelegate alloc] initWithTitle:@"Create Invitation Button"];
+   // [self.progressBarTable setDelegate:self.progressBarDelegate];
+    //[self.progressBarTable setDataSource:self.progressBarDelegate];
+    [self.bottomNavBar setBackgroundColor:[UIColor colorWithRed:255 green:255 blue:255 alpha:.25]];
     self.switchTicked = NO;
     self.stepper.tintColor = [Graphics colorWithHexString:@"b8a37e"];
-
+    [self.navBar setDelegate:self];
+    [self.navBar setDataSource:self];
  self.responseData = [[NSMutableData alloc] initWithLength:0];
     self.stepper.stepValue = 1;
     self.greencheck = [UIImage imageNamed:@"GreenCheck"];
@@ -133,14 +146,15 @@
     UIBarButtonItem *homeItem = [[UIBarButtonItem alloc] initWithCustomView:home];
     [home addTarget:self action:@selector(homePressed:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = homeItem;
-    self.view.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
-    self.subscroll.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
+    self.subscroll.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
     self.byMe.titleLabel.textAlignment = NSTextAlignmentCenter;
     self.byMe.titleLabel.textColor = [UIColor grayColor];
+
     UIImage *thumb = [UIImage imageNamed:@"SlickThumb"];
     self.sliderMaxX = self.sliderBackdrop.frame.origin.x + self.sliderBackdrop.frame.size.width - thumb.size.width/2;
     self.sliderMinX = self.sliderBackdrop.frame.origin.x - thumb.size.width/2;
-    self.thumb1 = [[UIButton alloc] initWithFrame:CGRectMake(self.sliderMinX, self.sliderBackdrop.frame.origin.y + self.sliderBackdrop.frame.size.height/2 - thumb.size.height/2,thumb.size.width, thumb.size.height)];
+    self.thumb1 = [[UIButton alloc] initWithFrame:CGRectMake(self.sliderMinX, self.sliderBackdrop.frame.origin.y + self.sliderBackdrop.frame.size.height/2 - thumb.size.height/2,thumb.size.width + self.navBar.frame.size.height, thumb.size.height)];
     if (self.nav.creator){
         NSMutableArray* arr = [self getCreatorPreferences][@"numbers"];
         self.invitees = arr.count;
@@ -149,11 +163,12 @@
     self.sliderMax = self.sliderMaxX;
     self.sliderMin2 = self.sliderMinX;
     self.sliderMax2 = self.sliderMax2;
+    
     [self.thumb1 setImage:thumb forState:UIControlStateNormal];
-    self.thumb2 = [[UIButton alloc] initWithFrame:CGRectMake(self.sliderMaxX, self.sliderBackdrop.frame.origin.y + self.sliderBackdrop.frame.size.height/2 - thumb.size.height/2 ,thumb.size.width, thumb.size.height)];
+    self.thumb2 = [[UIButton alloc] initWithFrame:CGRectMake(self.sliderMaxX, self.sliderBackdrop.frame.origin.y + self.sliderBackdrop.frame.size.height/2 - thumb.size.height/2 + self.navBar.frame.size.height ,thumb.size.width, thumb.size.height)];
     [self.thumb2 setImage:thumb forState:UIControlStateNormal];
     self.thumb3 = [[UIButton alloc] initWithFrame:CGRectMake(self.sliderMinX, self.slideBackDrop2.frame.origin.y + self.slideBackDrop2.frame.size.height/2 - thumb.size.height/2,thumb.size.width, thumb.size.height)];
-    UIImage *sliderFillImg = [UIImage imageNamed:@"SliderFill"];
+    UIImage *sliderFillImg = [UIImage imageNamed:@"sliderfill"];
 
     self.sliderFill = [[UIImageView alloc] initWithImage:sliderFillImg];
     self.sliderFill2 = [[UIImageView alloc] initWithImage:sliderFillImg];
@@ -178,7 +193,7 @@
     NSLog(@"slidermin1: %f", self.sliderMin);
     NSLog(@"slidermin2: %f", self.sliderMin2);
     [self setPppText];
-    [self setSliderFillFrame];
+     [self setSliderFillFrame];
     [self setPppText2];
     [self setSliderFillFrame2];
     [self.subscroll addSubview:self.sliderFill];
@@ -292,8 +307,37 @@
     
     return sliderValueToPixels;
 }
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (tableView == self.navBar)
+        return 0;
+    return 0;
+}
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    if (tableView == self.navBar)
+        return 1;
+    return 0;
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (tableView == self.navBar)
+        return 1;
+    return 0;
+}
 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"hurr");
+    if (tableView == self.navBar){
+        NSLog(@"navbar");
+        CheckAllStarsTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CheckAllStars"];
+        NSLog(@"cell %@", cell);
+        [cell setWithPriceVC:self];
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        return cell;
+    }
+
+    NSLog(@"nonavbar");
+    return nil;
+}
 
 - (IBAction)stepperStepped:(id)sender {
     self.scheduleWhen.text = self.timeOptions[(int)self.stepper.value];

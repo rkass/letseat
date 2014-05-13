@@ -26,6 +26,7 @@
     NSLog(@"here and stuff");
     ProgressBarTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"ProgressBar"];
     [cell setLayout:self.title];
+    NSLog(@"returning");
     return cell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

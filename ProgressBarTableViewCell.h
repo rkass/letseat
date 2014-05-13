@@ -10,8 +10,9 @@
 #import "LEViewController.h"
 
 @interface ProgressBarTableViewCell : UITableViewCell
+@property (strong, nonatomic) IBOutlet UIImageView *slidertrack;
 @property (strong, nonatomic) IBOutlet UIButton *pathTitleButton;
-@property (strong,nonatomic) IBOutlet UISlider* progressSlider;
+
 
 -(void)setLayout:(NSString*) titleInput;
 @end

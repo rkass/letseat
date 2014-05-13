@@ -14,6 +14,7 @@
 #import "CheckAllStarsTableViewCell.h"
 
 @interface WhatViewController ()
+@property (strong, nonatomic) IBOutlet UIButton *next;
 @property (strong, nonatomic) IBOutlet UITableView* wantTable;
 @property (strong, nonatomic) IBOutlet UITableView *starsTableView;
 @property (strong, nonatomic) NSMutableArray* typesItems;
@@ -427,13 +428,47 @@
 
         [self modifyCategory:NO categoryInput:categoryInput];
 }
+
 -(void)expandCategory:(NSString*)categoryInput{
 
     [self modifyCategory:YES categoryInput:categoryInput];
+    bool allSubcellsVisible = YES;
+    int cnt = 0;
+    int categoryIndex = -1;
+    int lastSubcategoryIndex = -1;
+    for (NSMutableDictionary* dict in self.foodTypes){
+        if (([dict[@"label"] isEqualToString:categoryInput]) && ([dict[@"category"] boolValue])){
+            categoryIndex = cnt;
+            lastSubcategoryIndex = cnt + ((NSArray*)dict[@"subcategories"]).count;
+            for (NSString* subcat in dict[@"subcategories"]){
+                cnt += 1;
+                if (![self.foodTypeTable cellForRowAtIndexPath:INDEX_PATH(cnt, 0)]){
+                    allSubcellsVisible = NO;
+                    break;
+                }
+            }
+            break;
+        }
+        cnt += 1;
+    }
+    if (!allSubcellsVisible){
+
+        if ([self tableViewFits:self.foodTypeTable indexStart:categoryIndex indexEnd:lastSubcategoryIndex])
+            [self.foodTypeTable scrollToRowAtIndexPath:INDEX_PATH(lastSubcategoryIndex + 1, 0) atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        else
+            [self.foodTypeTable scrollToRowAtIndexPath:INDEX_PATH(categoryIndex, 0) atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }
+  
+
 }
+-(bool)tableViewFits:(UITableView*)tableView indexStart:(int)indexStart indexEnd:(int)indexEnd{
+    return (tableView.visibleCells.count >= ((indexEnd - indexStart) + 1)) ;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.next setImage:GET_IMG(@"nextpressed") forState:UIControlStateHighlighted];
     self.foodTypes = [self loadFoodTypes];
     [self setState];
     self.searching = NO;
@@ -517,13 +552,22 @@
     [home addTarget:self action:@selector(homePressed:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = homeItem;
     self.title = @"Rank Preferences";
-    self.view.backgroundColor = [Graphics colorWithHexString:@"ffffff" ];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
     UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Chalkboard"]];
     [tempImageView setFrame:self.wantTable.frame];
     self.wantTable.backgroundView = tempImageView;
    // [self.view bringSubviewToFront:self.one];
    // [self.view sendSubviewToBack:self.chalkboard];
 
+    /*UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
+    tgr.delegate = self;
+    [self.foodTypeTable addGestureRecognizer:tgr];*/
+}
+
+- (void)viewTapped:(UITapGestureRecognizer *)tgr
+{
+    NSLog(@"view tapped");
+    // remove keyboard
 }
 -(void)viewWillAppear:(BOOL)animated{
 

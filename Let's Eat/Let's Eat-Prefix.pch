@@ -12,6 +12,7 @@
 #define color3 @"8ab32d"
 #define color4 @"f4edf1"
 #define color14 @"f0f4e8"
+#define INDEX_PATH(row, section) [NSIndexPath indexPathForRow:row inSection:section]
 #define GET_IMG(str) [UIImage imageNamed:str]
 #define nsp [UIImage imageNamed:@"NoStarsPressed"]
 #define collapsedImg [Graphics makeThumbnailOfSize:[UIImage imageNamed:@"Thumb"] size:CGSizeMake(38, 54)]

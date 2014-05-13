@@ -10,7 +10,7 @@
 @class FoodTypeTableViewCell;
 @class CheckAllStarsTableViewCell;
 
-@interface WhatViewController : LEViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
+@interface WhatViewController : LEViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UIGestureRecognizerDelegate>
 @property (strong, nonatomic) NSMutableArray* wantItems;
 -(void)collapseCategory:(NSString*)categoryInput;
 -(void)expandCategory:(NSString*)categoryInput;

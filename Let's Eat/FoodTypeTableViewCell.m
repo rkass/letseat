@@ -63,10 +63,10 @@
         [self setBackgroundColor:[Graphics colorWithHexString:color14]];
         [self.expandCollapseIV setHidden:NO];
         if (self.expanded){
-            [self.expandCollapseIV setImage:GET_IMG(@"Expanded")];
+            [self.expandCollapseIV setImage:GET_IMG(@"expanded")];
         }
         else{
-            [self.expandCollapseIV setImage: GET_IMG(@"Collapsed")];
+            [self.expandCollapseIV setImage: GET_IMG(@"collapsed")];
   
         }
         [self.expandCollapseIV setHidden:NO];
@@ -84,34 +84,37 @@
 }
 -(void)setRatingButtonWithImage{
     if (self.stars == 0){
-        if (self.category){
-            [self.ratingButton setImage:noStarsImg forState:UIControlStateNormal];
+        [self.ratingButton setImage:GET_IMG(@"nostars") forState:UIControlStateNormal];
+       /* if (self.category){
+            
             [self.ratingButton setImage:GET_IMG(@"NoStarsPressed") forState:UIControlStateHighlighted];
         }
         else{
             [self.ratingButton setImage:GET_IMG(@"NoStarsSmall") forState:UIControlStateNormal];
             [self.ratingButton setImage:GET_IMG(@"NoStarsSmallPressed") forState:UIControlStateHighlighted];
-        }
+        }*/
     }
     else if (self.stars == 1){
-        if (self.category){
+        [self.ratingButton setImage:GET_IMG(@"onestar") forState:UIControlStateNormal];
+       /* if (self.category){
             [self.ratingButton setImage:oneStarImg forState:UIControlStateNormal];
-            [self.ratingButton setImage:GET_IMG(@"OneStarPressed") forState:UIControlStateHighlighted];
+            
         }
         else{
             [self.ratingButton setImage:GET_IMG(@"OneStarSmall") forState:UIControlStateNormal];
             [self.ratingButton setImage:GET_IMG(@"OneStarSmallPressed") forState:UIControlStateHighlighted];
-        }
+        }*/
     }
     else if (self.stars == 2){
+        [self.ratingButton setImage:GET_IMG(@"twostars") forState:UIControlStateNormal];/*
         if (self.category){
-            [self.ratingButton setImage:twoStarsImg forState:UIControlStateNormal];
+            [self.ratingButton setImage:GET_IMG(@"twostars") forState:UIControlStateNormal];
             [self.ratingButton setImage:GET_IMG(@"TwoStarsPressed") forState:UIControlStateHighlighted];
         }
         else{
             [self.ratingButton setImage:GET_IMG(@"TwoStarsSmall") forState:UIControlStateNormal];
             [self.ratingButton setImage:GET_IMG(@"TwoStarsSmallPressed") forState:UIControlStateHighlighted];
-        }
+        }*/
     }
 
 }

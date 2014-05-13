@@ -29,17 +29,30 @@
 }
 
 -(void)setLayout:(NSString*)titleInput{
-    [self.progressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
+  //  [self.progressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
+    UIImageView* sliderfill = [[UIImageView alloc] initWithImage:GET_IMG(@"sliderfill")];
     if ([titleInput isEqualToString:@"Create Invitation"]){
         [self.pathTitleButton setTitle:@"Create Invitation" forState:UIControlStateNormal];
-        [self.progressSlider setValue:(2.0/3.0)];
+        [sliderfill setFrame:CGRectMake(self.slidertrack.frame.origin.x, self.slidertrack.frame.origin.y, 213, self.slidertrack.frame.size.height)];
+        
+    }
+    else if ([titleInput isEqualToString:@"Create Invitation Button"]){
+        NSLog(@"hurr");
+        [self setBackgroundColor:[UIColor colorWithPatternImage:GET_IMG(@"createinvitation")]];
+        [sliderfill setFrame:CGRectMake(self.slidertrack.frame.origin.x, self.slidertrack.frame.origin.y, 320, self.slidertrack.frame.size.height)];
+        NSLog(@"my height %f", self.frame.size.height);
     }
     else if ([titleInput isEqualToString:@"Attend Meal"])
     {
         [self.pathTitleButton   setTitle:@"Attend Meal" forState:UIControlStateNormal ];
-        [self.progressSlider setValue:0.5];
     }
-    [self.progressSlider setTintColor:[Graphics colorWithHexString:color3]];
+    [self addSubview:sliderfill];
+    
+    [self setBackgroundColor:[UIColor colorWithRed:255 green:255 blue:255 alpha:.25]];
+    
+  //  [self.backgroundView setAlpha:.1];
+
+
 
 }
 

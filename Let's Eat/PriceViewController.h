@@ -7,7 +7,12 @@
 //
 
 #import "LEViewController.h"
+
 #import <CoreLocation/CoreLocation.h>
-@interface PriceViewController : LEViewController <UITextFieldDelegate, CLLocationManagerDelegate, UIScrollViewDelegate, UITextViewDelegate>
+@class CheckAllStarsTableViewCell;
+@class ProgressBarDelegate;
+@class ProgressBarTableViewCell;
+@class FinalStepTableViewCell;
+@interface PriceViewController : LEViewController <UITextFieldDelegate, CLLocationManagerDelegate, UIScrollViewDelegate, UITextViewDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @end

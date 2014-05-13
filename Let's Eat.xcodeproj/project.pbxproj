@@ -55,6 +55,7 @@
 		94D2606818BD59A6005FF97C /* KnownBugs in Resources */ = {isa = PBXBuildFile; fileRef = 94D2606718BD59A6005FF97C /* KnownBugs */; };
 		94EF731318C8BF3800FFF973 /* NSDate-Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EF731218C8BF3800FFF973 /* NSDate-Utilities.m */; };
 		94EF731918CE6BA700FFF973 /* Graphics.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EF731818CE6BA700FFF973 /* Graphics.m */; };
+		94FB92111922B334000C6D22 /* FinalStepTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FB92101922B334000C6D22 /* FinalStepTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -150,6 +151,8 @@
 		94EF731218C8BF3800FFF973 /* NSDate-Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate-Utilities.m"; sourceTree = "<group>"; };
 		94EF731718CE6BA700FFF973 /* Graphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Graphics.h; sourceTree = "<group>"; };
 		94EF731818CE6BA700FFF973 /* Graphics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Graphics.m; sourceTree = "<group>"; };
+		94FB920F1922B334000C6D22 /* FinalStepTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FinalStepTableViewCell.h; sourceTree = "<group>"; };
+		94FB92101922B334000C6D22 /* FinalStepTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinalStepTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -323,6 +326,8 @@
 		9483580118EB02E60022A13C /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				94FB920F1922B334000C6D22 /* FinalStepTableViewCell.h */,
+				94FB92101922B334000C6D22 /* FinalStepTableViewCell.m */,
 				945930071913E382007C5C05 /* CheckAllStarsTableViewCell.h */,
 				945930081913E382007C5C05 /* CheckAllStarsTableViewCell.m */,
 				945930041912C6D8007C5C05 /* FoodTypeTableViewCell.h */,
@@ -467,6 +472,7 @@
 				9483C4A618EF4B4E00373A56 /* InviteTransitionConnectionHandler.m in Sources */,
 				941CE22C18AD6BA200E773BF /* User.m in Sources */,
 				948C090718C5258D002A3524 /* Invitation.m in Sources */,
+				94FB92111922B334000C6D22 /* FinalStepTableViewCell.m in Sources */,
 				9438EC2E18E1DAE0007A1643 /* RestaurantTableViewCell.m in Sources */,
 				947F1DEA18B4FC38009924E5 /* ValidationViewController.m in Sources */,
 				94D2605818BA9DAB005FF97C /* CreateMealNavigationController.m in Sources */,
