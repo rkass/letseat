@@ -17,5 +17,6 @@
 -(void)updateFoodTypesTable:(NSMutableArray*)addIndices editIndices:(NSMutableArray*)editIndices removeIndices:(NSMutableArray*)removeIndices;
 -(void)ratingPressed:(FoodTypeTableViewCell*)cell;
 @property (strong, nonatomic) NSMutableArray* foodTypes;
+@property NSMutableDictionary* ratingsDict;
 -(void)statePressed:(int)s;
 @end

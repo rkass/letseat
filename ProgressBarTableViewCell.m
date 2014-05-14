@@ -48,7 +48,7 @@
     }
     [self addSubview:sliderfill];
     
-    [self setBackgroundColor:[UIColor colorWithRed:255 green:255 blue:255 alpha:.25]];
+    [self setBackgroundColor:[UIColor colorWithRed:255 green:255 blue:255 alpha:.35]];
     
   //  [self.backgroundView setAlpha:.1];
 

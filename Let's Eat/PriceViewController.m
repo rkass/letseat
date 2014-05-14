@@ -102,18 +102,19 @@
    // self.progressBarDelegate = [[ProgressBarDelegate alloc] initWithTitle:@"Create Invitation Button"];
    // [self.progressBarTable setDelegate:self.progressBarDelegate];
     //[self.progressBarTable setDataSource:self.progressBarDelegate];
-    [self.bottomNavBar setBackgroundColor:[UIColor colorWithRed:255 green:255 blue:255 alpha:.25]];
+   // [self.bottomNavBar setBackgroundColor:[UIColor colorWithRed:168 green:191   blue:13 alpha:1]];
+    [self.bottomNavBar setBackgroundColor:[UIColor colorWithWhite:1 alpha:.5]];
     self.switchTicked = NO;
-    self.stepper.tintColor = [Graphics colorWithHexString:@"b8a37e"];
+    self.stepper.tintColor = [Graphics colorWithHexString:@"2d769b"];
     [self.navBar setDelegate:self];
     [self.navBar setDataSource:self];
  self.responseData = [[NSMutableData alloc] initWithLength:0];
     self.stepper.stepValue = 1;
-    self.greencheck = [UIImage imageNamed:@"GreenCheck"];
+    self.greencheck = [UIImage imageNamed:@"greencheck"];
     self.redexc = [UIImage imageNamed:@"RedExc"];
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
     [self.subscroll addGestureRecognizer:tap];
-    self.locSwitch.onTintColor = [Graphics colorWithHexString:@"ffa500"];
+    self.locSwitch.onTintColor = [Graphics colorWithHexString:@"2d769b"];
     self.indicator2.hidden = YES;
     self.locationField.delegate = self;
     self.locValidator.hidden = YES;
@@ -154,7 +155,10 @@
     UIImage *thumb = [UIImage imageNamed:@"SlickThumb"];
     self.sliderMaxX = self.sliderBackdrop.frame.origin.x + self.sliderBackdrop.frame.size.width - thumb.size.width/2;
     self.sliderMinX = self.sliderBackdrop.frame.origin.x - thumb.size.width/2;
-    self.thumb1 = [[UIButton alloc] initWithFrame:CGRectMake(self.sliderMinX, self.sliderBackdrop.frame.origin.y + self.sliderBackdrop.frame.size.height/2 - thumb.size.height/2,thumb.size.width + self.navBar.frame.size.height, thumb.size.height)];
+
+
+    self.thumb1 = [[UIButton alloc] initWithFrame:CGRectMake(self.sliderMinX, self.sliderBackdrop.frame.origin.y + self.sliderBackdrop.frame.size.height/2 - thumb.size.height/2 /*+ self.subscroll.frame.origin.y*/,thumb.size.width , thumb.size.height)];
+
     if (self.nav.creator){
         NSMutableArray* arr = [self getCreatorPreferences][@"numbers"];
         self.invitees = arr.count;
@@ -163,9 +167,9 @@
     self.sliderMax = self.sliderMaxX;
     self.sliderMin2 = self.sliderMinX;
     self.sliderMax2 = self.sliderMax2;
-    
+
     [self.thumb1 setImage:thumb forState:UIControlStateNormal];
-    self.thumb2 = [[UIButton alloc] initWithFrame:CGRectMake(self.sliderMaxX, self.sliderBackdrop.frame.origin.y + self.sliderBackdrop.frame.size.height/2 - thumb.size.height/2 + self.navBar.frame.size.height ,thumb.size.width, thumb.size.height)];
+    self.thumb2 = [[UIButton alloc] initWithFrame:CGRectMake(self.sliderMaxX, self.sliderBackdrop.frame.origin.y + self.sliderBackdrop.frame.size.height/2 - thumb.size.height/2 ,thumb.size.width, thumb.size.height)];
     [self.thumb2 setImage:thumb forState:UIControlStateNormal];
     self.thumb3 = [[UIButton alloc] initWithFrame:CGRectMake(self.sliderMinX, self.slideBackDrop2.frame.origin.y + self.slideBackDrop2.frame.size.height/2 - thumb.size.height/2,thumb.size.width, thumb.size.height)];
     UIImage *sliderFillImg = [UIImage imageNamed:@"sliderfill"];
@@ -192,8 +196,7 @@
    // self.sliderMax = self.thumb2.center.y;
     NSLog(@"slidermin1: %f", self.sliderMin);
     NSLog(@"slidermin2: %f", self.sliderMin2);
-    [self setPppText];
-     [self setSliderFillFrame];
+
     [self setPppText2];
     [self setSliderFillFrame2];
     [self.subscroll addSubview:self.sliderFill];
@@ -286,7 +289,8 @@
         }
     }
     [self loadDefaults];
-
+  //  [self setPppText];
+  //  [self setSliderFillFrame];
     
     
 
@@ -296,7 +300,22 @@
     if (!self.nav.creator || (self.invitees == 0 && self.nav.invitees.count == 0)){
 
     [self.indicator2 setFrame: CGRectMake(self.indicator2.frame.origin.x, self.respondToInvite.frame.origin.y, self.indicator2.frame.size.width, self.indicator2.frame.size.height)];
+
     }
+    [self setPppText];
+    [self setSliderFillFrame];
+    UIImage *thumb = [UIImage imageNamed:@"SlickThumb"];
+    [self.thumb1 setFrame:CGRectMake(self.thumb1.frame.origin.x, self.sliderBackdrop.frame.origin.y + self.sliderBackdrop.frame.size.height/2 - thumb.size.height/2 /*+ self.subscroll.frame.origin.y*/,thumb.size.width , thumb.size.height)];
+    [self.thumb2 setFrame:CGRectMake(self.thumb2.frame.origin.x, self.sliderBackdrop.frame.origin.y + self.sliderBackdrop.frame.size.height/2 - thumb.size.height/2 ,thumb.size.width, thumb.size.height)];
+   /* UIImage *thumb = [UIImage imageNamed:@"SlickThumb"];
+    [self.thumb1 setFrame:CGRectMake(self.sliderMinX, self.sliderBackdrop.frame.origin.y + self.sliderBackdrop.frame.size.height/2 - thumb.size.height/2,thumb.size.width , thumb.size.height)];
+    [self.thumb2 setFrame:CGRectMake(self.sliderMaxX, self.sliderBackdrop.frame.origin.y + self.sliderBackdrop.frame.size.height/2 - thumb.size.height/2 ,thumb.size.width, thumb.size.height)];*/
+}
+-(void)viewWillAppear:(BOOL)animated{
+  /*  UIImage *thumb = [UIImage imageNamed:@"SlickThumb"];
+    [self.thumb1 setFrame:CGRectMake(self.sliderMinX, self.sliderBackdrop.frame.origin.y + self.sliderBackdrop.frame.size.height/2 - thumb.size.height/2,thumb.size.width , thumb.size.height)];
+    [self.thumb2 setFrame:CGRectMake(self.sliderMaxX, self.sliderBackdrop.frame.origin.y + self.sliderBackdrop.frame.size.height/2 - thumb.size.height/2 ,thumb.size.width, thumb.size.height)];*/
+
 }
 - (float)xPositionFromSliderValue:(UISlider *)aSlider;
 {
@@ -363,16 +382,18 @@
 }
 
 - (IBAction)centralPressed:(id)sender {
-    self.central.backgroundColor = [Graphics colorWithHexString:@"b8a37e"];
+    //change to pressed155/notpressed155
+    self.central.backgroundColor = [UIColor whiteColor];
     self.byMe.backgroundColor = [UIColor clearColor];
-    self.central.titleLabel.textColor = [UIColor blackColor];
-    self.byMe.titleLabel.textColor = [UIColor grayColor];
+    [self.central setTitleColor:[Graphics colorWithHexString:@"2d769b"] forState:UIControlStateNormal];
+    [self.byMe setTitleColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.18] forState:UIControlStateNormal];
+    
 }
 - (IBAction)bymePressed:(id)sender {
-    self.byMe.backgroundColor = [Graphics colorWithHexString:@"b8a37e"];
+    self.byMe.backgroundColor = [UIColor whiteColor];
     self.central.backgroundColor = [UIColor clearColor];
-    self.byMe.titleLabel.textColor = [UIColor blackColor];
-    self.central.titleLabel.textColor = [UIColor grayColor];
+    [self.byMe setTitleColor:[Graphics colorWithHexString:@"2d769b"] forState:UIControlStateNormal];
+    [self.central setTitleColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.18] forState:UIControlStateNormal];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -400,6 +421,14 @@ self.responseData = [[NSMutableData alloc] initWithLength:0];
     }
     else if ([resultsDictionary[@"success"] isEqual: @NO]){
         NSLog(@"do something failure related");
+    }
+    else if ([resultsDictionary[@"status"] isEqualToString:@"ZERO_RESULTS"]){
+        NSLog(@"in heya");
+        self.indicator.hidden = YES;
+        [self.indicator stopAnimating];
+        self.locValidator.image = redexc;
+        self.locValidator.hidden = NO;
+        self.nonCurrentLocation = nil;
     }
     else{
        
@@ -522,10 +551,16 @@ self.responseData = [[NSMutableData alloc] initWithLength:0];
     NSNumber *centralDef = [[NSUserDefaults standardUserDefaults] objectForKey:@"central"];
     if (centralDef && (![centralDef boolValue])){
         NSLog(@"here");
-        self.byMe.backgroundColor = [Graphics colorWithHexString:@"b8a37e"];
+        self.byMe.backgroundColor = [UIColor whiteColor];
         self.central.backgroundColor = [UIColor clearColor];
-        self.byMe.titleLabel.textColor = [UIColor blackColor];
-        self.central.titleLabel.textColor = [UIColor grayColor];
+        [self.byMe setTitleColor:[Graphics colorWithHexString:@"2d769b"] forState:UIControlStateNormal];
+        [self.central setTitleColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.18] forState:UIControlStateNormal];
+    }
+    else{
+        self.central.backgroundColor = [UIColor whiteColor];
+        self.byMe.backgroundColor = [UIColor clearColor];
+        [self.central setTitleColor:[Graphics colorWithHexString:@"2d769b"] forState:UIControlStateNormal];
+        [self.byMe setTitleColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.18] forState:UIControlStateNormal];
     }
     NSNumber *scheduleAfterDef = [[NSUserDefaults standardUserDefaults] objectForKey:@"scheduleAfter"];
     if (scheduleAfterDef){
@@ -551,7 +586,7 @@ self.responseData = [[NSMutableData alloc] initWithLength:0];
 }
 
 - (IBAction)scrollDown:(id)sender {
-    CGPoint bottomOffset = CGPointMake(0, self.scroller.contentSize.height - self.scroller.bounds.size.height);
+    CGPoint bottomOffset = CGPointMake(0, self.scroller.contentSize.height - self.scroller.bounds.size.height - 20);
     [self.scroller setContentOffset:bottomOffset animated:YES];
 }
 
@@ -626,7 +661,7 @@ self.responseData = [[NSMutableData alloc] initWithLength:0];
         [ret setObject:[NSString stringWithFormat:@"%f,%f", activeLocation.coordinate.latitude, activeLocation.coordinate.longitude]  forKey:@"location"];
     }
     WhatViewController* whatvc = (WhatViewController*)[self.nav viewControllers][[[self.nav viewControllers] count] - 2 ];
-    [ret setObject:whatvc.wantItems forKey:@"foodList"];
+    [ret setObject:whatvc.ratingsDict forKey:@"ratingsDict"];
     [ret setObject:[NSNumber numberWithInt:self.minPrice] forKey:@"minPrice"];
     [ret setObject:[NSNumber numberWithInt:self.maxPrice] forKey:@"maxPrice"];
     return ret;
@@ -690,10 +725,6 @@ self.responseData = [[NSMutableData alloc] initWithLength:0];
     NSLog(@"respond submitting");
     if([self validate]){
         NSLog(@"validated");
-        self.respondToInvite.hidden = YES;
-        self.locValidator.hidden = YES;
-        self.indicator2.hidden = NO;
-        [self.indicator2 startAnimating];
         [self loadingScreen];
         if (self.nav.creator)
             [User createInvitation:[self getCreatorPreferences] source:self];

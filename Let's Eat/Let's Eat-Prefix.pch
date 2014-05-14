@@ -16,6 +16,7 @@
 #define GET_IMG(str) [UIImage imageNamed:str]
 #define nsp [UIImage imageNamed:@"NoStarsPressed"]
 #define collapsedImg [Graphics makeThumbnailOfSize:[UIImage imageNamed:@"Thumb"] size:CGSizeMake(38, 54)]
+#define REMOVE_VIEW(v)  if (v && v != (id)[NSNull null]){[v removeFromSuperview];}
 #define expandedImg [Graphics makeThumbnailOfSize:[UIImage imageNamed:@"SMS"] size:CGSizeMake(38, 54)]
 /*#define noStarsImg [Graphics makeThumbnailOfSize:[UIImage imageNamed:@"NoStars"] size:CGSizeMake(75, 54)]*/
 #define noStarsImg [UIImage imageNamed:@"NoStars"]

@@ -48,7 +48,7 @@
 @property int movingCellWidth;
 @property float movingDiffx;
 @property float movingDiffy;
-@property NSMutableDictionary* ratingsDict;
+
 @property NSMutableArray* expandedState;
 @property CGRect inishPosish;
 @property (strong, nonatomic) ProgressBarDelegate* progressBarDelegate;

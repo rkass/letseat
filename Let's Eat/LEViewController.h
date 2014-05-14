@@ -16,4 +16,7 @@
 - (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
 -(void)loadingScreen;
 @property (strong, nonatomic) UIView* fadeout;
+@property (strong, nonatomic) UIView* blacky;
+@property (strong, nonatomic) UIActivityIndicatorView* loadingIndicator;
+@property (strong, nonatomic) UILabel* loadingLabel;
 @end

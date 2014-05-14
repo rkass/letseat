@@ -58,14 +58,31 @@ static CLLocation* myLocation;
     [self unloadScreen];
 }
 -(void)unloadScreen{
-    if (self.fadeout && self.fadeout != (id)[NSNull null])
-        [self.fadeout removeFromSuperview];
+    REMOVE_VIEW(self.fadeout);
+    REMOVE_VIEW(self.blacky);
+    REMOVE_VIEW(self.loadingIndicator);
+    REMOVE_VIEW(self.loadingLabel);
 }
 -(void)loadingScreen{
     self.fadeout = [[UIView alloc] initWithFrame:CGRectMake(0,0,[UIApplication sharedApplication].keyWindow.frame.size.width , [UIApplication sharedApplication].keyWindow.frame.size.height)];
-    self.fadeout.backgroundColor = [UIColor blackColor];
-    self.fadeout.alpha = .7;
+    self.fadeout.backgroundColor = [UIColor clearColor];
     [[UIApplication sharedApplication].keyWindow addSubview:self.fadeout];
+    self.blacky = [[UIView alloc] initWithFrame:CGRectMake(([UIScreen mainScreen].bounds.size.width)/2 - 150, ([UIScreen mainScreen].bounds.size.height)/2 - 75, 300, 150)];
+    self.blacky.backgroundColor = [UIColor blackColor];
+    self.blacky.alpha = .75;
+    self.loadingIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(([UIScreen mainScreen].bounds.size.width)/2 - 120, ([UIScreen mainScreen].bounds.size.height)/2 - 90, 240, 240)];
+    [self.loadingIndicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [[UIApplication sharedApplication].keyWindow addSubview:self.loadingIndicator];
+    self.loadingIndicator.hidden = NO;
+    [self.loadingIndicator startAnimating];
+    [[UIApplication sharedApplication].keyWindow addSubview:self.blacky];
+    self.loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, ([UIScreen mainScreen].bounds.size.height)/2 - 60, 320, 80)];
+    [self.loadingLabel setFont:[UIFont boldSystemFontOfSize:20]];
+    [self.loadingLabel setTextColor:[UIColor whiteColor]];
+    [self.loadingLabel setText:@"Contacting the internet..."];
+    [self.loadingLabel setTextAlignment:NSTextAlignmentCenter];
+    [[UIApplication sharedApplication].keyWindow addSubview:self.loadingLabel];
+    [[UIApplication sharedApplication].keyWindow bringSubviewToFront:self.loadingIndicator];
 }
 +(CLLocationManager*) locationManager
 {
