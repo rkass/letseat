@@ -280,7 +280,7 @@
     t6[@"subcategories"] = [NSArray arrayWithObjects:@"Deli", @"Fast Food", @"Food Court", @"Food Stand", @"Hot Dogs", @"Sandwiches", @"Soup", nil];
 
     NSMutableDictionary* t1 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Italian", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
-    t1[@"subcategories"] =  [NSArray arrayWithObjects:@"Italian",@"pizza", nil];
+    t1[@"subcategories"] =  [NSArray arrayWithObjects:@"Italian",@"Pizza", nil];
 
     NSMutableDictionary* t7 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"American", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
     t7[@"subcategories"] =[NSArray arrayWithObjects:@"American", @"BBQ",@"Burgers",@"Cajun", @"Cheesesteaks",@"Chicken Wings", @"Comfort Food", @"Soul Food", @"Southern Food", nil];
@@ -309,7 +309,7 @@
 
     t14[@"subcategories"] = [NSArray arrayWithObjects:@"Japanese",@"Sushi", nil];
        
-    NSMutableDictionary* t15 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Mexian", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
+    NSMutableDictionary* t15 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"Mexican", nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];
     t15[@"subcategories"] =  [NSArray arrayWithObjects:@"Mexican",@"Tex-Mex", nil];
 
     NSMutableDictionary* t16 = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithBool:YES],[NSNumber numberWithInt:1], @"French",  nil] forKeys:[NSArray arrayWithObjects:@"category", @"stars", @"label", nil]];

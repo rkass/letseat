@@ -104,7 +104,7 @@
     self.responseData = [[NSMutableData alloc] initWithLength:0];
     self.restaurant = restaurantInput;
     self.row = rowInput;
-    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.selectionStyle = UITableViewCellSelectionStyleDefault;
     NSURL *imageURL;
     if (self.restaurant.snippetImg && (![self.restaurant.snippetImg isEqual:[NSNull null]])){
         imageURL = [NSURL URLWithString:self.restaurant.snippetImg];
@@ -140,8 +140,8 @@
         count += 1;
     }
     NSLog(@"table layout thinks distance is %f", self.restaurant.distance);
-    if (self.restaurant.distance != -1)
-        self.price.text = [NSString stringWithFormat:@"%@, %.1f mi.", self.price.text, self.restaurant.distance];
+//    if (self.restaurant.distance != -1)
+  //      self.price.text = [NSString stringWithFormat:@"%@, %.1f mi.", self.price.text, self.restaurant.distance];
     self.percentMatch.text = [NSString stringWithFormat:@"%u%% Match", self.restaurant.percentMatch];
     if (self.restaurant.iVoted){
         [self.vote setBackgroundImage:[UIImage imageNamed:@"VotedBackground"] forState:UIControlStateNormal];
@@ -155,23 +155,19 @@
     }
 
     if (self.ivc.invitation.scheduled && (!oneRest)){
-        UILabel* labia = [[UILabel alloc] initWithFrame:CGRectMake(self.vote.frame.origin.x + 35, self.vote.frame.origin.y -3, self.vote.frame.size.width, self.vote.frame.size.height)];
-        [labia setFont:[UIFont systemFontOfSize:35]];
-        labia.textColor = [Graphics colorWithHexString:@"ffa500"];
-        labia.text = @">";
-        [self addSubview:labia];
-        [self.vote removeFromSuperview];
+        [self.vote setBackgroundImage:nil forState:UIControlStateNormal];
+        [self.vote setTitle:@"" forState:UIControlStateNormal];
+        [self.name setFrame:CGRectMake(self.name.frame.origin.x, self.name.frame.origin.y, self.superview.frame.size.width - self.name.frame.origin.x, self.name.frame.size.height)];
     }
     if (self.oneRest){
         [self.vote setTitle:@"" forState:UIControlStateNormal];
         //self.vote.titleLabel.text = @"";
         self.name.text = self.restaurant.name;
         [self.name setFrame:CGRectMake(self.name.frame.origin.x, self.frame.origin.y, 320 - self.name.frame.origin.x, self.name.frame.size.height)];
-        [self.vote setImage:[UIImage imageNamed:@"OrangeCarrot"] forState:UIControlStateNormal];
+        [self.vote setImage:nil forState:UIControlStateNormal];
 
     }
-
-
+    [self setBackgroundColor:[UIColor clearColor]];
  
 }
 

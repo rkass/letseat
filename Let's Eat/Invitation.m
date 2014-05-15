@@ -40,12 +40,33 @@
         self.responseArray = [responseArrayInput mutableCopy];
         self.messagesArray = [messagesArrayInput mutableCopy];
         self.preferences = [preferencesInput mutableCopy];
+        //NSLog(@"preferences: %@", self.preferences);
+      //  [self decidePreferences];
+       // NSLog(@"preferences: %@", self.preferences);
         self.scheduled = scheduledInput;
         self.restaurants = [[NSMutableArray alloc] init];
     }
     return self;
 }
-
+-(void)decidePreferences{
+    NSMutableArray* p = [[NSMutableArray alloc] init];
+    int cnt = 0;
+    while (cnt < self.preferences.count){
+        if (self.preferences[cnt] && (self.preferences[cnt] != nil) && (!([self.preferences[cnt] isKindOfClass:[NSArray class]])))
+    
+        
+        {
+        
+            [p addObject:[[self.preferences[cnt] keysSortedByValueUsingComparator:^NSComparisonResult(id obj1, id obj2){
+            return [obj1 compare:obj2];
+            }] subarrayWithRange:NSMakeRange(0, 5) ]];
+        }
+        else
+            [p addObject:[[NSMutableArray alloc] init]];
+        cnt += 1;
+    }
+    self.preferences = [p mutableCopy];
+}
 - (NSString*)creator
 {
     return self.people[self.creatorIndex];
@@ -81,7 +102,8 @@
     person = [person stringByReplacingOccurrencesOfString:@" (creator)" withString:@""];
     if ((self.preferences[[self.people indexOfObject:person]]) == (id)[NSNull null])
         return @"";
-    for (NSString* foodType in self.preferences[[self.people indexOfObject:person]]){
+    int index = [self.people indexOfObject:((NSString*)person)];
+    for (NSString* foodType in self.preferences[index]){
         if (count == [self.preferences[[self.people indexOfObject:person]] count])
             ret = [ret stringByAppendingString:[NSString stringWithFormat:@"%@",  foodType]];
         else

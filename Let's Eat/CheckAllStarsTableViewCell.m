@@ -10,6 +10,7 @@
 #import "Graphics.h"
 #import "WhatViewController.h"
 #import "PriceViewController.h"
+#import "InviteViewController.h"
 @implementation CheckAllStarsTableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -21,11 +22,16 @@
     return self;
 }
 - (IBAction)statePressed:(id)sender {
-    self.state = (self.state % 3) + 1;
-    NSLog(@"pressed %u", self.state);
-    [self.wvc statePressed:self.state];
+    if (self.wvc){
+        self.state = (self.state % 3) + 1;
+        NSLog(@"pressed %u", self.state);
+        [self.wvc statePressed:self.state];
+    }
 }
-
+-(void)setWithInviteVC:(InviteViewController *)ivcInput{
+    self.ivc = ivcInput;
+    [self generalSetup];
+}
 - (void)awakeFromNib
 {
     // Initialization code
@@ -36,6 +42,15 @@
 }
 - (IBAction)leftButtonPressed:(id)sender {
     //different code when not the back button
+    if (self.ivc){
+        NSArray* vc = [self.ivc.navigationController viewControllers];
+        if ([vc[vc.count - 2] isKindOfClass:[InvitationsViewController class]]){
+            [self.ivc.navigationController popViewControllerAnimated:YES];
+        }
+        else{
+            [self.ivc performSegueWithIdentifier:@"inviteToInvitations" sender:self];
+        }
+    }
     if (self.pvc){
         [self.pvc.navigationController popViewControllerAnimated:YES];
     }

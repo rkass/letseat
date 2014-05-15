@@ -18,7 +18,7 @@
 #import "NSDate-Utilities.h"
 #import "InvitationsConnectionHandler.h"
 #import "InviteTransitionConnectionHandler.h"
-
+#import "CheckAllStarsTableViewCell.h"
 
 
 @interface InviteViewController ()
@@ -26,6 +26,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *restaurants;
 @property (strong, nonatomic) IBOutlet UITableView *rsvpTable;
 
+@property (strong, nonatomic) IBOutlet UITableView *navBar;
 @property (strong, nonatomic) IBOutlet UIImageView *white;
 @property (strong, nonatomic) NSIndexPath* selectedIndexPath;
 @property (strong, nonatomic) IBOutlet UITableView *restaurantsTable;
@@ -75,24 +76,10 @@
     [self.white setBackgroundColor:[UIColor colorWithRed:184 green:163 blue:126 alpha:1]];
     self.restsPressed = NO;
     self.reloading = NO;
-    self.rsvpTable.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
-    self.view.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
-    UIImage *backImg = [UIImage imageNamed:@"BackBrownCarrot"];
-    UIButton *back = [UIButton buttonWithType:UIButtonTypeCustom];
-    back.bounds = CGRectMake( 0, 0, backImg.size.width, backImg.size.height );
-    [back setImage:backImg forState:UIControlStateNormal];
-    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:back];
-    [back addTarget:self action:@selector(backPressed:) forControlEvents:UIControlEventTouchUpInside];
+    self.rsvpTable.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
     ((CreateMealNavigationController*)self.navigationController).invitation = self.invitation;
-    self.navigationItem.leftBarButtonItem = backItem;
-    UIImage *bigImage = [UIImage imageNamed:@"Home"];
-    UIImage* homeImg = [Graphics makeThumbnailOfSize:bigImage size:CGSizeMake(30,30)];
-    UIButton *home = [UIButton buttonWithType:UIButtonTypeCustom];
-    home.bounds = CGRectMake( 0, 0, homeImg.size.width, homeImg.size.height );
-    [home setImage:homeImg forState:UIControlStateNormal];
-    UIBarButtonItem *homeItem = [[UIBarButtonItem alloc] initWithCustomView:home];
-    [home addTarget:self action:@selector(homePressed:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = homeItem;
+    self.navigationController.navigationBarHidden = YES;
     self.restaurantSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [self.restaurantSpinner setFrame:CGRectMake(160 - (self.restaurantSpinner.frame.size.width/2), self.restaurantsTable.frame.origin.y + 5, self.restaurantSpinner.frame.size.width, self.restaurantSpinner.frame.size.height)];
     [self.restaurantSpinner startAnimating];
@@ -117,6 +104,8 @@
     self.oneRestLoadingLabel.numberOfLines = 2;
     self.oneRestLoadingLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:self.oneRestLoadingLabel];
+    [self.navBar setDelegate:self];
+    [self.navBar setDataSource:self];
     [self layoutView];
     [self.view sendSubviewToBack:self.restaurants];
     [self.view sendSubviewToBack:self.overview];
@@ -153,6 +142,7 @@
             [self layoutAcceptDecline];
         }
         if (self.invitation.scheduled){
+            [((CheckAllStarsTableViewCell*)[self.navBar cellForRowAtIndexPath:INDEX_PATH(0, 0)]).titleLabel setText:@"Meal"];
             self.date.text = [@"Scheduled For " stringByAppendingString:[self.invitation dateToString]];
             [self.rsvpTable setContentInset:UIEdgeInsetsMake(20, 0, 0, 0)];
             self.message.hidden = YES;
@@ -163,6 +153,7 @@
             [self.timer invalidate];
         }
         else{
+            [((CheckAllStarsTableViewCell*)[self.navBar cellForRowAtIndexPath:INDEX_PATH(0, 0)]).titleLabel setText:@"Invite"];
             self.date.text = [self.invitation dateToString];
             self.oneRest.hidden = YES;
             [self updateCounter:nil];
@@ -287,7 +278,15 @@
 {
     if (tableView == self.rsvpTable)
         return 20;
+    if (tableView == self.navBar || tableView == self.oneRest)
+        return 0;
     return 2;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    if (tableView == self.oneRest){
+        return 0;
+    }
+    return 0;
 }
 
 -(void)homePressed:(UIBarButtonItem*)sender{
@@ -355,15 +354,21 @@
     return !([textField.text length]>40 && [string length] > range.length);
 }
 - (void) layoutAccordingToRestsPressed{
+    /*
+     self.central.backgroundColor = [UIColor whiteColor];
+     self.byMe.backgroundColor = [UIColor clearColor];
+     [self.central setTitleColor:[Graphics colorWithHexString:@"2d769b"] forState:UIControlStateNormal];
+     [self.byMe setTitleColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.18] forState:UIControlStateNormal];*/
+    
     [self.overview setTitle:@"Overview" forState:UIControlStateNormal];
     [self.restaurants setTitle:@"Restaurants" forState:UIControlStateNormal];
     if (self.restsPressed){
         self.oneRestLoadingLabel.hidden = YES;
         [self.oneRestSpinner stopAnimating];
-        self.restaurants.backgroundColor = [Graphics colorWithHexString:@"b8a37e"];
+        self.restaurants.backgroundColor = [UIColor whiteColor];
         self.overview.backgroundColor = [UIColor clearColor];
-        [self.restaurants setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [self.overview setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [self.restaurants setTitleColor:[Graphics colorWithHexString:@"2d769b"] forState:UIControlStateNormal];
+        [self.overview setTitleColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.18] forState:UIControlStateNormal];
         self.restaurantsTable.hidden = NO;
         self.date.hidden = YES;
         if (!self.invitation.scheduled){
@@ -372,6 +377,7 @@
             self.labelbg.hidden = YES;
         }
         self.rsvpTable.hidden = YES;
+        self.oneRest.hidden = YES;
         if (self.invitation.updatingRecommendations > 0){
             NSLog(@"updating");
             if (((self.invitation.restaurants) && (self.invitation.restaurants.count == 15)) || self.reloading){
@@ -404,10 +410,10 @@
         [self.reloadingRests stopAnimating];
         self.loadingLabel.hidden = YES;
         [self.restaurantSpinner stopAnimating];
-        self.overview.backgroundColor = [Graphics colorWithHexString:@"b8a37e"];
+        self.overview.backgroundColor = [UIColor whiteColor];
         self.restaurants.backgroundColor = [UIColor clearColor];
-        [self.restaurants setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-        [self.overview setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.overview setTitleColor:[Graphics colorWithHexString:@"2d769b"] forState:UIControlStateNormal];
+        [self.restaurants setTitleColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.18] forState:UIControlStateNormal];
         self.restaurantsTable.hidden = YES;
         self.date.hidden = NO;
         if (!self.invitation.scheduled){
@@ -415,12 +421,14 @@
             self.message.hidden = NO;
             self.labelbg.hidden = NO;
             self.msg.hidden = NO;
+            self.oneRest.hidden = YES;
         }
         else{
             self.message.hidden = YES;
             self.labelbg.hidden = YES;
             self.msg.hidden = YES;
-            NSLog(@"hid errthing"); 
+            NSLog(@"hid errthing");
+            self.oneRest.hidden = NO;
         }
         self.rsvpTable.hidden = NO;
         if (self.invitation.updatingRecommendations > 0 && self.invitation.scheduled){
@@ -531,6 +539,8 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (tableView == self.navBar)
+        return 1;
     if (tableView == self.rsvpTable){
         if (section == 0)
             return [self.going count];
@@ -562,6 +572,12 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (tableView == self.navBar){
+        CheckAllStarsTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CheckAllStars"];
+        [cell setWithInviteVC:self];
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        return cell;
+    }
     if (tableView == self.rsvpTable){
         static NSString *CellIdentifier = @"Cell";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -593,12 +609,10 @@
     if (tableView == oneRest){
         cell =  [tableView dequeueReusableCellWithIdentifier:@"restCell2"];
         [cell setWithRestaurant:self.invitation.restaurants[indexPath.row] rowInput:indexPath.row ivcInput:self oneRestInput:YES];
-        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
     else{
         cell =  [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         [cell setWithRestaurant:self.invitation.restaurants[indexPath.row] rowInput:indexPath.row ivcInput:self oneRestInput:NO];
-        [cell setSelectionStyle:UITableViewCellSelectionStyleDefault];
     }
     
     return cell;

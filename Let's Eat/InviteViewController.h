@@ -10,7 +10,7 @@
 #import "Invitation.h"
 #import "InvitationsViewController.h"
 #import <CoreLocation/CoreLocation.h>
-
+@class InviteViewController;
 @interface InviteViewController : LEViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, CLLocationManagerDelegate>
 @property (strong, nonatomic) Invitation* invitation;
 @property bool voteChanged;
