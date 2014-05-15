@@ -19,7 +19,7 @@
 #import "InvitationsConnectionHandler.h"
 #import "InviteTransitionConnectionHandler.h"
 #import "CheckAllStarsTableViewCell.h"
-
+#import "NonScheduledTableViewCell.h"
 
 @interface InviteViewController ()
 
@@ -62,6 +62,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSLog(@"in view did load");
     self.start = [self.invitation.scheduleTime timeIntervalSince1970];
     self.responseData = [[NSMutableData alloc] initWithLength:0];
     self.tries = [NSNumber numberWithInt:0];
@@ -110,16 +111,16 @@
     [self.view sendSubviewToBack:self.restaurants];
     [self.view sendSubviewToBack:self.overview];
     [self.view sendSubviewToBack:self.white];
-    [self.view bringSubviewToFront:self.msg];
+   // [self.view bringSubviewToFront:self.msg];
     self.inviteSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [self.inviteSpinner setFrame:CGRectMake(self.view.frame.size.width - self.inviteSpinner.frame.size.width, self.date.frame.origin.y, self.inviteSpinner.frame.size.width, self.inviteSpinner.frame.size.height)];
     [self.view addSubview:self.inviteSpinner];
     [self.rsvpTable setFrame:CGRectMake(self.rsvpTable.frame.origin.x, self.rsvpTable.frame.origin.y - 900, self.rsvpTable.frame.size.width, self.rsvpTable.frame.size.height)];
-    labelbg = [[UIView alloc] initWithFrame:CGRectMake(self.msg.frame.origin.x - 5, self.msg.frame.origin.y + 7, self.msg.frame.size.width + 10, self.msg.frame.size.height -10)];
+   /* labelbg = [[UIView alloc] initWithFrame:CGRectMake(self.msg.frame.origin.x - 5, self.msg.frame.origin.y + 7, self.msg.frame.size.width + 10, self.msg.frame.size.height -10)];
     labelbg.backgroundColor = [Graphics colorWithHexString:@"ffa500"];
     labelbg.alpha = .5;
     labelbg.layer.cornerRadius = 8;
-    [labelbg setFrame:CGRectMake(self.msg.frame.origin.x - 5, self.msg.frame.origin.y + 7, self.msg.frame.size.width + 10, self.msg.frame.size.height -10)];
+    [labelbg setFrame:CGRectMake(self.msg.frame.origin.x - 5, self.msg.frame.origin.y + 7, self.msg.frame.size.width + 10, self.msg.frame.size.height -10)];*/
     self.originalPosish = self.restaurantsTable.frame;
 
 	
@@ -145,21 +146,21 @@
             [((CheckAllStarsTableViewCell*)[self.navBar cellForRowAtIndexPath:INDEX_PATH(0, 0)]).titleLabel setText:@"Meal"];
             self.date.text = [@"Scheduled For " stringByAppendingString:[self.invitation dateToString]];
             [self.rsvpTable setContentInset:UIEdgeInsetsMake(20, 0, 0, 0)];
-            self.message.hidden = YES;
-            self.msg.hidden = YES;
+            //self.message.hidden = YES;
+           // self.msg.hidden = YES;
             self.timerLabel.hidden = YES;
-            self.labelbg.hidden = YES;
+           // self.labelbg.hidden = YES;
             self.oneRest.hidden = NO;
             [self.timer invalidate];
         }
         else{
             [((CheckAllStarsTableViewCell*)[self.navBar cellForRowAtIndexPath:INDEX_PATH(0, 0)]).titleLabel setText:@"Invite"];
             self.date.text = [self.invitation dateToString];
-            self.oneRest.hidden = YES;
+           // self.oneRest.hidden = YES;
             [self updateCounter:nil];
             [self.timer invalidate];
             self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateCounter:) userInfo:nil repeats:YES];
-            if (self.invitation.message.length >80)
+      /*      if (self.invitation.message.length >80)
                 self.msg.text = [self.invitation.message substringToIndex:80];
             else
                 self.msg.text = self.invitation.message;
@@ -173,7 +174,7 @@
             else
                 self.message.text = [self.message.text stringByAppendingString:@"'s Message:\n"];
             self.message.hidden = NO;
-            [self.view addSubview:labelbg];
+            [self.view addSubview:labelbg];*/
         }
     }
     if (self.previousInvitation){
@@ -200,7 +201,7 @@
             self.tries = [NSNumber numberWithInt:0];
         }
     }
-    [labelbg setFrame:CGRectMake(self.msg.frame.origin.x - 5, self.msg.frame.origin.y + 7, self.msg.frame.size.width + 10, self.msg.frame.size.height -10)];
+   // [labelbg setFrame:CGRectMake(self.msg.frame.origin.x - 5, self.msg.frame.origin.y + 7, self.msg.frame.size.width + 10, self.msg.frame.size.height -10)];
 
 }
 -(void) recall{
@@ -221,7 +222,7 @@
     InviteTransitionConnectionHandler* ivtch = [[InviteTransitionConnectionHandler alloc] initWithInvitateViewController:self];
    // NSLog(@"invite view location: %@", L.myLocation);
     [User getInvitation:self.invitation.num source:ivtch];
-    [labelbg setFrame:CGRectMake(self.msg.frame.origin.x - 5, self.msg.frame.origin.y + 7, self.msg.frame.size.width + 10, self.msg.frame.size.height -10)];
+   // [labelbg setFrame:CGRectMake(self.msg.frame.origin.x - 5, self.msg.frame.origin.y + 7, self.msg.frame.size.width + 10, self.msg.frame.size.height -10)];
 }
 
 -(void)viewDidDisappear:(BOOL)animated {
@@ -287,8 +288,26 @@
         return 0;
     }
     return 0;
-}
-
+}/*
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (tableView == self.oneRest){
+        if (self.invitation.scheduled)
+            return 80;
+        else
+            return 50;
+        
+    }
+    if (tableView == self.restaurantsTable) {
+        return 80;
+    }
+    if (tableView == self.navBar){
+        return 44;
+    }
+    if (tableView == self.rsvpTable){
+        return 44;
+    }
+    return 0;
+}*/
 -(void)homePressed:(UIBarButtonItem*)sender{
     [self.navigationController popToRootViewControllerAnimated:YES];
     self.navigationController.navigationBarHidden = YES;
@@ -326,9 +345,9 @@
     self.restaurants.backgroundColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:.1];
     self.overview.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:.1];
     self.restaurantsTable.hidden = YES;
-    self.message.hidden = NO;
-    self.labelbg.hidden = NO;
-    self.msg.hidden = NO;
+   // self.message.hidden = NO;
+   // self.labelbg.hidden = NO;
+   // self.msg.hidden = NO;
     self.rsvpTable.hidden = NO;
     [self.restaurants setTitleColor:[Graphics colorWithHexString:@"ffa500"] forState:UIControlStateNormal];
     [self.overview setTitleColor:[Graphics colorWithHexString:@"ffa500"] forState:UIControlStateNormal];
@@ -372,12 +391,13 @@
         self.restaurantsTable.hidden = NO;
         self.date.hidden = YES;
         if (!self.invitation.scheduled){
-            self.message.hidden = YES;
-            self.msg.hidden = YES;
-            self.labelbg.hidden = YES;
+           // self.message.hidden = YES;
+            //self.msg.hidden = YES;
+            //self.labelbg.hidden = YES;
         }
         self.rsvpTable.hidden = YES;
         self.oneRest.hidden = YES;
+        self.timerLabel.hidden = YES;
         if (self.invitation.updatingRecommendations > 0){
             NSLog(@"updating");
             if (((self.invitation.restaurants) && (self.invitation.restaurants.count == 15)) || self.reloading){
@@ -416,21 +436,12 @@
         [self.restaurants setTitleColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.18] forState:UIControlStateNormal];
         self.restaurantsTable.hidden = YES;
         self.date.hidden = NO;
-        if (!self.invitation.scheduled){
-            NSLog(@"schedueled not hding");
-            self.message.hidden = NO;
-            self.labelbg.hidden = NO;
-            self.msg.hidden = NO;
-            self.oneRest.hidden = YES;
-        }
-        else{
-            self.message.hidden = YES;
-            self.labelbg.hidden = YES;
-            self.msg.hidden = YES;
-            NSLog(@"hid errthing");
-            self.oneRest.hidden = NO;
-        }
+        self.oneRest.hidden = NO;
         self.rsvpTable.hidden = NO;
+        if (self.invitation.scheduled)
+            self.timerLabel.hidden = YES;
+        else
+            self.timerLabel.hidden = NO;
         if (self.invitation.updatingRecommendations > 0 && self.invitation.scheduled){
             [self.oneRestSpinner startAnimating];
             self.oneRestLoadingLabel.hidden = NO;
@@ -529,8 +540,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if(tableView != self.rsvpTable) {
-        NSLog(@"here");
+    if((tableView == self.oneRest && self.invitation.scheduled) || (tableView == self.restaurantsTable)) {
         self.selectedIndexPath = indexPath;
         [self performSegueWithIdentifier:@"inviteToRestaurant" sender:self];
     }
@@ -549,6 +559,8 @@
         return [self.notGoing count];}
     else if (tableView == self.restaurantsTable)
         return [self.invitation.restaurants count];
+    else if (tableView == self.oneRest)
+        return 1;
     else
         return MIN(1, [self.invitation.restaurants count]);
 }
@@ -572,6 +584,9 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    //NSLog(@"in cfraip");
+    //if (tableView == self.oneRest)
+      //  NSLog(@"onerest");
     if (tableView == self.navBar){
         CheckAllStarsTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CheckAllStars"];
         [cell setWithInviteVC:self];
@@ -605,17 +620,28 @@
     }
 
     static NSString *CellIdentifier = @"restCell";
-    RestaurantTableViewCell* cell;
-    if (tableView == oneRest){
-        cell =  [tableView dequeueReusableCellWithIdentifier:@"restCell2"];
-        [cell setWithRestaurant:self.invitation.restaurants[indexPath.row] rowInput:indexPath.row ivcInput:self oneRestInput:YES];
+
+    if (tableView == self.oneRest){
+        NSLog(@"one rest laying out");
+        if (self.invitation.scheduled){
+            RestaurantTableViewCell* cell =  [tableView dequeueReusableCellWithIdentifier:@"restCell2"];
+            [cell setWithRestaurant:self.invitation.restaurants[indexPath.row] rowInput:indexPath.row ivcInput:self oneRestInput:YES];
+            return cell;
+        }
+        else{
+            NonScheduledTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"nonScheduled"];
+            [cell setWithIVC:self];
+            return cell;
+        }
+        
     }
     else{
-        cell =  [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        RestaurantTableViewCell* cell =  [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         [cell setWithRestaurant:self.invitation.restaurants[indexPath.row] rowInput:indexPath.row ivcInput:self oneRestInput:NO];
+         return cell;
     }
     
-    return cell;
+   
 }
 - (void)didReceiveMemoryWarning
 {

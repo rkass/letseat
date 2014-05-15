@@ -47,6 +47,7 @@
 		948C090418C51575002A3524 /* InvitationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948C090318C51575002A3524 /* InvitationsViewController.m */; };
 		948C090718C5258D002A3524 /* Invitation.m in Sources */ = {isa = PBXBuildFile; fileRef = 948C090618C5258D002A3524 /* Invitation.m */; };
 		948C091018C67F26002A3524 /* InviteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948C090F18C67F26002A3524 /* InviteViewController.m */; };
+		94B8AD031925436000E39221 /* NonScheduledTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B8AD021925436000E39221 /* NonScheduledTableViewCell.m */; };
 		94C3928318E35B7900F194F3 /* ScheduledMealController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C3928218E35B7900F194F3 /* ScheduledMealController.m */; };
 		94D2605818BA9DAB005FF97C /* CreateMealNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D2605718BA9DAB005FF97C /* CreateMealNavigationController.m */; };
 		94D2605B18BB9BE4005FF97C /* WhereViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D2605A18BB9BE4005FF97C /* WhereViewController.m */; };
@@ -137,6 +138,8 @@
 		948C090618C5258D002A3524 /* Invitation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Invitation.m; sourceTree = "<group>"; };
 		948C090E18C67F26002A3524 /* InviteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteViewController.h; sourceTree = "<group>"; };
 		948C090F18C67F26002A3524 /* InviteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteViewController.m; sourceTree = "<group>"; };
+		94B8AD011925436000E39221 /* NonScheduledTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NonScheduledTableViewCell.h; sourceTree = "<group>"; };
+		94B8AD021925436000E39221 /* NonScheduledTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NonScheduledTableViewCell.m; sourceTree = "<group>"; };
 		94C3928118E35B7900F194F3 /* ScheduledMealController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScheduledMealController.h; sourceTree = "<group>"; };
 		94C3928218E35B7900F194F3 /* ScheduledMealController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScheduledMealController.m; sourceTree = "<group>"; };
 		94D2605618BA9DAB005FF97C /* CreateMealNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateMealNavigationController.h; sourceTree = "<group>"; };
@@ -326,6 +329,8 @@
 		9483580118EB02E60022A13C /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				94B8AD011925436000E39221 /* NonScheduledTableViewCell.h */,
+				94B8AD021925436000E39221 /* NonScheduledTableViewCell.m */,
 				94FB920F1922B334000C6D22 /* FinalStepTableViewCell.h */,
 				94FB92101922B334000C6D22 /* FinalStepTableViewCell.m */,
 				945930071913E382007C5C05 /* CheckAllStarsTableViewCell.h */,
@@ -470,6 +475,7 @@
 				94D2606618BD2184005FF97C /* WhatViewController.m in Sources */,
 				9438EC2818E1C816007A1643 /* Restaurant.m in Sources */,
 				9483C4A618EF4B4E00373A56 /* InviteTransitionConnectionHandler.m in Sources */,
+				94B8AD031925436000E39221 /* NonScheduledTableViewCell.m in Sources */,
 				941CE22C18AD6BA200E773BF /* User.m in Sources */,
 				948C090718C5258D002A3524 /* Invitation.m in Sources */,
 				94FB92111922B334000C6D22 /* FinalStepTableViewCell.m in Sources */,

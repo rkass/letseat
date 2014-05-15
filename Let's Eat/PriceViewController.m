@@ -586,7 +586,7 @@ self.responseData = [[NSMutableData alloc] initWithLength:0];
 }
 
 - (IBAction)scrollDown:(id)sender {
-    CGPoint bottomOffset = CGPointMake(0, self.scroller.contentSize.height - self.scroller.bounds.size.height - 20);
+    CGPoint bottomOffset = CGPointMake(0, 400);
     [self.scroller setContentOffset:bottomOffset animated:YES];
 }
 

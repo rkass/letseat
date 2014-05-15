@@ -68,7 +68,7 @@
     if (self.restaurant.votes == 1)
         self.votes.text = [NSString stringWithFormat:@"%u Vote", self.restaurant.votes];
     else if (self.restaurant.votes == 0)
-        self.votes.text = [NSString stringWithFormat:@"No Votes"];
+        self.votes.text = [NSString stringWithFormat:@""];
     else
         self.votes.text = [NSString stringWithFormat:@"%u Votes", self.restaurant.votes];
 }
@@ -77,7 +77,7 @@
 
     if (self.restaurant.iVoted){
         self.ivc.voteChanged = YES;
-        [self.vote setBackgroundImage:[UIImage imageNamed:@"VoteBackground"] forState:UIControlStateNormal];
+        [self.vote setBackgroundImage:[UIImage imageNamed:@"votebackground"] forState:UIControlStateNormal];
         [self.vote setTitle:@"" forState:UIControlStateNormal];
         self.restaurant.iVoted = NO;
         self.restaurant.votes -= 1;
@@ -149,7 +149,7 @@
         self.restaurant.iVoted = YES;
     }
     else{
-        [self.vote setBackgroundImage:[UIImage imageNamed:@"VoteBackground"] forState:UIControlStateNormal];
+        [self.vote setBackgroundImage:[UIImage imageNamed:@"votebackground"] forState:UIControlStateNormal];
         [self.vote setTitle:@"VOTE" forState:UIControlStateNormal];
         self.restaurant.iVoted = NO;
     }
@@ -165,9 +165,12 @@
         self.name.text = self.restaurant.name;
         [self.name setFrame:CGRectMake(self.name.frame.origin.x, self.frame.origin.y, 320 - self.name.frame.origin.x, self.name.frame.size.height)];
         [self.vote setImage:nil forState:UIControlStateNormal];
+        [self setBackgroundColor:[UIColor whiteColor]];
 
     }
-    [self setBackgroundColor:[UIColor clearColor]];
+    else{
+        [self setBackgroundColor:[UIColor clearColor]];
+    }
  
 }
 

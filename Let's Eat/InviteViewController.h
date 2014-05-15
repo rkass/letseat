@@ -11,6 +11,7 @@
 #import "InvitationsViewController.h"
 #import <CoreLocation/CoreLocation.h>
 @class InviteViewController;
+@class NonScheduledTableViewCell;
 @interface InviteViewController : LEViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, CLLocationManagerDelegate>
 @property (strong, nonatomic) Invitation* invitation;
 @property bool voteChanged;
