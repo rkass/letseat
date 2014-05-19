@@ -11,6 +11,7 @@
 #import "WhatViewController.h"
 #import "PriceViewController.h"
 #import "InviteViewController.h"
+#import "InvitationsViewController.h"
 @implementation CheckAllStarsTableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -21,12 +22,17 @@
     }
     return self;
 }
+
 - (IBAction)statePressed:(id)sender {
     if (self.wvc){
         self.state = (self.state % 3) + 1;
         NSLog(@"pressed %u", self.state);
         [self.wvc statePressed:self.state];
     }
+}
+-(void)setWithInvitationVC:(InvitationsViewController *)iivcInput{
+    self.iivc = iivcInput;
+    [self generalSetup];
 }
 -(void)setWithInviteVC:(InviteViewController *)ivcInput{
     self.ivc = ivcInput;
@@ -42,19 +48,23 @@
 }
 - (IBAction)leftButtonPressed:(id)sender {
     //different code when not the back button
+    if (self.iivc)
+       [ self.iivc.navigationController popToRootViewControllerAnimated:YES];
     if (self.ivc){
         NSArray* vc = [self.ivc.navigationController viewControllers];
         if ([vc[vc.count - 2] isKindOfClass:[InvitationsViewController class]]){
             [self.ivc.navigationController popViewControllerAnimated:YES];
         }
         else{
+            
             [self.ivc performSegueWithIdentifier:@"inviteToInvitations" sender:self];
         }
     }
-    if (self.pvc){
+    else if (self.pvc){
         [self.pvc.navigationController popViewControllerAnimated:YES];
     }
-    [self.wvc.navigationController popViewControllerAnimated:YES];
+    else
+        [self.wvc.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)setWithState:(int)state vc:(WhatViewController*)vc{

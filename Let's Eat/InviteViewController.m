@@ -150,7 +150,6 @@
            // self.msg.hidden = YES;
             self.timerLabel.hidden = YES;
            // self.labelbg.hidden = YES;
-            self.oneRest.hidden = NO;
             [self.timer invalidate];
         }
         else{
@@ -187,8 +186,9 @@
         bool retry;
         @synchronized(self.tries){
             self.tries = [NSNumber numberWithInt:([self.tries integerValue ]+ 1)];
-            retry = ([self.tries integerValue] < 20);
+         //   retry = ([self.tries integerValue] < 50);
         }
+        retry = YES;
         if (retry){
             NSLog(@"retrying...");
             [self performSelector:@selector(recall) withObject:nil afterDelay:10];
@@ -223,6 +223,7 @@
    // NSLog(@"invite view location: %@", L.myLocation);
     [User getInvitation:self.invitation.num source:ivtch];
    // [labelbg setFrame:CGRectMake(self.msg.frame.origin.x - 5, self.msg.frame.origin.y + 7, self.msg.frame.size.width + 10, self.msg.frame.size.height -10)];
+
 }
 
 -(void)viewDidDisappear:(BOOL)animated {
@@ -288,7 +289,8 @@
         return 0;
     }
     return 0;
-}/*
+}
+/*
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (tableView == self.oneRest){
         if (self.invitation.scheduled)
@@ -342,15 +344,16 @@
     self.oneRestLoadingLabel.hidden = YES;
     [self.overview setTitle:@"Decline" forState:UIControlStateNormal];
     [self.restaurants setTitle:@"Attend" forState:UIControlStateNormal];
-    self.restaurants.backgroundColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:.1];
-    self.overview.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:.1];
+    self.restaurants.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"declineattend")];
+    self.overview.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"declineattend")];
     self.restaurantsTable.hidden = YES;
+    self.oneRest.hidden = NO;
    // self.message.hidden = NO;
    // self.labelbg.hidden = NO;
    // self.msg.hidden = NO;
     self.rsvpTable.hidden = NO;
-    [self.restaurants setTitleColor:[Graphics colorWithHexString:@"ffa500"] forState:UIControlStateNormal];
-    [self.overview setTitleColor:[Graphics colorWithHexString:@"ffa500"] forState:UIControlStateNormal];
+    [self.restaurants setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
+    [self.overview setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     
 }
 - (IBAction)overviewPressed:(id)sender {
@@ -361,7 +364,7 @@
     }
     else{
         [self layoutAcceptDecline];
-        UIAlertView* noResponseAlert = [[UIAlertView alloc] initWithTitle:@"Decline?" message:@"Include an optional message:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Okay", nil];
+        UIAlertView* noResponseAlert = [[UIAlertView alloc] initWithTitle:@"Decline?" message:@"Include an optional message:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
         noResponseAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
         [noResponseAlert textFieldAtIndex:0].delegate = self;
         [noResponseAlert show];
@@ -471,6 +474,8 @@
 }
 //just for declines
 -(void) connectionDidFinishLoading:(NSURLConnection*)connection{
+    InvitationsViewController* ivc = [self.navigationController viewControllers][[self.navigationController viewControllers].count - 2 ];
+    [ivc.upcomingInvitations removeObject:self.invitation];
     [self.navigationController popViewControllerAnimated:YES];
 }
 /*
@@ -625,7 +630,13 @@
         NSLog(@"one rest laying out");
         if (self.invitation.scheduled){
             RestaurantTableViewCell* cell =  [tableView dequeueReusableCellWithIdentifier:@"restCell2"];
-            [cell setWithRestaurant:self.invitation.restaurants[indexPath.row] rowInput:indexPath.row ivcInput:self oneRestInput:YES];
+            if (self.invitation.restaurants.count && self.invitation.restaurants[indexPath.row] && (self.invitation.updatingRecommendations == 0)){
+                [cell.subviews setValue:@NO forKey:@"hidden"];
+                [cell setWithRestaurant:self.invitation.restaurants[indexPath.row] rowInput:indexPath.row ivcInput:self oneRestInput:YES];
+            }
+            else{
+                [cell.subviews setValue:@YES forKeyPath:@"hidden"];
+            }
             return cell;
         }
         else{

@@ -30,17 +30,22 @@
         self.messageHeader.text = @"Your Message:";
     else
         self.messageHeader.text = [NSString stringWithFormat:@"%@'s Message:", component];
+    NSString* messageContent;
     if (self.ivc.invitation.message.length >80)
-        self.message.text = [self.ivc.invitation.message substringToIndex:80];
+        messageContent = [self.ivc.invitation.message substringToIndex:80];
     else
-        self.message.text = self.ivc.invitation.message;
-    if ([self.message.text isEqualToString:@""])
-        self.message.text = @"Let's Eat!\n     ";
+        messageContent = self.ivc.invitation.message;
+    if ([messageContent isEqualToString:@""])
+        messageContent = @"Let's Eat!\n     ";
     [self setSelectionStyle:UITableViewCellSelectionStyleNone];
-    if (self.message.text.length > 40)
+    if (messageContent.length > 40){
         [self setBackgroundColor:[UIColor colorWithPatternImage:GET_IMG(@"bigmessagebackground")]];
-    else
+        self.message.text = messageContent;
+    }
+    else{
         [self setBackgroundColor:[UIColor colorWithPatternImage:GET_IMG(@"messagebackground")]];
+        self.message.text = [messageContent stringByAppendingString:@"\n "];
+    }
     [self.messageHeader setTextColor:[Graphics colorWithHexString:@"62ab3c"]];
 }
 - (void)awakeFromNib

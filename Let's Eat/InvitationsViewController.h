@@ -9,6 +9,7 @@
 #import "LEViewController.h"
 #import "Invitation.h"
 #import <CoreLocation/CoreLocation.h>
+@class CheckAllStarsTableViewCell;
 @interface InvitationsViewController : LEViewController <UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate>
 @property (strong, nonatomic) NSMutableArray* passedInvitations;
 @property (strong, nonatomic) NSMutableArray* upcomingInvitations;

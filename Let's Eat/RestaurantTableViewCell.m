@@ -27,9 +27,11 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection{
     //  NSLog(@"here");
-    
+    @synchronized(self.connector){
+        
     NSDictionary *resultsDictionary = [self.responseData objectFromJSONData];
-    NSLog(@"results dict in tabe view cell: %@", resultsDictionary);
+        if (resultsDictionary){
+        NSLog(@"results dict in tabe view cell: %@", resultsDictionary);
     Invitation* i = [InviteTransitionConnectionHandler loadInvitation:resultsDictionary locationInput:self.ivc.myLocation];
     self.ivc.invitation = i;
     [self.ivc layoutView];
@@ -55,7 +57,7 @@
         [serialzedRests addObject:[r serializeToData]];
     [LEViewController setUserDefault:[@"restaurants" stringByAppendingString:[NSString stringWithFormat:@"%d", self.restaurant.invitation]] data:serialzedRests];
 }
-
+    }}
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     NSLog(@"appending");
@@ -87,7 +89,7 @@
     }
     else{
         self.ivc.voteChanged = YES;
-        [self.vote setBackgroundImage:[UIImage imageNamed:@"VotedBackground"] forState:UIControlStateNormal];
+        [self.vote setBackgroundImage:[UIImage imageNamed:@"votedbackground"] forState:UIControlStateNormal];
         [self.vote setTitle:@"" forState:UIControlStateNormal];
         self.restaurant.iVoted = YES;
         self.restaurant.votes += 1;
@@ -97,6 +99,7 @@
 }
 
 -(void)setWithRestaurant:(Restaurant*)restaurantInput rowInput:(int)rowInput ivcInput:(InviteViewController*)ivcInput oneRestInput:(BOOL)oneRestInput{
+    self.connector = [NSNumber numberWithInt:1];
     self.oneRest = oneRestInput;
     if (self.responseData)
         [self.responseData setLength:0];
@@ -144,7 +147,7 @@
   //      self.price.text = [NSString stringWithFormat:@"%@, %.1f mi.", self.price.text, self.restaurant.distance];
     self.percentMatch.text = [NSString stringWithFormat:@"%u%% Match", self.restaurant.percentMatch];
     if (self.restaurant.iVoted){
-        [self.vote setBackgroundImage:[UIImage imageNamed:@"VotedBackground"] forState:UIControlStateNormal];
+        [self.vote setBackgroundImage:[UIImage imageNamed:@"votedbackground"] forState:UIControlStateNormal];
         [self.vote setTitle:@"" forState:UIControlStateNormal];
         self.restaurant.iVoted = YES;
     }

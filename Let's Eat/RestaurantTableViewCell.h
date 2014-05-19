@@ -24,5 +24,6 @@
 @property (strong, nonatomic) Restaurant* restaurant;
 @property (strong, nonatomic) NSMutableData* responseData;
 @property (strong, nonatomic) InviteViewController* ivc;
+@property (strong, nonatomic) NSNumber* connector;
 -(void)setWithRestaurant:(Restaurant*)restaurant rowInput:(int)rowInput ivcInput:(InviteViewController*)ivcInput oneRestInput:(BOOL)oneRestInput;
 @end

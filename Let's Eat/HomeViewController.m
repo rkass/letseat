@@ -11,8 +11,10 @@
 #import "Graphics.h"
 #import "InvitationsViewController.h"
 #import "User.h"
+#import "CheckAllStarsTableViewCell.h"
 
 @interface HomeViewController ()
+@property (strong, nonatomic) IBOutlet UIView *spacer99;
 @property (strong, nonatomic) UIViewController* whenViewController;
 @property (strong, nonatomic) IBOutlet UILabel *invite;
 @property (strong, nonatomic) IBOutlet UITableView *optionsTable;
@@ -21,6 +23,7 @@
 @property (strong, nonatomic) IBOutlet UIView *spacer3;
 @property (strong, nonatomic) IBOutlet UIView *spacer4;
 @property (strong, nonatomic) IBOutlet UIButton *selectPeople;
+@property (strong, nonatomic) IBOutlet UITableView *navBar;
 
 @property int selectedRow;
 @end
@@ -36,6 +39,9 @@
     self.spacer2.hidden = YES;
     self.spacer4.hidden = YES;
     self.spacer3.hidden = YES;
+    self.spacer99.hidden = YES;
+    [self.navBar setDelegate:self];
+    [self.navBar setDataSource:self];
     [User sendToken];
    /* [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.spacer1 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:5]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.spacer1 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.spacer1 attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:1]];
@@ -67,12 +73,13 @@
  //   NSLayoutConstraint* c = [NSLayoutConstraint constraintWithItem:self.optionsTable attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1 constant:0];
   // [self.view addConstraint:c];
    
-    self.selectPeople.titleLabel.textColor = [Graphics colorWithHexString:@"ffa500"];
+    [self.selectPeople setImage:GET_IMG(@"bignext") forState:UIControlStateNormal];
+    [self.selectPeople setImage:GET_IMG(@"bignextpressed") forState:UIControlStateHighlighted];
     self.navigationController.navigationBarHidden = YES;
     self.optionsTable.delegate = self;
     self.optionsTable.dataSource = self;
     self.date.minimumDate = [NSDate date];
-    self.view.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
 
     
 }
@@ -81,7 +88,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
-    
+    if (tableView == self.navBar){
+        CheckAllStarsTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CheckAllStars"];
+        [cell generalSetup];
+        return cell;
+    }
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -89,7 +100,7 @@
     if (indexPath.row == 0){
         cell.textLabel.text = @"Invitations and Meals";
         UIImage *bigImage = [UIImage imageNamed:@"Envelope"];
-        cell.imageView.image = [Graphics makeThumbnailOfSize:bigImage size:CGSizeMake(20, 20)];
+        cell.imageView.image = [Graphics makeThumbnailOfSize:bigImage size:CGSizeMake(60, 60)];
     }
     else if (indexPath.row == 1){
         cell.textLabel.text = @"Logout";
@@ -108,10 +119,11 @@
         cell.imageView.image = [Graphics makeThumbnailOfSize:bigImage size:CGSizeMake(20,20)];
     }
     [cell setSelectionStyle:UITableViewCellSelectionStyleDefault];
-    cell.imageView.frame = CGRectMake(0,0,10,10);
-    cell.imageView.bounds = CGRectMake(0,0, 10, 10);
-    cell.textLabel.textColor = [Graphics colorWithHexString:@"b8a37e"];
-    cell.accessoryView = [[UIImageView alloc] initWithImage:[Graphics makeThumbnailOfSize:[UIImage imageNamed:@"OrangeCarrot"] size:CGSizeMake(10, 10)]];
+    cell.imageView.frame = CGRectMake(0,0,30,30);
+    cell.imageView.bounds = CGRectMake(0,0, 30, 30);
+    cell.textLabel.textColor = [Graphics colorWithHexString:@"2d769b"];
+    [cell.textLabel setFont:[UIFont systemFontOfSize:21]];
+    //cell.accessoryView = [[UIImageView alloc] initWithImage:[Graphics makeThumbnailOfSize:[UIImage imageNamed:@"bluecarrot"] size:CGSizeMake(10, 10)]];
     return cell;
 }
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
@@ -124,6 +136,8 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (tableView == self.navBar)
+        return;
     if (indexPath.row == 0){
         self.selectedRow = 0;
         [self performSegueWithIdentifier:@"homeToInvitations" sender:self];
@@ -149,13 +163,14 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
-    return 70;
+    if (tableView == self.navBar)
+        return 44;
+    return 140;
     
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return 1;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

@@ -1,13 +1,17 @@
-1)recommendation system
-    a) percent match
-    b) distance quadratic
-2)change price to start at 7
-3)tutorial
-3.5)add desserts and cafe to poss choices
-4)schedule a job to schedule a meal
-
-5) make the website
-
-
-When text entered
-    expand all categories
+1) Finish invites page/Polish Recommendations
+    -Handle auto-layout issue
+    -Make it constantly update
+    -Handle what happens when updating Recommendations is zero so that restaurants come in with everything else
+    -Constantly update page
+    -Test what happens when timer runs down to zero
+    -redesign decline/accept buttons
+    -Test page with concurrent voting
+    -Handle what happens when there are no recommended restaurants
+    -Fix Declines
+2) Redesign restaurant page
+3) Redesign invitations page
+4) Redesign home page
+5) Redesign who
+6) Remake logins
+    -With phone number authentication
+    -With a logo

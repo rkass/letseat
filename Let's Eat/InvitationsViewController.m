@@ -15,6 +15,7 @@
 #import "InvitationsConnectionHandler.h"
 #import "LEViewController.h"
 #import "InviteTransitionConnectionHandler.h"
+#import "CheckAllStarsTableViewCell.h"
 @interface InvitationsViewController ()
 
 @property (strong, nonatomic) NSIndexPath* selectedIndexPath;
@@ -26,6 +27,7 @@
 @property (strong, nonatomic) NSMutableData* responseDataInvitations;
 @property (strong, nonatomic) IBOutlet UIButton *invitations;
 
+@property (strong, nonatomic) IBOutlet UITableView *navBar;
 
 
 @property (strong, nonatomic) IBOutlet UIButton *meals;
@@ -42,6 +44,8 @@
     NSLog(@"view's loading");
     self.tableLock = [NSNumber numberWithInt:0];
     self.invitationsTable.dataSource = self;
+    [self.navBar setDelegate:self];
+    [self.navBar setDataSource:self];
     self.invitationsTable.delegate = self;
     self.mealsTable.delegate = self;
     self.mealsTable.dataSource = self;
@@ -55,16 +59,16 @@
         [self.invitationsTable reloadData];
         [self.mealsTable reloadData];
     }
-    UIImage* bigCarrot = [UIImage imageNamed:@"OrangeCarrot"];
+    UIImage* bigCarrot = [UIImage imageNamed:@"bluecarrot"];
     self.carrot = [Graphics makeThumbnailOfSize:bigCarrot size:CGSizeMake(10, 10)];
     UIImage* bigReply = [UIImage imageNamed:@"Reply"];
     self.reply = [Graphics makeThumbnailOfSize:bigReply size:CGSizeMake(14, 18)];
     self.title = @"Meals";
-    self.view.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
-    self.invitationsTable.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
-    self.mealsTable.contentInset = UIEdgeInsetsMake(-40, 0, -20, 0);
-    self.invitationsTable.contentInset = UIEdgeInsetsMake(24, 0, 0, 0);
-    self.mealsTable.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
+    self.invitationsTable.backgroundColor = [UIColor clearColor];
+    self.mealsTable.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    self.invitationsTable.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
+    self.mealsTable.backgroundColor = [UIColor clearColor];
     [self.navigationController setNavigationBarHidden:NO];
     UIImage *bigImg = [UIImage imageNamed:@"HomeBack"];
     UIImage* backImg = [Graphics makeThumbnailOfSize:bigImg size:CGSizeMake(37,22)];
@@ -75,36 +79,43 @@
     [back addTarget:self action:@selector(homePressed:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = backItem;
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"mealsPressed"] && [[[NSUserDefaults standardUserDefaults] objectForKey:@"mealsPressed"] boolValue]){
-        self.meals.backgroundColor = [Graphics colorWithHexString:@"b8a37e"];
-        self.invitations.backgroundColor = [UIColor clearColor];
-        self.meals.titleLabel.textColor = [UIColor blackColor];
-        self.invitations.titleLabel.textColor = [UIColor grayColor];
+        NSLog(@"h");
+        [self.meals setBackgroundColor:[UIColor whiteColor]];
+        [self.invitations setBackgroundColor:[UIColor clearColor]];
+        [self.meals setTitleColor:[Graphics colorWithHexString:@"2d769b"] forState:UIControlStateNormal];
+        [self.invitations setTitleColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.18] forState:UIControlStateNormal];
         self.mealsTable.hidden = NO;
         self.invitationsTable.hidden = YES;
     }
     else{
-        self.invitations.backgroundColor = [Graphics colorWithHexString:@"b8a37e"];
-        self.meals.backgroundColor = [UIColor clearColor];
-        self.invitations.titleLabel.textColor = [UIColor blackColor];
-        self.meals.titleLabel.textColor = [UIColor grayColor];
+        NSLog(@"k");
+        [self.invitations setBackgroundColor:[UIColor whiteColor]];
+        [self.meals setBackgroundColor:[UIColor clearColor]];
+        [self.invitations setTitleColor:[Graphics colorWithHexString:@"2d769b"] forState:UIControlStateNormal];
+        [self.meals setTitleColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.18] forState:UIControlStateNormal];
         self.mealsTable.hidden = YES;
         self.invitationsTable.hidden = NO;
     }
     self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [self.spinner setFrame:CGRectMake(self.view.frame.size.width - 40, self.mealsTable.frame.origin.y + 20,self.spinner.frame.size.width, self.spinner.frame.size.height )];
+    [self.spinner setFrame:CGRectMake(self.view.frame.size.width - 40, self.invitationsTable.frame.origin.y +15,self.spinner.frame.size.width, self.spinner.frame.size.height )];
     [self.spinner startAnimating];
     [self.view addSubview:self.spinner];
+    self.navigationController.navigationBarHidden = YES;
 
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+    if (tableView == self.navBar)
+        return 0;
     return 20;
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
 }
 -(void)viewWillAppear:(BOOL)animated{
+    [self.invitationsTable reloadData];
+    [self.mealsTable reloadData];
     [self refreshView];
 
 }
@@ -115,18 +126,19 @@
     [User getMeals:[[InvitationsConnectionHandler alloc] initWithInvitationsViewController:self] ];
     [User getInvitations:[[InvitationsConnectionHandler alloc] initWithInvitationsViewController:self] ];
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"mealsPressed"] && [[[NSUserDefaults standardUserDefaults] objectForKey:@"mealsPressed"] boolValue]){
-        self.meals.backgroundColor = [Graphics colorWithHexString:@"b8a37e"];
-        self.invitations.backgroundColor = [UIColor clearColor];
-        self.meals.titleLabel.textColor = [UIColor blackColor];
-        self.invitations.titleLabel.textColor = [UIColor grayColor];
+        [self.meals setBackgroundColor:[UIColor whiteColor]];
+        [self.invitations setBackgroundColor:[UIColor clearColor]];
+        [self.meals setTitleColor:[Graphics colorWithHexString:@"2d769b"] forState:UIControlStateNormal];
+        [self.invitations setTitleColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.18] forState:UIControlStateNormal];
         self.mealsTable.hidden = NO;
         self.invitationsTable.hidden = YES;
     }
     else{
-        self.invitations.backgroundColor = [Graphics colorWithHexString:@"b8a37e"];
-        self.meals.backgroundColor = [UIColor clearColor];
-        self.invitations.titleLabel.textColor = [UIColor blackColor];
-        self.meals.titleLabel.textColor = [UIColor grayColor];
+        NSLog(@"k");
+        [self.invitations setBackgroundColor:[UIColor whiteColor]];
+        [self.meals setBackgroundColor:[UIColor clearColor]];
+        [self.invitations setTitleColor:[Graphics colorWithHexString:@"2d769b"] forState:UIControlStateNormal];
+        [self.meals setTitleColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.18] forState:UIControlStateNormal];
         self.mealsTable.hidden = YES;
         self.invitationsTable.hidden = NO;
     }
@@ -141,20 +153,20 @@
     self.navigationController.navigationBarHidden = YES;
 }
 - (IBAction)mealsPressed:(id)sender {
-    self.meals.backgroundColor = [Graphics colorWithHexString:@"b8a37e"];
+    self.meals.backgroundColor = [UIColor whiteColor];
     self.invitations.backgroundColor = [UIColor clearColor];
-    self.meals.titleLabel.textColor = [UIColor blackColor];
-    self.invitations.titleLabel.textColor = [UIColor grayColor];
+    [self.meals setTitleColor:[Graphics colorWithHexString:@"2d769b"] forState:UIControlStateNormal];
+    [self.invitations setTitleColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.18] forState:UIControlStateNormal];
     self.mealsTable.hidden = NO;
     self.invitationsTable.hidden = YES;
     [LEViewController setUserDefault:@"mealsPressed" data:[NSNumber numberWithBool:YES]];
 }
 
 - (IBAction)invitationsPressed:(id)sender {
-    self.invitations.backgroundColor = [Graphics colorWithHexString:@"b8a37e"];
+    self.invitations.backgroundColor = [UIColor whiteColor];
     self.meals.backgroundColor = [UIColor clearColor];
-    self.invitations.titleLabel.textColor = [UIColor blackColor];
-    self.meals.titleLabel.textColor = [UIColor grayColor];
+    [self.invitations setTitleColor:[Graphics colorWithHexString:@"2d769b"] forState:UIControlStateNormal];
+    [self.meals setTitleColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.18] forState:UIControlStateNormal];
     self.mealsTable.hidden = YES;
     self.invitationsTable.hidden = NO;
     [LEViewController setUserDefault:@"mealsPressed" data:[NSNumber numberWithBool:NO]];
@@ -275,16 +287,22 @@ NSComparisonResult sortInvitationByDate4(Invitation *i1, Invitation *i2, void *i
         return MAX([upcoming count], 1);
     if (tableView == self.invitationsTable)
         return 0;
+    if (tableView == self.navBar)
+        return 1;
     return MAX([passed count], 1);
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if (tableView == self.navBar)
+        return 1;
     if (tableView == self.invitationsTable)
         return 1;
     return 2;
 }
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
+    if (tableView == self.navBar)
+        return @"";
     if(section == 0){
         if (tableView == self.mealsTable)
             return @"Upcoming Meals";
@@ -297,6 +315,11 @@ NSComparisonResult sortInvitationByDate4(Invitation *i1, Invitation *i2, void *i
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (tableView == self.navBar){
+        CheckAllStarsTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CheckAllStars"];
+        [cell setWithInvitationVC:self];
+        return cell;
+    }
     static NSString *CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -356,6 +379,8 @@ NSComparisonResult sortInvitationByDate4(Invitation *i1, Invitation *i2, void *i
     if ([[tableView cellForRowAtIndexPath:indexPath].textLabel.text isEqualToString:@"(None)"]){
         return;
     }
+    if (tableView == self.navBar)
+        return;
     self.selectedIndexPath = indexPath;
     InviteTransitionConnectionHandler* ivtch = [[InviteTransitionConnectionHandler alloc] initWithInvitationsViewController:self segueInput:@"invitationsToInvite"];
     NSMutableArray* arr;
