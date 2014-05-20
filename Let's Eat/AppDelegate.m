@@ -139,6 +139,12 @@
     }
 
 }
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    NSLog(@"I was called niggggassss");
+    return YES;
+}
 -(void)loadInvite:(int)num{
   //  UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     CreateMealNavigationController* cm = (CreateMealNavigationController*)self.window.rootViewController;

@@ -21,6 +21,7 @@
 @property (strong, nonatomic) IBOutlet UITableView *navBar;
 @property (strong, nonatomic) IBOutlet UISearchBar* search;
 
+@property (strong, nonatomic) IBOutlet UIButton *nextB;
 @property (strong, nonatomic) IBOutlet UITableView *progressBar;
 @property (strong, nonatomic) NSMutableArray *friendsCache;
 @property (strong, nonatomic) IBOutlet UIView *spacer1;
@@ -51,6 +52,7 @@
     self.friendsTable.delegate = self;
     self.spacer1.hidden = YES;
     self.spacer2.hidden = YES;
+    [self.nextB setImage:GET_IMG(@"nextpressed") forState:UIControlStateHighlighted];
     self.responseData = [[NSMutableData alloc] initWithLength:0];
     UIImage* bigunchecked = [UIImage imageNamed:@"unchecked"];
     UIImage* bigchecked = [UIImage imageNamed:@"checked"];

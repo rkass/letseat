@@ -10,6 +10,17 @@
 	<string>Kassanova.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>letsEat</string>
+			</array>
+			<key>CFBundleURLName</key>
+			<string>com.LetsEat.LetsEat</string>
+		</dict>
+	</array>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
