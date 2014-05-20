@@ -12,12 +12,16 @@
 #import "JSONKit.h"
 #import "CreateMealNavigationController.h"
 #import "Graphics.h"
-
+#import "CheckAllStarsTableViewCell.h"
+#import "ProgressBarDelegate.h"
+#import "ProgressBarTableViewCell.h"
 
 @interface WhoViewController ()
 @property (strong, nonatomic) IBOutlet UITableView* friendsTable;
+@property (strong, nonatomic) IBOutlet UITableView *navBar;
 @property (strong, nonatomic) IBOutlet UISearchBar* search;
 
+@property (strong, nonatomic) IBOutlet UITableView *progressBar;
 @property (strong, nonatomic) NSMutableArray *friendsCache;
 @property (strong, nonatomic) IBOutlet UIView *spacer1;
 @property (strong, nonatomic) IBOutlet UIView *spacer2;
@@ -25,7 +29,7 @@
 @property (strong, nonatomic) NSMutableData* responseData;
 @property (strong, nonatomic) IBOutlet UIButton *rankTypes;
 @property (strong, nonatomic) UIImage* checked;
-
+@property (strong, nonatomic) ProgressBarDelegate* pbd;
 @property BOOL initializing;
 @end
 
@@ -37,7 +41,12 @@
 {
     [super viewDidLoad];
     [User getFriends:self];
+    [self.navBar setDelegate:self];
+    [self.navBar setDataSource:self];
     [self.search setDelegate:self];
+    self.pbd = [[ProgressBarDelegate alloc] initWithTitle:@"CI"];
+    [self.progressBar setDelegate:self.pbd];
+    [self.progressBar setDataSource:self.pbd];
     self.friendsTable.dataSource = self;
     self.friendsTable.delegate = self;
     self.spacer1.hidden = YES;
@@ -45,8 +54,8 @@
     self.responseData = [[NSMutableData alloc] initWithLength:0];
     UIImage* bigunchecked = [UIImage imageNamed:@"unchecked"];
     UIImage* bigchecked = [UIImage imageNamed:@"checked"];
-    self.unchecked = [Graphics makeThumbnailOfSize:bigunchecked size:CGSizeMake(20, 20)];
-    self.checked = [Graphics makeThumbnailOfSize:bigchecked size:CGSizeMake(20, 20)];
+    self.unchecked = bigunchecked;
+    self.checked = bigchecked;
     self.friendsCache = [self loadMutable];
     self.friends = [self.friendsCache mutableCopy];
     self.rankTypes.titleLabel.textColor = [Graphics colorWithHexString:@"ffa500"];
@@ -54,7 +63,7 @@
     CreateMealNavigationController* cmnc = (CreateMealNavigationController*) self.navigationController;
     cmnc.creator = YES;
     [cmnc.invitees removeAllObjects];
-    self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBarHidden = YES;
     self.title = @"Invitation";
     UIImage *bigImage = [UIImage imageNamed:@"HomeBack"];
     UIImage* homeImg = [Graphics makeThumbnailOfSize:bigImage size:CGSizeMake(37,22)];
@@ -72,7 +81,7 @@
     UIBarButtonItem *addFriendsItem = [[UIBarButtonItem alloc] initWithCustomView:addFriends];
     [addFriends addTarget:self action:@selector(addFriends:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = addFriendsItem;
-    self.view.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
     NSMutableDictionary* meDict = [[NSMutableDictionary alloc] init];
     [meDict setObject:@"Me" forKey:@"displayName"];
     [meDict setObject:@YES forKey:@"checked"];
@@ -89,6 +98,13 @@
 -(void)viewWillAppear:(BOOL)animated{
     NSLog(@"Who's gonna appear");
 }
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (tableView == self.friendsTable)
+        return self.friends.count;
+    return 1;
+}
+
+
 -(int) findMe:(NSMutableArray*)arr{
     int count = 0;
     for (NSMutableDictionary* dict in arr){
@@ -262,7 +278,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
-    
+    if (tableView == self.navBar){
+        CheckAllStarsTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CheckAllStars"];
+        [cell setWithWhoVC:self];
+        return cell;
+    }
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -282,8 +302,11 @@
     }
         
     cell.textLabel.text = [f objectForKey:@"displayName"];
-    cell.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.backgroundColor = [UIColor clearColor];
+    if (indexPath.row == 0)
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    else
+        cell.selectionStyle = UITableViewCellSelectionStyleDefault;
         
     return cell;
 }
@@ -293,8 +316,8 @@
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     NSMutableDictionary* friend = [self.friends objectAtIndex:indexPath.row];
     if ([friend objectForKey:@"Me" ])
-        return;
-    if ([friend[@"checked"]  isEqual: @YES])
+        ;
+    else if ([friend[@"checked"]  isEqual: @YES])
     {
  
         UIImageView* accUnchecked = [[UIImageView alloc] initWithImage:self.unchecked];
@@ -309,13 +332,11 @@
         cell.accessoryView = accChecked;
         friend[@"checked"] = @YES;
     }
-
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.friends count];
-}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;

@@ -37,10 +37,13 @@
         
     }
     else if ([titleInput isEqualToString:@"Create Invitation Button"]){
-        NSLog(@"hurr");
         [self setBackgroundColor:[UIColor colorWithPatternImage:GET_IMG(@"createinvitation")]];
         [sliderfill setFrame:CGRectMake(self.slidertrack.frame.origin.x, self.slidertrack.frame.origin.y, 320, self.slidertrack.frame.size.height)];
         NSLog(@"my height %f", self.frame.size.height);
+    }
+    else if ([titleInput isEqualToString:@"CI"]){
+        [self setBackgroundColor:[UIColor colorWithPatternImage:GET_IMG(@"createinvitation")]];
+        [sliderfill setFrame:CGRectMake(self.slidertrack.frame.origin.x, self.slidertrack.frame.origin.y, 320/3, self.slidertrack.frame.size.height)];
     }
     else if ([titleInput isEqualToString:@"Attend Meal"])
     {

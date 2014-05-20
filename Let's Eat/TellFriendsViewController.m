@@ -12,9 +12,14 @@
 #import "WhoViewController.h"
 #import "User.h"
 #import "JSONKit.h"
+#import "ProgressBarDelegate.h"
+#import "ProgressBarTableViewCell.h"
+#import "CheckAllStarsTableViewCell.h"
 
 @interface TellFriendsViewController ()
 @property (strong, nonatomic) IBOutlet UITableView *table;
+@property (strong, nonatomic) IBOutlet UITableView *progressBar;
+@property (strong, nonatomic) ProgressBarDelegate* pbd;
 @property (strong, nonatomic) CreateMealNavigationController* nav;
 @property (strong, nonatomic) IBOutlet UISearchBar *search;
 @property NSMutableArray* invitees;
@@ -24,6 +29,7 @@
 @property (strong, nonatomic) UIAlertView* warningAlert;
 @property (strong, nonatomic) UIAlertView* sentAlert;
 @property (strong, nonatomic) NSMutableData* responseData;
+@property (strong, nonatomic) IBOutlet UITableView *navBar;
 
 @end
 
@@ -34,6 +40,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.navBar setDelegate:self];
+    [self.navBar setDataSource:self];
+    self.pbd = [[ProgressBarDelegate alloc] initWithTitle:@"CI"];
+    [self.progressBar setDelegate:self.pbd];
+    [self.progressBar setDataSource:self.pbd];
     self.inviteesCache = [self loadMutable];
     self.invitees = [self.inviteesCache mutableCopy];
     self.responseData = [[NSMutableData alloc] initWithLength:0];
@@ -73,14 +84,14 @@
 
     [self.table reloadData];
     self.title = @"Add Friends";
-    self.view.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
     self.table.dataSource = self;
     self.table.delegate = self;
     self.search.delegate = self;
     UIImage* bigunchecked = [UIImage imageNamed:@"unchecked"];
     UIImage* bigchecked = [UIImage imageNamed:@"checked"];
-    self.unchecked = [Graphics makeThumbnailOfSize:bigunchecked size:CGSizeMake(20, 20)];
-    self.checked = [Graphics makeThumbnailOfSize:bigchecked size:CGSizeMake(20, 20)];
+    self.unchecked = bigunchecked;
+    self.checked = bigchecked;
 }
 -(void)homePressed:(UIBarButtonItem*)sender{
     [self.navigationController popToRootViewControllerAnimated:YES];
@@ -128,7 +139,7 @@
 - (IBAction)messageApp:(id)sender {
     MFMessageComposeViewController *picker = [[MFMessageComposeViewController alloc] init];
     picker.messageComposeDelegate = self;
-    NSLog(@"get checked: %@", self.getChecked);
+
     picker.recipients = [self getChecked];
     picker.body = @"Check out Let's Eat! It helps you and your friends pick which restaurant to go: http://letseatapp.com/";
     [self presentViewController:picker animated:YES completion:nil];
@@ -143,7 +154,17 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
-    
+    if (tableView == self.navBar){
+        CheckAllStarsTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CheckAllStars"];
+        [cell setWithTellFriends:self];
+        return cell;
+    }
+  /*  if (tableView == self.progBar){
+        NSLog(@"being called");
+        ProgressBarTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"ProgressBar"];
+        [cell setLayout:@"CI"];
+        return cell;
+    }*/
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -169,8 +190,8 @@
     }
     
     cell.textLabel.text = [i objectForKey:@"displayName"];
-    cell.backgroundColor = [Graphics colorWithHexString:@"f5f0df"];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.backgroundColor = [UIColor clearColor];
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     
     return cell;
 }
@@ -202,7 +223,7 @@
 {
     
     NSDictionary *resultsDictionary = [self.responseData objectFromJSONData];
-    NSLog(@"Non-Friends: %@", resultsDictionary);
+
     if ([resultsDictionary objectForKey:@"success"])
     {
         [self.inviteesCache removeAllObjects];
@@ -216,7 +237,6 @@
                 // NSLog(@"inside");
 
         }
-        NSLog(@"invitees cache 1%@", self.inviteesCache);
         NSSortDescriptor *nameDescriptor =
         [[NSSortDescriptor alloc] initWithKey:@"displayName"
                                     ascending:YES
@@ -229,15 +249,14 @@
         [self storeInvitees:self.inviteesCache];
         self.invitees = [self.inviteesCache mutableCopy];
         [self.table reloadData];
-        NSLog(@"invitees cache %@", self.inviteesCache);
-        NSLog(@"invitees %@", self.invitees);
     }
     
     
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+    if ((tableView == self.navBar) /*|| (tableView == self.progBar)*/)
+        return;
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     NSMutableDictionary* invitee = [self.invitees objectAtIndex:indexPath.row];
     if ([invitee[@"checked"]  isEqual: @YES])
@@ -258,11 +277,15 @@
         invitee[@"checked"] = @YES;
         [self.nav.invitees addObject:self.invitees[indexPath.row]];
     }
-    NSLog(@"nav invitees: %@", self.nav.invitees);
-    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if ((tableView == self.navBar) /*|| (tableView == self.progBar)*/ ){
+        NSLog(@"inside");
+                return 1;
+    }
+
     return [self.invitees count];
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -298,17 +321,16 @@
 }*/
 -(void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
 {
-    NSLog(@"pressed");
     switch (result) {
         case MessageComposeResultCancelled:{
-            NSLog(@"cancelled");
+
             [self dismissViewControllerAnimated:YES completion:nil];
             break;
         }
             
         case MessageComposeResultFailed:
         {
-            NSLog(@"send failed");
+
             self.warningAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to send SMS!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [warningAlert show];
             [self dismissViewControllerAnimated:YES completion:nil];
@@ -316,7 +338,7 @@
         }
             
         case MessageComposeResultSent:{
-            NSLog(@"sent");
+   
             [self dismissViewControllerAnimated:YES completion:nil];
             self.sentAlert = [[UIAlertView alloc] initWithTitle:@"Sent" message:@"Invited friends to Let's Eat!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [sentAlert show];

@@ -12,6 +12,8 @@
 #import "PriceViewController.h"
 #import "InviteViewController.h"
 #import "InvitationsViewController.h"
+#import "WhoViewController.h"
+#import "TellFriendsViewController.h"
 @implementation CheckAllStarsTableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -29,9 +31,20 @@
         NSLog(@"pressed %u", self.state);
         [self.wvc statePressed:self.state];
     }
+    if (self.whovc){
+        [self.whovc performSegueWithIdentifier:@"whoToTellFriends" sender:self];
+    }
+}
+-(void)setWithTellFriends:(TellFriendsViewController *)tfii{
+    self.tfi = tfii;
+    [self generalSetup];
 }
 -(void)setWithInvitationVC:(InvitationsViewController *)iivcInput{
     self.iivc = iivcInput;
+    [self generalSetup];
+}
+-(void)setWithWhoVC:(WhoViewController *)whoInput{
+    self.whovc = whoInput;
     [self generalSetup];
 }
 -(void)setWithInviteVC:(InviteViewController *)ivcInput{
@@ -48,9 +61,13 @@
 }
 - (IBAction)leftButtonPressed:(id)sender {
     //different code when not the back button
-    if (self.iivc)
+    if (self.tfi)
+        [self.tfi.navigationController popViewControllerAnimated:YES];
+    else if (self.iivc)
        [ self.iivc.navigationController popToRootViewControllerAnimated:YES];
-    if (self.ivc){
+    else if (self.whovc)
+        [self.whovc.navigationController popToRootViewControllerAnimated:YES];
+    else if (self.ivc){
         NSArray* vc = [self.ivc.navigationController viewControllers];
         if ([vc[vc.count - 2] isKindOfClass:[InvitationsViewController class]]){
             [self.ivc.navigationController popViewControllerAnimated:YES];

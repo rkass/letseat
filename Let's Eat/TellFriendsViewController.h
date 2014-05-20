@@ -8,6 +8,9 @@
 
 #import "LEViewController.h"
 #import <MessageUI/MessageUI.h>
+@class CheckAllStarsTableViewCell;
+@class ProgressBarDelegate;
+@class ProgressBarTableViewCell;
 @interface TellFriendsViewController : LEViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, MFMessageComposeViewControllerDelegate, UIAlertViewDelegate>
 
 @end

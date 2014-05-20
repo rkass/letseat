@@ -11,11 +11,14 @@
 @implementation ProgressBarDelegate
 
 -(id) initWithTitle:(NSString*)titleInput{
+    NSLog(@"initting with title");
     self = [super init];
     self.title = titleInput;
+    NSLog(@"returning self, %@", self);
     return self;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    NSLog(@"how many rows?");
     return 1;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -26,7 +29,7 @@
     NSLog(@"here and stuff");
     ProgressBarTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"ProgressBar"];
     [cell setLayout:self.title];
-    NSLog(@"returning");
+    NSLog(@"here's the cell");
     return cell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
