@@ -12,6 +12,7 @@
 #import "InvitationsViewController.h"
 #import "InviteTransitionConnectionHandler.h"
 #import "User.h"
+#import "JSONKit.h"
 
 #define loadNotification(userInfo)\
 {\
@@ -22,6 +23,7 @@
     [self loadInvite:[userInfo[@"num"] integerValue]];\
     }\
 }
+
 
 @implementation AppDelegate
 
@@ -139,10 +141,38 @@
     }
 
 }
+-(void)connectionDidFinishLoading:(NSURLConnection*)connection{
+    
+    NSDictionary* resultsDictionary = [self.responseData objectFromJSONData];
+    self.responseData = [[NSMutableData alloc] initWithLength:0];
+    NSLog(@"resultsDictionary: %@", resultsDictionary);
+    if ([resultsDictionary[@"validated"] boolValue]){
+        [LEViewController setUserDefault:@"auth_token" data:resultsDictionary[@"auth_token"]];
+        [LEViewController setUserDefault:@"phone_number" data:resultsDictionary[@"phone_number"]];
+    }
+    self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    UIViewController *viewController =  [storyboard instantiateViewControllerWithIdentifier:@"Initial"];
+    if ([[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"]){
+        viewController = [storyboard instantiateViewControllerWithIdentifier:@"navController"];
+    }
+    self.window.rootViewController = viewController;
+    [self.window makeKeyAndVisible];
+    
+}
+-(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
+    [self.responseData appendData:data];
+}
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    NSLog(@"I was called niggggassss");
+    NSString* urlString = [NSString stringWithFormat:@"%@", url];
+    NSRange range = [urlString rangeOfString:@"register"];
+    self.responseData = [[NSMutableData alloc] initWithLength:0];
+    NSString* auth_token = [urlString substringFromIndex:range.length + range.location + 1];
+    [User verifyUser:auth_token source:self];
     return YES;
 }
 -(void)loadInvite:(int)num{

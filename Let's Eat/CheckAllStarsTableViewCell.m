@@ -14,6 +14,7 @@
 #import "InvitationsViewController.h"
 #import "WhoViewController.h"
 #import "TellFriendsViewController.h"
+#import "RestaurantViewController.h"
 @implementation CheckAllStarsTableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -51,6 +52,11 @@
     self.ivc = ivcInput;
     [self generalSetup];
 }
+-(void)setWithRVC:(RestaurantViewController*)rvcInput{
+    self.rvc = rvcInput;
+    [self.titleLabel setText:self.rvc.restaurant.name];
+    [self generalSetup];
+}
 - (void)awakeFromNib
 {
     // Initialization code
@@ -61,6 +67,12 @@
 }
 - (IBAction)leftButtonPressed:(id)sender {
     //different code when not the back button
+    if (self.rvc){
+        if ([self.rvc.yelpView canGoBack])
+            [self.rvc.yelpView goBack];
+        else
+            [self.rvc.navigationController popViewControllerAnimated:YES];
+    }
     if (self.tfi)
         [self.tfi.navigationController popViewControllerAnimated:YES];
     else if (self.iivc)

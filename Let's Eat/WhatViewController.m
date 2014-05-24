@@ -258,7 +258,7 @@
 }
 -(NSMutableArray*)loadFoodTypes{
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"ratingsDict"])
-            self.ratingsDict = [[NSUserDefaults standardUserDefaults] objectForKey:@"ratingsDict"];
+            self.ratingsDict = [[[NSUserDefaults standardUserDefaults] objectForKey:@"ratingsDict"] mutableCopy];
     else
         self.ratingsDict = [[NSMutableDictionary alloc] init];
     

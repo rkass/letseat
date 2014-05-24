@@ -1,17 +1,8 @@
-1) Finish invites page/Polish Recommendations
-    -Handle auto-layout issue
-    -Make it constantly update
-    -Handle what happens when updating Recommendations is zero so that restaurants come in with everything else
-    -Constantly update page
-    -Test what happens when timer runs down to zero
-    -redesign decline/accept buttons
-    -Test page with concurrent voting
+1) Fix display foods
+2) Fix reply arrow color
+3) Finish invites page/Polish Recommendations
     -Handle what happens when there are no recommended restaurants
-    -Fix Declines
-2) Redesign restaurant page
-3) Redesign invitations page
-4) Redesign home page
-5) Redesign who
-6) Remake logins
-    -With phone number authentication
-    -With a logo
+    -Handle what happens when updating Recommendations is zero so that restaurants come in with everything else
+    -Handle auto-layout issue
+    -Hide vote button when scheduled
+4) Test invite friends

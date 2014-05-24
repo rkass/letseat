@@ -15,6 +15,7 @@
 + (void) setMyLocation:(CLLocation*)locationInput;
 - (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
 -(void)loadingScreen;
+-(void)unloadScreen;
 @property (strong, nonatomic) UIView* fadeout;
 @property (strong, nonatomic) UIView* blacky;
 @property (strong, nonatomic) UIActivityIndicatorView* loadingIndicator;

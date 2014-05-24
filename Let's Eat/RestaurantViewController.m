@@ -8,10 +8,11 @@
 
 #import "RestaurantViewController.h"
 #import "Graphics.h"
-
+#import "CheckAllStarsTableViewCell.h"
 @interface RestaurantViewController ()
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *rightBar;
-@property (strong, nonatomic) IBOutlet UIWebView *yelpView;
+@property (strong, nonatomic) IBOutlet UITableView *navBar;
+
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *ind;
 @property (strong, nonatomic) UIButton* back;
 @end
@@ -22,6 +23,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.navBar setDelegate:self];
+    [self.navBar setDataSource:self];
     self.yelpView.scalesPageToFit = YES;
     NSURL *url = [NSURL URLWithString:self.restaurant.url];
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
@@ -37,6 +40,8 @@
     self.navigationItem.leftBarButtonItem = backItem;
     self.rightBar.tintColor = [Graphics colorWithHexString:@"b8a37e"];
     [self.ind startAnimating];
+    [self.navigationController setNavigationBarHidden:YES];
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage:GET_IMG(@"bg")]];
 //ny additional setup after loading the view.
 }/*
 -(void)webViewDidStartLoad:(UIWebView *)webView{
@@ -46,14 +51,27 @@
 - (IBAction)pop:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
-
+-(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 1;
+}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
 -(void)backPressed:(UIBarButtonItem*)sender{
     if ([self.yelpView canGoBack])
         [self.yelpView goBack];
     else
         [self.navigationController popViewControllerAnimated:YES];
 }
-
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath*) indexPath{
+    if (tableView == self.navBar){
+        CheckAllStarsTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CheckAllStars"];
+        [cell setWithRVC:self];
+        return cell;
+    }
+    return nil;
+}
 -(void)editPage:(bool)finished
 {
     if (finished){
@@ -61,12 +79,13 @@
         [self.ind removeFromSuperview];
     }
     [self.yelpView stringByEvaluatingJavaScriptFromString:@"document.getElementById('app-pitch').style.display = 'none'"];
-    NSString *exists = [self.yelpView stringByEvaluatingJavaScriptFromString:@"document.getElementById('search-bar')!=null;"];
-    if ([exists isEqualToString:@"true"]){
-        [self.yelpView stringByEvaluatingJavaScriptFromString:@"document.getElementById('search-bar').style.display = 'none'"];
-         self.yelpView.scrollView.contentOffset = CGPointMake(0,-18);
+    self.yelpView.scrollView.contentOffset = CGPointMake(0,-43);
+   // NSString *exists = [self.yelpView stringByEvaluatingJavaScriptFromString:@"document.getElementById('search-bar')!=null;"];
+  //  if ([exists isEqualToString:@"true"]){
+       // [self.yelpView stringByEvaluatingJavaScriptFromString:@"document.getElementById('search-bar').style.display = 'none'"];
+        // self.yelpView.scrollView.contentOffset = CGPointMake(0,-18);
 
-    }
+    //}
 }
 - (void)webViewDidStartLoad:(UIWebView *)webView {
     [self editPage:NO];

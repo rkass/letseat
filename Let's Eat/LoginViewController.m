@@ -9,14 +9,18 @@
 #import "LoginViewController.h"
 #import "User.h"
 #import "Server.h"
-
+#import "JSONKit.h"
 @interface LoginViewController ()
 @property (strong, nonatomic) IBOutlet UITextField *username;
+@property (strong, nonatomic) UIAlertView *phoneAlert;
 @property (strong, nonatomic) IBOutlet UITextField *password;
 @property (strong, nonatomic) IBOutlet UIButton *enter;
+@property (strong, nonatomic) IBOutlet UIButton *registerButton;
 @property (strong, nonatomic) UIAlertView *usernameAlert;
+@property (strong, nonatomic) IBOutlet UITextView *phoneNumberTextView;
 @property (strong, nonatomic) UIAlertView *passwordAlert;
 @property (strong, nonatomic) User *user;
+@property (strong, nonatomic) NSMutableData *d;
 @end
 
 @implementation LoginViewController
@@ -26,64 +30,121 @@
 {
 
     [super viewDidLoad];
-    self.username.delegate = self;
-    self.password.delegate = self;
-    self.enter.hidden = YES;
-    [self.username becomeFirstResponder];
-    self.password.secureTextEntry = YES;
-    [self.username addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-    [self.password addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-    [self.enter addTarget:self action:@selector (enterPressed:) forControlEvents:UIControlEventTouchDown];
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage:GET_IMG(@"bg")]];
+    [self.phoneNumberTextView setBackgroundColor:[UIColor colorWithPatternImage:GET_IMG(@"input")]];
+    [self.phoneNumberTextView setDelegate:self];
+    [self.phoneNumberTextView setText:@"Phone Number"];
+    [self.phoneNumberTextView setTextColor:[UIColor lightGrayColor]];
+    [self displayRegister];
+    self.d = [[NSMutableData alloc] initWithLength:0];
 	// Do any additional setup after loading the view.
 }
-- (BOOL)validateUsername
-{
-    return [username.text length] != 0;
-}
--(BOOL)validatePassword
-{
-    return [password.text length] != 0;
-}
 
--(void)enterPressed:(UIButton *)button
-{
-    if (![self validateUsername])
-    {
-        self.usernameAlert = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"Please enter a username." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [self.usernameAlert show];
-        return;
-    }
-    if (![self validatePassword])
-    {
-        self.passwordAlert = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"Please enter a password." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [self.passwordAlert show];
-        return;
-    }
-    [User login:self.username.text password:self.password.text source:self];
+
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     
-}
-
-- (void)textFieldDidChange:(UITextField *)textField
-{
-    if ([self.username.text length] && [self.password.text length]){
-        self.enter.hidden = NO;
+    if (textView == self.phoneNumberTextView){
+        NSString *newString = [textView.text stringByReplacingCharactersInRange:range withString:text];
+        NSArray *components = [newString componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
+        NSString *decimalString = [components componentsJoinedByString:@""];
+        
+        NSUInteger length = decimalString.length;
+        BOOL hasLeadingOne = length > 1 && [decimalString characterAtIndex:0] == '1';
+        
+        if (length == 0 || (length > 10 && !hasLeadingOne) || (length > 11)) {
+            textView.text = decimalString;
+            [self displayRegister];
+            return NO;
+        }
+        
+        NSUInteger index = 0;
+        NSMutableString *formattedString = [NSMutableString string];
+        
+        if (hasLeadingOne) {
+            [formattedString appendString:@"1 "];
+            index += 1;
+        }
+        
+        if (length - index > 3) {
+            NSString *areaCode = [decimalString substringWithRange:NSMakeRange(index, 3)];
+            [formattedString appendFormat:@"(%@) ",areaCode];
+            index += 3;
+        }
+        
+        if (length - index > 3) {
+            NSString *prefix = [decimalString substringWithRange:NSMakeRange(index, 3)];
+            [formattedString appendFormat:@"%@-",prefix];
+            index += 3;
+        }
+        
+        NSString *remainder = [decimalString substringFromIndex:index];
+        [formattedString appendString:remainder];
+        
+        textView.text = formattedString;
+        [self displayRegister];
+        return NO;
+        
     }
-    else{
-        self.enter.hidden = YES;
-    }
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    if (textField == username) {
-        [password becomeFirstResponder];
-    }
-    else if (textField == password){
-        [self enterPressed:enter];
-    }
+    [self displayRegister];
     return YES;
 }
+- (NSString*)getRawNumber
+{
+    return [[[[self.phoneNumberTextView.text stringByReplacingOccurrencesOfString:@"(" withString:@""]stringByReplacingOccurrencesOfString:@")" withString:@""] stringByReplacingOccurrencesOfString:@"-" withString:@""] stringByReplacingOccurrencesOfString:@" " withString:@""];
+}
+- (BOOL)validatePhoneNumber
+{
+    NSString *rawNumber = [self getRawNumber];
+    return ([rawNumber length] == 10 && (![[NSString stringWithFormat:@"%C",[rawNumber characterAtIndex:0]]isEqualToString:@"1"])) || ([rawNumber length] == 11 && [[NSString stringWithFormat:@"%C",[rawNumber characterAtIndex:0]]isEqualToString:@"1"]);
+}
+- (IBAction)registerPressed:(id)sender {
+    if (![self validatePhoneNumber])
+    {
+        self.phoneAlert = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"Please enter a valid phone number." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [self.phoneAlert show];
+        return;
+    }
+    else{
+       [User createAccount:[self getRawNumber] usernameAttempt:@"" password:@"" source:self];
+        [self.phoneNumberTextView resignFirstResponder];
+        [self loadingScreen];
+    }
+    
+}
+-(void)connectionDidFinishLoading:(NSURLConnection*)connection{
+
+    [self unloadScreen];
+    NSDictionary* resultsDictionary = [self.d objectFromJSONData];
+    self.d = [[NSMutableData alloc] initWithLength:0];
+    NSLog(@"resultsDictionary: %@", resultsDictionary);
+
+    [LEViewController setUserDefault:@"username" data:resultsDictionary[@"username"]];
+    UIAlertView* av = [[UIAlertView alloc] initWithTitle:@"We sent you a text" message:@"Click the link in the text to validate your phone number" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [av show];
+
+}
+-(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
+    [self.d appendData:data];
+}
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (alertView == self.phoneAlert)
+        [self.phoneNumber becomeFirstResponder];
+}
+
+- (void)displayRegister
+{
+
+    if (self.phoneNumberTextView.text.length && (!([self.phoneNumberTextView.text isEqualToString: @"Phone Number"])))
+       [self.registerButton setHidden:NO];
+    else
+        [self.registerButton setHidden:YES];
+}
+-(void)textViewDidBeginEditing:(UITextView *)textView{
+    if ([textView.text isEqualToString:@"Phone Number"])
+        textView.text = @"";
+}
+
+
 
 - (void)didReceiveMemoryWarning
 {

@@ -8,6 +8,8 @@
 
 #import "LEViewController.h"
 #import "Restaurant.h"
-@interface RestaurantViewController : LEViewController <UIWebViewDelegate>
+@class CheckAllStarsTableViewCell;
+@interface RestaurantViewController : LEViewController <UIWebViewDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) Restaurant* restaurant;
+@property (strong, nonatomic) IBOutlet UIWebView *yelpView;
 @end

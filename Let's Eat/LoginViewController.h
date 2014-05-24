@@ -8,6 +8,6 @@
 
 #import "ValidationViewController.h"
 
-@interface LoginViewController : ValidationViewController <UITextFieldDelegate>
+@interface LoginViewController : ValidationViewController <UITextFieldDelegate, UITextViewDelegate>
 
 @end

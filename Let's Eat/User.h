@@ -34,6 +34,7 @@
 + (void) sendToken;
 + (void) castVote:(NSMutableDictionary*)dict source:(NSObject*)source;
 + (void) castUnvote:(NSMutableDictionary*)dict source:(NSObject*)source;
++ (void) verifyUser:(NSString*)auth_token source:(NSObject*)source;
 -(User *)init;
 
 @end
