@@ -6,7 +6,7 @@
 
 #import <Availability.h>
 
-
+#define currentUser @""//	@"kkwan"
 #define loadingRestaurantsText @"Loading Recommendations.\nThis usually takes about a minute..."
 #define color2 @"f4f6ef"
 #define color3 @"8ab32d"

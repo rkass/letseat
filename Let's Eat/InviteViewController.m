@@ -80,6 +80,7 @@
     self.rsvpTable.backgroundColor = [UIColor clearColor];
     self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
     ((CreateMealNavigationController*)self.navigationController).invitation = self.invitation;
+    ((CreateMealNavigationController*)self.navigationController).creator = NO;
     self.navigationController.navigationBarHidden = YES;
     self.restaurantSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [self.restaurantSpinner setFrame:CGRectMake(160 - (self.restaurantSpinner.frame.size.width/2), self.restaurantsTable.frame.origin.y + 5, self.restaurantSpinner.frame.size.width, self.restaurantSpinner.frame.size.height)];
@@ -182,7 +183,8 @@
         [self.oneRest reloadData];
     }
     self.previousInvitation = self.invitation;
-    if (self.invitation.updatingRecommendations > 0){
+    [self performSelector:@selector(recall) withObject:nil afterDelay:10];
+   /* if (self.invitation.updatingRecommendations > 0){
         bool retry;
         @synchronized(self.tries){
             self.tries = [NSNumber numberWithInt:([self.tries integerValue ]+ 1)];
@@ -200,7 +202,7 @@
         @synchronized(self.tries){
             self.tries = [NSNumber numberWithInt:0];
         }
-    }
+    }*/
    // [labelbg setFrame:CGRectMake(self.msg.frame.origin.x - 5, self.msg.frame.origin.y + 7, self.msg.frame.size.width + 10, self.msg.frame.size.height -10)];
 
 }

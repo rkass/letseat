@@ -158,16 +158,13 @@
     }
 
     if (self.ivc.invitation.scheduled && (!oneRest)){
-        [self.vote setBackgroundImage:nil forState:UIControlStateNormal];
-        [self.vote setTitle:@"" forState:UIControlStateNormal];
+        [self.vote removeFromSuperview];
         [self.name setFrame:CGRectMake(self.name.frame.origin.x, self.name.frame.origin.y, self.superview.frame.size.width - self.name.frame.origin.x, self.name.frame.size.height)];
     }
     if (self.oneRest){
-        [self.vote setTitle:@"" forState:UIControlStateNormal];
-        //self.vote.titleLabel.text = @"";
+        [self.vote removeFromSuperview];
         self.name.text = self.restaurant.name;
         [self.name setFrame:CGRectMake(self.name.frame.origin.x, self.frame.origin.y, 320 - self.name.frame.origin.x, self.name.frame.size.height)];
-        [self.vote setImage:nil forState:UIControlStateNormal];
         [self setBackgroundColor:[UIColor whiteColor]];
 
     }

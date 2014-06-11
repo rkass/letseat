@@ -58,7 +58,10 @@
     //} else {
       //  self.myViewController = [OrdinaryLaunchViewController alloc] init];
     //}
-    
+    if( [currentUser isEqualToString:@"kkwan" ]){
+        [LEViewController setUserDefault:@"auth_token" data:@"d2d22127c287c68a66a5094c3ae5a8e5824dc35b"];
+        [LEViewController setUserDefault:@"phone_number" data:@"6463317888"];
+    }
     //self.window.rootViewController = self.myViewController;
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     
@@ -172,6 +175,7 @@
     NSRange range = [urlString rangeOfString:@"register"];
     self.responseData = [[NSMutableData alloc] initWithLength:0];
     NSString* auth_token = [urlString substringFromIndex:range.length + range.location + 1];
+    NSLog(@"auth token: %@", auth_token);
     [User verifyUser:auth_token source:self];
     return YES;
 }

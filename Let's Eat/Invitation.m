@@ -40,6 +40,7 @@
         self.responseArray = [responseArrayInput mutableCopy];
         self.messagesArray = [messagesArrayInput mutableCopy];
         self.preferences = [preferencesInput mutableCopy];
+                NSLog(@"preferences input: %@", self.preferences);
         //NSLog(@"preferences: %@", self.preferences);
       //  [self decidePreferences];
        // NSLog(@"preferences: %@", self.preferences);
@@ -205,13 +206,13 @@
             return [NSString stringWithFormat:@"You invited %@", otherPerson];
         if ([self.people count] == 3)
             return [NSString stringWithFormat:@"You invited %@ and 1 other", otherPerson];
-        return [NSString stringWithFormat:@"You invited %@ and %u others", otherPerson, [self.people count] - 2];
+        return [NSString stringWithFormat:@"You invited %@ and %lu others", otherPerson, [self.people count] - 2];
     }
     if ([self.people count] == 2)
         return [NSString stringWithFormat:@"%@ invited You", creator];
     if ([self.people count] == 3)
         return [NSString stringWithFormat:@"%@ invited You and one other", creator];
-    return [NSString stringWithFormat:@"%@ invited You and %u others", creator, [self.people count] - 2];
+    return [NSString stringWithFormat:@"%@ invited You and %lu others", creator, [self.people count] - 2];
 
 }
 

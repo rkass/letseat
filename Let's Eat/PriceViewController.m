@@ -28,6 +28,7 @@
 @property (strong, nonatomic) IBOutlet UISlider *slidePiece;
 @property (strong, nonatomic) IBOutlet UILabel *minYeses;
 @property (strong, nonatomic) NSMutableData* responseData;
+@property (strong, nonatomic) IBOutlet UIButton *cib;
 @property int invitees;
 @property (strong, nonatomic) CLLocation* nonCurrentLocation;
 @property (strong, nonatomic) IBOutlet UILabel *currLocLabel;
@@ -162,6 +163,11 @@
     if (self.nav.creator){
         NSMutableArray* arr = [self getCreatorPreferences][@"numbers"];
         self.invitees = arr.count;
+        [self.cib setTitle:@"Create Invitation" forState:UIControlStateNormal];
+    }
+    else{
+        [self.cib setTitle:@"Respond" forState:UIControlStateNormal];
+        [self.cib setTitle:@"Respond" forState:UIControlStateHighlighted];
     }
     self.sliderMin = self.sliderMinX;
     self.sliderMax = self.sliderMaxX;

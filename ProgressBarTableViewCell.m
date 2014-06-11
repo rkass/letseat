@@ -31,13 +31,22 @@
 -(void)setLayout:(NSString*)titleInput{
   //  [self.progressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
     UIImageView* sliderfill = [[UIImageView alloc] initWithImage:GET_IMG(@"sliderfill")];
-    if ([titleInput isEqualToString:@"Create Invitation"]){
+    if ([titleInput isEqualToString:@"Respond1"]){
+        [self.pathTitleButton setTitle:@"Respond" forState:UIControlStateNormal];
+        [sliderfill setFrame:CGRectMake(self.slidertrack.frame.origin.x, self.slidertrack.frame.origin.y, 213, self.slidertrack.frame.size.height)];
+    }
+    else if ([titleInput isEqualToString:@"Create Invitation"]){
         [self.pathTitleButton setTitle:@"Create Invitation" forState:UIControlStateNormal];
         [sliderfill setFrame:CGRectMake(self.slidertrack.frame.origin.x, self.slidertrack.frame.origin.y, 213, self.slidertrack.frame.size.height)];
         
     }
     else if ([titleInput isEqualToString:@"Create Invitation Button"]){
         [self setBackgroundColor:[UIColor colorWithPatternImage:GET_IMG(@"createinvitation")]];
+        [sliderfill setFrame:CGRectMake(self.slidertrack.frame.origin.x, self.slidertrack.frame.origin.y, 320, self.slidertrack.frame.size.height)];
+        NSLog(@"my height %f", self.frame.size.height);
+    }
+    else if ([titleInput isEqualToString:@"Create Invitation Button2"]){
+        [self setBackgroundColor:[UIColor colorWithPatternImage:GET_IMG(@"respond")]];
         [sliderfill setFrame:CGRectMake(self.slidertrack.frame.origin.x, self.slidertrack.frame.origin.y, 320, self.slidertrack.frame.size.height)];
         NSLog(@"my height %f", self.frame.size.height);
     }

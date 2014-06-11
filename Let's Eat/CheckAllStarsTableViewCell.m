@@ -117,6 +117,7 @@
 
 }
 -(void)generalSetup{
+    [self setSelectionStyle:UITableViewCellSelectionStyleNone];
     [self setBackgroundColor:[UIColor colorWithPatternImage:GET_IMG(@"menubar")]];
 }
 

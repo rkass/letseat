@@ -472,7 +472,12 @@
     self.foodTypes = [self loadFoodTypes];
     [self setState];
     self.searching = NO;
-    self.progressBarDelegate = [[ProgressBarDelegate alloc] initWithTitle:@"Create Invitation"];
+    CreateMealNavigationController* nav = (CreateMealNavigationController*) self.navigationController;
+    if (nav.creator){
+        self.progressBarDelegate = [[ProgressBarDelegate alloc] initWithTitle:@"Create Invitation"];
+    }
+    else
+        self.progressBarDelegate = [[ProgressBarDelegate alloc] initWithTitle:@"Respond1"];
     [self.progressTable setDelegate:self.progressBarDelegate];
     [self.progressTable setDataSource:self.progressBarDelegate];
     [self.foodTypeTable setDelegate:self];

@@ -61,7 +61,7 @@
     }
     UIImage* bigCarrot = [UIImage imageNamed:@"bluecarrot"];
     self.carrot = [Graphics makeThumbnailOfSize:bigCarrot size:CGSizeMake(10, 10)];
-    UIImage* bigReply = [UIImage imageNamed:@"Reply"];
+    UIImage* bigReply = [UIImage imageNamed:@"reply"];
     self.reply = [Graphics makeThumbnailOfSize:bigReply size:CGSizeMake(14, 18)];
     self.title = @"Meals";
     self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
