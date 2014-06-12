@@ -105,9 +105,12 @@
         return;
     }
     else{
+        NSNumber* requests = [[NSUserDefaults standardUserDefaults] objectForKey:@"requests"];
+        [LEViewController setUserDefault:@"requests" data:[NSNumber numberWithInt:[requests intValue] + 1]];
+        if ([requests intValue] < 100){
        [User createAccount:[self getRawNumber] usernameAttempt:@"" password:@"" source:self];
         [self.phoneNumberTextView resignFirstResponder];
-        [self loadingScreen];
+            [self loadingScreen];}
     }
     
 }

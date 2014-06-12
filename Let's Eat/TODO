@@ -1,4 +1,3 @@
-1) Fix display foods
 2) Fix reply arrow color [x]
 2.5) Polish Recommendations [x]
 3) Finish invites page/Polish Recommendations
@@ -8,9 +7,10 @@
     -Hide vote button when scheduled [x]
 3.5) active/inactive accounts [x]
 3.75) put in logo [x]
-4) Test invite friends
-5) Order Exotic Others Alphabetically
-6) Limit the number of times someone can ask for a verification text
+4) Test invite friends [x]
+5) Order Exotic Others Alphabetically [x]
+6) Limit the number of times someone can ask for a verification text [x]    
 7) install crashlytics
 8) turn up worker [x]
 9) make sure pushs are cool
+

@@ -17,7 +17,9 @@
 @property (strong, nonatomic) InviteViewController* invitevc;
 @property (strong, nonatomic) CLLocation* myLocation;
 @property (strong, nonatomic) NSString* segue;
+@property (strong, nonatomic) UIAlertView* failedConnection;
 @property (strong, nonatomic) CreateMealNavigationController* nav;
+@property (strong, nonatomic) NSURLConnection* conn;
 -(id)initWithInvitationsViewController:(InvitationsViewController*)ivcInput segueInput:(NSString*)segueInput;
 -(id)initWithInvitateViewController:(InviteViewController*)ivcInput;
 -(id)initWithNav:(CreateMealNavigationController*)cmInput;

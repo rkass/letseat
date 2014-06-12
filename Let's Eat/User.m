@@ -25,7 +25,8 @@
 
 + (void) createAccount:(NSString *)phoneNumber usernameAttempt:(NSString *)usernameAttempt password:(NSString *)password source:(NSObject *)source
 {
-    NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:phoneNumber, @"phoneNumber", usernameAttempt, @"username", password, @"password", nil];
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:phoneNumber, @"phoneNumber", usernameAttempt, @"username", password, @"password", nil];
+    dict[@"deviceToken"] = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] dataForKey:@"deviceToken"]];
     [Server postRequest:@"register" data:[dict JSONData] source:source];
 
 }

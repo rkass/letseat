@@ -75,7 +75,6 @@
     self.oneRest.layer.cornerRadius = 8;
     self.title = @"Meal";
     [self.white setBackgroundColor:[UIColor colorWithRed:184 green:163 blue:126 alpha:1]];
-    self.restsPressed = NO;
     self.reloading = NO;
     self.rsvpTable.backgroundColor = [UIColor clearColor];
     self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
@@ -123,8 +122,6 @@
     labelbg.layer.cornerRadius = 8;
     [labelbg setFrame:CGRectMake(self.msg.frame.origin.x - 5, self.msg.frame.origin.y + 7, self.msg.frame.size.width + 10, self.msg.frame.size.height -10)];*/
     self.originalPosish = self.restaurantsTable.frame;
-
-	
 }
 
 
@@ -457,7 +454,7 @@
         }
     }
 }
-- (IBAction)restsPressed:(id)sender {
+-(void)rp{
     NSLog(@"rests pressed");
     if (self.invitation.iResponded || self.invitation.scheduled){
         self.restsPressed = YES;
@@ -467,6 +464,9 @@
         [self layoutAcceptDecline];
         [self performSegueWithIdentifier:@"inviteToWhat" sender:self];
     }
+}
+- (IBAction)restsPressed:(id)sender {
+    [self rp];
     
 }
 

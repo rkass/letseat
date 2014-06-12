@@ -11,6 +11,7 @@
 #import "Invitation.h"
 
 @implementation InvitationsConnectionHandler
+
 @synthesize ivc, responseData;
 
 -(id)initWithInvitationsViewController:(InvitationsViewController*)ivcInput{
@@ -59,6 +60,7 @@
     }
 
 }
+
 
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {

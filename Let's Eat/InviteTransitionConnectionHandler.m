@@ -56,6 +56,19 @@
     return i;
     
 }
+- (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    if (!self.conn || (self.conn != connection)){
+        self.failedConnection = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"Couldn't connect to the server.  Check your connection and try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        if (self.ivc)
+            [self.ivc unloadScreen];
+        else if (self.invitevc)
+            [self.invitevc unloadScreen];
+        [self.failedConnection show];
+
+    }
+    self.conn = connection;
+}
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection
 {
     NSDictionary *resultsDictionary = [self.responseData objectFromJSONData];
@@ -83,4 +96,6 @@
         }
     }
 }
+
+
 @end

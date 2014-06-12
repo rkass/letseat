@@ -14,6 +14,7 @@
 @property (strong, nonatomic) NSMutableData* responseData;
 @property (strong, nonatomic) InvitationsViewController* ivc;
 @property bool meals;
+
 -(id)initWithInvitationsViewController:(InvitationsViewController*)ivcInput;
 
 @end

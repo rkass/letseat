@@ -408,6 +408,7 @@
         iv.invitation = self.invitation;
     }
 }
+
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection{
     NSDictionary* resultsDictionary = [self.responseData objectFromJSONData];
 self.responseData = [[NSMutableData alloc] initWithLength:0];
@@ -762,7 +763,7 @@ self.responseData = [[NSMutableData alloc] initWithLength:0];
     [super connection:connection didFailWithError:error];
     self.indicator2.hidden = YES;
     self.responder.hidden = NO;
-   
+    [self unloadScreen];
     
 }
 /*

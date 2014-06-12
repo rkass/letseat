@@ -99,7 +99,7 @@ static CLLocation* myLocation;
 
 - (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    self.failedConnection = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"Couldn't connect to the server.  Check your connection and try again." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+    self.failedConnection = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"Couldn't connect to the server.  Check your connection and try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [self.failedConnection show];
 }
 - (void)locationManager:(CLLocationManager *)manager
