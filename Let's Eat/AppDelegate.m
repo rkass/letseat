@@ -13,6 +13,7 @@
 #import "InviteTransitionConnectionHandler.h"
 #import "User.h"
 #import "JSONKit.h"
+#import <Crashlytics/Crashlytics.h>
 
 #define loadNotification(userInfo)\
 {\
@@ -80,7 +81,7 @@
         loadNotification(userInfo);
     }
     return YES;
-
+    [Crashlytics startWithAPIKey:@"b3a27e822c60b992e914123e5a22e88a2002500d"];
 }
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
@@ -163,6 +164,7 @@
     }
     self.window.rootViewController = viewController;
     [self.window makeKeyAndVisible];
+
     
 }
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{

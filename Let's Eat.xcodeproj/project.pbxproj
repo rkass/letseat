@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		94042F01194A801600C7DF5D /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94042F00194A801600C7DF5D /* Crashlytics.framework */; };
 		941CE22C18AD6BA200E773BF /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 941CE22B18AD6BA200E773BF /* User.m */; };
 		941CE22F18AD725800E773BF /* SignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 941CE22E18AD725800E773BF /* SignupViewController.m */; };
 		941CE23318AEBE4600E773BF /* Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 941CE23218AEBE4600E773BF /* Server.m */; };
@@ -70,6 +71,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		94042F00194A801600C7DF5D /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		941CE22A18AD6BA200E773BF /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		941CE22B18AD6BA200E773BF /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		941CE22D18AD725800E773BF /* SignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignupViewController.h; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 				94D2605D18BBAA24005FF97C /* MapKit.framework in Frameworks */,
 				94610F4A18A950B40094779E /* CoreGraphics.framework in Frameworks */,
 				94610F4C18A950B40094779E /* UIKit.framework in Frameworks */,
+				94042F01194A801600C7DF5D /* Crashlytics.framework in Frameworks */,
 				94610F4818A950B40094779E /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -265,6 +268,7 @@
 		94610F4618A950B40094779E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				94042F00194A801600C7DF5D /* Crashlytics.framework */,
 				9438EC2418D6AAC8007A1643 /* MessageUI.framework */,
 				94D2605C18BBAA24005FF97C /* MapKit.framework */,
 				94610F4718A950B40094779E /* Foundation.framework */,
@@ -375,6 +379,7 @@
 				94610F4018A950B40094779E /* Sources */,
 				94610F4118A950B40094779E /* Frameworks */,
 				94610F4218A950B40094779E /* Resources */,
+				94042EFF194A7FCD00C7DF5D /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -462,6 +467,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		94042EFF194A7FCD00C7DF5D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = "./Crashlytics.framework/run b3a27e822c60b992e914123e5a22e88a2002500d 4643c9b204a232bf82fdf3d402850002eed64c9241ab0d041df2a63d58dba7f7";
+			shellScript = "";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		94610F4018A950B40094779E /* Sources */ = {
@@ -630,6 +651,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Let's Eat/Let's Eat-Prefix.pch";
 				INFOPLIST_FILE = "Let's Eat/Let's Eat-Info.plist";
@@ -646,6 +671,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Let's Eat/Let's Eat-Prefix.pch";
 				INFOPLIST_FILE = "Let's Eat/Let's Eat-Info.plist";
