@@ -163,7 +163,9 @@
 
 }
 
-
++(NSString*)transformNumber:(NSString*)num{
+    return [[[[[[num stringByReplacingOccurrencesOfString:@"(" withString:@""] stringByReplacingOccurrencesOfString:@")" withString:@""] stringByReplacingOccurrencesOfString:@" " withString:@""] stringByReplacingOccurrencesOfString:@"+" withString:@""] stringByReplacingOccurrencesOfString:@"-" withString:@""] stringByReplacingOccurrencesOfString:@"." withString:""];
+}
 
 +(NSArray *)getContacts
 {
@@ -221,20 +223,20 @@
             //get Phone Numbers
             
             NSMutableArray *phoneNumbers = [[NSMutableArray alloc] init];
-            
+            bool add = YES;
             ABMultiValueRef multiPhones = ABRecordCopyValue(person, kABPersonPhoneProperty);
             for(CFIndex i=0;i<ABMultiValueGetCount(multiPhones);i++) {
                 
                 CFStringRef phoneNumberRef = ABMultiValueCopyValueAtIndex(multiPhones, i);
                 NSString *phoneNumber = (__bridge NSString *) phoneNumberRef;
                 [phoneNumbers addObject:phoneNumber];
-                
-                //NSLog(@"All numbers %@", phoneNumbers);
+                if ([[User transformNumber:phoneNumber] isEqualToString:[User transformNumber:[[NSUserDefaults standardUserDefaults] stringForKey:@"phone_number"]]])
+                     add = NO;
                 
             }
             
-            
-            [personDict setValue:phoneNumbers forKey:@"phone_numbers"];
+            if (add)
+                [personDict setValue:phoneNumbers forKey:@"phone_numbers"];
             
             /*Don't care about emails, maybe one day we will
              //get Contact email
