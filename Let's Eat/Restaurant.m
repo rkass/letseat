@@ -7,7 +7,6 @@
 //
 
 #import "Restaurant.h"
-#import "JSONKit.h"
 
 
 @implementation Restaurant
@@ -95,9 +94,8 @@
 }
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection
 {
-    JSONDecoder* decoder = [[JSONDecoder alloc]
-                            initWithParseOptions:JKParseOptionNone];
-    NSMutableDictionary* json = [decoder objectWithData:self.responseData];
+
+    NSMutableDictionary* json = JSONTodict(self.responseData);
    // NSLog(@"restaurant finished loading %@", json);
     [self.responseData setLength:0];
     if(!json){

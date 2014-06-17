@@ -9,7 +9,6 @@
 #import "InviteViewController.h"
 #import "User.h"
 #import "InvitationsViewController.h"
-#import "JSONKit.h"
 #import "CreateMealNavigationController.h"
 #import "Graphics.h"
 #import "Restaurant.h"

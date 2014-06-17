@@ -23,7 +23,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.alertShowing = NO;
     if ([CLLocationManager locationServicesEnabled]) {
         
         
@@ -99,8 +99,11 @@ static CLLocation* myLocation;
 
 - (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
+    if (!self.alertShowing){
     self.failedConnection = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"Couldn't connect to the server.  Check your connection and try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [self.failedConnection show];
+        [self.failedConnection show];
+        self.alertShowing = YES;}
+    
 }
 - (void)locationManager:(CLLocationManager *)manager
     didUpdateToLocation:(CLLocation *)newLocation

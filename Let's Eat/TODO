@@ -1,16 +1,15 @@
-2) Fix reply arrow color [x]
-2.5) Polish Recommendations [x]
-3) Finish invites page/Polish Recommendations
-    -Handle what happens when there are no recommended restaurants
-    -Handle what happens when updating Recommendations is zero so that restaurants come in with everything else
-    -Handle auto-layout issue
-    -Hide vote button when scheduled [x]
-3.5) active/inactive accounts [x]
-3.75) put in logo [x]
-4) Test invite friends [x]
-5) Order Exotic Others Alphabetically [x]
-6) Limit the number of times someone can ask for a verification text [x]    
-7) install crashlytics
-8) turn up worker [x]
-9) make sure pushs are cool
+Current Issues:
 
+1) I couldn't see casey in my contacts; I added another copy of his contact as a separate entry and it read that.
+
+It reads Casey Cannon, but not Casey even though those numbers are the same.
+
+2) Sometimes after swiping a notification the view layout is out of whack, and the user is forced to restart the app.
+
+3) Sometimes after selecting an invitee they are inadvertantly unchecked.
+
+4) Sometimes notifications don't show
+
+5) Crashes after not showing contacts (resolved)
+
+6) Handle nothing open more gracefully

@@ -9,7 +9,6 @@
 #import "LoginViewController.h"
 #import "User.h"
 #import "Server.h"
-#import "JSONKit.h"
 @interface LoginViewController ()
 @property (strong, nonatomic) IBOutlet UITextField *username;
 @property (strong, nonatomic) UIAlertView *phoneAlert;
@@ -117,7 +116,7 @@
 -(void)connectionDidFinishLoading:(NSURLConnection*)connection{
 
     [self unloadScreen];
-    NSDictionary* resultsDictionary = [self.d objectFromJSONData];
+    NSDictionary* resultsDictionary = JSONTodict(self.d);
     self.d = [[NSMutableData alloc] initWithLength:0];
     NSLog(@"resultsDictionary: %@", resultsDictionary);
 

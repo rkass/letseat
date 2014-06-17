@@ -8,7 +8,6 @@
 
 #import "InvitationsViewController.h"
 #import "User.h"
-#import "JSONKit.h"
 #import "Invitation.h"
 #import "InviteViewController.h"
 #import "Graphics.h"

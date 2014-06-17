@@ -23,6 +23,7 @@
 
     [super viewDidLoad];
     self.invitees = [[NSMutableArray alloc] init];
+    [self.navigationBar setHidden:YES];
 }
 
 /*

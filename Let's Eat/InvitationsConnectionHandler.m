@@ -7,7 +7,6 @@
 //
 
 #import "InvitationsConnectionHandler.h"
-#import "JSONKit.h"
 #import "Invitation.h"
 
 @implementation InvitationsConnectionHandler
@@ -23,7 +22,7 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection
 {
-    NSDictionary *resultsDictionary = [self.responseData objectFromJSONData];
+    NSDictionary *resultsDictionary = JSONTodict(self.responseData);
     NSMutableArray* upcoming;
     NSMutableArray* passed;
     if ([resultsDictionary[@"call"] isEqualToString:@"get_meals"]){

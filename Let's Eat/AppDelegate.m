@@ -12,7 +12,6 @@
 #import "InvitationsViewController.h"
 #import "InviteTransitionConnectionHandler.h"
 #import "User.h"
-#import "JSONKit.h"
 #import <Crashlytics/Crashlytics.h>
 
 #define loadNotification(userInfo)\
@@ -30,6 +29,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [Crashlytics startWithAPIKey:@"b3a27e822c60b992e914123e5a22e88a2002500d"];
     NSLog(@"In did finish launching with options: %@", launchOptions);
     // initialize defaults
     NSString *dateKey = @"dateKey";
@@ -81,7 +81,7 @@
         loadNotification(userInfo);
     }
     return YES;
-    [Crashlytics startWithAPIKey:@"b3a27e822c60b992e914123e5a22e88a2002500d"];
+    
 }
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
@@ -134,7 +134,6 @@
 -(void)loadInvitations:(bool)scheduled{
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     CreateMealNavigationController* cm = (CreateMealNavigationController*)self.window.rootViewController;
-    [cm setNavigationBarHidden:NO];
     [LEViewController setUserDefault:@"mealsPressed" data:[NSNumber numberWithBool:scheduled]];
     if ([[cm.viewControllers lastObject] isKindOfClass:[InvitationsViewController class]]){
         [[cm.viewControllers lastObject] refreshView];
@@ -147,7 +146,7 @@
 }
 -(void)connectionDidFinishLoading:(NSURLConnection*)connection{
     
-    NSDictionary* resultsDictionary = [self.responseData objectFromJSONData];
+    NSDictionary* resultsDictionary = JSONTodict(self.responseData);
     self.responseData = [[NSMutableData alloc] initWithLength:0];
     NSLog(@"resultsDictionary: %@", resultsDictionary);
     if ([resultsDictionary[@"validated"] boolValue]){
@@ -184,7 +183,6 @@
 -(void)loadInvite:(int)num{
   //  UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     CreateMealNavigationController* cm = (CreateMealNavigationController*)self.window.rootViewController;
-    [cm setNavigationBarHidden:NO];
     if ([[cm.viewControllers lastObject] isKindOfClass:[InviteViewController class]]){
         InviteViewController* iv = (InviteViewController*)[cm.viewControllers lastObject];
         iv.invitation.num = num;

@@ -20,4 +20,5 @@
 @property (strong, nonatomic) UIView* blacky;
 @property (strong, nonatomic) UIActivityIndicatorView* loadingIndicator;
 @property (strong, nonatomic) UILabel* loadingLabel;
+@property bool alertShowing;
 @end

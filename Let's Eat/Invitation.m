@@ -223,6 +223,7 @@
 }
 -(BOOL) needToRespondToDate
 {
+    NSLog(@"creator, %@", self.creator);
     return ([self.creator isEqualToString:@"You"] || self.central);
 }
 

@@ -8,7 +8,6 @@
 
 #import "InviteTransitionConnectionHandler.h"
 #import "InviteViewController.h"
-#import "JSONKit.h"
 #import "Invitation.h"
 #import "Restaurant.h"
 #import "LEViewController.h"
@@ -58,12 +57,18 @@
 }
 - (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    if (!self.conn || (self.conn != connection)){
+    LEViewController* lvc;
+    if (self.ivc)
+        lvc = self.ivc;
+    else if (self.invitevc)
+        lvc = self.invitevc;
+    if ((!self.conn || (self.conn != connection)) && (!lvc.alertShowing)){
         self.failedConnection = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"Couldn't connect to the server.  Check your connection and try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         if (self.ivc)
             [self.ivc unloadScreen];
         else if (self.invitevc)
             [self.invitevc unloadScreen];
+        lvc.alertShowing = YES;
         [self.failedConnection show];
 
     }
@@ -71,7 +76,7 @@
 }
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection
 {
-    NSDictionary *resultsDictionary = [self.responseData objectFromJSONData];
+    NSDictionary *resultsDictionary = JSONTodict(self.responseData);
     if ([resultsDictionary[@"success"] boolValue]){
         
         

@@ -9,7 +9,6 @@
 #import "WhoViewController.h"
 #import "Server.h"
 #import "User.h"
-#import "JSONKit.h"
 #import "CreateMealNavigationController.h"
 #import "Graphics.h"
 #import "CheckAllStarsTableViewCell.h"
@@ -20,7 +19,7 @@
 @property (strong, nonatomic) IBOutlet UITableView* friendsTable;
 @property (strong, nonatomic) IBOutlet UITableView *navBar;
 @property (strong, nonatomic) IBOutlet UISearchBar* search;
-
+@property bool alertShowing;
 @property (strong, nonatomic) IBOutlet UIButton *nextB;
 @property (strong, nonatomic) IBOutlet UITableView *progressBar;
 @property (strong, nonatomic) NSMutableArray *friendsCache;
@@ -227,13 +226,14 @@
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection{
     //  NSLog(@"here");
     
-    NSDictionary *resultsDictionary = [self.responseData objectFromJSONData];
+    NSDictionary *resultsDictionary = JSONTodict(self.responseData)
     NSLog(@"Friends: %@", resultsDictionary);
     //   NSLog(@"%@", resultsDictionary);
     // NSLog(@"friends cache %@", self.friendsCache);
     //  NSLog(@"friends%@", self.friends);
     if ([resultsDictionary objectForKey:@"success"])
     {
+        NSLog(@"friends: %@", resultsDictionary[@"friends"]);
         [self.friendsCache removeAllObjects];
         for (NSString* key in [resultsDictionary objectForKey:@"friends"])
         {

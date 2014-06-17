@@ -10,7 +10,7 @@
 #import "Server.h"
 #import <AddressBook/AddressBook.h>
 #import <AddressBookUI/AddressBookUI.h>
-#import "JSONKit.h"
+
 #import "LEViewController.h"
 
 @implementation User
@@ -27,26 +27,25 @@
 {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:phoneNumber, @"phoneNumber", usernameAttempt, @"username", password, @"password", nil];
     dict[@"deviceToken"] = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] dataForKey:@"deviceToken"]];
-    [Server postRequest:@"register" data:[dict JSONData] source:source];
-
+    [Server postRequest:@"register" data:dictToJSON(dict) source:source];
+    
 }
 + (void) createInvitation:(NSMutableDictionary*)preferences source:(NSObject*)source{
     [preferences setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
     NSTimeZone* x = [NSTimeZone localTimeZone];
     [preferences setObject:[NSNumber numberWithInt:x.secondsFromGMT] forKey:@"secondsFromGMT"];
-    [Server postRequest:@"create_invitation" data:[preferences JSONData] source:source];
+    [Server postRequest:@"create_invitation" data:dictToJSON(preferences) source:source];
 }
 + (void) sendToken{
    // NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"], @"auth_token", nil];// [[NSUserDefaults standardUserDefaults] dataForKey:@"deviceToken"], @"token", nil];
     NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"], @"auth_token", [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] dataForKey:@"deviceToken"]], @"token", nil];
-    NSLog(@"sending %@", dict);
-    [Server postRequest:@"update_token" data:[dict JSONData] source:nil];
+    [Server postRequest:@"update_token" data:dictToJSON(dict) source:nil];
 }
 + (void) respondYes:(int)num preferences:(NSMutableDictionary*)preferences source:(NSObject*)source{
     [preferences setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
     [preferences setObject:[NSNumber numberWithInt:num] forKey:@"id"];
     [preferences setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
-    [Server postRequest:@"respond_yes" data:[preferences JSONData] source:source];
+    [Server postRequest:@"respond_yes" data:dictToJSON(preferences) source:source];
 }
 + (void) respondNo:(int)num message:(NSString*)message source:(NSObject*)source
 {
@@ -54,7 +53,7 @@
     [data setObject:message forKey:@"message"];
     [data setObject:[NSNumber numberWithInt:num] forKey:@"id"];
     [data setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
-    [Server postRequest:@"respond_no" data:[data JSONData] source:source];
+    [Server postRequest:@"respond_no" data:dictToJSON(data) source:source];
 }
 
 
@@ -62,40 +61,40 @@
 {
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
     [dict setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
-    [Server postRequest:@"get_invitations" data:[dict JSONData] source:source];
+    [Server postRequest:@"get_invitations" data:dictToJSON(dict) source:source];
 }
 + (void) getMeals:(NSObject *) source
 {
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
     [dict setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
-    [Server postRequest:@"get_meals" data:[dict JSONData] source:source];
+    [Server postRequest:@"get_meals" data:dictToJSON(dict) source:source];
 }
 + (void) verifyUser:(NSString*)auth_token source:(NSObject*)source{
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
     [dict setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"username"] forKey:@"username"];
     [dict setObject:auth_token forKey:@"auth_token"];
-    [Server postRequest:@"verify_user" data:[dict JSONData] source:source];
+    [Server postRequest:@"verify_user" data:dictToJSON(dict) source:source];
 }
 
 + (void) castVote:(NSMutableDictionary*)dict source:(NSObject*)source{
     [dict setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
-    [Server postRequest:@"cast_vote" data:[dict JSONData] source:source];
+    [Server postRequest:@"cast_vote" data:dictToJSON(dict) source:source];
 }
 + (void) castUnvote:(NSMutableDictionary*)dict source:(NSObject*)source{
     [dict setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
-    [Server postRequest:@"cast_unvote" data:[dict JSONData] source:source];
+    [Server postRequest:@"cast_unvote" data:dictToJSON(dict) source:source];
 }
 + (void) getInvitation:(int)num source:(NSObject*)source{
     NSMutableDictionary* data = [[NSMutableDictionary alloc] init];
     [data setObject:[NSNumber numberWithInt:num] forKey:@"id"];
     [data setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
-    [Server postRequest:@"get_invitation" data:[data JSONData] source:source];
+    [Server postRequest:@"get_invitation" data:dictToJSON(data) source:source];
 }
 + (void) getRestaurants:(int)num source:(NSObject*)source{
     NSMutableDictionary* data = [[NSMutableDictionary alloc] init];
     [data setObject:[NSNumber numberWithInt:num] forKey:@"id"];
     [data setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
-    [Server postRequest:@"get_restaurants" data:[data JSONData] source:source];
+    [Server postRequest:@"get_restaurants" data:dictToJSON(data)  source:source];
 }
 
 + (void) getFriends:(NSObject *) source
@@ -113,7 +112,7 @@
 + (void)login:(NSString *)usernameAttempt password:(NSString *)password source:(NSObject*)source
 {
     NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:usernameAttempt, @"username", password, @"password", nil];
-    [Server postRequest:@"sign_in" data:[dict JSONData] source:source];
+    [Server postRequest:@"sign_in" data:dictToJSON(dict)  source:source];
     
 }
 
@@ -156,10 +155,17 @@
 +(NSData *)jsonifyContacts
 {
     NSArray* contacts = [User getContacts];
+    if (!contacts){
+         UIAlertView* av = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"We need access to your contacts, in order to find your friends.  Please grant Let's Eat access to your contacts in Settings" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [av show];
+        contacts = [[NSArray alloc] init];
+    }
     NSMutableDictionary* request = [[NSMutableDictionary alloc] init];
     [request setObject:contacts forKey:@"contacts"];
     [request setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];
-    return [request JSONData];
+    //return [request JSONData];
+    return dictToJSON(request);
+
 
 }
 
@@ -232,7 +238,10 @@
                 [phoneNumbers addObject:phoneNumber];
                 if ([[User transformNumber:phoneNumber] isEqualToString:[User transformNumber:[[NSUserDefaults standardUserDefaults] stringForKey:@"phone_number"]]])
                      add = NO;
-                
+                if ([personDict[@"first_name"] rangeOfString:@"Casey"].location != NSNotFound) {
+                    NSLog(@"phone number: %@", phoneNumber);
+                    NSLog(@"first name: %@", personDict[@"first_name"]);
+                }
             }
             
             if (add)

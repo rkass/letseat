@@ -7,7 +7,6 @@
 //
 #import "User.h"
 #import "RestaurantTableViewCell.h"
-#import "JSONKit.h"
 #import "LEViewController.h"
 #import "Graphics.h"
 #import "InviteTransitionConnectionHandler.h"
@@ -29,7 +28,7 @@
     //  NSLog(@"here");
     @synchronized(self.connector){
         
-    NSDictionary *resultsDictionary = [self.responseData objectFromJSONData];
+        NSDictionary *resultsDictionary = JSONTodict(self.responseData);
         if (resultsDictionary){
         NSLog(@"results dict in tabe view cell: %@", resultsDictionary);
     Invitation* i = [InviteTransitionConnectionHandler loadInvitation:resultsDictionary locationInput:self.ivc.myLocation];

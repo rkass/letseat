@@ -14,7 +14,6 @@
 #import "CreateMealNavigationController.h"
 #import "InviteTransitionConnectionHandler.h"
 #import "User.h"
-#import "JSONKit.h"
 #import "Graphics.h"
 #import "LEViewController.h"
 #import "Invitation.h"
@@ -410,12 +409,8 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection{
-    NSDictionary* resultsDictionary = [self.responseData objectFromJSONData];
+    NSDictionary* resultsDictionary = JSONTodict(self.responseData);
 self.responseData = [[NSMutableData alloc] initWithLength:0];
-    JSONDecoder* decoder = [[JSONDecoder alloc]
-                            initWithParseOptions:JKParseOptionNone];
-    NSLog(@"res dict: %@", resultsDictionary);
-    NSLog(@"%@",resultsDictionary);
     if ([resultsDictionary[@"success"] isEqual: @YES]){
         
         if ([resultsDictionary[@"call"] isEqualToString:@"create_invitation"] || [resultsDictionary[@"call"] isEqualToString:@"respond_yes"]   ){
@@ -703,7 +698,7 @@ self.responseData = [[NSMutableData alloc] initWithLength:0];
 }
 
 - (BOOL) validate{
-    if((!LEViewController.myLocation) && ([self.nav.invitation needToRespondToDate]) && (!self.nonCurrentLocation)){
+    if((!LEViewController.myLocation) && (([self.nav.invitation needToRespondToDate]) || self.nav.creator) && (!self.nonCurrentLocation)){
         UIAlertView* av;
         if (!self.switchTicked){
             av = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"We can't get a read on your current location, please enter it manually" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];

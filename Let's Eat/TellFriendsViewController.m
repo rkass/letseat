@@ -11,7 +11,6 @@
 #import "CreateMealNavigationController.h"
 #import "WhoViewController.h"
 #import "User.h"
-#import "JSONKit.h"
 #import "ProgressBarDelegate.h"
 #import "ProgressBarTableViewCell.h"
 #import "CheckAllStarsTableViewCell.h"
@@ -222,7 +221,7 @@
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection
 {
     
-    NSDictionary *resultsDictionary = [self.responseData objectFromJSONData];
+    NSDictionary *resultsDictionary = JSONTodict(self.responseData);
 
     if ([resultsDictionary objectForKey:@"success"])
     {

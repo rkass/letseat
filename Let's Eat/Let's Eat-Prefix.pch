@@ -5,7 +5,8 @@
 //
 
 #import <Availability.h>
-
+#define dictToJSON(d) [NSJSONSerialization dataWithJSONObject:d options:NSJSONWritingPrettyPrinted error:nil]
+#define JSONTodict(j) [NSJSONSerialization JSONObjectWithData:j options:kNilOptions error:nil];
 #define currentUser @""//	@"kkwan"
 #define loadingRestaurantsText @"Loading Recommendations.\nThis usually takes about a minute..."
 #define color2 @"f4f6ef"
