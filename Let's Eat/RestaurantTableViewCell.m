@@ -97,7 +97,25 @@
     }
 }
 
+-(void)setNothingOpen{
+    self.name.text = @"No open restaurants";
+    [self.ratingImg setHidden:YES];
+    [self.price setHidden:YES];
+    [self.percentMatch setHidden:YES];
+    [self.snippetImg setHidden:YES];
+    [self.address setHidden:YES];
+    [self.types setHidden:YES];
+    [self.votes setHidden:YES];
+}
+
 -(void)setWithRestaurant:(Restaurant*)restaurantInput rowInput:(int)rowInput ivcInput:(InviteViewController*)ivcInput oneRestInput:(BOOL)oneRestInput{
+    [self.ratingImg setHidden:NO];
+    [self.price setHidden:NO];
+    [self.percentMatch setHidden:NO];
+    [self.snippetImg setHidden:NO];
+    [self.address setHidden:NO];
+    [self.types setHidden:NO];
+    [self.votes setHidden:NO];
     self.connector = [NSNumber numberWithInt:1];
     self.oneRest = oneRestInput;
     if (self.responseData)

@@ -21,6 +21,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *date;
 @property (strong, nonatomic) UIActivityIndicatorView* inviteSpinner;
 @property BOOL restsPressed;
+@property BOOL wereDone;
 - (void) layoutView;
 - (void) saveRests;
 -(void) recall;

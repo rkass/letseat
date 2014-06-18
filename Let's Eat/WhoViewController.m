@@ -224,8 +224,7 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection{
-    //  NSLog(@"here");
-    
+
     NSDictionary *resultsDictionary = JSONTodict(self.responseData)
     NSLog(@"Friends: %@", resultsDictionary);
     //   NSLog(@"%@", resultsDictionary);
@@ -260,7 +259,7 @@
         NSMutableDictionary* meDict = [[NSMutableDictionary alloc] init];
         [meDict setObject:@"Me" forKey:@"displayName"];
         [meDict setObject:@YES forKey:@"checked"];
-        [meDict setObject:@YES forKey:@"Me"];
+        [meDict setObject:@NO forKey:@"Me"];
         [self.friendsCache insertObject:meDict atIndex:0];
         [LEViewController setUserDefault:@"friendsCache" data:self.friendsCache];
         [self storeFriends:self.friendsCache];
@@ -315,6 +314,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
+
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     NSMutableDictionary* friend = [self.friends objectAtIndex:indexPath.row];
     if ([friend objectForKey:@"Me" ])
@@ -325,6 +325,7 @@
         UIImageView* accUnchecked = [[UIImageView alloc] initWithImage:self.unchecked];
         cell.accessoryView = accUnchecked;
         friend[@"checked"] = @NO;
+        //  NSLog(@"here");
 
     }
     else
@@ -333,6 +334,7 @@
         UIImageView* accChecked = [[UIImageView alloc] initWithImage:self.checked];
         cell.accessoryView = accChecked;
         friend[@"checked"] = @YES;
+
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     

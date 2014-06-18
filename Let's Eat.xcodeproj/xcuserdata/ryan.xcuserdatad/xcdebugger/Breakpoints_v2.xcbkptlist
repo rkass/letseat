@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Let&apos;s Eat/WhatViewController.m"
-            timestampString = "424118636.811316"
+            timestampString = "424792235.830945"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1091"
-            endingLineNumber = "1091"
+            startingLineNumber = "1092"
+            endingLineNumber = "1092"
             landmarkName = "-getRectForTable:"
             landmarkType = "5">
          </BreakpointContent>
@@ -234,11 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Let&apos;s Eat/WhatViewController.m"
-            timestampString = "424118636.811316"
+            timestampString = "424792235.830945"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "971"
-            endingLineNumber = "971"
+            startingLineNumber = "972"
+            endingLineNumber = "972"
             landmarkName = "-receivedLongPress:"
             landmarkType = "5">
          </BreakpointContent>
@@ -250,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Let&apos;s Eat/WhatViewController.m"
-            timestampString = "424118636.811316"
+            timestampString = "424792235.830945"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "859"
-            endingLineNumber = "859"
+            startingLineNumber = "860"
+            endingLineNumber = "860"
             landmarkName = "-receivedLongPress:"
             landmarkType = "5">
          </BreakpointContent>
@@ -420,11 +420,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Let&apos;s Eat/WhatViewController.m"
-            timestampString = "424118636.811316"
+            timestampString = "424792235.830945"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "793"
-            endingLineNumber = "793"
+            startingLineNumber = "794"
+            endingLineNumber = "794"
             landmarkName = "-swapTables:indexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -436,7 +436,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Let&apos;s Eat/InviteViewController.m"
-            timestampString = "424555342.018587"
+            timestampString = "424795241.360399"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "275"
@@ -596,11 +596,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Let&apos;s Eat/InviteViewController.m"
-            timestampString = "424555342.018587"
+            timestampString = "424795241.360399"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "625"
-            endingLineNumber = "625"
+            startingLineNumber = "629"
+            endingLineNumber = "629"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -612,11 +612,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Let&apos;s Eat/InviteViewController.m"
-            timestampString = "424555342.018587"
+            timestampString = "424795241.360399"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "628"
-            endingLineNumber = "628"
+            startingLineNumber = "632"
+            endingLineNumber = "632"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -644,11 +644,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Let&apos;s Eat/InviteViewController.m"
-            timestampString = "424555342.018587"
+            timestampString = "424795241.360399"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "649"
-            endingLineNumber = "649"
+            startingLineNumber = "657"
+            endingLineNumber = "657"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -660,11 +660,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Let&apos;s Eat/InviteViewController.m"
-            timestampString = "424555342.018587"
+            timestampString = "424795241.360399"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "662"
-            endingLineNumber = "662"
+            startingLineNumber = "673"
+            endingLineNumber = "673"
             landmarkName = "-didReceiveMemoryWarning"
             landmarkType = "5">
          </BreakpointContent>
@@ -722,7 +722,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Let&apos;s Eat/InviteViewController.m"
-            timestampString = "424555342.018587"
+            timestampString = "424795241.360399"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "240"
@@ -738,7 +738,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Let&apos;s Eat/InviteViewController.m"
-            timestampString = "424555342.018587"
+            timestampString = "424795241.360399"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "368"
@@ -850,11 +850,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Let&apos;s Eat/WhatViewController.m"
-            timestampString = "424118636.811316"
+            timestampString = "424792235.830945"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1012"
-            endingLineNumber = "1012"
+            startingLineNumber = "1013"
+            endingLineNumber = "1013"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -962,11 +962,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Let&apos;s Eat/InviteTransitionConnectionHandler.m"
-            timestampString = "424555342.018587"
+            timestampString = "424796593.707867"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
             landmarkName = "-connectionDidFinishLoading:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1208,11 +1208,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Let&apos;s Eat/WhatViewController.m"
-            timestampString = "424118636.811316"
+            timestampString = "424792235.830945"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "657"
-            endingLineNumber = "657"
+            startingLineNumber = "658"
+            endingLineNumber = "658"
             landmarkName = "-searchBarTextDidBeginEditing:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1224,11 +1224,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Let&apos;s Eat/WhatViewController.m"
-            timestampString = "424118636.811316"
+            timestampString = "424792235.830945"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "701"
-            endingLineNumber = "701"
+            startingLineNumber = "702"
+            endingLineNumber = "702"
             landmarkName = "-searchBar:textDidChange:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1448,11 +1448,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Let&apos;s Eat/InviteViewController.m"
-            timestampString = "424555342.018587"
+            timestampString = "424795241.360399"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "645"
-            endingLineNumber = "645"
+            startingLineNumber = "653"
+            endingLineNumber = "653"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1464,11 +1464,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Let&apos;s Eat/InviteViewController.m"
-            timestampString = "424555342.018587"
+            timestampString = "424795241.360399"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "592"
-            endingLineNumber = "592"
+            startingLineNumber = "596"
+            endingLineNumber = "596"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1490,7 +1490,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Let&apos;s Eat/InviteViewController.m"
-            timestampString = "424555342.018587"
+            timestampString = "424795241.360399"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "424"
@@ -1586,11 +1586,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Let&apos;s Eat/TellFriendsViewController.m"
-            timestampString = "424555342.018587"
+            timestampString = "424790263.298227"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "337"
-            endingLineNumber = "337"
+            startingLineNumber = "339"
+            endingLineNumber = "339"
             landmarkName = "-messageComposeViewController:didFinishWithResult:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1692,11 +1692,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Let&apos;s Eat/InviteViewController.m"
-            timestampString = "424555342.018587"
+            timestampString = "424795241.360399"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "650"
-            endingLineNumber = "650"
+            startingLineNumber = "658"
+            endingLineNumber = "658"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1708,7 +1708,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Let&apos;s Eat/InviteViewController.m"
-            timestampString = "424555342.018587"
+            timestampString = "424795062.316045"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "176"
@@ -1724,7 +1724,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Let&apos;s Eat/InviteViewController.m"
-            timestampString = "424555342.018587"
+            timestampString = "424795241.360399"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "177"
@@ -1807,6 +1807,22 @@
             continueAfterRunningActions = "No"
             scope = "0"
             stopOnStyle = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Let&apos;s Eat/InviteTransitionConnectionHandler.m"
+            timestampString = "424796578.501205"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
+            landmarkName = "-connectionDidFinishLoading:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

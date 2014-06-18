@@ -12,7 +12,7 @@
 #import "CreateMealNavigationController.h"
 #import "FoodTypeTableViewCell.h"
 #import "CheckAllStarsTableViewCell.h"
-
+#import "WhoViewController.h"
 @interface WhatViewController ()
 @property (strong, nonatomic) IBOutlet UIButton *next;
 @property (strong, nonatomic) IBOutlet UITableView* wantTable;
@@ -561,6 +561,7 @@
     UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Chalkboard"]];
     [tempImageView setFrame:self.wantTable.frame];
     self.wantTable.backgroundView = tempImageView;
+
    // [self.view bringSubviewToFront:self.one];
    // [self.view sendSubviewToBack:self.chalkboard];
 

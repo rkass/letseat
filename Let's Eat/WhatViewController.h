@@ -9,7 +9,7 @@
 #import "LEViewController.h"
 @class FoodTypeTableViewCell;
 @class CheckAllStarsTableViewCell;
-
+@class WhoViewController;
 @interface WhatViewController : LEViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UIGestureRecognizerDelegate>
 @property (strong, nonatomic) NSMutableArray* wantItems;
 -(void)collapseCategory:(NSString*)categoryInput;

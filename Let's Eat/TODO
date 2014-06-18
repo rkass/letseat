@@ -4,12 +4,12 @@ Current Issues:
 
 It reads Casey Cannon, but not Casey even though those numbers are the same.
 
-2) Sometimes after swiping a notification the view layout is out of whack, and the user is forced to restart the app.
+2) Sometimes after swiping a notification the view layout is out of whack, and the user is forced to restart the app. (resolved)
 
 3) Sometimes after selecting an invitee they are inadvertantly unchecked.
 
-4) Sometimes notifications don't show
+4) Sometimes notifications don't show (they usually do)
 
 5) Crashes after not showing contacts (resolved)
 
-6) Handle nothing open more gracefully
+6) Handle nothing open more gracefully (resolved (kinda))

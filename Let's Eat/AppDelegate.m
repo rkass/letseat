@@ -78,6 +78,9 @@
     
     if(userInfo)
     {
+        self.blocker =  [[UIView alloc] initWithFrame:CGRectMake(0,0,[UIApplication sharedApplication].keyWindow.frame.size.width , [UIApplication sharedApplication].keyWindow.frame.size.height)];
+        self.blocker.backgroundColor = [UIColor clearColor];
+        [[UIApplication sharedApplication].keyWindow addSubview:self.blocker];
         loadNotification(userInfo);
     }
     return YES;
@@ -140,6 +143,7 @@
     }
     else{
         InvitationsViewController* iv = (InvitationsViewController*)[storyboard instantiateViewControllerWithIdentifier:@"Invitations"];
+        [self.blocker removeFromSuperview];
         [cm pushViewController:iv animated:NO];
     }
 

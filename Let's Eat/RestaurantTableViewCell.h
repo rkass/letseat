@@ -26,4 +26,5 @@
 @property (strong, nonatomic) InviteViewController* ivc;
 @property (strong, nonatomic) NSNumber* connector;
 -(void)setWithRestaurant:(Restaurant*)restaurant rowInput:(int)rowInput ivcInput:(InviteViewController*)ivcInput oneRestInput:(BOOL)oneRestInput;
+-(void)setNothingOpen;
 @end

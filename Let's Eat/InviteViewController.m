@@ -178,6 +178,7 @@
         [self.rsvpTable reloadData];
         [self.oneRest reloadData];
     }
+    self.wereDone =  (self.previousInvitation.updatingRecommendations == 0) && (self.invitation.updatingRecommendations == 0);
     self.previousInvitation = self.invitation;
     [self performSelector:@selector(recall) withObject:nil afterDelay:10];
    /* if (self.invitation.updatingRecommendations > 0){
@@ -546,7 +547,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if((tableView == self.oneRest && self.invitation.scheduled) || (tableView == self.restaurantsTable)) {
+    if(((tableView == self.oneRest && self.invitation.scheduled) || (tableView == self.restaurantsTable)) && (self.invitation.restaurants.count > selectedIndexPath.row)) {
         self.selectedIndexPath = indexPath;
         [self performSegueWithIdentifier:@"inviteToRestaurant" sender:self];
     }
@@ -563,8 +564,12 @@
         if (section == 1)
             return [self.undecided count];
         return [self.notGoing count];}
-    else if (tableView == self.restaurantsTable)
-        return [self.invitation.restaurants count];
+    else if (tableView == self.restaurantsTable){
+        if (self.invitation.updatingRecommendations == 0)
+            return MAX(1,[self.invitation.restaurants count]);
+        else
+            return [self.invitation.restaurants count];
+    }
     else if (tableView == self.oneRest)
         return 1;
     else
@@ -635,8 +640,12 @@
                 [cell.subviews setValue:@NO forKey:@"hidden"];
                 [cell setWithRestaurant:self.invitation.restaurants[indexPath.row] rowInput:indexPath.row ivcInput:self oneRestInput:YES];
             }
+            else if (self.invitation.updatingRecommendations == 0 && self.wereDone && (self.invitation.restaurants.count==0)){
+                [cell.subviews setValue:@NO forKey:@"hidden"];
+                [cell setNothingOpen];
+            }
             else{
-                [cell.subviews setValue:@YES forKeyPath:@"hidden"];
+                [cell.subviews setValue:@YES forKey:@"hidden"];
             }
             return cell;
         }
@@ -649,7 +658,10 @@
     }
     else{
         RestaurantTableViewCell* cell =  [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        [cell setWithRestaurant:self.invitation.restaurants[indexPath.row] rowInput:indexPath.row ivcInput:self oneRestInput:NO];
+        if (self.invitation.restaurants.count)
+            [cell setWithRestaurant:self.invitation.restaurants[indexPath.row] rowInput:indexPath.row ivcInput:self oneRestInput:NO];
+        else
+            [cell setNothingOpen];
          return cell;
     }
     

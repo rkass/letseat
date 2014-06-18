@@ -10,7 +10,7 @@
 #import "InvitationsViewController.h"
 #import "InviteViewController.h"
 #import "CreateMealNavigationController.h"
-
+@class AppDelegate;
 @interface InviteTransitionConnectionHandler : NSObject
 @property (strong, nonatomic) NSMutableData* responseData;
 @property (strong, nonatomic) InvitationsViewController* ivc;
@@ -20,6 +20,7 @@
 @property (strong, nonatomic) UIAlertView* failedConnection;
 @property (strong, nonatomic) CreateMealNavigationController* nav;
 @property (strong, nonatomic) NSURLConnection* conn;
+@property (strong, nonatomic) AppDelegate* delegate;
 -(id)initWithInvitationsViewController:(InvitationsViewController*)ivcInput segueInput:(NSString*)segueInput;
 -(id)initWithInvitateViewController:(InviteViewController*)ivcInput;
 -(id)initWithNav:(CreateMealNavigationController*)cmInput;

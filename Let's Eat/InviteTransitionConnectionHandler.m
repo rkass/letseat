@@ -11,7 +11,7 @@
 #import "Invitation.h"
 #import "Restaurant.h"
 #import "LEViewController.h"
-
+#import "AppDelegate.h"
 @implementation InviteTransitionConnectionHandler
 
 @synthesize segue, ivc, responseData;
@@ -83,6 +83,9 @@
         Invitation* i = [InviteTransitionConnectionHandler loadInvitation:resultsDictionary locationInput:self.myLocation];
         [LEViewController setUserDefault:@"mealsPressed" data:[NSNumber numberWithBool:i.scheduled]];
         NSLog(@"id: %d", i.num);
+        if (self.delegate){
+            [self.delegate.blocker removeFromSuperview];
+        }
         if (self.nav){
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             InviteViewController* iv = (InviteViewController*)[storyboard instantiateViewControllerWithIdentifier:@"Invite"];

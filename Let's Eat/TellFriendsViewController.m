@@ -254,18 +254,20 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if ((tableView == self.navBar) /*|| (tableView == self.progBar)*/)
+    if (tableView == self.navBar /*|| (tableView == self.progBar)*/)
         return;
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     NSMutableDictionary* invitee = [self.invitees objectAtIndex:indexPath.row];
     if ([invitee[@"checked"]  isEqual: @YES])
     {
         
+        
         UIImageView* accUnchecked = [[UIImageView alloc] initWithImage:self.unchecked];
         cell.accessoryView = accUnchecked;
 
         [self.nav.invitees removeObject:self.invitees[indexPath.row]];
         invitee[@"checked"] = @NO;
+
         
     }
     else
