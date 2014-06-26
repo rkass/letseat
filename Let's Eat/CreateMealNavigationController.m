@@ -39,4 +39,16 @@
 - (NSUInteger)supportedInterfaceOrientations{
     return UIInterfaceOrientationMaskPortrait;
 }
+-(NSMutableArray*) topN:(int)n{
+    NSMutableArray* ret = [[NSMutableArray alloc] init];
+    int index = 0;
+    for (NSArray* arr in self.orderedCategories){
+        if (index < n)
+            [ret addObject:arr[0]];
+        else
+            break;
+        index += 1;
+    }
+    return ret;
+}
 @end

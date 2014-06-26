@@ -36,6 +36,8 @@
     [self.phoneNumberTextView setTextColor:[UIColor lightGrayColor]];
     [self displayRegister];
     self.d = [[NSMutableData alloc] initWithLength:0];
+    [LEViewController setUserDefault:@"getFriends" data:[NSNumber numberWithInt:0] ];
+    [LEViewController setUserDefault:@"noConnectionAlertShowing" data:[NSNumber numberWithInteger:0]];
 	// Do any additional setup after loading the view.
 }
 

@@ -5,6 +5,18 @@
 //
 
 #import <Availability.h>
+#define imageFromURL(returnStore, url) do{\
+NSURL *imageURL = [NSURL URLWithString:url];\
+dispatch_async(dispatch_get_global_queue\(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{ NSData *imageData = [NSData dataWithContentsOfURL imageURL]; dispatch_async(dispatch_get_main_queue(), ^{});});}while(0);
+/*
+//
+//dispatch_async(dispatch_get_global_queue\(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{\
+  //  NSData *imageData = [NSData dataWithContentsOfURL imageURL];\
+    //dispatch_async(dispatch_get_main_queue(), ^{\
+      //  returnStore = [UIImage imageWithData:imageData];\
+    //});\
+//});
+}while(0);*/
 #define dictToJSON(d) [NSJSONSerialization dataWithJSONObject:d options:NSJSONWritingPrettyPrinted error:nil]
 #define JSONTodict(j) [NSJSONSerialization JSONObjectWithData:j options:kNilOptions error:nil];
 #define currentUser @""//	@"kkwan"

@@ -522,7 +522,7 @@ self.responseData = [[NSMutableData alloc] initWithLength:0];
 
 }
 - (IBAction)switchToggled:(id)sender {
-    self.switchTicked = YES;
+    self.switchTicked = !self.switchTicked;
     if (self.locSwitch.on){
         self.locationField.hidden = YES;
         self.indicator.hidden = YES;
@@ -666,6 +666,7 @@ self.responseData = [[NSMutableData alloc] initWithLength:0];
     [ret setObject:whatvc.ratingsDict forKey:@"ratingsDict"];
     [ret setObject:[NSNumber numberWithInt:self.minPrice] forKey:@"minPrice"];
     [ret setObject:[NSNumber numberWithInt:self.maxPrice] forKey:@"maxPrice"];
+    [ret setObject:[self.nav topN:5] forKey:@"top5"];
     return ret;
 }
 
@@ -698,7 +699,7 @@ self.responseData = [[NSMutableData alloc] initWithLength:0];
 }
 
 - (BOOL) validate{
-    if((!LEViewController.myLocation) && (([self.nav.invitation needToRespondToDate]) || self.nav.creator) && (!self.nonCurrentLocation)){
+    if(((!LEViewController.myLocation) && (([self.nav.invitation needToRespondToDate]) || self.nav.creator) && (!self.nonCurrentLocation)) || ((self.switchTicked) && (!self.nonCurrentLocation))){
         UIAlertView* av;
         if (!self.switchTicked){
             av = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"We can't get a read on your current location, please enter it manually" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];

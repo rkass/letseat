@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+@class NoConnectionAlertDelegate;
 @interface LEViewController : UIViewController <CLLocationManagerDelegate>
 
 + (void) setUserDefault:(NSString *)key data:(NSObject*) data;
@@ -20,5 +21,6 @@
 @property (strong, nonatomic) UIView* blacky;
 @property (strong, nonatomic) UIActivityIndicatorView* loadingIndicator;
 @property (strong, nonatomic) UILabel* loadingLabel;
+@property (strong, nonatomic) NoConnectionAlertDelegate* noConnectionAlertDelegate;
 @property bool alertShowing;
 @end

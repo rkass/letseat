@@ -168,6 +168,9 @@
    
     
 }
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    [self orderCategories];
+}
 -(void)ratingPressed:(FoodTypeTableViewCell *)cell{
     NSLog(@"rating pressed cell: %@", cell);
     NSMutableArray* editIndices = [[NSMutableArray alloc] init];
@@ -326,7 +329,7 @@
         dict[@"stars"] = [self rating:nil childName:dict[@"label"]];
         dict[@"expanded"] = [NSNumber numberWithBool:NO];
     }
-    self.allFoodTypes = [self.foodTypes mutableCopy];;
+    self.allFoodTypes = [self.foodTypes mutableCopy];
     return  self.foodTypes;
     
 }
@@ -344,6 +347,24 @@
     }
     return self.ratingsDict[childName];
 }
+-(void)orderCategories{
+    NSMutableArray* ret = [[NSMutableArray alloc] init];
+    for (NSMutableDictionary* dict in self.foodTypes){
+        if ([dict[@"category"] boolValue]){
+            int rating = [self.ratingsDict[dict[@"label"]] intValue ];
+            NSArray* tackOn = [[NSArray alloc] initWithObjects:dict[@"label"], [NSNumber numberWithInt:rating], nil];
+            int index = 0;
+            for (NSArray* arr in ret){
+                if ([arr[1] intValue] < [tackOn[1] intValue])
+                    break;
+                index += 1;
+            }
+            [ret insertObject:tackOn atIndex:index];
+        }
+    }
+    ((CreateMealNavigationController*) self.navigationController).orderedCategories = ret;
+}
+
 -(void)saveRatings{
     for (NSMutableDictionary* dict in self.foodTypes){
        if ([dict[@"category"] boolValue])

@@ -8,7 +8,7 @@
 
 #import "LEViewController.h"
 #import "Server.h"
-
+#import "NoConnectionAlertDelegate.h"
 @interface LEViewController ()
 
 @property (strong, nonatomic) UIAlertView *failedConnection;
@@ -99,10 +99,14 @@ static CLLocation* myLocation;
 
 - (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    if (!self.alertShowing){
-    self.failedConnection = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"Couldn't connect to the server.  Check your connection and try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"noConnectionAlertShowing"] integerValue] == 0){
+        [LEViewController setUserDefault:@"noConnectionAlertShowing" data:[NSNumber numberWithInteger:1]];
+        self.noConnectionAlertDelegate = [[NoConnectionAlertDelegate alloc] init];
+        self.failedConnection = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"Couldn't connect to the server.  Check your connection and try again." delegate:self.noConnectionAlertDelegate cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [self.failedConnection show];
-        self.alertShowing = YES;}
+        [self unloadScreen];
+        
+    }
     
 }
 - (void)locationManager:(CLLocationManager *)manager

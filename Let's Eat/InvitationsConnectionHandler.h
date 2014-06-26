@@ -8,13 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "InvitationsViewController.h"
-
-@interface InvitationsConnectionHandler : NSObject
+@class NoConnectionAlertDelegate;
+@interface InvitationsConnectionHandler : NSObject <UIAlertViewDelegate>
 
 @property (strong, nonatomic) NSMutableData* responseData;
 @property (strong, nonatomic) InvitationsViewController* ivc;
 @property bool meals;
-
+@property (strong, nonatomic) NoConnectionAlertDelegate* noConnectionAppDelegate;
+@property (strong, nonatomic) UIAlertView* failedConnection;
 -(id)initWithInvitationsViewController:(InvitationsViewController*)ivcInput;
 
 @end

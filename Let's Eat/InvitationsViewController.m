@@ -122,8 +122,10 @@
 -(void)refreshView{
     NSLog(@"reloading view");
     [self.spinner startAnimating];
-    [User getMeals:[[InvitationsConnectionHandler alloc] initWithInvitationsViewController:self] ];
-    [User getInvitations:[[InvitationsConnectionHandler alloc] initWithInvitationsViewController:self] ];
+    self.invConnHandler1 = [[InvitationsConnectionHandler alloc] initWithInvitationsViewController:self];
+    self.invConnHandler2 = [[InvitationsConnectionHandler alloc] initWithInvitationsViewController:self];
+    [User getMeals:self.invConnHandler1];
+    [User getInvitations:self.invConnHandler2 ];
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"mealsPressed"] && [[[NSUserDefaults standardUserDefaults] objectForKey:@"mealsPressed"] boolValue]){
         [self.meals setBackgroundColor:[UIColor whiteColor]];
         [self.invitations setBackgroundColor:[UIColor clearColor]];
@@ -381,7 +383,7 @@ NSComparisonResult sortInvitationByDate4(Invitation *i1, Invitation *i2, void *i
     if (tableView == self.navBar)
         return;
     self.selectedIndexPath = indexPath;
-    InviteTransitionConnectionHandler* ivtch = [[InviteTransitionConnectionHandler alloc] initWithInvitationsViewController:self segueInput:@"invitationsToInvite"];
+    self.ivtch = [[InviteTransitionConnectionHandler alloc] initWithInvitationsViewController:self segueInput:@"invitationsToInvite"];
     NSMutableArray* arr;
     if (self.invitationsTable.hidden){
         if (self.selectedIndexPath.section == 0)
@@ -393,7 +395,7 @@ NSComparisonResult sortInvitationByDate4(Invitation *i1, Invitation *i2, void *i
         arr = self.upcomingInvitations;
     }
     Invitation* selectedInvitation = arr[indexPath.row];
-    [User getInvitation:selectedInvitation.num source:ivtch];
+    [User getInvitation:selectedInvitation.num source:self.ivtch];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self loadingScreen];
     NSLog(@"double passed it all");

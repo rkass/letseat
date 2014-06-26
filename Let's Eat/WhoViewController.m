@@ -266,7 +266,11 @@
         
         self.friends = [self.friendsCache mutableCopy];
         [self.friendsTable reloadData];
-        
+        if (([[[NSUserDefaults standardUserDefaults] objectForKey:@"getFriends"] intValue] == 0)){
+            [LEViewController setUserDefault:@"getFriends" data:[NSNumber numberWithInt:1]];
+            UIAlertView* av = [[UIAlertView alloc] initWithTitle:@"Add some friends" message:@"Invite friends to use Let's Eat by clicking the top right menu button" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [av show];
+        }
     }
 
 }

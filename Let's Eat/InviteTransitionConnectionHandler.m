@@ -12,6 +12,7 @@
 #import "Restaurant.h"
 #import "LEViewController.h"
 #import "AppDelegate.h"
+#import "NoConnectionAlertDelegate.h"
 @implementation InviteTransitionConnectionHandler
 
 @synthesize segue, ivc, responseData;
@@ -57,6 +58,19 @@
 }
 - (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"noConnectionAlertShowing"] integerValue] == 0){
+        [LEViewController setUserDefault:@"noConnectionAlertShowing" data:[NSNumber numberWithInteger:1]];
+        self.noConnectionAppDelegate = [[NoConnectionAlertDelegate alloc] init];
+        self.failedConnection = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"Couldn't connect to the server.  Check your connection and try again." delegate:self.noConnectionAppDelegate cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [self.failedConnection show];
+        if (self.ivc)
+            [self.ivc unloadScreen];
+        else if (self.invitevc)
+            [self.invitevc unloadScreen];
+        
+    }
+}
+  /*
     LEViewController* lvc;
     if (self.ivc)
         lvc = self.ivc;
@@ -73,7 +87,8 @@
 
     }
     self.conn = connection;
-}
+   */
+
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection
 {
     NSDictionary *resultsDictionary = JSONTodict(self.responseData);

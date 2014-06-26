@@ -78,8 +78,8 @@
         [self.ind stopAnimating];
         [self.ind removeFromSuperview];
     }
-    [self.yelpView stringByEvaluatingJavaScriptFromString:@"document.getElementById('app-pitch').style.display = 'none'"];
-    self.yelpView.scrollView.contentOffset = CGPointMake(0,-43);
+   // [self.yelpView stringByEvaluatingJavaScriptFromString:@"document.getElementById('app-pitch').style.display = 'none'"];
+   // self.yelpView.scrollView.contentOffset = CGPointMake(0,-43);
    // NSString *exists = [self.yelpView stringByEvaluatingJavaScriptFromString:@"document.getElementById('search-bar')!=null;"];
   //  if ([exists isEqualToString:@"true"]){
        // [self.yelpView stringByEvaluatingJavaScriptFromString:@"document.getElementById('search-bar').style.display = 'none'"];

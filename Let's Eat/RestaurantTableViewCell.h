@@ -25,6 +25,7 @@
 @property (strong, nonatomic) NSMutableData* responseData;
 @property (strong, nonatomic) InviteViewController* ivc;
 @property (strong, nonatomic) NSNumber* connector;
+@property (strong, nonatomic) IBOutlet UIImageView *yelpCredit;
 -(void)setWithRestaurant:(Restaurant*)restaurant rowInput:(int)rowInput ivcInput:(InviteViewController*)ivcInput oneRestInput:(BOOL)oneRestInput;
 -(void)setNothingOpen;
 @end

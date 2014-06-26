@@ -13,5 +13,6 @@
 @property (strong,nonatomic) Invitation* invitation;
 @property BOOL creator;
 @property (strong, nonatomic) NSMutableArray* invitees;
-
+@property NSMutableArray* orderedCategories; //[[Label, Rating], [Label, Rating], ..., n]
+-(NSArray*) topN:(int)n;
 @end

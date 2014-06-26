@@ -103,6 +103,7 @@
     [self.price setHidden:YES];
     [self.percentMatch setHidden:YES];
     [self.snippetImg setHidden:YES];
+    [self.yelpCredit setHidden:YES];
     [self.address setHidden:YES];
     [self.types setHidden:YES];
     [self.votes setHidden:YES];
@@ -113,6 +114,7 @@
     [self.price setHidden:NO];
     [self.percentMatch setHidden:NO];
     [self.snippetImg setHidden:NO];
+    [self.yelpCredit setHidden:NO];
     [self.address setHidden:NO];
     [self.types setHidden:NO];
     [self.votes setHidden:NO];
@@ -127,7 +129,7 @@
     self.selectionStyle = UITableViewCellSelectionStyleDefault;
     NSURL *imageURL;
     if (self.restaurant.snippetImg && (![self.restaurant.snippetImg isEqual:[NSNull null]])){
-        imageURL = [NSURL URLWithString:self.restaurant.snippetImg];
+    imageURL = [NSURL URLWithString:self.restaurant.snippetImg];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
         
@@ -138,6 +140,7 @@
         });
     });
     }
+
     imageURL = [NSURL URLWithString:self.restaurant.ratingImg];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -148,6 +151,7 @@
             self.ratingImg.image = [UIImage imageWithData:imageData];
         });
     });
+    [self.yelpCredit setImage:GET_IMG(@"yelpCredit")];
     self.name.text = [NSString stringWithFormat:@"%u.%@", self.row + 1, self.restaurant.name];
     self.address.text = [self.restaurant.address componentsSeparatedByString:@","][0];
     [self setVotesText];
