@@ -20,6 +20,7 @@
 @property (strong, nonatomic) CLLocation* myLocation;
 @property (strong, nonatomic) IBOutlet UILabel *date;
 @property (strong, nonatomic) UIActivityIndicatorView* inviteSpinner;
+@property (strong, nonatomic) InviteTransitionConnectionHandler* invtrans;
 @property BOOL restsPressed;
 @property BOOL wereDone;
 - (void) layoutView;

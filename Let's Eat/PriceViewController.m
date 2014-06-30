@@ -370,7 +370,33 @@
 
 - (void) searchCoordinatesForAddress:(NSString *)inAddress
 {
-    //Build the string to Query Google Maps.
+    NSLog(@"SEEARCHED: %@", inAddress);
+    if (!self.geocoder)
+        self.geocoder = [[CLGeocoder alloc] init];
+    self.nonCurrentLocation = nil;
+    [self.geocoder geocodeAddressString:inAddress
+                 completionHandler:^(NSArray* placemarks, NSError* error){
+                     for (CLPlacemark* aPlacemark in placemarks)
+                     {
+                         NSLog(@"placemark %@", aPlacemark);
+                         self.nonCurrentLocation = aPlacemark.location;
+                         break;
+                     }
+                     if (!self.nonCurrentLocation){
+                         self.indicator.hidden = YES;
+                         [self.indicator stopAnimating];
+                         self.locValidator.image = redexc;
+                         self.locValidator.hidden = NO;
+                     }
+                     else{
+                         self.indicator.hidden = YES;
+                         [self.indicator stopAnimating];
+                         self.locValidator.image = greencheck;
+                         self.locValidator.hidden = NO;
+                     }
+                     
+                 }];
+  /*  //Build the string to Query Google Maps.
     NSMutableString *urlString = [NSMutableString stringWithFormat:@"https://maps.google.com/maps/api/geocode/json?address=%@&sensor=false&key=AIzaSyBITjgfUC0tbWp9-0SRIRR-PYAultPKDbA",inAddress];
     
     //Replace Spaces with a '+' character.
@@ -383,7 +409,7 @@
     //Note that we should test for reachability!.
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     NSLog(@"requesting.....\n.....\n....");
-    [NSURLConnection connectionWithRequest:request delegate:self];
+    [NSURLConnection connectionWithRequest:request delegate:self];*/
 }
 
 - (IBAction)centralPressed:(id)sender {

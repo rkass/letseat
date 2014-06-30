@@ -91,7 +91,10 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection
 {
+    NSLog(@"conn finsihed hheerrre");
     NSDictionary *resultsDictionary = JSONTodict(self.responseData);
+    self.responseData = [[NSMutableData alloc] initWithLength:0];
+    NSLog(@"results dict %@", resultsDictionary);
     if ([resultsDictionary[@"success"] boolValue]){
         
         
@@ -99,9 +102,11 @@
         [LEViewController setUserDefault:@"mealsPressed" data:[NSNumber numberWithBool:i.scheduled]];
         NSLog(@"id: %d", i.num);
         if (self.delegate){
+            NSLog(@"inside this one");
             [self.delegate.blocker removeFromSuperview];
         }
         if (self.nav){
+            NSLog(@"this one no");
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             InviteViewController* iv = (InviteViewController*)[storyboard instantiateViewControllerWithIdentifier:@"Invite"];
             iv.invitation = i;
@@ -109,6 +114,7 @@
             [self.nav pushViewController:iv animated:NO];
         }
         else if (self.ivc){
+            NSLog(@"actually this one");
             self.ivc.transitionInvitation = i;
             [self.ivc performSegueWithIdentifier:self.segue sender:self.ivc];
         }

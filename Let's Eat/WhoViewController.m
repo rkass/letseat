@@ -226,6 +226,7 @@
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection{
 
     NSDictionary *resultsDictionary = JSONTodict(self.responseData)
+    self.responseData = [[NSMutableData alloc] initWithLength:0];
     NSLog(@"Friends: %@", resultsDictionary);
     //   NSLog(@"%@", resultsDictionary);
     // NSLog(@"friends cache %@", self.friendsCache);

@@ -14,5 +14,5 @@
 @class ProgressBarTableViewCell;
 @class FinalStepTableViewCell;
 @interface PriceViewController : LEViewController <UITextFieldDelegate, CLLocationManagerDelegate, UIScrollViewDelegate, UITextViewDelegate, UITableViewDataSource, UITableViewDelegate>
-
+@property (strong, nonatomic) CLGeocoder* geocoder;
 @end

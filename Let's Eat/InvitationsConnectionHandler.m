@@ -23,6 +23,7 @@
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection
 {
     NSDictionary *resultsDictionary = JSONTodict(self.responseData);
+    self.responseData = [[NSMutableData alloc] initWithLength:0];
     NSMutableArray* upcoming;
     NSMutableArray* passed;
     if ([resultsDictionary[@"call"] isEqualToString:@"get_meals"]){

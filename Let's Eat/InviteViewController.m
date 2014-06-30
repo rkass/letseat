@@ -106,7 +106,7 @@
     [self.view addSubview:self.oneRestLoadingLabel];
     [self.navBar setDelegate:self];
     [self.navBar setDataSource:self];
-    [self layoutView];
+
     [self.view sendSubviewToBack:self.restaurants];
     [self.view sendSubviewToBack:self.overview];
     [self.view sendSubviewToBack:self.white];
@@ -180,6 +180,8 @@
     }
     self.wereDone =  (self.previousInvitation.updatingRecommendations == 0) && (self.invitation.updatingRecommendations == 0);
     self.previousInvitation = self.invitation;
+    NSLog(@"recalling");
+    NSLog(@"updating: %d", self.invitation.updatingRecommendations);
     [self performSelector:@selector(recall) withObject:nil afterDelay:10];
    /* if (self.invitation.updatingRecommendations > 0){
         bool retry;
@@ -204,9 +206,10 @@
 
 }
 -(void) recall{
-    NSLog(@"recalling.");
-    InviteTransitionConnectionHandler* ivtch = [[InviteTransitionConnectionHandler alloc] initWithInvitateViewController:self];
-    [User getInvitation:self.invitation.num source:ivtch];
+    NSLog(@"RREEECCALLLEDDD");
+    if(!self.invtrans)
+        self.invtrans = [[InviteTransitionConnectionHandler alloc] initWithInvitateViewController:self];
+    [User getInvitation:self.invitation.num source:self.invtrans];
 }
 -(void) saveRests{
     NSMutableArray* serialzedRests = [[NSMutableArray alloc] init];
@@ -217,11 +220,13 @@
 
 
 -(void)viewWillAppear:(BOOL)animated{
-    NSLog(@"will appear");
-    InviteTransitionConnectionHandler* ivtch = [[InviteTransitionConnectionHandler alloc] initWithInvitateViewController:self];
+      [self layoutView];
+  /*  if(!self.invtrans)
+        self.invtrans = [[InviteTransitionConnectionHandler alloc] initWithInvitateViewController:self];
+
    // NSLog(@"invite view location: %@", L.myLocation);
-    [User getInvitation:self.invitation.num source:ivtch];
-   // [labelbg setFrame:CGRectMake(self.msg.frame.origin.x - 5, self.msg.frame.origin.y + 7, self.msg.frame.size.width + 10, self.msg.frame.size.height -10)];
+    [User getInvitation:self.invitation.num source:self.invtrans];
+   // [labelbg setFrame:CGRectMake(self.msg.frame.origin.x - 5, self.msg.frame.origin.y + 7, self.msg.frame.size.width + 10, self.msg.frame.size.height -10)];*/
 
 }
 
@@ -260,9 +265,11 @@
        
     }
     else {
-        InviteTransitionConnectionHandler* ivtch = [[InviteTransitionConnectionHandler alloc] initWithInvitateViewController:self];
-        [User getInvitation:self.invitation.num source:ivtch];
-        //[User getMeals:<#(NSObject *)#>]
+        if (!self.invtrans)
+            self.invtrans = [[InviteTransitionConnectionHandler alloc] initWithInvitateViewController:self];
+
+        [User getInvitation:self.invitation.num source:self.invtrans];
+        //[User getMeals:]
         [self.labelbg setHidden:YES];
         [self.labelbg removeFromSuperview];
        // [self.msg removeFromSuperview];
