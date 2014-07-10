@@ -19,7 +19,7 @@ dispatch_async(dispatch_get_global_queue\(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
 }while(0);*/
 #define dictToJSON(d) [NSJSONSerialization dataWithJSONObject:d options:NSJSONWritingPrettyPrinted error:nil]
 #define JSONTodict(j) [NSJSONSerialization JSONObjectWithData:j options:kNilOptions error:nil];
-#define currentUser 	@"kkwan"
+#define currentUser 	@""//x@"kkwan"
 #define loadingRestaurantsText @"Loading Recommendations.\nThis usually takes about a minute..."
 #define color2 @"f4f6ef"
 #define color3 @"8ab32d"

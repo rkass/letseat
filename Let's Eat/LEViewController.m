@@ -47,6 +47,20 @@ static CLLocation* myLocation;
         return myLocation;
     }
 }
+-(void)initializeTimer{
+    [LEViewController setUserDefault:@"timeout" data:[NSNumber numberWithInt:1]];
+    self.timeoutTimer = [NSTimer scheduledTimerWithTimeInterval:10.0f target:self selector:@selector(checkTimeout:) userInfo:nil repeats:YES];
+    
+}
+- (void)checkTimeout:(NSTimer *)theTime{
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"timeout"] integerValue] == 1){
+//do timeout things
+    }
+    [self.timeoutTimer invalidate];
+    [LEViewController setUserDefault:@"timeout" data:[NSNumber numberWithInt:0]];
+}
+    
+
 + (void) setMyLocation:(CLLocation *)locationInput
 {
     @synchronized(self)
@@ -109,6 +123,7 @@ static CLLocation* myLocation;
     }
     
 }
+
 - (void)locationManager:(CLLocationManager *)manager
     didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation

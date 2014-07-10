@@ -17,10 +17,12 @@
 - (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
 -(void)loadingScreen;
 -(void)unloadScreen;
+-(void)initializeTimer;
 @property (strong, nonatomic) UIView* fadeout;
 @property (strong, nonatomic) UIView* blacky;
 @property (strong, nonatomic) UIActivityIndicatorView* loadingIndicator;
 @property (strong, nonatomic) UILabel* loadingLabel;
 @property (strong, nonatomic) NoConnectionAlertDelegate* noConnectionAlertDelegate;
+@property (strong, nonatomic) NSTimer* timeoutTimer;
 @property bool alertShowing;
 @end

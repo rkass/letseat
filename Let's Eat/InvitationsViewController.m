@@ -310,8 +310,8 @@ NSComparisonResult sortInvitationByDate4(Invitation *i1, Invitation *i2, void *i
         return @"Upcoming Invitations";
     }
     if (tableView == self.mealsTable)
-        return @"Passed Meals";
-    return @"Passed Invitations";
+        return @"Past Meals";
+    return @"Past Invitations";
 }
 
 
