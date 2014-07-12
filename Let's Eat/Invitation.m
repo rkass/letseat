@@ -193,6 +193,7 @@
 
 -(NSString*) displayPeople
 {
+  //  [[[UIAlertView alloc] initWithTitle:@".." message:[NSString stringWithFormat:@"people, %@, creator index, %d, number %d", self.people, self.creatorIndex, self.num] delegate:nil cancelButtonTitle:nil otherButtonTitles:nil] show];
     NSString* creator = [self.people[self.creatorIndex] componentsSeparatedByString:@" "][0];
     if ([creator isEqualToString:@"You"]){
         if ([self.people count] == 1)

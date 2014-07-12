@@ -47,6 +47,7 @@ static CLLocation* myLocation;
         return myLocation;
     }
 }
+/*
 -(void)initializeTimer{
     [LEViewController setUserDefault:@"timeout" data:[NSNumber numberWithInt:1]];
     self.timeoutTimer = [NSTimer scheduledTimerWithTimeInterval:10.0f target:self selector:@selector(checkTimeout:) userInfo:nil repeats:YES];
@@ -54,13 +55,16 @@ static CLLocation* myLocation;
 }
 - (void)checkTimeout:(NSTimer *)theTime{
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"timeout"] integerValue] == 1){
-//do timeout things
+        UIAlertView* a = [[UIAlertView alloc] initWithTitle:@"Oof" message:@"Couldn't connect to the server.  Check your connection and try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [a show];
+        [self unloadScreen];
+        
     }
     [self.timeoutTimer invalidate];
     [LEViewController setUserDefault:@"timeout" data:[NSNumber numberWithInt:0]];
 }
     
-
+*/
 + (void) setMyLocation:(CLLocation *)locationInput
 {
     @synchronized(self)

@@ -24,5 +24,6 @@
 @property (strong, nonatomic) UILabel* loadingLabel;
 @property (strong, nonatomic) NoConnectionAlertDelegate* noConnectionAlertDelegate;
 @property (strong, nonatomic) NSTimer* timeoutTimer;
+//@property (strong, nonatomic) NSURLRequest* currReq;
 @property bool alertShowing;
 @end
