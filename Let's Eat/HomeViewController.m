@@ -79,13 +79,13 @@
     self.navigationController.navigationBarHidden = YES;
     self.optionsTable.delegate = self;
     self.optionsTable.dataSource = self;
-<<<<<<< HEAD
+
    
     self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
-=======
+
     self.date.minimumDate = [[NSDate date] dateByAddingTimeInterval:60*15];
     //self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
->>>>>>> 0ee4b95d16c8734357dc0066a8065973c58c412b
+
     [self.date setMinuteInterval:15];
 }
 -(void)viewWillAppear:(BOOL)animated{

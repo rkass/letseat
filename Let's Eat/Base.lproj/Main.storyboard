@@ -1779,16 +1779,13 @@ Everyone</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-<<<<<<< HEAD
         <segue reference="iKm-jG-Yyr"/>
         <segue reference="3hp-1u-LWz"/>
         <segue reference="cg5-vY-0wQ"/>
         <segue reference="Lsm-5n-AWM"/>
-=======
         <segue reference="3hp-1u-LWz"/>
         <segue reference="cg5-vY-0wQ"/>
         <segue reference="4So-Ca-LIJ"/>
         <segue reference="0xw-lS-4Z1"/>
->>>>>>> 0ee4b95d16c8734357dc0066a8065973c58c412b
     </inferredMetricsTieBreakers>
 </document>
