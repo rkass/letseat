@@ -147,7 +147,7 @@
     UIBarButtonItem *homeItem = [[UIBarButtonItem alloc] initWithCustomView:home];
     [home addTarget:self action:@selector(homePressed:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = homeItem;
-    self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
+    //self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
     self.subscroll.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
     self.byMe.titleLabel.textAlignment = NSTextAlignmentCenter;
     self.byMe.titleLabel.textColor = [UIColor grayColor];

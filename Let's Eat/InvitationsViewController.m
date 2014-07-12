@@ -63,7 +63,7 @@
     UIImage* bigReply = [UIImage imageNamed:@"reply"];
     self.reply = [Graphics makeThumbnailOfSize:bigReply size:CGSizeMake(14, 18)];
     self.title = @"Meals";
-    self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
+    //self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
     self.invitationsTable.backgroundColor = [UIColor clearColor];
     self.mealsTable.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     self.invitationsTable.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);

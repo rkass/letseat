@@ -29,7 +29,7 @@
 {
 
     [super viewDidLoad];
-    [self.view setBackgroundColor:[UIColor colorWithPatternImage:GET_IMG(@"bg")]];
+    //[self.view setBackgroundColor:[UIColor colorWithPatternImage:GET_IMG(@"bg")]];
     [self.phoneNumberTextView setBackgroundColor:[UIColor colorWithPatternImage:GET_IMG(@"input")]];
     [self.phoneNumberTextView setDelegate:self];
     [self.phoneNumberTextView setText:@"Phone Number"];

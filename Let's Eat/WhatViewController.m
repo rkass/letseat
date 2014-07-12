@@ -578,7 +578,7 @@
     [home addTarget:self action:@selector(homePressed:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = homeItem;
     self.title = @"Rank Preferences";
-    self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
+    //self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
     UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Chalkboard"]];
     [tempImageView setFrame:self.wantTable.frame];
     self.wantTable.backgroundView = tempImageView;
