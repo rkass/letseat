@@ -109,7 +109,9 @@
     if (indexPath.row == 0){
         //cell.textLabel.text = @"Invitations and Meals";
         UIImage *bigImage = [UIImage imageNamed:@"mymeals"];
-        cell.imageView.image = [Graphics makeThumbnailOfSize:bigImage size:CGSizeMake(640, 271)];
+        cell.imageView.image = bigImage;//[Graphics makeThumbnailOfSize:bigImage size:CGSizeMake(640, 271)];
+        //cell.contentView
+        //cell.imageView.frame = CGRectMake( 0, 0, 80, 80 );
         
     }
     else if (indexPath.row == 1){
