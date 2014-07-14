@@ -79,11 +79,14 @@
     self.navigationController.navigationBarHidden = YES;
     self.optionsTable.delegate = self;
     self.optionsTable.dataSource = self;
+
    
     self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
-    [self.date setMinuteInterval:15];
 
-    
+    self.date.minimumDate = [[NSDate date] dateByAddingTimeInterval:60*15];
+    //self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
+
+    [self.date setMinuteInterval:15];
 }
 -(void)viewWillAppear:(BOOL)animated{
      self.date.minimumDate = [[NSDate date] dateByAddingTimeInterval:60*15];
@@ -104,9 +107,10 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     if (indexPath.row == 0){
-        cell.textLabel.text = @"Invitations and Meals";
-        UIImage *bigImage = [UIImage imageNamed:@"Envelope"];
-        cell.imageView.image = [Graphics makeThumbnailOfSize:bigImage size:CGSizeMake(60, 60)];
+        //cell.textLabel.text = @"Invitations and Meals";
+        UIImage *bigImage = [UIImage imageNamed:@"mymeals"];
+        cell.imageView.image = [Graphics makeThumbnailOfSize:bigImage size:CGSizeMake(640, 271)];
+        
     }
     else if (indexPath.row == 1){
         cell.textLabel.text = @"Logout";

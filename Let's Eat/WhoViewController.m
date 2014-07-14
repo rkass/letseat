@@ -82,7 +82,7 @@
     UIBarButtonItem *addFriendsItem = [[UIBarButtonItem alloc] initWithCustomView:addFriends];
     [addFriends addTarget:self action:@selector(addFriends:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = addFriendsItem;
-    self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
+    //self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
     NSMutableDictionary* meDict = [[NSMutableDictionary alloc] init];
     [meDict setObject:@"Me" forKey:@"displayName"];
     [meDict setObject:@YES forKey:@"checked"];

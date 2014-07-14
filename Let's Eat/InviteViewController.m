@@ -76,7 +76,7 @@
     [self.white setBackgroundColor:[UIColor colorWithRed:184 green:163 blue:126 alpha:1]];
     self.reloading = NO;
     self.rsvpTable.backgroundColor = [UIColor clearColor];
-    self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
+    //self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
     ((CreateMealNavigationController*)self.navigationController).invitation = self.invitation;
     ((CreateMealNavigationController*)self.navigationController).creator = NO;
     self.navigationController.navigationBarHidden = YES;

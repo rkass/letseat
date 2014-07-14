@@ -83,7 +83,7 @@
 
     [self.table reloadData];
     self.title = @"Add Friends";
-    self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
+    //self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
     self.table.dataSource = self;
     self.table.delegate = self;
     self.search.delegate = self;
