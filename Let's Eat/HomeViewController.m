@@ -93,6 +93,10 @@
 
 }
 
+- (IBAction)touchedkid:(id)sender {
+    self.selectedRow = 0;
+    [self performSegueWithIdentifier:@"homeToInvitations" sender:self];
+}
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
