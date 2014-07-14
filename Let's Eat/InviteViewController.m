@@ -182,7 +182,10 @@
     self.previousInvitation = self.invitation;
     NSLog(@"recalling");
     NSLog(@"updating: %d", self.invitation.updatingRecommendations);
-    [self performSelector:@selector(recall) withObject:nil afterDelay:10];
+    if (self == self.navigationController.viewControllers.lastObject) {
+         [self performSelector:@selector(recall) withObject:nil afterDelay:10];
+    }
+   
    /* if (self.invitation.updatingRecommendations > 0){
         bool retry;
         @synchronized(self.tries){

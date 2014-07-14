@@ -160,7 +160,8 @@
     self.thumb1 = [[UIButton alloc] initWithFrame:CGRectMake(self.sliderMinX, self.sliderBackdrop.frame.origin.y + self.sliderBackdrop.frame.size.height/2 - thumb.size.height/2 /*+ self.subscroll.frame.origin.y*/,thumb.size.width , thumb.size.height)];
 
     if (self.nav.creator){
-        NSMutableArray* arr = [self getCreatorPreferences][@"numbers"];
+        self.creatorPrefs = [self getCreatorPreferences];
+        NSMutableArray* arr = self.creatorPrefs[@"numbers"];
         self.invitees = arr.count;
         [self.cib setTitle:@"Create Invitation" forState:UIControlStateNormal];
     }
@@ -706,8 +707,11 @@ self.responseData = [[NSMutableData alloc] initWithLength:0];
     NSMutableArray* numbers = [[NSMutableArray alloc] init];
     for (NSMutableDictionary* dict in whovc.friends){
         if ([dict[@"checked"]  isEqual: @YES]){
-            for (NSString* number in dict[@"numbers"])
+            for (NSString* number in dict[@"numbers"]){
                 [numbers addObject:number];
+             //   [[[UIAlertView alloc] initWithTitle:@"adding num" message:number delegate:nil cancelButtonTitle:nil otherButtonTitles: nil] show];
+            }
+            
         }
     }
     NSMutableArray* invs = [[NSMutableArray alloc] init];
@@ -756,7 +760,7 @@ self.responseData = [[NSMutableData alloc] initWithLength:0];
         NSLog(@"validated");
         [self loadingScreen];
         if (self.nav.creator)
-            [User createInvitation:[self getCreatorPreferences] source:self];
+            [User createInvitation:self.creatorPrefs source:self];
         else{
             NSLog(@"responding yes");
             [User respondYes:self.nav.invitation.num preferences:[self getPreferences] source:self];
