@@ -30,7 +30,7 @@
 
 -(void)setLayout:(NSString*)titleInput{
   //  [self.progressSlider setThumbImage:[[UIImage alloc] init] forState:UIControlStateNormal];
-    UIImageView* sliderfill = [[UIImageView alloc] initWithImage:GET_IMG(@"sliderfill")];
+    UIImageView* sliderfill = [[UIImageView alloc] initWithImage:GET_IMG(@"sliderfill2")];
     if ([titleInput isEqualToString:@"Respond1"]){
         [self.pathTitleButton setTitle:@"Respond" forState:UIControlStateNormal];
         [sliderfill setFrame:CGRectMake(self.slidertrack.frame.origin.x, self.slidertrack.frame.origin.y, 213, self.slidertrack.frame.size.height)];

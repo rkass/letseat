@@ -14,6 +14,7 @@
 #import "CheckAllStarsTableViewCell.h"
 
 @interface HomeViewController ()
+@property (strong, nonatomic) IBOutlet UIButton *mymeals;
 @property (strong, nonatomic) IBOutlet UIView *spacer99;
 @property (strong, nonatomic) UIViewController* whenViewController;
 @property (strong, nonatomic) IBOutlet UILabel *invite;
@@ -85,7 +86,8 @@
 
     self.date.minimumDate = [[NSDate date] dateByAddingTimeInterval:60*15];
     //self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
-
+    
+ //   [self.mymeals setImage:[Graphics makeThumbnailOfSize:GET_IMG(@"mymeals") size:CGSizeMake(30, 30) ] forState:UIControlStateNormal];
     [self.date setMinuteInterval:15];
 }
 -(void)viewWillAppear:(BOOL)animated{

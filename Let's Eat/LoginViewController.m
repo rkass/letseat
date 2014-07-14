@@ -39,6 +39,7 @@
     [LEViewController setUserDefault:@"getFriends" data:[NSNumber numberWithInt:0] ];
     [LEViewController setUserDefault:@"noConnectionAlertShowing" data:[NSNumber numberWithInteger:0]];
 	// Do any additional setup after loading the view.
+     self.view.backgroundColor = [UIColor whiteColor];
 }
 
 

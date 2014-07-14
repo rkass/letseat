@@ -60,7 +60,7 @@
       //  self.myViewController = [OrdinaryLaunchViewController alloc] init];
     //}
     if( [currentUser isEqualToString:@"kkwan" ]){
-        [LEViewController setUserDefault:@"auth_token" data:@"2cd7dccc6311a42de986dc9cb69042003dfb0f95"];
+        [LEViewController setUserDefault:@"auth_token" data:@"6de9f6d09ca4849446c63dd908a387e6362c40dc"];
         [LEViewController setUserDefault:@"phone_number" data:@"6463317888"];
     }
     //self.window.rootViewController = self.myViewController;

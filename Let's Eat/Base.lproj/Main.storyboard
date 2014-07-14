@@ -158,6 +158,20 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Ta-iE-XdA">
+                                <rect key="frame" x="0.0" y="297" width="640" height="271"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="imZ-G4-hDN"/>
+                                    <constraint firstAttribute="height" constant="140" id="z3r-7x-t8a"/>
+                                </constraints>
+                                <state key="normal" image="mymeals">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="touchedkid:" destination="Ju9-57-65q" eventType="touchUpInside" id="OgG-Lm-c6D"/>
+                                </connections>
+                            </button>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qHh-YM-L4b">
                                 <rect key="frame" x="71" y="72" width="160" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -166,16 +180,6 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                     <constraint firstAttribute="width" constant="160" id="x1J-yD-6fV"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Ta-iE-XdA">
-                                <rect key="frame" x="0.0" y="428" width="320" height="140"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="button">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="touchedkid:" destination="Ju9-57-65q" eventType="touchUpInside" id="OgG-Lm-c6D"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -210,6 +214,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     <navigationItem key="navigationItem" id="LeE-UO-HO9"/>
                     <connections>
                         <outlet property="date" destination="Q7M-8n-myt" id="ggu-RB-KX9"/>
+                        <outlet property="mymeals" destination="9Ta-iE-XdA" id="RZC-hB-6Uh"/>
                         <outlet property="navBar" destination="QhE-VE-Nkv" id="e5n-VM-wky"/>
                         <outlet property="selectPeople" destination="mCA-40-Eya" id="UJG-iP-zH8"/>
                         <outlet property="spacer3" destination="1Ns-Sg-nQj" id="z54-CA-GrW"/>
@@ -221,7 +226,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hqg-hs-JbS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="701" y="988"/>
+            <point key="canvasLocation" x="621" y="988"/>
         </scene>
         <!--Create Meal Navigation Controller-->
         <scene sceneID="Nv1-3f-DWd">
@@ -1529,7 +1534,7 @@ Everyone</string>
                                             <action selector="respondSubmit:" destination="w82-Tv-0aY" eventType="touchUpInside" id="WiX-lO-DKw"/>
                                         </connections>
                                     </button>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sliderfill" translatesAutoresizingMaskIntoConstraints="NO" id="X9m-3j-1sK">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sliderfill2" translatesAutoresizingMaskIntoConstraints="NO" id="X9m-3j-1sK">
                                         <rect key="frame" x="0.0" y="48" width="320" height="6"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
@@ -1767,9 +1772,10 @@ Everyone</string>
         <image name="buttonpressedbackground" width="160" height="40"/>
         <image name="greenbutton" width="293" height="85"/>
         <image name="homeback" width="37" height="22"/>
+        <image name="mymeals" width="640" height="271"/>
         <image name="next" width="160" height="40"/>
         <image name="pickatime" width="111" height="46"/>
-        <image name="sliderfill" width="285" height="11"/>
+        <image name="sliderfill2" width="285" height="11"/>
         <image name="slidertrack" width="287" height="13"/>
     </resources>
     <color key="tintColor" red="0.52549019607843139" green="0.15686274509803921" blue="0.83921568627450982" alpha="1" colorSpace="calibratedRGB"/>
@@ -1779,9 +1785,9 @@ Everyone</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="iKm-jG-Yyr"/>
         <segue reference="3hp-1u-LWz"/>
+        <segue reference="iKm-jG-Yyr"/>
         <segue reference="cg5-vY-0wQ"/>
-        <segue reference="0xw-lS-4Z1"/>
+        <segue reference="Lsm-5n-AWM"/>
     </inferredMetricsTieBreakers>
 </document>
