@@ -81,7 +81,7 @@
     self.optionsTable.dataSource = self;
 
    
-    self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
+    self.view.backgroundColor = [UIColor whiteColor];
 
     self.date.minimumDate = [[NSDate date] dateByAddingTimeInterval:60*15];
     //self.view.backgroundColor = [UIColor colorWithPatternImage:GET_IMG(@"bg")];
