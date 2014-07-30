@@ -42,6 +42,12 @@
 		94610F7118A950B40094779E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94610F6F18A950B40094779E /* InfoPlist.strings */; };
 		94610F7318A950B40094779E /* Let_s_EatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 94610F7218A950B40094779E /* Let_s_EatTests.m */; };
 		9466154518E3047A0066E84D /* RestaurantViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9466154418E3047A0066E84D /* RestaurantViewController.m */; };
+		94677B7319887F2400CFE7CC /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94677A3719887F2300CFE7CC /* FacebookSDK.framework */; };
+		94677B7419887F2400CFE7CC /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94677A3919887F2300CFE7CC /* FBAudienceNetwork.framework */; };
+		94677B7519887F2400CFE7CC /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 94677A3A19887F2300CFE7CC /* README.txt */; };
+		94677B8C19887F2400CFE7CC /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 94677A6919887F2400CFE7CC /* LICENSE */; };
+		94677B8D19887F2400CFE7CC /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 94677A6A19887F2400CFE7CC /* README.txt */; };
+		94677E1C198898CB00CFE7CC /* FacebookLoginViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94677E1B198898CB00CFE7CC /* FacebookLoginViewManager.m */; };
 		947F1DEA18B4FC38009924E5 /* ValidationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 947F1DE918B4FC38009924E5 /* ValidationViewController.m */; };
 		9483580018EB02D60022A13C /* InvitationsConnectionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 948357FF18EB02D60022A13C /* InvitationsConnectionHandler.m */; };
 		9483580618ECA0550022A13C /* InviteCases in Resources */ = {isa = PBXBuildFile; fileRef = 9483580518ECA0550022A13C /* InviteCases */; };
@@ -109,7 +115,7 @@
 		945930051912C6D8007C5C05 /* FoodTypeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoodTypeTableViewCell.m; sourceTree = "<group>"; };
 		945930071913E382007C5C05 /* CheckAllStarsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckAllStarsTableViewCell.h; sourceTree = "<group>"; };
 		945930081913E382007C5C05 /* CheckAllStarsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckAllStarsTableViewCell.m; sourceTree = "<group>"; };
-		94610F4418A950B40094779E /* Let's Eat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Let's Eat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		94610F4418A950B40094779E /* Let's Eat Group Dining Recommendations.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Let's Eat Group Dining Recommendations.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94610F4718A950B40094779E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		94610F4918A950B40094779E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		94610F4B18A950B40094779E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -130,6 +136,13 @@
 		94610F7218A950B40094779E /* Let_s_EatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Let_s_EatTests.m; sourceTree = "<group>"; };
 		9466154318E3047A0066E84D /* RestaurantViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantViewController.h; sourceTree = "<group>"; };
 		9466154418E3047A0066E84D /* RestaurantViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantViewController.m; sourceTree = "<group>"; };
+		94677A3719887F2300CFE7CC /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		94677A3919887F2300CFE7CC /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
+		94677A3A19887F2300CFE7CC /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		94677A6919887F2400CFE7CC /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		94677A6A19887F2400CFE7CC /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		94677E1A198898CB00CFE7CC /* FacebookLoginViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookLoginViewManager.h; sourceTree = "<group>"; };
+		94677E1B198898CB00CFE7CC /* FacebookLoginViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookLoginViewManager.m; sourceTree = "<group>"; };
 		947F1DE818B4FC38009924E5 /* ValidationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValidationViewController.h; sourceTree = "<group>"; };
 		947F1DE918B4FC38009924E5 /* ValidationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValidationViewController.m; sourceTree = "<group>"; };
 		948357FE18EB02D60022A13C /* InvitationsConnectionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvitationsConnectionHandler.h; sourceTree = "<group>"; };
@@ -174,6 +187,8 @@
 				94610F4C18A950B40094779E /* UIKit.framework in Frameworks */,
 				94042F01194A801600C7DF5D /* Crashlytics.framework in Frameworks */,
 				94610F4818A950B40094779E /* Foundation.framework in Frameworks */,
+				94677B7319887F2400CFE7CC /* FacebookSDK.framework in Frameworks */,
+				94677B7419887F2400CFE7CC /* FBAudienceNetwork.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,7 +277,7 @@
 		94610F4518A950B40094779E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				94610F4418A950B40094779E /* Let's Eat.app */,
+				94610F4418A950B40094779E /* Let's Eat Group Dining Recommendations.app */,
 				94610F6518A950B40094779E /* Let's EatTests.xctest */,
 			);
 			name = Products;
@@ -271,6 +286,7 @@
 		94610F4618A950B40094779E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				94677A3619887F2300CFE7CC /* FacebookSDK */,
 				94042F00194A801600C7DF5D /* Crashlytics.framework */,
 				9438EC2418D6AAC8007A1643 /* MessageUI.framework */,
 				94D2605C18BBAA24005FF97C /* MapKit.framework */,
@@ -333,6 +349,27 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		94677A3619887F2300CFE7CC /* FacebookSDK */ = {
+			isa = PBXGroup;
+			children = (
+				94677A3719887F2300CFE7CC /* FacebookSDK.framework */,
+				94677A3819887F2300CFE7CC /* FBAudienceNetwork */,
+				94677A6919887F2400CFE7CC /* LICENSE */,
+				94677A6A19887F2400CFE7CC /* README.txt */,
+			);
+			name = FacebookSDK;
+			path = ../../Documents/FacebookSDK;
+			sourceTree = "<group>";
+		};
+		94677A3819887F2300CFE7CC /* FBAudienceNetwork */ = {
+			isa = PBXGroup;
+			children = (
+				94677A3919887F2300CFE7CC /* FBAudienceNetwork.framework */,
+				94677A3A19887F2300CFE7CC /* README.txt */,
+			);
+			path = FBAudienceNetwork;
+			sourceTree = "<group>";
+		};
 		9483580118EB02E60022A13C /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -356,6 +393,8 @@
 				948357FF18EB02D60022A13C /* InvitationsConnectionHandler.m */,
 				9438EC2C18E1DAE0007A1643 /* RestaurantTableViewCell.h */,
 				9438EC2D18E1DAE0007A1643 /* RestaurantTableViewCell.m */,
+				94677E1A198898CB00CFE7CC /* FacebookLoginViewManager.h */,
+				94677E1B198898CB00CFE7CC /* FacebookLoginViewManager.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -392,7 +431,7 @@
 			);
 			name = "Let's Eat";
 			productName = "Let's Eat";
-			productReference = 94610F4418A950B40094779E /* Let's Eat.app */;
+			productReference = 94610F4418A950B40094779E /* Let's Eat Group Dining Recommendations.app */;
 			productType = "com.apple.product-type.application";
 		};
 		94610F6418A950B40094779E /* Let's EatTests */ = {
@@ -437,6 +476,7 @@
 			knownRegions = (
 				en,
 				Base,
+				he,
 			);
 			mainGroup = 94610F3B18A950B40094779E;
 			productRefGroup = 94610F4518A950B40094779E /* Products */;
@@ -459,7 +499,10 @@
 				9483580618ECA0550022A13C /* InviteCases in Resources */,
 				94610F5218A950B40094779E /* InfoPlist.strings in Resources */,
 				94610F5B18A950B40094779E /* Main.storyboard in Resources */,
+				94677B8C19887F2400CFE7CC /* LICENSE in Resources */,
+				94677B7519887F2400CFE7CC /* README.txt in Resources */,
 				94D2606818BD59A6005FF97C /* KnownBugs in Resources */,
+				94677B8D19887F2400CFE7CC /* README.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,6 +559,7 @@
 				945930061912C6D8007C5C05 /* FoodTypeTableViewCell.m in Sources */,
 				94394FFB18B4019B00A2FEDB /* JSONKit.m in Sources */,
 				945930001912B631007C5C05 /* ProgressBarTableViewCell.m in Sources */,
+				94677E1C198898CB00CFE7CC /* FacebookLoginViewManager.m in Sources */,
 				94C3928318E35B7900F194F3 /* ScheduledMealController.m in Sources */,
 				94610F5818A950B40094779E /* AppDelegate.m in Sources */,
 				94610F5418A950B40094779E /* main.m in Sources */,
@@ -612,6 +656,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "Let's Eat Group Dining Recommendations";
 				PROVISIONING_PROFILE = "8DA64ADB-A520-4DE5-B30B-51361D790EDD";
 				SDKROOT = iphoneos;
 			};
@@ -645,6 +690,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_NAME = "Let's Eat Group Dining Recommendations";
 				PROVISIONING_PROFILE = "4BDC7879-D93B-47D3-8807-BD312F6D1388";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -661,11 +707,13 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					/Users/ryan/Documents/FacebookSDK,
+					/Users/ryan/Documents/FacebookSDK/FBAudienceNetwork,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Let's Eat/Let's Eat-Prefix.pch";
 				INFOPLIST_FILE = "Let's Eat/Let's Eat-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Let's Eat Group Dining Recommendations";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -681,12 +729,14 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					/Users/ryan/Documents/FacebookSDK,
+					/Users/ryan/Documents/FacebookSDK/FBAudienceNetwork,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Let's Eat/Let's Eat-Prefix.pch";
 				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "";
 				INFOPLIST_FILE = "Let's Eat/Let's Eat-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Let's Eat Group Dining Recommendations";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};

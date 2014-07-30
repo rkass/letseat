@@ -22,9 +22,9 @@ static bool production = YES;
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: [Server.url stringByAppendingString:method]]];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:[NSString stringWithFormat:@"%d", [data length]] forHTTPHeaderField:@"Content-Length"];
+    [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[data length]] forHTTPHeaderField:@"Content-Length"];
     [request setHTTPBody: data];
-    [request setTimeoutInterval:5];
+    [request setTimeoutInterval:20];
     [NSURLConnection connectionWithRequest:request delegate:source];
 
 }

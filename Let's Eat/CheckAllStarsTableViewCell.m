@@ -27,13 +27,17 @@
 }
 
 - (IBAction)statePressed:(id)sender {
+    NSLog(@"ight inside");
     if (self.wvc){
         self.state = (self.state % 3) + 1;
         NSLog(@"pressed %u", self.state);
         [self.wvc statePressed:self.state];
     }
-    if (self.whovc){
+    else if (self.whovc){
         [self.whovc performSegueWithIdentifier:@"whoToTellFriends" sender:self];
+    }
+    else{
+        NSLog(@"tryin here");
     }
 }
 -(void)setWithTellFriends:(TellFriendsViewController *)tfii{
@@ -117,7 +121,9 @@
 
 }
 -(void)generalSetup{
+
     [self setSelectionStyle:UITableViewCellSelectionStyleNone];
+    
     [self setBackgroundColor:[UIColor colorWithPatternImage:GET_IMG(@"menubar")]];
 }
 

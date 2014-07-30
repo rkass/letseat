@@ -29,6 +29,7 @@
     @synchronized(self.connector){
         
         NSDictionary *resultsDictionary = JSONTodict(self.responseData);
+        badLogin(resultsDictionary, self.ivc);
         if (resultsDictionary){
         NSLog(@"results dict in tabe view cell: %@", resultsDictionary);
     Invitation* i = [InviteTransitionConnectionHandler loadInvitation:resultsDictionary locationInput:self.ivc.myLocation];
@@ -179,8 +180,8 @@
     }
 
     if (self.ivc.invitation.scheduled && (!oneRest)){
-        [self.vote removeFromSuperview];
-        [self.name setFrame:CGRectMake(self.name.frame.origin.x, self.name.frame.origin.y, self.superview.frame.size.width - self.name.frame.origin.x, self.name.frame.size.height)];
+       // [self.vote removeFromSuperview];
+       // [self.name setFrame:CGRectMake(self.name.frame.origin.x, self.name.frame.origin.y, self.superview.frame.size.width - self.name.frame.origin.x, self.name.frame.size.height)];
     }
     if (self.oneRest){
         [self.vote removeFromSuperview];

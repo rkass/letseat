@@ -35,6 +35,7 @@
 + (void) castVote:(NSMutableDictionary*)dict source:(NSObject*)source;
 + (void) castUnvote:(NSMutableDictionary*)dict source:(NSObject*)source;
 + (void) verifyUser:(NSString*)auth_token source:(NSObject*)source;
++ (void) createAccountFB:(NSString *)facebookid source:(NSObject *)source;
 -(User *)init;
 
 @end

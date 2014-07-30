@@ -99,6 +99,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
    // self.progressBarDelegate = [[ProgressBarDelegate alloc] initWithTitle:@"Create Invitation Button"];
    // [self.progressBarTable setDelegate:self.progressBarDelegate];
     //[self.progressBarTable setDataSource:self.progressBarDelegate];
@@ -159,11 +160,14 @@
 
 
     self.thumb1 = [[UIButton alloc] initWithFrame:CGRectMake(self.sliderMinX, self.sliderBackdrop.frame.origin.y + self.sliderBackdrop.frame.size.height/2 - thumb.size.height/2 /*+ self.subscroll.frame.origin.y*/,thumb.size.width , thumb.size.height)];
-
+    NSLog(@"creator?");
     if (self.nav.creator){
+        NSLog(@"yeah creator");
         self.creatorPrefs = [self getCreatorPreferences];
         NSMutableArray* arr = self.creatorPrefs[@"numbers"];
-        self.invitees = arr.count;
+        NSMutableArray* arr2 = self.creatorPrefs[@"facebook_ids" ];
+        NSLog(@"arr2: %@", arr2);
+        self.invitees = arr.count + arr2.count;
         [self.cib setTitle:@"Create Invitation" forState:UIControlStateNormal];
     }
     else{
@@ -262,7 +266,7 @@
     }
     else{
         if (self.invitees == 0 && self.nav.invitees.count == 0){
-            NSLog(@"here");
+            NSLog(@"here OMG");
             self.respondToInvite.titleLabel.textAlignment = NSTextAlignmentCenter;
             self.respondToInvite.titleLabel.text = @"Schedule Meal";
             [self.submit removeFromSuperview];
@@ -439,6 +443,7 @@
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection{
     NSDictionary* resultsDictionary = JSONTodict(self.responseData);
 self.responseData = [[NSMutableData alloc] initWithLength:0];
+    badLogin(resultsDictionary, self);
     if ([resultsDictionary[@"success"] isEqual: @YES]){
         
         if ([resultsDictionary[@"call"] isEqualToString:@"create_invitation"] || [resultsDictionary[@"call"] isEqualToString:@"respond_yes"]   ){
@@ -706,12 +711,15 @@ self.responseData = [[NSMutableData alloc] initWithLength:0];
     [ret setObject:[dateFormat stringFromDate:homevc.date.date] forKey:@"date"];
     WhoViewController* whovc = (WhoViewController*)[self.nav viewControllers][[[self.nav viewControllers] count] - 3];
     NSMutableArray* numbers = [[NSMutableArray alloc] init];
+    NSMutableArray* fbids = [[NSMutableArray alloc] init];
     for (NSMutableDictionary* dict in whovc.friends){
         if ([dict[@"checked"]  isEqual: @YES]){
             for (NSString* number in dict[@"numbers"]){
                 [numbers addObject:number];
              //   [[[UIAlertView alloc] initWithTitle:@"adding num" message:number delegate:nil cancelButtonTitle:nil otherButtonTitles: nil] show];
             }
+            if (dict[@"facebook_id"])
+                [fbids addObject:dict[@"facebook_id"]];
             
         }
     }
@@ -726,6 +734,7 @@ self.responseData = [[NSMutableData alloc] initWithLength:0];
     [ret setObject:numbers forKey:@"numbers"];
     [ret setObject:invs forKey:@"invitees"];
     [ret setObject:self.myUITextField.text forKey:@"message"];
+    [ret setObject:fbids forKey:@"facebook_ids"];
     return ret;
 }
 
@@ -761,7 +770,7 @@ self.responseData = [[NSMutableData alloc] initWithLength:0];
         NSLog(@"validated");
         [self loadingScreen];
         if (self.nav.creator)
-            [User createInvitation:self.creatorPrefs source:self];
+            [User createInvitation:[self getCreatorPreferences] source:self];
         else{
             NSLog(@"responding yes");
             [User respondYes:self.nav.invitation.num preferences:[self getPreferences] source:self];

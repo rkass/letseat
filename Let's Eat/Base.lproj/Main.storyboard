@@ -47,9 +47,19 @@
                                 <rect key="frame" x="107" y="127" width="106" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="OR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Wa-OU-AP5">
+                                <rect key="frame" x="138" y="297" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
+                                <color key="textColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                     </view>
                     <connections>
+                        <outlet property="bluearrow" destination="jTp-Kq-RZM" id="mG7-QC-65P"/>
+                        <outlet property="labia" destination="3n6-c9-7he" id="njW-Jo-zRp"/>
+                        <outlet property="orme" destination="3Wa-OU-AP5" id="M3B-gN-FpZ"/>
                         <outlet property="phoneNumberTextView" destination="06Z-d1-JKA" id="vfL-VD-ogO"/>
                         <outlet property="registerButton" destination="Tcx-E3-VTG" id="7H7-UH-70q"/>
                         <segue destination="JmS-yv-47C" kind="modal" identifier="loginToHome" id="rry-LI-xSU"/>
@@ -71,6 +81,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yWA-Fk-na1">
+                                <rect key="frame" x="274" y="27" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="logout">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="logoutbpressed:" destination="Ju9-57-65q" eventType="touchUpInside" id="SeM-Xp-9Dw"/>
+                                </connections>
+                            </button>
                             <datePicker contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Q7M-8n-myt">
                                 <rect key="frame" x="0.0" y="148" width="320" height="162"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -214,6 +235,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     <navigationItem key="navigationItem" id="LeE-UO-HO9"/>
                     <connections>
                         <outlet property="date" destination="Q7M-8n-myt" id="ggu-RB-KX9"/>
+                        <outlet property="logoutb" destination="yWA-Fk-na1" id="Ian-G1-8Kv"/>
                         <outlet property="mymeals" destination="9Ta-iE-XdA" id="RZC-hB-6Uh"/>
                         <outlet property="navBar" destination="QhE-VE-Nkv" id="e5n-VM-wky"/>
                         <outlet property="selectPeople" destination="mCA-40-Eya" id="UJG-iP-zH8"/>
@@ -1772,6 +1794,7 @@ Everyone</string>
         <image name="buttonpressedbackground" width="160" height="40"/>
         <image name="greenbutton" width="293" height="85"/>
         <image name="homeback" width="37" height="22"/>
+        <image name="logout" width="46" height="30"/>
         <image name="mymeals" width="640" height="271"/>
         <image name="next" width="160" height="40"/>
         <image name="pickatime" width="111" height="46"/>
@@ -1785,8 +1808,8 @@ Everyone</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="3hp-1u-LWz"/>
         <segue reference="iKm-jG-Yyr"/>
+        <segue reference="3hp-1u-LWz"/>
         <segue reference="cg5-vY-0wQ"/>
         <segue reference="Lsm-5n-AWM"/>
     </inferredMetricsTieBreakers>

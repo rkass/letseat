@@ -62,6 +62,7 @@
 {
     [super viewDidLoad];
     NSLog(@"in view did load");
+
     self.start = [self.invitation.scheduleTime timeIntervalSince1970];
     self.responseData = [[NSMutableData alloc] initWithLength:0];
     self.tries = [NSNumber numberWithInt:0];
@@ -181,10 +182,9 @@
     self.wereDone =  (self.previousInvitation.updatingRecommendations == 0) && (self.invitation.updatingRecommendations == 0);
     self.previousInvitation = self.invitation;
     NSLog(@"recalling");
+     [self performSelector:@selector(recall) withObject:nil afterDelay:10];
     NSLog(@"updating: %d", self.invitation.updatingRecommendations);
-    if (self == self.navigationController.viewControllers.lastObject) {
-         [self performSelector:@selector(recall) withObject:nil afterDelay:10];
-    }
+
    
    /* if (self.invitation.updatingRecommendations > 0){
         bool retry;
@@ -209,10 +209,15 @@
 
 }
 -(void) recall{
-    NSLog(@"RREEECCALLLEDDD");
-    if(!self.invtrans)
-        self.invtrans = [[InviteTransitionConnectionHandler alloc] initWithInvitateViewController:self];
-    [User getInvitation:self.invitation.num source:self.invtrans];
+    if (self == self.navigationController.viewControllers.lastObject) {
+        if(!self.invtrans)
+            self.invtrans = [[InviteTransitionConnectionHandler alloc] initWithInvitateViewController:self];
+        [User getInvitation:self.invitation.num source:self.invtrans];
+    }
+    else{
+        [self performSelector:@selector(recall) withObject:nil afterDelay:10];
+    }
+    
 }
 -(void) saveRests{
     NSMutableArray* serialzedRests = [[NSMutableArray alloc] init];

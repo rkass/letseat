@@ -12,11 +12,12 @@
 #import "InvitationsViewController.h"
 #import "User.h"
 #import "CheckAllStarsTableViewCell.h"
-
+#import "FacebookLoginViewManager.h"
 @interface HomeViewController ()
 @property (strong, nonatomic) IBOutlet UIButton *mymeals;
 @property (strong, nonatomic) IBOutlet UIView *spacer99;
 @property (strong, nonatomic) UIViewController* whenViewController;
+@property (strong, nonatomic) IBOutlet UIButton *logoutb;
 @property (strong, nonatomic) IBOutlet UILabel *invite;
 @property (strong, nonatomic) IBOutlet UITableView *optionsTable;
 @property (strong, nonatomic) IBOutlet UIView *spacer2;
@@ -25,12 +26,25 @@
 @property (strong, nonatomic) IBOutlet UIView *spacer4;
 @property (strong, nonatomic) IBOutlet UIButton *selectPeople;
 @property (strong, nonatomic) IBOutlet UITableView *navBar;
+@property (strong, nonatomic) UIAlertView* logoutalert;
 
 @property int selectedRow;
 @end
 
 @implementation HomeViewController
 @synthesize whenViewController, selectedRow;
+- (IBAction)logoutbpressed:(id)sender {
+    self.logoutalert = [[UIAlertView alloc] initWithTitle:@"Logout?" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK" , nil];
+    if (!self.logoutalert.isVisible)
+       [ self.logoutalert show];
+   /* [FBSession.activeSession closeAndClearTokenInformation];
+    [FBSession.activeSession close];
+    [FBSession setActiveSession:nil];
+    [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController *viewController =  [storyboard instantiateViewControllerWithIdentifier:@"Initial"];
+    [self presentViewController:viewController animated:YES completion:nil];*/
+}
 
 - (void)viewDidLoad
 {
@@ -41,10 +55,12 @@
     self.spacer4.hidden = YES;
     self.spacer3.hidden = YES;
     self.spacer99.hidden = YES;
+
     [self.navBar setDelegate:self];
     [self.navBar setDataSource:self];
     [User sendToken];
         [LEViewController setUserDefault:@"noConnectionAlertShowing" data:[NSNumber numberWithInteger:0]];
+    [self.view bringSubviewToFront:self.logoutb];
    /* [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.spacer1 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:5]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.spacer1 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.spacer1 attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:1]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.spacer1 attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.invite attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:1]];
@@ -100,12 +116,26 @@
     [self performSegueWithIdentifier:@"homeToInvitations" sender:self];
 }
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex){
+        [FBSession.activeSession closeAndClearTokenInformation];
+         [FBSession.activeSession close];
+         [FBSession setActiveSession:nil];
+         [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];
+         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+         LoginViewController *viewController =  (LoginViewController*)[storyboard instantiateViewControllerWithIdentifier:@"Initial"];
+      // viewController.fblv.frame = CGRectOffset(self.fblv.frame, (self.view.center.x - (self.fblv.frame.size.width / 2)), 400);
+       // [viewController.view addSubview:self.fblv];
+         [self presentViewController:viewController animated:YES completion:nil];
+    }
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
     if (tableView == self.navBar){
         CheckAllStarsTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"CheckAllStars"];
         [cell generalSetup];
+        //[cell bringSubviewToFront:cell.stateButton];
         return cell;
     }
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -144,6 +174,7 @@
     //cell.accessoryView = [[UIImageView alloc] initWithImage:[Graphics makeThumbnailOfSize:[UIImage imageNamed:@"bluecarrot"] size:CGSizeMake(10, 10)]];
     return cell;
 }
+/*
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1){
         [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];
@@ -151,7 +182,7 @@
     }
     
 }
-
+*/
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (tableView == self.navBar)

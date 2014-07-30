@@ -14,6 +14,7 @@
 #import "CheckAllStarsTableViewCell.h"
 #import "ProgressBarDelegate.h"
 #import "ProgressBarTableViewCell.h"
+#import "FacebookLoginViewManager.h"
 
 @interface WhoViewController ()
 @property (strong, nonatomic) IBOutlet UITableView* friendsTable;
@@ -31,6 +32,7 @@
 @property (strong, nonatomic) UIImage* checked;
 @property (strong, nonatomic) ProgressBarDelegate* pbd;
 @property BOOL initializing;
+@property (strong, nonatomic) FBLoginView* fblv;
 @end
 
 @implementation WhoViewController
@@ -40,6 +42,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+   // [LEViewController setUserDefault:@"auth_token" data:@"6de9f6d09ca4849446c63ddl08a387e6362c40dc"];
     [User getFriends:self];
     [self.navBar setDelegate:self];
     [self.navBar setDataSource:self];
@@ -94,6 +97,71 @@
     }
     if (addMe)
         [self.friendsCache insertObject:meDict atIndex:0];
+    if ([[NSUserDefaults standardUserDefaults] stringForKey:@"facebook_id"]){
+        NSLog(@"heeyaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        [FacebookLoginViewManager sharedManager].currVC = self;
+        [FBRequestConnection startWithGraphPath:@"me/friends"
+                              completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                                  if (!error) {
+                                      // Sucess! Include your code to handle the results here
+                                      NSLog(@"user friends: %@", result);
+                                      NSMutableArray* preserves = [[NSMutableArray alloc] init];
+                                      for (NSMutableDictionary* dict in self.friendsCache){
+                                          if (!(dict[@"facebook_id"]))
+                                              [preserves addObject:dict];
+                                      }
+                                      NSMutableArray *checkedx = [[NSMutableArray alloc] init];
+                                      for (NSMutableDictionary* djj in self.friendsCache){
+                                          if ([djj[@"checked"]  isEqual: @YES])
+                                              [checkedx addObject:djj[@"displayName"]];
+                                      }
+                                      [self.friendsCache removeAllObjects];
+
+                                      for (NSMutableDictionary* dict in preserves){
+                                          [self.friendsCache addObject:dict];
+                                      }
+                                      if (result[@"data"]){
+                                          for (NSDictionary* dicshon in result[@"data"]){
+                                              NSLog(@"adding...");
+                                              NSMutableDictionary *dict;
+                                              dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                      dicshon[@"name"], @"displayName", dicshon[@"id"], @"facebook_id", @NO, @"checked", nil];
+                                              if ([checkedx indexOfObject:dict[@"displayName"]]!= NSNotFound)
+                                                  dict[@"checked"] = @YES;
+                                              [self.friendsCache addObject:dict];
+                                          }
+                                      }
+                                      NSSortDescriptor *nameDescriptor =
+                                      [[NSSortDescriptor alloc] initWithKey:@"displayName"
+                                                                  ascending:YES
+                                                                   selector:@selector(localizedCaseInsensitiveCompare:)];
+                                      
+                                      NSArray *descriptors = [NSArray arrayWithObjects:nameDescriptor, nil];
+                                      NSMutableArray* copi = [self.friendsCache mutableCopy];
+                                      NSLog(@"friends cache %@", self.friendsCache);
+                                      int removalIndex = [self findMe:self.friendsCache];
+                                      NSLog(@"removal index: %d", removalIndex);
+                                      if(removalIndex != -1)
+                                          [copi removeObjectAtIndex:removalIndex];
+                                      self.friendsCache = [[copi sortedArrayUsingDescriptors:descriptors] mutableCopy];
+                                      NSMutableDictionary* meDict = [[NSMutableDictionary alloc] init];
+                                      [meDict setObject:@"Me" forKey:@"displayName"];
+                                      [meDict setObject:@YES forKey:@"checked"];
+                                      [meDict setObject:@NO forKey:@"Me"];
+                                      [self.friendsCache insertObject:meDict atIndex:0];
+                                      
+                                      [LEViewController setUserDefault:@"friendsCache" data:self.friendsCache];
+                                      [self storeFriends:self.friendsCache];
+                                      
+                                      self.friends = [self.friendsCache mutableCopy];
+                                      [self.friendsTable reloadData];
+                                  } else {
+                                      // An error occurred, we need to handle the error
+                                      // See: https://developers.facebook.com/docs/ios/errors
+                                  }
+                              }];
+
+    }
     
 }
 -(void)viewWillAppear:(BOOL)animated{
@@ -227,24 +295,42 @@
 
     NSDictionary *resultsDictionary = JSONTodict(self.responseData)
     self.responseData = [[NSMutableData alloc] initWithLength:0];
+    badLogin(resultsDictionary, self);
     NSLog(@"Friends: %@", resultsDictionary);
     //   NSLog(@"%@", resultsDictionary);
     // NSLog(@"friends cache %@", self.friendsCache);
     //  NSLog(@"friends%@", self.friends);
-    if ([resultsDictionary objectForKey:@"success"])
+    if ([resultsDictionary[@"success"] boolValue])
     {
         NSLog(@"friends: %@", resultsDictionary[@"friends"]);
+        NSMutableArray* preserves = [[NSMutableArray alloc] init];
+        for (NSMutableDictionary* dict in self.friendsCache){
+            if (dict[@"facebook_id"])
+                [preserves addObject:dict];
+        }
+        NSMutableArray* checkedx = [[NSMutableArray alloc] init];
+        for (NSMutableDictionary* djj in self.friendsCache){
+            if ([djj[@"checked"]  isEqual: @YES])
+                [checkedx addObject:djj[@"displayName"]];
+            
+        }
         [self.friendsCache removeAllObjects];
+        for (NSMutableDictionary* dict in preserves){
+            [self.friendsCache addObject:dict];
+        }
         for (NSString* key in [resultsDictionary objectForKey:@"friends"])
         {
             
             NSMutableDictionary *dict;
             dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                     key, @"displayName", [[resultsDictionary objectForKey:@"friends"] objectForKey:key], @"numbers", @NO, @"checked", nil];
+            if ([checkedx indexOfObject:dict[@"displayName"]] != NSNotFound )
+                dict[@"checked"] = @YES;
             [self.friendsCache addObject:dict];
             // NSLog(@"inside");
             
         }
+
         NSSortDescriptor *nameDescriptor =
         [[NSSortDescriptor alloc] initWithKey:@"displayName"
                                     ascending:YES
@@ -252,6 +338,7 @@
         
         NSArray *descriptors = [NSArray arrayWithObjects:nameDescriptor, nil];
         NSMutableArray* copi = [self.friendsCache mutableCopy];
+        NSLog(@"friends cache %@", self.friendsCache);
         int removalIndex = [self findMe:self.friendsCache];
         NSLog(@"removal index: %d", removalIndex);
         if(removalIndex != -1)
@@ -262,6 +349,7 @@
         [meDict setObject:@YES forKey:@"checked"];
         [meDict setObject:@NO forKey:@"Me"];
         [self.friendsCache insertObject:meDict atIndex:0];
+
         [LEViewController setUserDefault:@"friendsCache" data:self.friendsCache];
         [self storeFriends:self.friendsCache];
         
@@ -322,6 +410,7 @@
 
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     NSMutableDictionary* friend = [self.friends objectAtIndex:indexPath.row];
+    NSLog(@"friend: %@", friend);
     if ([friend objectForKey:@"Me" ])
         ;
     else if ([friend[@"checked"]  isEqual: @YES])

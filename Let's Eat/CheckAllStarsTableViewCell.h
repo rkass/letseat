@@ -24,7 +24,9 @@
 @property (strong, nonatomic) PriceViewController* pvc;
 @property (strong, nonatomic) RestaurantViewController* rvc;
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+@property (strong, nonatomic) IBOutlet UIButton *logoutButton;
 @property (strong, nonatomic) TellFriendsViewController* tfi;
+@property (strong, nonatomic) UIAlertView* logout;
 -(void)setWithState:(int)state vc:(WhatViewController*)vc;
 -(void)setWithPriceVC:(PriceViewController*)pvcInput;
 -(void)setWithRVC:(RestaurantViewController*)rvcInput;

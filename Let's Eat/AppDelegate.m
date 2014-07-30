@@ -13,6 +13,7 @@
 #import "InviteTransitionConnectionHandler.h"
 #import "User.h"
 #import <Crashlytics/Crashlytics.h>
+#import <FacebookSDK/FacebookSDK.h>
 
 #define loadNotification(userInfo)\
 {\
@@ -30,6 +31,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   [Crashlytics startWithAPIKey:@"b3a27e822c60b992e914123e5a22e88a2002500d"];
+     [FBLoginView class];
     NSLog(@"In did finish launching with options: %@", launchOptions);
     // initialize defaults
     NSString *dateKey = @"dateKey";
@@ -62,6 +64,10 @@
     if( [currentUser isEqualToString:@"kkwan" ]){
         [LEViewController setUserDefault:@"auth_token" data:@"6de9f6d09ca4849446c63dd908a387e6362c40dc"];
         [LEViewController setUserDefault:@"phone_number" data:@"6463317888"];
+    }
+    else if ([currentUser isEqualToString:@"badlogin"]){
+        [LEViewController setUserDefault:@"auth_token" data:@"6de9f6d09ca4849446c63ddl08a387e6362c40dc"];
+        [LEViewController setUserDefault:@"phone_number" data:@"6403317888"];
     }
     //self.window.rootViewController = self.myViewController;
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
@@ -143,19 +149,26 @@
     }
     else{
         InvitationsViewController* iv = (InvitationsViewController*)[storyboard instantiateViewControllerWithIdentifier:@"Invitations"];
-        [self.blocker removeFromSuperview];
+      
         [cm pushViewController:iv animated:NO];
     }
-
+      [self.blocker removeFromSuperview];
 }
 -(void)connectionDidFinishLoading:(NSURLConnection*)connection{
     
     NSDictionary* resultsDictionary = JSONTodict(self.responseData);
     self.responseData = [[NSMutableData alloc] initWithLength:0];
+    //conn 1
     NSLog(@"resultsDictionary: %@", resultsDictionary);
     if ([resultsDictionary[@"validated"] boolValue]){
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:0]  forKey:@"badCredentials"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
         [LEViewController setUserDefault:@"auth_token" data:resultsDictionary[@"auth_token"]];
         [LEViewController setUserDefault:@"phone_number" data:resultsDictionary[@"phone_number"]];
+    }
+    else{
+        UIAlertView* av = [[UIAlertView alloc] initWithTitle:@"Bad login, please register again." message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [av show];
     }
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     
@@ -176,7 +189,13 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    NSString* urlString = [NSString stringWithFormat:@"%@", url];
+     NSString* urlString = [NSString stringWithFormat:@"%@", url];
+    if ([urlString rangeOfString:@"fb355364134639864"].location != NSNotFound) {
+        NSLog(@"we in here faceook bitches");
+        return [FBAppCall handleOpenURL:url
+                      sourceApplication:sourceApplication];
+    }
+   
     NSRange range = [urlString rangeOfString:@"register"];
     self.responseData = [[NSMutableData alloc] initWithLength:0];
     NSString* auth_token = [urlString substringFromIndex:range.length + range.location + 1];
@@ -198,6 +217,7 @@
         InviteTransitionConnectionHandler* ivtch = [[InviteTransitionConnectionHandler alloc] initWithNav:cm];
         [User getInvitation:num source:ivtch];
     }
+      [self.blocker removeFromSuperview];
 }
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {

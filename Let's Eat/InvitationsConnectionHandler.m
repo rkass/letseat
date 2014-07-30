@@ -24,6 +24,7 @@
 {
     NSDictionary *resultsDictionary = JSONTodict(self.responseData);
     self.responseData = [[NSMutableData alloc] initWithLength:0];
+    badLogin(resultsDictionary, self.ivc);
     NSMutableArray* upcoming;
     NSMutableArray* passed;
     if ([resultsDictionary[@"call"] isEqualToString:@"get_meals"]){

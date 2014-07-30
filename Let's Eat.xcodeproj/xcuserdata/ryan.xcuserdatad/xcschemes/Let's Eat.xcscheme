@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "94610F4318A950B40094779E"
-               BuildableName = "Let&apos;s Eat.app"
+               BuildableName = "Let&apos;s Eat Group Dining Recommendations.app"
                BlueprintName = "Let&apos;s Eat"
                ReferencedContainer = "container:Let&apos;s Eat.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "94610F4318A950B40094779E"
-            BuildableName = "Let&apos;s Eat.app"
+            BuildableName = "Let&apos;s Eat Group Dining Recommendations.app"
             BlueprintName = "Let&apos;s Eat"
             ReferencedContainer = "container:Let&apos;s Eat.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "94610F4318A950B40094779E"
-            BuildableName = "Let&apos;s Eat.app"
+            BuildableName = "Let&apos;s Eat Group Dining Recommendations.app"
             BlueprintName = "Let&apos;s Eat"
             ReferencedContainer = "container:Let&apos;s Eat.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "94610F4318A950B40094779E"
-            BuildableName = "Let&apos;s Eat.app"
+            BuildableName = "Let&apos;s Eat Group Dining Recommendations.app"
             BlueprintName = "Let&apos;s Eat"
             ReferencedContainer = "container:Let&apos;s Eat.xcodeproj">
          </BuildableReference>

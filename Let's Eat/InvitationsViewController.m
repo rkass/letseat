@@ -15,6 +15,7 @@
 #import "LEViewController.h"
 #import "InviteTransitionConnectionHandler.h"
 #import "CheckAllStarsTableViewCell.h"
+
 @interface InvitationsViewController ()
 
 @property (strong, nonatomic) NSIndexPath* selectedIndexPath;
@@ -41,6 +42,7 @@
 {
     [super viewDidLoad];
     NSLog(@"view's loading");
+
     self.tableLock = [NSNumber numberWithInt:0];
     self.invitationsTable.dataSource = self;
     [self.navBar setDelegate:self];
@@ -234,7 +236,12 @@
     }
     [removals removeAllObjects];
     for (Invitation* i in passed){
-        if ([i respondedNo])
+        NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        NSDateComponents *components = [gregorianCalendar components:NSDayCalendarUnit
+                                                            fromDate:i.date
+                                                              toDate:[NSDate date]
+                                                             options:0];
+        if ([i respondedNo] || ([components day] > 6))
            [removals addObject:i];
     }
     for (Invitation* i in removals)

@@ -9,14 +9,15 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>letsEat</string>
+				<string>fb355364134639864</string>
+				<string>letsEatGroupDiningRecommendations</string>
 			</array>
 			<key>CFBundleURLName</key>
 			<string>com.LetsEat.LetsEat</string>
 		</dict>
 	</array>
 	<key>CFBundleDisplayName</key>
-	<string>${PRODUCT_NAME}</string>
+	<string>Let&apos;s Eat</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
@@ -35,6 +36,10 @@
 	<string>1.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>FacebookAppID</key>
+	<string>355364134639864</string>
+	<key>FacebookDisplayName</key>
+	<string>Let&apos;s Eat</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

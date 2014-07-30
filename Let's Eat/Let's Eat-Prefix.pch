@@ -5,6 +5,7 @@
 //
 
 #import <Availability.h>
+#import "LoginViewController.h"
 #define imageFromURL(returnStore, url) do{\
 NSURL *imageURL = [NSURL URLWithString:url];\
 dispatch_async(dispatch_get_global_queue\(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{ NSData *imageData = [NSData dataWithContentsOfURL imageURL]; dispatch_async(dispatch_get_main_queue(), ^{});});}while(0);
@@ -17,9 +18,32 @@ dispatch_async(dispatch_get_global_queue\(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)
     //});\
 //});
 }while(0);*/
+
+#define badLogin(rd, presenter) do{\
+NSLog(@"in bad login");\
+if ((rd) && (![rd[@"success"] boolValue]) && ([[[NSUserDefaults standardUserDefaults] stringForKey:@"badCredentials"] intValue] == 0)){\
+UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];\
+UIViewController *viewController =  [storyboard instantiateViewControllerWithIdentifier:@"Initial"];\
+[[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];\
+ [presenter presentViewController:viewController animated:YES completion:nil];\
+NSLog(@"results dictionary kid: %@", resultsDictionary);\
+UIAlertView* av = [[UIAlertView alloc] initWithTitle:@"Bad credentials, please register again." message:@"" delegate:self cancelButtonTitle:@"OK"otherButtonTitles:nil];\
+[av show];\
+[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:1] forKey:@"badCredentials"];\
+[[NSUserDefaults standardUserDefaults] synchronize];\
+return;\
+}}\
+while(0);
+
+#define setAuthToken do {\
+if ([[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"].length )\
+[dict setObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"auth_token"] forKey:@"auth_token"];\
+else \
+dict[@"auth_token"] = @"x";}\
+while(0);
 #define dictToJSON(d) [NSJSONSerialization dataWithJSONObject:d options:NSJSONWritingPrettyPrinted error:nil]
 #define JSONTodict(j) [NSJSONSerialization JSONObjectWithData:j options:kNilOptions error:nil];
-#define currentUser @""//	@"kkwan"
+#define currentUser @""//	@"kkwan" @"badlogin"
 #define loadingRestaurantsText @"Loading Recommendations.\nThis usually takes about a minute..."
 #define color2 @"f4f6ef"
 #define color3 @"8ab32d"

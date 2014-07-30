@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "User.h"
 #import "Server.h"
+#import "FacebookLoginViewManager.h"
 @interface LoginViewController ()
 @property (strong, nonatomic) IBOutlet UITextField *username;
 @property (strong, nonatomic) UIAlertView *phoneAlert;
@@ -20,6 +21,7 @@
 @property (strong, nonatomic) UIAlertView *passwordAlert;
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) NSMutableData *d;
+
 @end
 
 @implementation LoginViewController
@@ -40,9 +42,29 @@
     [LEViewController setUserDefault:@"noConnectionAlertShowing" data:[NSNumber numberWithInteger:0]];
 	// Do any additional setup after loading the view.
      self.view.backgroundColor = [UIColor whiteColor];
+    [FacebookLoginViewManager sharedManager].currVC = self;
+    self.fblv = [FacebookLoginViewManager sharedManager].fblv;
+    // Align the button in the center horizontally
+    self.fblv.frame = CGRectOffset(self.fblv.frame, (self.view.center.x - (self.fblv.frame.size.width / 2)), 400);
+    [self.view addSubview:self.fblv];
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+    {
+        [self.labia setHidden:YES];
+        [self.bluearrow setHidden:YES];
+        [self.orme setHidden:YES];
+        [self.registerButton setHidden:YES];
+        [self.phoneNumber setHidden:YES];
+        [self.phoneNumberTextView setHidden:YES];
+    }
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                   initWithTarget:self
+                                   action:@selector(dismissKeyboard)];
+    
+    [self.view addGestureRecognizer:tap];
 }
-
-
+-(void)dismissKeyboard {
+    [self.phoneNumberTextView resignFirstResponder];
+}
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     
     if (textView == self.phoneNumberTextView){
@@ -122,10 +144,18 @@
     NSDictionary* resultsDictionary = JSONTodict(self.d);
     self.d = [[NSMutableData alloc] initWithLength:0];
     NSLog(@"resultsDictionary: %@", resultsDictionary);
-
-    [LEViewController setUserDefault:@"username" data:resultsDictionary[@"username"]];
-    UIAlertView* av = [[UIAlertView alloc] initWithTitle:@"We sent you a text" message:@"Click the link in the text to validate your phone number" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-    [av show];
+    if ([resultsDictionary[@"request"] isEqualToString:@"sign_upfb"]){
+        [LEViewController setUserDefault:@"username" data:resultsDictionary[@"username"]];
+        [LEViewController setUserDefault:@"auth_token" data:resultsDictionary[@"auth_token"]];
+        NSLog(@"setting facebook id user default");
+        [LEViewController setUserDefault:@"facebook_id" data:resultsDictionary[@"facebook_id"]];
+        [self performSegueWithIdentifier:@"loginToHome" sender:self];
+    }
+    else{
+        [LEViewController setUserDefault:@"username" data:resultsDictionary[@"username"]];
+        UIAlertView* av = [[UIAlertView alloc] initWithTitle:@"We sent you a text" message:@"Click the link in the text to validate your phone number" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [av show];
+    }
 
 }
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{

@@ -41,6 +41,7 @@
     self.rightBar.tintColor = [Graphics colorWithHexString:@"b8a37e"];
     [self.ind startAnimating];
     [self.navigationController setNavigationBarHidden:YES];
+    self.view.backgroundColor = [UIColor whiteColor];
     //[self.view setBackgroundColor:[UIColor colorWithPatternImage:GET_IMG(@"bg")]];
 //ny additional setup after loading the view.
 }/*
