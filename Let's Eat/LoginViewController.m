@@ -45,9 +45,18 @@
     [FacebookLoginViewManager sharedManager].currVC = self;
     self.fblv = [FacebookLoginViewManager sharedManager].fblv;
     // Align the button in the center horizontally
-    self.fblv.frame = CGRectOffset(self.fblv.frame, (self.view.center.x - (self.fblv.frame.size.width / 2)), 400);
+    NSLog(@"origin x: %f", self.fblv.frame.origin.x);
+    NSLog(@"origin y: %f", self.fblv.frame.origin.y);
+    NSLog(@"size x: %f", self.fblv.frame.size.width);
+    NSLog(@"size y: %f", self.fblv.frame.size.height);
+    if (self.fblv.frame.origin.x == 0)
+        self.fblv.frame = CGRectOffset(self.fblv.frame, (self.view.center.x - (self.fblv.frame.size.width / 2)), 400);
+    NSLog(@"origin x: %f", self.fblv.frame.origin.x);
+    NSLog(@"origin y: %f", self.fblv.frame.origin.y);
+    NSLog(@"size x: %f", self.fblv.frame.size.width);
+    NSLog(@"size y: %f", self.fblv.frame.size.height);
     [self.view addSubview:self.fblv];
-    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+   /* if (YES /*UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
     {
         [self.labia setHidden:YES];
         [self.bluearrow setHidden:YES];
@@ -55,14 +64,14 @@
         [self.registerButton setHidden:YES];
         [self.phoneNumber setHidden:YES];
         [self.phoneNumberTextView setHidden:YES];
-    }
+    }*/
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
                                    initWithTarget:self
-                                   action:@selector(dismissKeyboard)];
+                                   action:@selector(dismissKeyboardYo)];
     
     [self.view addGestureRecognizer:tap];
 }
--(void)dismissKeyboard {
+-(void)dismissKeyboardYo {
     [self.phoneNumberTextView resignFirstResponder];
 }
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{

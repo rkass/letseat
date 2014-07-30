@@ -15,7 +15,7 @@
 #import "ProgressBarDelegate.h"
 #import "ProgressBarTableViewCell.h"
 #import "FacebookLoginViewManager.h"
-
+#import "CustomIOS7AlertView.h"
 @interface WhoViewController ()
 @property (strong, nonatomic) IBOutlet UITableView* friendsTable;
 @property (strong, nonatomic) IBOutlet UITableView *navBar;
@@ -355,11 +355,26 @@
         
         self.friends = [self.friendsCache mutableCopy];
         [self.friendsTable reloadData];
-        if (([[[NSUserDefaults standardUserDefaults] objectForKey:@"getFriends"] intValue] == 0)){
+        if (YES)/*([[[NSUserDefaults standardUserDefaults] objectForKey:@"getFriends"] intValue] == 0))*/{
             [LEViewController setUserDefault:@"getFriends" data:[NSNumber numberWithInt:1]];
-            UIAlertView* av = [[UIAlertView alloc] initWithTitle:@"Add some friends" message:@"Invite friends to use Let's Eat by clicking the top right menu button" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-            [av show];
+          //  UIAlertView* av = [[UIAlertView alloc] initWithTitle:@"Add some friends" message:@"Invite friends to use Let's Eat by clicking the top right menu button" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+       //     [[FacebookLoginViewManager sharedManager].fblv setFrame:CGRectMake(0, 10, 40, 40)];
+       //     [av setValue:customContentView forKey:@"accessoryView"];
+          //  if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1) {
+             //    [[FacebookLoginViewManager sharedManager].fblv setFrame:CGRectMake(0, 10, 80, 40)];
+           //     [av setValue:[FacebookLoginViewManager sharedManager].fblv forKey:@"accessoryView"];
+               // v.backgroundColor = [UIColor yellowColor];
+           //     [av show];//works only in iOS7
+             [[FacebookLoginViewManager sharedManager].fblv setFrame:CGRectMake(0, 10, 200, 40)];
+            CustomIOS7AlertView *alertView = [[CustomIOS7AlertView alloc] init];
+            [alertView setContainerView:[FacebookLoginViewManager sharedManager].fblv ];
+            [alertView show];
         }
+        
+                //UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(220, 10, 40, 40)];
+           // [av addSubview:[FacebookLoginViewManager sharedManager].fblv];
+            //[av show];
+       // }
     }
 
 }

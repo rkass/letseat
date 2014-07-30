@@ -11,6 +11,7 @@
 @class ProgressBarDelegate;
 @class ProgressBarTableViewCell;
 @class FacebookLoginViewManager;
+@class CustomIOS7AlertView;
 @interface WhoViewController : LEViewController  <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
 
 @property (strong, nonatomic) NSMutableArray *friends;

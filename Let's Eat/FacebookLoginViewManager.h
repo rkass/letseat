@@ -15,4 +15,5 @@
 @property (strong, nonatomic) FBLoginView* fblv;
 @property (strong, nonatomic) LEViewController* currVC;
 + (FacebookLoginViewManager*)sharedManager;
+
 @end

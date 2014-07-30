@@ -48,6 +48,7 @@
 		94677B8C19887F2400CFE7CC /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 94677A6919887F2400CFE7CC /* LICENSE */; };
 		94677B8D19887F2400CFE7CC /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 94677A6A19887F2400CFE7CC /* README.txt */; };
 		94677E1C198898CB00CFE7CC /* FacebookLoginViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94677E1B198898CB00CFE7CC /* FacebookLoginViewManager.m */; };
+		94677E1F1989557700CFE7CC /* CustomIOS7AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94677E1E1989557600CFE7CC /* CustomIOS7AlertView.m */; };
 		947F1DEA18B4FC38009924E5 /* ValidationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 947F1DE918B4FC38009924E5 /* ValidationViewController.m */; };
 		9483580018EB02D60022A13C /* InvitationsConnectionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 948357FF18EB02D60022A13C /* InvitationsConnectionHandler.m */; };
 		9483580618ECA0550022A13C /* InviteCases in Resources */ = {isa = PBXBuildFile; fileRef = 9483580518ECA0550022A13C /* InviteCases */; };
@@ -143,6 +144,8 @@
 		94677A6A19887F2400CFE7CC /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		94677E1A198898CB00CFE7CC /* FacebookLoginViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookLoginViewManager.h; sourceTree = "<group>"; };
 		94677E1B198898CB00CFE7CC /* FacebookLoginViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookLoginViewManager.m; sourceTree = "<group>"; };
+		94677E1D1989557600CFE7CC /* CustomIOS7AlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomIOS7AlertView.h; sourceTree = "<group>"; };
+		94677E1E1989557600CFE7CC /* CustomIOS7AlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomIOS7AlertView.m; sourceTree = "<group>"; };
 		947F1DE818B4FC38009924E5 /* ValidationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValidationViewController.h; sourceTree = "<group>"; };
 		947F1DE918B4FC38009924E5 /* ValidationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValidationViewController.m; sourceTree = "<group>"; };
 		948357FE18EB02D60022A13C /* InvitationsConnectionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvitationsConnectionHandler.h; sourceTree = "<group>"; };
@@ -373,6 +376,8 @@
 		9483580118EB02E60022A13C /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				94677E1D1989557600CFE7CC /* CustomIOS7AlertView.h */,
+				94677E1E1989557600CFE7CC /* CustomIOS7AlertView.m */,
 				94B8AD011925436000E39221 /* NonScheduledTableViewCell.h */,
 				94B8AD021925436000E39221 /* NonScheduledTableViewCell.m */,
 				94FB920F1922B334000C6D22 /* FinalStepTableViewCell.h */,
@@ -572,6 +577,7 @@
 				9466154518E3047A0066E84D /* RestaurantViewController.m in Sources */,
 				945930091913E382007C5C05 /* CheckAllStarsTableViewCell.m in Sources */,
 				9483580018EB02D60022A13C /* InvitationsConnectionHandler.m in Sources */,
+				94677E1F1989557700CFE7CC /* CustomIOS7AlertView.m in Sources */,
 				94470435195BDAA700DDF26B /* NoConnectionAlertDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

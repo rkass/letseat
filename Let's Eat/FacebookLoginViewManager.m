@@ -17,13 +17,17 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         fblvm = [[self alloc] init];
+        // Align the button in the center horizontally
+
     });
     return fblvm;
 }
+
 - (id)init {
     if (self = [super init]) {
         self.fblv = [[FBLoginView alloc] initWithReadPermissions:@[@"user_friends"]];
         self.fblv.delegate = self;
+
     }
     return self;
 }
